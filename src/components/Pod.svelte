@@ -23,12 +23,11 @@
   role={selectable ? 'button' : 'group'}
   tabindex={selectable ? 0 : -1}
 >
-  <div class="pod-header">
-    <span class="pod-name">{pod.name}</span>
-    {#if showCost && pod.cost > 0}
+  {#if showCost && pod.cost > 0}
+    <div class="pod-header">
       <span class="pod-cost">💰 {pod.cost}</span>
-    {/if}
-  </div>
+    </div>
+  {/if}
   <div class="pod-tokens">
     {#each pod.tokens as token (token.id)}
       <Token {token} size="small" />
@@ -69,17 +68,13 @@
 
   .pod-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-  }
-
-  .pod-name {
-    font-weight: bold;
-    font-size: 0.875rem;
   }
 
   .pod-cost {
     font-size: 0.875rem;
+    font-weight: bold;
     color: #f1c40f;
   }
 

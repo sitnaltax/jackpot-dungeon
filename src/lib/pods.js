@@ -3,29 +3,27 @@
 let nextPodId = 1;
 let nextTokenId = 1;
 
-// Create a token
-export function createToken(type, baseValue, rank = 'basic') {
+// Create a token (value determined by type + rank)
+export function createToken(type, rank = 'basic') {
   return {
     id: `token-${nextTokenId++}`,
     type,
-    baseValue,
     rank,
   };
 }
 
 // Create a pod from token definitions
-export function createPod(name, tokenDefs, cost = 0) {
+export function createPod(tokenDefs, cost = 0) {
   return {
     id: `pod-${nextPodId++}`,
-    name,
-    tokens: tokenDefs.map(def => createToken(def.type, def.baseValue, def.rank || 'basic')),
+    tokens: tokenDefs.map(def => createToken(def.type, def.rank || 'basic')),
     cost,
   };
 }
 
 // Clone a pod template (creates new IDs)
 export function clonePodTemplate(template) {
-  return createPod(template.name, template.tokenDefs, template.cost);
+  return createPod(template.tokenDefs, template.cost);
 }
 
 // ======================
@@ -33,61 +31,56 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 attack-focused, 2 defense-focused, 2 balanced
+// All starting tokens are basic rank
 export const STARTING_POD_TEMPLATES = [
   // Attack-focused pods
   {
-    name: 'Rusty Sword',
     tokenDefs: [
-      { type: 'attack', baseValue: 3 },
-      { type: 'attack', baseValue: 2 },
-      { type: 'treasure', baseValue: 1 },
+      { type: 'attack' },
+      { type: 'attack' },
+      { type: 'treasure' },
     ],
     cost: 0,
   },
   {
-    name: 'Throwing Knives',
     tokenDefs: [
-      { type: 'attack', baseValue: 2 },
-      { type: 'attack', baseValue: 2 },
-      { type: 'attack', baseValue: 2 },
+      { type: 'attack' },
+      { type: 'attack' },
+      { type: 'attack' },
     ],
     cost: 0,
   },
   // Defense-focused pods
   {
-    name: 'Wooden Shield',
     tokenDefs: [
-      { type: 'defense', baseValue: 3 },
-      { type: 'defense', baseValue: 2 },
-      { type: 'treasure', baseValue: 1 },
+      { type: 'defense' },
+      { type: 'defense' },
+      { type: 'treasure' },
     ],
     cost: 0,
   },
   {
-    name: 'Leather Armor',
     tokenDefs: [
-      { type: 'defense', baseValue: 2 },
-      { type: 'defense', baseValue: 2 },
-      { type: 'defense', baseValue: 2 },
+      { type: 'defense' },
+      { type: 'defense' },
+      { type: 'defense' },
     ],
     cost: 0,
   },
   // Balanced pods
   {
-    name: 'Adventurer Kit',
     tokenDefs: [
-      { type: 'attack', baseValue: 2 },
-      { type: 'defense', baseValue: 2 },
-      { type: 'treasure', baseValue: 2 },
+      { type: 'attack' },
+      { type: 'defense' },
+      { type: 'treasure' },
     ],
     cost: 0,
   },
   {
-    name: 'Lucky Pouch',
     tokenDefs: [
-      { type: 'treasure', baseValue: 2 },
-      { type: 'treasure', baseValue: 2 },
-      { type: 'defense', baseValue: 1 },
+      { type: 'treasure' },
+      { type: 'treasure' },
+      { type: 'defense' },
     ],
     cost: 0,
   },
@@ -99,172 +92,199 @@ export const STARTING_POD_TEMPLATES = [
 // Organized by tier for progression
 
 export const SHOP_POD_TEMPLATES = {
-  // Tier 1: Early game upgrades (encounters 1-5)
+  // Tier 1: Early game - bronze tokens become available
   tier1: [
     {
-      name: 'Steel Blade',
       tokenDefs: [
-        { type: 'attack', baseValue: 4 },
-        { type: 'attack', baseValue: 3 },
-        { type: 'treasure', baseValue: 1 },
-      ],
-      cost: 15,
-    },
-    {
-      name: 'Iron Shield',
-      tokenDefs: [
-        { type: 'defense', baseValue: 4 },
-        { type: 'defense', baseValue: 3 },
-        { type: 'treasure', baseValue: 1 },
-      ],
-      cost: 15,
-    },
-    {
-      name: 'Coin Purse',
-      tokenDefs: [
-        { type: 'treasure', baseValue: 3 },
-        { type: 'treasure', baseValue: 3 },
-        { type: 'treasure', baseValue: 2 },
+        { type: 'attack', rank: 'bronze' },
+        { type: 'attack' },
+        { type: 'attack' },
       ],
       cost: 12,
     },
     {
-      name: 'Warrior\'s Gear',
       tokenDefs: [
-        { type: 'attack', baseValue: 3 },
-        { type: 'defense', baseValue: 3 },
-        { type: 'attack', baseValue: 2 },
+        { type: 'defense', rank: 'bronze' },
+        { type: 'defense' },
+        { type: 'defense' },
       ],
-      cost: 18,
+      cost: 12,
     },
     {
-      name: 'Scout\'s Pack',
       tokenDefs: [
-        { type: 'attack', baseValue: 2 },
-        { type: 'defense', baseValue: 2 },
-        { type: 'treasure', baseValue: 4 },
+        { type: 'treasure', rank: 'bronze' },
+        { type: 'treasure' },
+        { type: 'treasure' },
+      ],
+      cost: 10,
+    },
+    {
+      tokenDefs: [
+        { type: 'attack', rank: 'bronze' },
+        { type: 'defense', rank: 'bronze' },
+        { type: 'treasure' },
       ],
       cost: 14,
     },
+    {
+      tokenDefs: [
+        { type: 'attack', rank: 'bronze' },
+        { type: 'attack', rank: 'bronze' },
+        { type: 'treasure' },
+      ],
+      cost: 16,
+    },
+    {
+      tokenDefs: [
+        { type: 'defense', rank: 'bronze' },
+        { type: 'defense', rank: 'bronze' },
+        { type: 'treasure' },
+      ],
+      cost: 16,
+    },
   ],
 
-  // Tier 2: Mid game (encounters 6-10)
+  // Tier 2: Mid game - silver tokens become available
   tier2: [
     {
-      name: 'Bronze Axe',
       tokenDefs: [
-        { type: 'attack', baseValue: 4, rank: 'bronze' },
-        { type: 'attack', baseValue: 3 },
-        { type: 'treasure', baseValue: 2 },
+        { type: 'attack', rank: 'silver' },
+        { type: 'attack', rank: 'bronze' },
+        { type: 'attack' },
       ],
-      cost: 30,
+      cost: 28,
     },
     {
-      name: 'Bronze Buckler',
       tokenDefs: [
-        { type: 'defense', baseValue: 4, rank: 'bronze' },
-        { type: 'defense', baseValue: 3 },
-        { type: 'treasure', baseValue: 2 },
+        { type: 'defense', rank: 'silver' },
+        { type: 'defense', rank: 'bronze' },
+        { type: 'defense' },
       ],
-      cost: 30,
+      cost: 28,
     },
     {
-      name: 'Merchant\'s Satchel',
       tokenDefs: [
-        { type: 'treasure', baseValue: 4, rank: 'bronze' },
-        { type: 'treasure', baseValue: 3 },
-        { type: 'defense', baseValue: 2 },
+        { type: 'treasure', rank: 'silver' },
+        { type: 'treasure', rank: 'bronze' },
+        { type: 'treasure' },
       ],
-      cost: 25,
+      cost: 24,
     },
     {
-      name: 'Veteran\'s Kit',
       tokenDefs: [
-        { type: 'attack', baseValue: 3, rank: 'bronze' },
-        { type: 'defense', baseValue: 3, rank: 'bronze' },
-        { type: 'treasure', baseValue: 2 },
+        { type: 'attack', rank: 'silver' },
+        { type: 'defense', rank: 'silver' },
+        { type: 'treasure' },
       ],
-      cost: 35,
+      cost: 32,
     },
   ],
 
-  // Tier 3: Late game (encounters 11-15)
+  // Tier 3: Late game - gold tokens become available
   tier3: [
     {
-      name: 'Silver Longsword',
       tokenDefs: [
-        { type: 'attack', baseValue: 5, rank: 'silver' },
-        { type: 'attack', baseValue: 4, rank: 'bronze' },
-        { type: 'attack', baseValue: 3 },
+        { type: 'attack', rank: 'gold' },
+        { type: 'attack', rank: 'silver' },
+        { type: 'attack', rank: 'bronze' },
       ],
       cost: 50,
     },
     {
-      name: 'Silver Tower Shield',
       tokenDefs: [
-        { type: 'defense', baseValue: 5, rank: 'silver' },
-        { type: 'defense', baseValue: 4, rank: 'bronze' },
-        { type: 'defense', baseValue: 3 },
+        { type: 'defense', rank: 'gold' },
+        { type: 'defense', rank: 'silver' },
+        { type: 'defense', rank: 'bronze' },
       ],
       cost: 50,
     },
     {
-      name: 'Treasure Chest',
       tokenDefs: [
-        { type: 'treasure', baseValue: 5, rank: 'silver' },
-        { type: 'treasure', baseValue: 4, rank: 'bronze' },
-        { type: 'treasure', baseValue: 3 },
+        { type: 'treasure', rank: 'gold' },
+        { type: 'treasure', rank: 'silver' },
+        { type: 'treasure', rank: 'bronze' },
       ],
       cost: 45,
     },
     {
-      name: 'Champion\'s Arsenal',
       tokenDefs: [
-        { type: 'attack', baseValue: 4, rank: 'silver' },
-        { type: 'defense', baseValue: 4, rank: 'silver' },
-        { type: 'treasure', baseValue: 3, rank: 'bronze' },
+        { type: 'attack', rank: 'gold' },
+        { type: 'defense', rank: 'gold' },
+        { type: 'treasure', rank: 'silver' },
       ],
       cost: 60,
     },
   ],
 
-  // Tier 4: End game (encounters 16+)
+  // Tier 4: End game - platinum tokens become available
   tier4: [
     {
-      name: 'Golden Greatsword',
       tokenDefs: [
-        { type: 'attack', baseValue: 6, rank: 'gold' },
-        { type: 'attack', baseValue: 5, rank: 'silver' },
-        { type: 'attack', baseValue: 4, rank: 'bronze' },
+        { type: 'attack', rank: 'platinum' },
+        { type: 'attack', rank: 'gold' },
+        { type: 'attack', rank: 'silver' },
       ],
-      cost: 80,
+      cost: 85,
     },
     {
-      name: 'Golden Fortress Shield',
       tokenDefs: [
-        { type: 'defense', baseValue: 6, rank: 'gold' },
-        { type: 'defense', baseValue: 5, rank: 'silver' },
-        { type: 'defense', baseValue: 4, rank: 'bronze' },
+        { type: 'defense', rank: 'platinum' },
+        { type: 'defense', rank: 'gold' },
+        { type: 'defense', rank: 'silver' },
       ],
-      cost: 80,
+      cost: 85,
     },
     {
-      name: 'Dragon\'s Hoard',
       tokenDefs: [
-        { type: 'treasure', baseValue: 6, rank: 'gold' },
-        { type: 'treasure', baseValue: 5, rank: 'silver' },
-        { type: 'treasure', baseValue: 4, rank: 'bronze' },
+        { type: 'treasure', rank: 'platinum' },
+        { type: 'treasure', rank: 'gold' },
+        { type: 'treasure', rank: 'silver' },
       ],
-      cost: 70,
+      cost: 75,
     },
     {
-      name: 'Legendary Kit',
       tokenDefs: [
-        { type: 'attack', baseValue: 5, rank: 'gold' },
-        { type: 'defense', baseValue: 5, rank: 'gold' },
-        { type: 'treasure', baseValue: 4, rank: 'silver' },
+        { type: 'attack', rank: 'platinum' },
+        { type: 'defense', rank: 'platinum' },
+        { type: 'treasure', rank: 'gold' },
       ],
       cost: 100,
+    },
+  ],
+
+  // Tier 5: Deep runs - diamond tokens become available
+  tier5: [
+    {
+      tokenDefs: [
+        { type: 'attack', rank: 'diamond' },
+        { type: 'attack', rank: 'platinum' },
+        { type: 'attack', rank: 'gold' },
+      ],
+      cost: 140,
+    },
+    {
+      tokenDefs: [
+        { type: 'defense', rank: 'diamond' },
+        { type: 'defense', rank: 'platinum' },
+        { type: 'defense', rank: 'gold' },
+      ],
+      cost: 140,
+    },
+    {
+      tokenDefs: [
+        { type: 'treasure', rank: 'diamond' },
+        { type: 'treasure', rank: 'platinum' },
+        { type: 'treasure', rank: 'gold' },
+      ],
+      cost: 120,
+    },
+    {
+      tokenDefs: [
+        { type: 'attack', rank: 'diamond' },
+        { type: 'defense', rank: 'diamond' },
+        { type: 'treasure', rank: 'platinum' },
+      ],
+      cost: 160,
     },
   ],
 };
@@ -281,6 +301,9 @@ export function getAvailableShopPods(encounterNumber) {
   }
   if (encounterNumber >= 15) {
     available.push(...SHOP_POD_TEMPLATES.tier4);
+  }
+  if (encounterNumber >= 20) {
+    available.push(...SHOP_POD_TEMPLATES.tier5);
   }
 
   return available;

@@ -27,9 +27,9 @@
   <div class="shop-section">
     <h3>Available Pods</h3>
     <div class="shop-pods">
-      {#each $shopPods as podTemplate}
+      {#each $shopPods as podTemplate, index}
         <div class="shop-pod-wrapper">
-          <Pod pod={{ ...podTemplate, id: 'preview-' + podTemplate.name, tokens: podTemplate.tokenDefs.map((t, i) => ({ ...t, id: `preview-${i}`, rank: t.rank || 'basic' })) }} showCost={true} />
+          <Pod pod={{ id: `preview-${index}`, cost: podTemplate.cost, tokens: podTemplate.tokenDefs.map((t, i) => ({ ...t, id: `preview-${index}-${i}`, rank: t.rank || 'basic' })) }} showCost={true} />
           <button
             class="btn btn-purchase"
             disabled={!canPurchase(podTemplate.cost)}
