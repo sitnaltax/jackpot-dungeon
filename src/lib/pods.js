@@ -1,7 +1,12 @@
 // Pod and token definitions
 
+import { RANKS, RANK_ORDER } from './constants.js';
+
 let nextPodId = 1;
 let nextTokenId = 1;
+
+// Token types for random generation
+const TOKEN_TYPES = ['attack', 'defense', 'treasure'];
 
 // Create a token (value determined by type + rank)
 export function createToken(type, rank = 'basic') {
@@ -31,12 +36,12 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 attack-focused, 2 defense-focused, 2 balanced
-// All starting tokens are basic rank
+// Each pod has one bronze token
 export const STARTING_POD_TEMPLATES = [
   // Attack-focused pods
   {
     tokenDefs: [
-      { type: 'attack' },
+      { type: 'attack', rank: 'bronze' },
       { type: 'attack' },
       { type: 'treasure' },
     ],
@@ -44,7 +49,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'attack' },
+      { type: 'attack', rank: 'bronze' },
       { type: 'attack' },
       { type: 'attack' },
     ],
@@ -53,7 +58,7 @@ export const STARTING_POD_TEMPLATES = [
   // Defense-focused pods
   {
     tokenDefs: [
-      { type: 'defense' },
+      { type: 'defense', rank: 'bronze' },
       { type: 'defense' },
       { type: 'treasure' },
     ],
@@ -61,7 +66,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'defense' },
+      { type: 'defense', rank: 'bronze' },
       { type: 'defense' },
       { type: 'defense' },
     ],
@@ -70,7 +75,7 @@ export const STARTING_POD_TEMPLATES = [
   // Balanced pods
   {
     tokenDefs: [
-      { type: 'attack' },
+      { type: 'attack', rank: 'bronze' },
       { type: 'defense' },
       { type: 'treasure' },
     ],
@@ -78,7 +83,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'treasure' },
+      { type: 'treasure', rank: 'bronze' },
       { type: 'treasure' },
       { type: 'defense' },
     ],
@@ -87,226 +92,124 @@ export const STARTING_POD_TEMPLATES = [
 ];
 
 // ======================
-// SHOP POD TEMPLATES
+// DYNAMIC SHOP GENERATION
 // ======================
-// Organized by tier for progression
 
-export const SHOP_POD_TEMPLATES = {
-  // Tier 1: Early game - bronze tokens become available
-  tier1: [
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'bronze' },
-        { type: 'attack' },
-        { type: 'attack' },
-      ],
-      cost: 12,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'bronze' },
-        { type: 'defense' },
-        { type: 'defense' },
-      ],
-      cost: 12,
-    },
-    {
-      tokenDefs: [
-        { type: 'treasure', rank: 'bronze' },
-        { type: 'treasure' },
-        { type: 'treasure' },
-      ],
-      cost: 10,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'bronze' },
-        { type: 'defense', rank: 'bronze' },
-        { type: 'treasure' },
-      ],
-      cost: 14,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'bronze' },
-        { type: 'attack', rank: 'bronze' },
-        { type: 'treasure' },
-      ],
-      cost: 16,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'bronze' },
-        { type: 'defense', rank: 'bronze' },
-        { type: 'treasure' },
-      ],
-      cost: 16,
-    },
-  ],
+// Get shop tier based on encounter number
+function getShopTier(encounterNumber) {
+  if (encounterNumber >= 20) return 5;
+  if (encounterNumber >= 15) return 4;
+  if (encounterNumber >= 10) return 3;
+  if (encounterNumber >= 5) return 2;
+  return 1;
+}
 
-  // Tier 2: Mid game - silver tokens become available
-  tier2: [
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'silver' },
-        { type: 'attack', rank: 'bronze' },
-        { type: 'attack' },
-      ],
-      cost: 28,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'silver' },
-        { type: 'defense', rank: 'bronze' },
-        { type: 'defense' },
-      ],
-      cost: 28,
-    },
-    {
-      tokenDefs: [
-        { type: 'treasure', rank: 'silver' },
-        { type: 'treasure', rank: 'bronze' },
-        { type: 'treasure' },
-      ],
-      cost: 24,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'silver' },
-        { type: 'defense', rank: 'silver' },
-        { type: 'treasure' },
-      ],
-      cost: 32,
-    },
-  ],
-
-  // Tier 3: Late game - gold tokens become available
-  tier3: [
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'gold' },
-        { type: 'attack', rank: 'silver' },
-        { type: 'attack', rank: 'bronze' },
-      ],
-      cost: 50,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'gold' },
-        { type: 'defense', rank: 'silver' },
-        { type: 'defense', rank: 'bronze' },
-      ],
-      cost: 50,
-    },
-    {
-      tokenDefs: [
-        { type: 'treasure', rank: 'gold' },
-        { type: 'treasure', rank: 'silver' },
-        { type: 'treasure', rank: 'bronze' },
-      ],
-      cost: 45,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'gold' },
-        { type: 'defense', rank: 'gold' },
-        { type: 'treasure', rank: 'silver' },
-      ],
-      cost: 60,
-    },
-  ],
-
-  // Tier 4: End game - platinum tokens become available
-  tier4: [
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'platinum' },
-        { type: 'attack', rank: 'gold' },
-        { type: 'attack', rank: 'silver' },
-      ],
-      cost: 85,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'platinum' },
-        { type: 'defense', rank: 'gold' },
-        { type: 'defense', rank: 'silver' },
-      ],
-      cost: 85,
-    },
-    {
-      tokenDefs: [
-        { type: 'treasure', rank: 'platinum' },
-        { type: 'treasure', rank: 'gold' },
-        { type: 'treasure', rank: 'silver' },
-      ],
-      cost: 75,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'platinum' },
-        { type: 'defense', rank: 'platinum' },
-        { type: 'treasure', rank: 'gold' },
-      ],
-      cost: 100,
-    },
-  ],
-
-  // Tier 5: Deep runs - diamond tokens become available
-  tier5: [
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'diamond' },
-        { type: 'attack', rank: 'platinum' },
-        { type: 'attack', rank: 'gold' },
-      ],
-      cost: 140,
-    },
-    {
-      tokenDefs: [
-        { type: 'defense', rank: 'diamond' },
-        { type: 'defense', rank: 'platinum' },
-        { type: 'defense', rank: 'gold' },
-      ],
-      cost: 140,
-    },
-    {
-      tokenDefs: [
-        { type: 'treasure', rank: 'diamond' },
-        { type: 'treasure', rank: 'platinum' },
-        { type: 'treasure', rank: 'gold' },
-      ],
-      cost: 120,
-    },
-    {
-      tokenDefs: [
-        { type: 'attack', rank: 'diamond' },
-        { type: 'defense', rank: 'diamond' },
-        { type: 'treasure', rank: 'platinum' },
-      ],
-      cost: 160,
-    },
-  ],
+// Tier configuration
+// - minRank: at least one token will be this rank
+// - baseRank: starting rank for other tokens
+// - upgradeChance: chance for each token to upgrade one tier
+// - maxUpgrades: maximum number of tier upgrades per token
+const TIER_CONFIG = {
+  1: { minRank: 'bronze', baseRank: 'basic', upgradeChance: 0.25, maxUpgrades: 1 },
+  2: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 1 },
+  3: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.35, maxUpgrades: 2 },
+  4: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.40, maxUpgrades: 2 },
+  5: { minRank: 'diamond', baseRank: 'platinum', upgradeChance: 0.45, maxUpgrades: 1 },
 };
 
-// Get available shop pods based on encounter number
+// Get the next rank up (or same if at max)
+function upgradeRank(rank) {
+  const index = RANK_ORDER.indexOf(rank);
+  if (index < RANK_ORDER.length - 1) {
+    return RANK_ORDER[index + 1];
+  }
+  return rank;
+}
+
+// Roll a rank for a token based on tier config
+function rollTokenRank(config, isGuaranteed = false) {
+  // If this is the guaranteed slot, use minRank
+  if (isGuaranteed) {
+    return config.minRank;
+  }
+
+  // Start at base rank and potentially upgrade
+  let rank = config.baseRank;
+  for (let i = 0; i < config.maxUpgrades; i++) {
+    if (Math.random() < config.upgradeChance) {
+      rank = upgradeRank(rank);
+    } else {
+      break; // Stop upgrading once we fail a roll
+    }
+  }
+  return rank;
+}
+
+// Pick a random token type
+function randomTokenType() {
+  return TOKEN_TYPES[Math.floor(Math.random() * TOKEN_TYPES.length)];
+}
+
+// Generate a single shop pod for a given tier
+function generateShopPod(tier) {
+  const config = TIER_CONFIG[tier];
+
+  // Decide pod composition: focused (all same type) or mixed
+  const isFocused = Math.random() < 0.6; // 60% chance for focused pods
+  const primaryType = randomTokenType();
+
+  const tokenDefs = [];
+
+  for (let i = 0; i < 3; i++) {
+    // First token gets guaranteed minimum rank
+    const isGuaranteed = i === 0;
+    const rank = rollTokenRank(config, isGuaranteed);
+
+    // Determine type
+    let type;
+    if (isFocused) {
+      // Focused pods: all same type, maybe one treasure
+      if (i === 2 && primaryType !== 'treasure' && Math.random() < 0.4) {
+        type = 'treasure';
+      } else {
+        type = primaryType;
+      }
+    } else {
+      // Mixed pods: random types
+      type = randomTokenType();
+    }
+
+    tokenDefs.push({ type, rank });
+  }
+
+  // Sort tokens by rank (highest first) for nicer display
+  tokenDefs.sort((a, b) => RANK_ORDER.indexOf(b.rank) - RANK_ORDER.indexOf(a.rank));
+
+  // Calculate cost based on token values
+  const tokenValueSum = tokenDefs.reduce((sum, t) => sum + RANKS[t.rank].value, 0);
+
+  // Add random factor: -10% to +20% of base cost
+  const randomFactor = 0.9 + (Math.random() * 0.3);
+  const cost = Math.floor(tokenValueSum * randomFactor);
+
+  return { tokenDefs, cost };
+}
+
+// Generate shop pods for a given encounter number
+export function generateShopPods(encounterNumber, count = 4) {
+  const tier = getShopTier(encounterNumber);
+  const pods = [];
+
+  for (let i = 0; i < count; i++) {
+    pods.push(generateShopPod(tier));
+  }
+
+  return pods;
+}
+
+// Legacy function - now just calls generateShopPods
 export function getAvailableShopPods(encounterNumber) {
-  const available = [...SHOP_POD_TEMPLATES.tier1];
-
-  if (encounterNumber >= 5) {
-    available.push(...SHOP_POD_TEMPLATES.tier2);
-  }
-  if (encounterNumber >= 10) {
-    available.push(...SHOP_POD_TEMPLATES.tier3);
-  }
-  if (encounterNumber >= 15) {
-    available.push(...SHOP_POD_TEMPLATES.tier4);
-  }
-  if (encounterNumber >= 20) {
-    available.push(...SHOP_POD_TEMPLATES.tier5);
-  }
-
-  return available;
+  return generateShopPods(encounterNumber);
 }
 
 // Generate starting pods for a new game

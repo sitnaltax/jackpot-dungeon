@@ -2,7 +2,7 @@
 
 import { writable, derived, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
-import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, getAvailableShopPods } from './pods.js';
+import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods } from './pods.js';
 import { generateEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
 
@@ -170,13 +170,11 @@ export function executeCombat() {
 
 export function proceedToShop() {
   const encNum = get(encounterNumber);
-  const availablePods = getAvailableShopPods(encNum);
 
-  // Shuffle and pick shop size
-  const shuffled = shuffle(availablePods);
-  const shopSelection = shuffled.slice(0, CONFIG.shopSize);
+  // Generate fresh shop pods based on current encounter
+  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
 
-  shopPods.set(shopSelection);
+  shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   gamePhase.set(PHASES.SHOP);
 }
