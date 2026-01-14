@@ -3,10 +3,10 @@
 </script>
 
 <div class="start-screen">
-  <h1>🎰 Jackpot Dungeon</h1>
+  <h1>WyldDive</h1>
 
   <p class="tagline">
-    Draw your fate. Build your fortune. Survive the depths.
+    Draw your fate. Build your fortune. Venture ever deeper.
   </p>
 
   <div class="how-to-play">
@@ -14,11 +14,11 @@
     <ul>
       <li>You have <strong>6 pods</strong>, each containing <strong>3 tokens</strong></li>
       <li>Each encounter, <strong>6 tokens</strong> are drawn randomly</li>
-      <li>Tokens provide <strong>⚔️ Attack</strong>, <strong>🛡️ Defense</strong>, or <strong>💰 Treasure</strong></li>
-      <li>Match the enemy's <strong>health</strong> to defeat them and earn bonus treasure</li>
-      <li>Match the enemy's <strong>danger</strong> to avoid taking damage</li>
+      <li>Tokens provide <strong>👁️ Insight</strong>, <strong>💭 Composure</strong>, or <strong>💰 Treasure</strong></li>
+      <li>Match the fey's <strong>mystery</strong> to reveal their nature and earn bonus treasure</li>
+      <li>Match the fey's <strong>bewilderment</strong> to avoid losing stamina</li>
       <li>Spend treasure in the shop to upgrade your pods</li>
-      <li>Survive as long as you can!</li>
+      <li>Dive as deep as you can!</li>
     </ul>
   </div>
 

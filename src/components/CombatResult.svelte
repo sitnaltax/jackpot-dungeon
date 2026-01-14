@@ -6,8 +6,8 @@
 </script>
 
 {#if $combatResult}
-  <div class="combat-result" class:victory={$combatResult.defeated}>
-    <h2>{$combatResult.defeated ? '🎉 Victory!' : '😰 Survived...'}</h2>
+  <div class="combat-result" class:revealed={$combatResult.revealed}>
+    <h2>{$combatResult.revealed ? '✨ Revealed!' : '🌫️ Still Hidden...'}</h2>
 
     <div class="result-details">
       {#each summary as line}
@@ -18,9 +18,9 @@
     </div>
 
     <div class="result-summary">
-      {#if $combatResult.damageTaken > 0}
-        <div class="damage-taken">
-          -{$combatResult.damageTaken} HP
+      {#if $combatResult.staminaLost > 0}
+        <div class="stamina-lost">
+          -{$combatResult.staminaLost} Stamina
         </div>
       {/if}
       <div class="treasure-gained">
@@ -47,8 +47,8 @@
     align-items: center;
   }
 
-  .combat-result.victory {
-    border-color: #2ecc71;
+  .combat-result.revealed {
+    border-color: #9b59b6;
   }
 
   h2 {
@@ -85,7 +85,7 @@
     font-weight: bold;
   }
 
-  .damage-taken {
+  .stamina-lost {
     color: #e74c3c;
   }
 

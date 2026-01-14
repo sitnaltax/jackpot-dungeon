@@ -7,14 +7,14 @@
     <div class="encounter-name">{$currentEncounter.name}</div>
     <div class="encounter-stats">
       <div class="stat">
-        <span class="stat-icon">❤️</span>
-        <span class="stat-label">Health</span>
-        <span class="stat-value health">{$currentEncounter.health}</span>
+        <span class="stat-icon">👁️</span>
+        <span class="stat-label">Mystery</span>
+        <span class="stat-value mystery">{$currentEncounter.mystery}</span>
       </div>
       <div class="stat">
-        <span class="stat-icon">⚡</span>
-        <span class="stat-label">Danger</span>
-        <span class="stat-value danger">{$currentEncounter.danger}</span>
+        <span class="stat-icon">🌀</span>
+        <span class="stat-label">Bewilderment</span>
+        <span class="stat-value bewilderment">{$currentEncounter.bewilderment}</span>
       </div>
       <div class="stat">
         <span class="stat-icon">💰</span>
@@ -70,12 +70,12 @@
     font-weight: bold;
   }
 
-  .stat-value.health {
-    color: #e74c3c;
+  .stat-value.mystery {
+    color: #9b59b6;
   }
 
-  .stat-value.danger {
-    color: #9b59b6;
+  .stat-value.bewilderment {
+    color: #3498db;
   }
 
   .stat-value.treasure {

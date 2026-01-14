@@ -6,12 +6,12 @@ export const CONFIG = {
   drawCount: 6,
 
   // Player settings
-  startingHealth: 100,
+  startingStamina: 100,
   startingTreasure: 0,
 
   // Combat settings
-  defenseFailFlat: 5,      // Flat damage for failing defense check
-  defenseFailScale: 1.5,   // Additional damage per point of deficiency
+  composureFailFlat: 5,      // Flat stamina loss for failing composure check
+  composureFailScale: 1.5,   // Additional stamina loss per point of deficiency
 
   // Redraw settings
   redrawsPerEncounter: 1,           // Number of full redraws allowed
@@ -35,8 +35,8 @@ export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'dia
 
 // Token types
 export const TOKEN_TYPES = {
-  attack: { name: 'Attack', icon: '⚔️', color: '#e74c3c' },
-  defense: { name: 'Defense', icon: '🛡️', color: '#3498db' },
+  insight: { name: 'Insight', icon: '👁️', color: '#9b59b6' },
+  composure: { name: 'Composure', icon: '💭', color: '#3498db' },
   treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f' },
 };
 

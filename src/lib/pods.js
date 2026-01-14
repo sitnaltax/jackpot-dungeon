@@ -6,7 +6,7 @@ let nextPodId = 1;
 let nextTokenId = 1;
 
 // Token types for random generation
-const TOKEN_TYPES = ['attack', 'defense', 'treasure'];
+const TOKEN_TYPES = ['insight', 'composure', 'treasure'];
 
 // Create a token (value determined by type + rank)
 export function createToken(type, rank = 'basic') {
@@ -35,48 +35,48 @@ export function clonePodTemplate(template) {
 // STARTING POD TEMPLATES
 // ======================
 
-// Preset mix: 2 attack-focused, 2 defense-focused, 2 balanced
+// Preset mix: 2 insight-focused, 2 composure-focused, 2 balanced
 // Each pod has one bronze token
 export const STARTING_POD_TEMPLATES = [
-  // Attack-focused pods
+  // Insight-focused pods
   {
     tokenDefs: [
-      { type: 'attack', rank: 'bronze' },
-      { type: 'attack' },
+      { type: 'insight', rank: 'bronze' },
+      { type: 'insight' },
       { type: 'treasure' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
-      { type: 'attack', rank: 'bronze' },
-      { type: 'attack' },
-      { type: 'attack' },
+      { type: 'insight', rank: 'bronze' },
+      { type: 'insight' },
+      { type: 'insight' },
     ],
     cost: 0,
   },
-  // Defense-focused pods
+  // Composure-focused pods
   {
     tokenDefs: [
-      { type: 'defense', rank: 'bronze' },
-      { type: 'defense' },
+      { type: 'composure', rank: 'bronze' },
+      { type: 'composure' },
       { type: 'treasure' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
-      { type: 'defense', rank: 'bronze' },
-      { type: 'defense' },
-      { type: 'defense' },
+      { type: 'composure', rank: 'bronze' },
+      { type: 'composure' },
+      { type: 'composure' },
     ],
     cost: 0,
   },
   // Balanced pods
   {
     tokenDefs: [
-      { type: 'attack', rank: 'bronze' },
-      { type: 'defense' },
+      { type: 'insight', rank: 'bronze' },
+      { type: 'composure' },
       { type: 'treasure' },
     ],
     cost: 0,
@@ -85,7 +85,7 @@ export const STARTING_POD_TEMPLATES = [
     tokenDefs: [
       { type: 'treasure', rank: 'bronze' },
       { type: 'treasure' },
-      { type: 'defense' },
+      { type: 'composure' },
     ],
     cost: 0,
   },

@@ -3,11 +3,11 @@
 </script>
 
 <div class="game-over">
-  <h1>💀 Game Over</h1>
+  <h1>🌙 Lost in the Wyld</h1>
 
   <div class="stats">
     <div class="stat">
-      <span class="label">Encounters Survived</span>
+      <span class="label">Depth Reached</span>
       <span class="value">{$encounterNumber - 1}</span>
     </div>
     <div class="stat">
@@ -17,7 +17,7 @@
   </div>
 
   <button class="btn btn-primary" on:click={restartGame}>
-    Play Again
+    Dive Again
   </button>
 </div>
 

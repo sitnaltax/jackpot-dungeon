@@ -1,22 +1,22 @@
 // Encounter generation and scaling
 
-// Enemy name pools for variety
-const ENEMY_PREFIXES = ['', 'Wild ', 'Fierce ', 'Ancient ', 'Corrupted ', 'Elite '];
-const ENEMY_TYPES = [
-  // Tier 1 (encounters 1-5)
-  ['Goblin', 'Rat', 'Slime', 'Bat', 'Spider'],
-  // Tier 2 (encounters 6-10)
-  ['Orc', 'Skeleton', 'Wolf', 'Bandit', 'Zombie'],
-  // Tier 3 (encounters 11-15)
-  ['Troll', 'Ogre', 'Wraith', 'Golem', 'Harpy'],
-  // Tier 4 (encounters 16-20)
-  ['Dragon', 'Demon', 'Lich', 'Giant', 'Hydra'],
-  // Tier 5 (encounters 21+)
-  ['Elder Dragon', 'Demon Lord', 'Death Knight', 'Titan', 'Behemoth'],
+// Fey encounter name pools
+const FEY_PREFIXES = ['', 'Curious ', 'Mischievous ', 'Ancient ', 'Twilight ', 'Gleaming '];
+const FEY_ENCOUNTERS = [
+  // Tier 1 (encounters 1-5) - Minor Fey
+  ['Pixie Swarm', 'Will-o\'-Wisp', 'Talking Fox', 'Mirror Sprite', 'Mushroom Circle'],
+  // Tier 2 (encounters 6-10) - Lesser Fey
+  ['Dryad\'s Riddle', 'Selkie Bargain', 'Phooka\'s Game', 'Kelpie Crossing', 'Changeling Child'],
+  // Tier 3 (encounters 11-15) - Greater Fey
+  ['Erlking\'s Hunt', 'Banshee\'s Lament', 'Redcap\'s Challenge', 'Clurichaun\'s Wager', 'Spriggan Court'],
+  // Tier 4 (encounters 16-20) - Noble Fey
+  ['Sidhe Lord', 'Queen\'s Emissary', 'Wild Hunt Scout', 'Fomorian Elder', 'Leanan Sidhe'],
+  // Tier 5 (encounters 21+) - Archfey
+  ['The Erlking Himself', 'Queen of Air and Darkness', 'Lord of the Wild Hunt', 'The Green Man', 'Oberon\'s Shadow'],
 ];
 
-// Get enemy tier based on encounter number
-function getEnemyTier(encounterNumber) {
+// Get encounter tier based on encounter number
+function getEncounterTier(encounterNumber) {
   if (encounterNumber <= 5) return 0;
   if (encounterNumber <= 10) return 1;
   if (encounterNumber <= 15) return 2;
@@ -24,24 +24,25 @@ function getEnemyTier(encounterNumber) {
   return 4;
 }
 
-// Generate a random enemy name
-function generateEnemyName(encounterNumber) {
-  const tier = getEnemyTier(encounterNumber);
-  const types = ENEMY_TYPES[tier];
-  const type = types[Math.floor(Math.random() * types.length)];
+// Generate a random fey encounter name
+function generateEncounterName(encounterNumber) {
+  const tier = getEncounterTier(encounterNumber);
+  const encounters = FEY_ENCOUNTERS[tier];
+  const encounter = encounters[Math.floor(Math.random() * encounters.length)];
 
   // Higher encounters get prefixes more often
   const prefixChance = Math.min(0.1 + (encounterNumber * 0.03), 0.7);
   if (Math.random() < prefixChance) {
-    const prefix = ENEMY_PREFIXES[Math.floor(Math.random() * ENEMY_PREFIXES.length)];
-    return prefix + type;
+    const prefix = FEY_PREFIXES[Math.floor(Math.random() * FEY_PREFIXES.length)];
+    return prefix + encounter;
   }
 
-  return type;
+  return encounter;
 }
 
 // Scaling formulas - adjust these for balance
-function calculateHealth(encounterNumber) {
+function calculateMystery(encounterNumber) {
+  // Mystery level - what insight must reveal
   // Starts at ~8, scales up
   // Encounter 1: 8, 5: 12, 10: 20, 15: 32, 20: 48
   const base = 6;
@@ -50,8 +51,9 @@ function calculateHealth(encounterNumber) {
   return Math.floor(base + linear + exponential);
 }
 
-function calculateDanger(encounterNumber) {
-  // Slightly lower than health to give players breathing room early
+function calculateBewilderment(encounterNumber) {
+  // Bewilderment level - what composure must withstand
+  // Slightly lower than mystery to give players breathing room early
   // Encounter 1: 5, 5: 9, 10: 16, 15: 26, 20: 40
   const base = 4;
   const linear = encounterNumber * 1.0;
@@ -71,9 +73,9 @@ function calculateTreasureReward(encounterNumber) {
 // Generate an encounter for the given encounter number
 export function generateEncounter(encounterNumber) {
   return {
-    name: generateEnemyName(encounterNumber),
-    health: calculateHealth(encounterNumber),
-    danger: calculateDanger(encounterNumber),
+    name: generateEncounterName(encounterNumber),
+    mystery: calculateMystery(encounterNumber),
+    bewilderment: calculateBewilderment(encounterNumber),
     treasureReward: calculateTreasureReward(encounterNumber),
     level: encounterNumber,
   };
@@ -85,8 +87,8 @@ export function previewScaling(maxEncounter = 25) {
   for (let i = 1; i <= maxEncounter; i++) {
     preview.push({
       encounter: i,
-      health: calculateHealth(i),
-      danger: calculateDanger(i),
+      mystery: calculateMystery(i),
+      bewilderment: calculateBewilderment(i),
       reward: calculateTreasureReward(i),
     });
   }

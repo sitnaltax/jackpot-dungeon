@@ -1,21 +1,21 @@
 <script>
   import { player, encounterNumber } from '../lib/gameState.js';
 
-  $: healthPercent = ($player.health / $player.maxHealth) * 100;
-  $: healthColor = healthPercent > 50 ? '#2ecc71' : healthPercent > 25 ? '#f39c12' : '#e74c3c';
+  $: staminaPercent = ($player.stamina / $player.maxStamina) * 100;
+  $: staminaColor = staminaPercent > 50 ? '#2ecc71' : staminaPercent > 25 ? '#f39c12' : '#e74c3c';
 </script>
 
 <div class="player-status">
   <div class="stat">
-    <span class="label">Encounter</span>
+    <span class="label">Depth</span>
     <span class="value">#{$encounterNumber}</span>
   </div>
 
-  <div class="stat health-stat">
-    <span class="label">Health</span>
-    <div class="health-bar">
-      <div class="health-fill" style="width: {healthPercent}%; background: {healthColor}"></div>
-      <span class="health-text">{$player.health} / {$player.maxHealth}</span>
+  <div class="stat stamina-stat">
+    <span class="label">Stamina</span>
+    <div class="stamina-bar">
+      <div class="stamina-fill" style="width: {staminaPercent}%; background: {staminaColor}"></div>
+      <span class="stamina-text">{$player.stamina} / {$player.maxStamina}</span>
     </div>
   </div>
 
@@ -58,12 +58,12 @@
     color: #f1c40f;
   }
 
-  .health-stat {
+  .stamina-stat {
     flex: 1;
     min-width: 200px;
   }
 
-  .health-bar {
+  .stamina-bar {
     position: relative;
     height: 24px;
     background: #333;
@@ -71,12 +71,12 @@
     overflow: hidden;
   }
 
-  .health-fill {
+  .stamina-fill {
     height: 100%;
     transition: width 0.3s ease, background 0.3s ease;
   }
 
-  .health-text {
+  .stamina-text {
     position: absolute;
     top: 50%;
     left: 50%;

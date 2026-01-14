@@ -1,12 +1,12 @@
-// Combat resolution logic
+// Encounter resolution logic
 
 import { CONFIG, getEffectiveValue } from './constants.js';
 
 // Calculate totals from drawn tokens
 export function calculateDrawTotals(drawnTokens) {
   const totals = {
-    attack: 0,
-    defense: 0,
+    insight: 0,
+    composure: 0,
     treasure: 0,
   };
 
@@ -18,73 +18,69 @@ export function calculateDrawTotals(drawnTokens) {
   return totals;
 }
 
-// Resolve combat and return results
+// Resolve encounter and return results
 export function resolveCombat(drawnTokens, encounter) {
   const totals = calculateDrawTotals(drawnTokens);
 
   const result = {
     totals,
     encounter,
-    defeated: false,
-    damageDealt: 0,
-    damageTaken: 0,
+    revealed: false,
+    staminaLost: 0,
     treasureGained: totals.treasure,
-    attackSuccess: false,
-    defenseSuccess: false,
-    overkill: 0,
-    defenseDeficiency: 0,
+    insightSuccess: false,
+    composureSuccess: false,
+    insightSurplus: 0,
+    composureDeficiency: 0,
   };
 
-  // Attack resolution
-  if (totals.attack >= encounter.health) {
-    result.defeated = true;
-    result.attackSuccess = true;
-    result.overkill = totals.attack - encounter.health;
+  // Insight resolution - can you perceive the fey's nature?
+  if (totals.insight >= encounter.mystery) {
+    result.revealed = true;
+    result.insightSuccess = true;
+    result.insightSurplus = totals.insight - encounter.mystery;
     result.treasureGained += encounter.treasureReward;
-    result.damageDealt = encounter.health;
-  } else {
-    result.damageDealt = totals.attack;
   }
 
-  // Defense resolution
-  if (totals.defense >= encounter.danger) {
-    result.defenseSuccess = true;
+  // Composure resolution - can you withstand the bewilderment?
+  if (totals.composure >= encounter.bewilderment) {
+    result.composureSuccess = true;
   } else {
-    result.defenseDeficiency = encounter.danger - totals.defense;
-    // Flat penalty + scaling damage based on deficiency
-    result.damageTaken = Math.floor(
-      CONFIG.defenseFailFlat + (result.defenseDeficiency * CONFIG.defenseFailScale)
+    result.composureDeficiency = encounter.bewilderment - totals.composure;
+    // Flat penalty + scaling stamina loss based on deficiency
+    result.staminaLost = Math.floor(
+      CONFIG.composureFailFlat + (result.composureDeficiency * CONFIG.composureFailScale)
     );
   }
 
   return result;
 }
 
-// Generate combat summary text
+// Generate encounter summary text
 export function getCombatSummary(result) {
   const lines = [];
 
-  // Attack summary
-  if (result.attackSuccess) {
-    lines.push(`✓ Attack: ${result.totals.attack} vs ${result.encounter.health} HP - DEFEATED!`);
-    if (result.overkill > 0) {
-      lines.push(`  Overkill: +${result.overkill}`);
+  // Insight summary
+  if (result.insightSuccess) {
+    lines.push(`✓ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - REVEALED!`);
+    if (result.insightSurplus > 0) {
+      lines.push(`  Surplus: +${result.insightSurplus}`);
     }
   } else {
-    lines.push(`✗ Attack: ${result.totals.attack} vs ${result.encounter.health} HP - Enemy survives`);
+    lines.push(`✗ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - Hidden`);
   }
 
-  // Defense summary
-  if (result.defenseSuccess) {
-    lines.push(`✓ Defense: ${result.totals.defense} vs ${result.encounter.danger} Danger - No damage!`);
+  // Composure summary
+  if (result.composureSuccess) {
+    lines.push(`✓ Composure: ${result.totals.composure} vs ${result.encounter.bewilderment} Bewilderment - Steady!`);
   } else {
-    lines.push(`✗ Defense: ${result.totals.defense} vs ${result.encounter.danger} Danger - FAILED`);
-    lines.push(`  Took ${result.damageTaken} damage (${CONFIG.defenseFailFlat} flat + ${result.defenseDeficiency} × ${CONFIG.defenseFailScale})`);
+    lines.push(`✗ Composure: ${result.totals.composure} vs ${result.encounter.bewilderment} Bewilderment - SHAKEN`);
+    lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.composureFailFlat} flat + ${result.composureDeficiency} × ${CONFIG.composureFailScale})`);
   }
 
   // Treasure summary
   lines.push(`💰 Treasure: +${result.treasureGained}`);
-  if (result.defeated) {
+  if (result.revealed) {
     lines.push(`  (${result.totals.treasure} from tokens + ${result.encounter.treasureReward} bonus)`);
   }
 

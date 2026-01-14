@@ -36,13 +36,13 @@
   </div>
 
   <div class="totals">
-    <div class="total attack">
-      <span class="total-label">Attack</span>
-      <span class="total-value">⚔️ {totals.attack}</span>
+    <div class="total insight">
+      <span class="total-label">Insight</span>
+      <span class="total-value">👁️ {totals.insight}</span>
     </div>
-    <div class="total defense">
-      <span class="total-label">Defense</span>
-      <span class="total-value">🛡️ {totals.defense}</span>
+    <div class="total composure">
+      <span class="total-label">Composure</span>
+      <span class="total-value">💭 {totals.composure}</span>
     </div>
     <div class="total treasure">
       <span class="total-label">Treasure</span>
@@ -66,7 +66,7 @@
       Redraw Selected ({$selectiveRedrawsRemaining} left)
     </button>
     <button class="btn btn-primary" on:click={confirmDraw}>
-      Fight!
+      Face the Fey
     </button>
   </div>
 </div>
@@ -127,11 +127,11 @@
     font-weight: bold;
   }
 
-  .total.attack .total-value {
-    color: #e74c3c;
+  .total.insight .total-value {
+    color: #9b59b6;
   }
 
-  .total.defense .total-value {
+  .total.composure .total-value {
     color: #3498db;
   }
 

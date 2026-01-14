@@ -20,8 +20,8 @@ export const gamePhase = writable(PHASES.START);
 export const encounterNumber = writable(0);
 export const player = writable({
   pods: [],
-  health: CONFIG.startingHealth,
-  maxHealth: CONFIG.startingHealth,
+  stamina: CONFIG.startingStamina,
+  maxStamina: CONFIG.startingStamina,
   treasure: CONFIG.startingTreasure,
 });
 export const currentEncounter = writable(null);
@@ -40,7 +40,7 @@ export const allTokens = derived(player, ($player) => {
 });
 
 export const isGameOver = derived(player, ($player) => {
-  return $player.health <= 0;
+  return $player.stamina <= 0;
 });
 
 // Game actions
@@ -49,8 +49,8 @@ export function startNewGame() {
 
   player.set({
     pods: startingPods,
-    health: CONFIG.startingHealth,
-    maxHealth: CONFIG.startingHealth,
+    stamina: CONFIG.startingStamina,
+    maxStamina: CONFIG.startingStamina,
     treasure: CONFIG.startingTreasure,
   });
 
@@ -157,13 +157,13 @@ export function executeCombat() {
   // Apply results to player
   player.update(p => ({
     ...p,
-    health: Math.max(0, p.health - result.damageTaken),
+    stamina: Math.max(0, p.stamina - result.staminaLost),
     treasure: p.treasure + result.treasureGained,
   }));
 
   // Check for game over
   const $player = get(player);
-  if ($player.health <= 0) {
+  if ($player.stamina <= 0) {
     gamePhase.set(PHASES.GAME_OVER);
   }
 }
