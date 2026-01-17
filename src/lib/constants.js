@@ -21,29 +21,30 @@ export const CONFIG = {
   shopSize: 4,             // Number of pods offered in shop
 };
 
-// Rank system - value is determined entirely by rank
+// Rank system - multipliers applied to base token values
 export const RANKS = {
-  basic: { name: 'Basic', value: 5, color: '#888' },
-  bronze: { name: 'Bronze', value: 7, color: '#cd7f32' },
-  silver: { name: 'Silver', value: 10, color: '#c0c0c0' },
-  gold: { name: 'Gold', value: 13, color: '#ffd700' },
-  platinum: { name: 'Platinum', value: 15, color: '#e5e4e2' },
-  diamond: { name: 'Diamond', value: 20, color: '#b9f2ff' },
+  basic: { name: 'Basic', multiplier: 1, color: '#888' },
+  bronze: { name: 'Bronze', multiplier: 1.25, color: '#cd7f32' },
+  silver: { name: 'Silver', multiplier: 1.5, color: '#c0c0c0' },
+  gold: { name: 'Gold', multiplier: 1.75, color: '#ffd700' },
+  platinum: { name: 'Platinum', multiplier: 2, color: '#e5e4e2' },
+  diamond: { name: 'Diamond', multiplier: 2.5, color: '#b9f2ff' },
 };
 
 export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
-// Token types
+// Token types with base values
 export const TOKEN_TYPES = {
-  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c' },
-  composure: { name: 'Composure', icon: '💭', color: '#3498db' },
-  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f' },
+  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5 },
+  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5 },
+  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5 },
 };
 
-// Get the value of a token (determined by type + rank)
+// Get the value of a token (base value * rank multiplier)
 export function getTokenValue(token) {
+  const typeData = TOKEN_TYPES[token.type];
   const rankData = RANKS[token.rank] || RANKS.basic;
-  return rankData.value;
+  return Math.floor(typeData.baseValue * rankData.multiplier);
 }
 
 // Alias for backwards compatibility

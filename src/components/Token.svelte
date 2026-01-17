@@ -33,7 +33,7 @@
   <div class="token-icon">{typeData.icon}</div>
   <div class="token-value">{effectiveValue}</div>
   {#if isUpgraded}
-    <div class="token-rank" title="{rankData.name} ({rankData.multiplier}x)">
+    <div class="token-rank" title="{rankData.name} (×{rankData.multiplier})">
       {rankData.name[0]}
     </div>
   {/if}
