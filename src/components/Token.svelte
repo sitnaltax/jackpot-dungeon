@@ -57,10 +57,6 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
 
-  .token.upgraded {
-    border-color: var(--rank-color);
-    box-shadow: 0 0 8px var(--rank-color);
-  }
 
   .token.selectable {
     cursor: pointer;
