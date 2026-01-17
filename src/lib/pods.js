@@ -36,22 +36,22 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 insight-focused, 2 composure-focused, 2 balanced
-// Each pod has one bronze token
+// Each pod has 1 basic token and 2 inferior tokens
 export const STARTING_POD_TEMPLATES = [
   // Insight-focused pods
   {
     tokenDefs: [
       { type: 'insight', rank: 'bronze' },
-      { type: 'insight' },
-      { type: 'treasure' },
+      { type: 'insight', rank: 'inferior' },
+      { type: 'treasure', rank: 'inferior' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'insight' },
-      { type: 'insight' },
-      { type: 'insight' },
+      { type: 'insight', rank: 'inferior' },
+      { type: 'insight', rank: 'inferior' },
     ],
     cost: 0,
   },
@@ -59,16 +59,16 @@ export const STARTING_POD_TEMPLATES = [
   {
     tokenDefs: [
       { type: 'composure', rank: 'bronze' },
-      { type: 'composure' },
-      { type: 'treasure' },
+      { type: 'composure', rank: 'inferior' },
+      { type: 'treasure', rank: 'inferior' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'composure' },
-      { type: 'composure' },
-      { type: 'composure' },
+      { type: 'composure', rank: 'inferior' },
+      { type: 'composure', rank: 'inferior' },
     ],
     cost: 0,
   },
@@ -76,16 +76,16 @@ export const STARTING_POD_TEMPLATES = [
   {
     tokenDefs: [
       { type: 'insight' },
-      { type: 'composure' },
-      { type: 'treasure' },
+      { type: 'composure', rank: 'inferior' },
+      { type: 'treasure', rank: 'inferior' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'treasure' },
-      { type: 'treasure' },
-      { type: 'composure' },
+      { type: 'treasure', rank: 'inferior' },
+      { type: 'composure', rank: 'inferior' },
     ],
     cost: 0,
   },

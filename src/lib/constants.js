@@ -23,6 +23,7 @@ export const CONFIG = {
 
 // Rank system - multipliers applied to base token values
 export const RANKS = {
+  inferior: { name: 'Inferior', multiplier: 0.8, color: '#555' },
   basic: { name: 'Basic', multiplier: 1, color: '#888' },
   bronze: { name: 'Bronze', multiplier: 1.25, color: '#cd7f32' },
   silver: { name: 'Silver', multiplier: 1.5, color: '#c0c0c0' },
@@ -31,6 +32,7 @@ export const RANKS = {
   diamond: { name: 'Diamond', multiplier: 2.5, color: '#b9f2ff' },
 };
 
+// Note: inferior is excluded - it only appears in starting pods
 export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
 // Token types with base values
