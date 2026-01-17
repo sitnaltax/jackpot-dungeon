@@ -128,7 +128,7 @@
   }
 
   .total.insight .total-value {
-    color: #9b59b6;
+    color: #e74c3c;
   }
 
   .total.composure .total-value {

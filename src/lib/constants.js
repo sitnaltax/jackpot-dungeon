@@ -35,7 +35,7 @@ export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'dia
 
 // Token types
 export const TOKEN_TYPES = {
-  insight: { name: 'Insight', icon: '👁️', color: '#9b59b6' },
+  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c' },
   composure: { name: 'Composure', icon: '💭', color: '#3498db' },
   treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f' },
 };

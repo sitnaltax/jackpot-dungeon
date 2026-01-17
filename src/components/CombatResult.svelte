@@ -48,7 +48,7 @@
   }
 
   .combat-result.revealed {
-    border-color: #9b59b6;
+    border-color: #2ecc71;
   }
 
   h2 {
