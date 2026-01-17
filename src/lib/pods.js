@@ -49,7 +49,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'insight', rank: 'bronze' },
+      { type: 'insight' },
       { type: 'insight' },
       { type: 'insight' },
     ],
@@ -66,7 +66,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'composure', rank: 'bronze' },
+      { type: 'composure' },
       { type: 'composure' },
       { type: 'composure' },
     ],
@@ -75,7 +75,7 @@ export const STARTING_POD_TEMPLATES = [
   // Balanced pods
   {
     tokenDefs: [
-      { type: 'insight', rank: 'bronze' },
+      { type: 'insight' },
       { type: 'composure' },
       { type: 'treasure' },
     ],
@@ -83,7 +83,7 @@ export const STARTING_POD_TEMPLATES = [
   },
   {
     tokenDefs: [
-      { type: 'treasure', rank: 'bronze' },
+      { type: 'treasure' },
       { type: 'treasure' },
       { type: 'composure' },
     ],
@@ -110,11 +110,11 @@ function getShopTier(encounterNumber) {
 // - upgradeChance: chance for each token to upgrade one tier
 // - maxUpgrades: maximum number of tier upgrades per token
 const TIER_CONFIG = {
-  1: { minRank: 'bronze', baseRank: 'basic', upgradeChance: 0.25, maxUpgrades: 1 },
-  2: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 1 },
-  3: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.35, maxUpgrades: 2 },
-  4: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.40, maxUpgrades: 2 },
-  5: { minRank: 'diamond', baseRank: 'platinum', upgradeChance: 0.45, maxUpgrades: 1 },
+  1: { minRank: 'bronze', baseRank: 'basic', upgradeChance: 0.30, maxUpgrades: 2 },
+  2: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 2 },
+  3: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.30, maxUpgrades: 2 },
+  4: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.30, maxUpgrades: 2 },
+  5: { minRank: 'diamond', baseRank: 'platinum', upgradeChance: 0.30, maxUpgrades: 1 },
 };
 
 // Get the next rank up (or same if at max)
@@ -155,7 +155,7 @@ function generateShopPod(tier) {
   const config = TIER_CONFIG[tier];
 
   // Decide pod composition: focused (all same type) or mixed
-  const isFocused = Math.random() < 0.6; // 60% chance for focused pods
+  const isFocused = Math.random() < 0.0; // For now, no pods are focused
   const primaryType = randomTokenType();
 
   const tokenDefs = [];
