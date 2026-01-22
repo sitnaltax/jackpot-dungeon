@@ -35,19 +35,45 @@ export const RANKS = {
 // Note: inferior is excluded - it only appears in starting pods
 export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
-// Token types with base values
-export const TOKEN_TYPES = {
-  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5 },
-  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5 },
-  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5 },
-};
-
-// Get the value of a token (base value * rank multiplier)
+// Get the base value of a token (base value * rank multiplier)
+// Used for display and shop pricing - does not account for synergies
 export function getTokenValue(token) {
   const typeData = TOKEN_TYPES[token.type];
   const rankData = RANKS[token.rank] || RANKS.basic;
   return Math.floor(typeData.baseValue * rankData.multiplier);
 }
+
+// Token types with base values
+// Tokens can optionally define a getValue(token, allDrawnTokens) callback
+// that returns an object mapping stat names to values (e.g., { insight: 5, composure: 2 })
+// If no callback is defined, the token contributes its base value to the stat matching its type
+export const TOKEN_TYPES = {
+  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5 },
+  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5 },
+  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5 },
+  lock: {
+    name: 'Lock',
+    icon: '🔒',
+    color: '#8b7355',
+    baseValue: 4,
+    getValue: (token, allDrawnTokens) => {
+      const base = getTokenValue(token);
+      const hasKey = allDrawnTokens.some(t => t.type === 'key');
+      return { composure: hasKey ? base + 2 : base };
+    },
+  },
+  key: {
+    name: 'Key',
+    icon: '🔑',
+    color: '#daa520',
+    baseValue: 4,
+    getValue: (token, allDrawnTokens) => {
+      const base = getTokenValue(token);
+      const hasLock = allDrawnTokens.some(t => t.type === 'lock');
+      return { insight: hasLock ? base + 2 : base };
+    },
+  },
+};
 
 // Alias for backwards compatibility
 export const getEffectiveValue = getTokenValue;

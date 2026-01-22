@@ -6,7 +6,7 @@ let nextPodId = 1;
 let nextTokenId = 1;
 
 // Token types for random generation
-const TOKEN_TYPES = ['insight', 'composure', 'treasure'];
+const TOKEN_TYPES = ['insight', 'composure', 'treasure', 'lock', 'key'];
 
 // Create a token (value determined by type + rank)
 export function createToken(type, rank = 'basic') {

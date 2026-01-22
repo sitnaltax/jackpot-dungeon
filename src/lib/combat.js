@@ -1,6 +1,6 @@
 // Encounter resolution logic
 
-import { CONFIG, getEffectiveValue } from './constants.js';
+import { CONFIG, TOKEN_TYPES, getEffectiveValue } from './constants.js';
 
 // Calculate totals from drawn tokens
 export function calculateDrawTotals(drawnTokens) {
@@ -11,8 +11,20 @@ export function calculateDrawTotals(drawnTokens) {
   };
 
   for (const token of drawnTokens) {
-    const value = getEffectiveValue(token);
-    totals[token.type] += value;
+    const typeData = TOKEN_TYPES[token.type];
+
+    // Use getValue callback if defined, otherwise default behavior
+    if (typeData.getValue) {
+      const contributions = typeData.getValue(token, drawnTokens);
+      for (const [stat, value] of Object.entries(contributions)) {
+        if (stat in totals) {
+          totals[stat] += value;
+        }
+      }
+    } else {
+      const value = getEffectiveValue(token);
+      totals[token.type] += value;
+    }
   }
 
   return totals;
