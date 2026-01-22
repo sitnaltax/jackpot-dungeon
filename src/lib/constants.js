@@ -44,18 +44,20 @@ export function getTokenValue(token) {
 }
 
 // Token types with base values
-// Tokens can optionally define a getValue(token, allDrawnTokens) callback
-// that returns an object mapping stat names to values (e.g., { insight: 5, composure: 2 })
-// If no callback is defined, the token contributes its base value to the stat matching its type
+// - minDepth: minimum encounter number for this token to appear in shops (default: 0)
+// - weight: relative probability weight for random selection (default: 1)
+// - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
 export const TOKEN_TYPES = {
-  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5 },
-  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5 },
-  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5 },
+  insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
+  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
+  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
   lock: {
     name: 'Lock',
     icon: '🔒',
     color: '#8b7355',
     baseValue: 4,
+    minDepth: 2,
+    weight: 1,
     getValue: (token, allDrawnTokens) => {
       const base = getTokenValue(token);
       const hasKey = allDrawnTokens.some(t => t.type === 'key');
@@ -67,6 +69,8 @@ export const TOKEN_TYPES = {
     icon: '🔑',
     color: '#daa520',
     baseValue: 4,
+    minDepth: 2,
+    weight: 1,
     getValue: (token, allDrawnTokens) => {
       const base = getTokenValue(token);
       const hasLock = allDrawnTokens.some(t => t.type === 'lock');

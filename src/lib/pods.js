@@ -5,8 +5,6 @@ import { RANKS, RANK_ORDER, TOKEN_TYPES as TOKEN_TYPE_DATA } from './constants.j
 let nextPodId = 1;
 let nextTokenId = 1;
 
-// Token types for random generation
-const TOKEN_TYPES = ['insight', 'composure', 'treasure', 'lock', 'key'];
 
 // Create a token (value determined by type + rank)
 export function createToken(type, rank = 'basic') {
@@ -145,18 +143,33 @@ function rollTokenRank(config, isGuaranteed = false) {
   return rank;
 }
 
-// Pick a random token type
-function randomTokenType() {
-  return TOKEN_TYPES[Math.floor(Math.random() * TOKEN_TYPES.length)];
+// Pick a random token type, filtered by depth and weighted by probability
+function randomTokenType(encounterNumber) {
+  // Filter to tokens available at this depth
+  const available = Object.entries(TOKEN_TYPE_DATA)
+    .filter(([_, data]) => (data.minDepth ?? 0) <= encounterNumber)
+    .map(([type, data]) => ({ type, weight: data.weight ?? 1 }));
+
+  // Weighted random selection
+  const totalWeight = available.reduce((sum, t) => sum + t.weight, 0);
+  let roll = Math.random() * totalWeight;
+
+  for (const { type, weight } of available) {
+    roll -= weight;
+    if (roll <= 0) return type;
+  }
+
+  // Fallback (shouldn't happen)
+  return available[available.length - 1].type;
 }
 
-// Generate a single shop pod for a given tier
-function generateShopPod(tier) {
+// Generate a single shop pod for a given tier and encounter depth
+function generateShopPod(tier, encounterNumber) {
   const config = TIER_CONFIG[tier];
 
   // Decide pod composition: focused (all same type) or mixed
   const isFocused = Math.random() < 0.0; // For now, no pods are focused
-  const primaryType = randomTokenType();
+  const primaryType = randomTokenType(encounterNumber);
 
   const tokenDefs = [];
 
@@ -176,7 +189,7 @@ function generateShopPod(tier) {
       }
     } else {
       // Mixed pods: random types
-      type = randomTokenType();
+      type = randomTokenType(encounterNumber);
     }
 
     tokenDefs.push({ type, rank });
@@ -205,7 +218,7 @@ export function generateShopPods(encounterNumber, count = 4) {
   const pods = [];
 
   for (let i = 0; i < count; i++) {
-    pods.push(generateShopPod(tier));
+    pods.push(generateShopPod(tier, encounterNumber));
   }
 
   return pods;
