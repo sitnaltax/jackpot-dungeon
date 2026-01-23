@@ -59,9 +59,11 @@ export const TOKEN_TYPES = {
     minDepth: 2,
     weight: 1,
     getValue: (token, allDrawnTokens) => {
-      const base = getTokenValue(token);
+      const typeData = TOKEN_TYPES[token.type];
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const hasKey = allDrawnTokens.some(t => t.type === 'key');
-      return { composure: hasKey ? base + 2 : base };
+      const bonus = hasKey ? 2 : 0;
+      return { composure: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
   key: {
@@ -72,9 +74,11 @@ export const TOKEN_TYPES = {
     minDepth: 2,
     weight: 1,
     getValue: (token, allDrawnTokens) => {
-      const base = getTokenValue(token);
+      const typeData = TOKEN_TYPES[token.type];
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const hasLock = allDrawnTokens.some(t => t.type === 'lock');
-      return { insight: hasLock ? base + 2 : base };
+      const bonus = hasLock ? 2 : 0;
+      return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
 };
