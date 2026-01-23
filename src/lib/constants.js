@@ -54,7 +54,7 @@ export const TOKEN_TYPES = {
   lock: {
     name: 'Lock',
     icon: '🔒',
-    color: '#8b7355',
+    color: '#3498db',
     baseValue: 4,
     minDepth: 2,
     weight: 1,
@@ -69,7 +69,7 @@ export const TOKEN_TYPES = {
   key: {
     name: 'Key',
     icon: '🔑',
-    color: '#daa520',
+    color: '#e74c3c',
     baseValue: 4,
     minDepth: 2,
     weight: 1,
