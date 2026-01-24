@@ -34,6 +34,26 @@ export const combatResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
 
+// Token inspection modal state
+// inspectedToken: the token being inspected
+// inspectionContext: array of all drawn tokens (for synergy display), or null if not in combat
+// inspectionSelectable: whether the token can be selected for redraw
+export const inspectedToken = writable(null);
+export const inspectionContext = writable(null);
+export const inspectionSelectable = writable(false);
+
+export function inspectToken(token, context = null, selectable = false) {
+  inspectedToken.set(token);
+  inspectionContext.set(context);
+  inspectionSelectable.set(selectable);
+}
+
+export function closeInspection() {
+  inspectedToken.set(null);
+  inspectionContext.set(null);
+  inspectionSelectable.set(false);
+}
+
 // Derived stores
 export const allTokens = derived(player, ($player) => {
   return $player.pods.flatMap(pod => pod.tokens);

@@ -9,7 +9,10 @@
   import PodDisplay from './components/PodDisplay.svelte';
   import Shop from './components/Shop.svelte';
   import GameOver from './components/GameOver.svelte';
+  import TokenDetailModal from './components/TokenDetailModal.svelte';
 </script>
+
+<TokenDetailModal />
 
 <main>
   {#if $gamePhase === PHASES.START}

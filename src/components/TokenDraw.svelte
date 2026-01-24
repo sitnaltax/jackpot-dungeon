@@ -19,9 +19,7 @@
 
 <div class="token-draw">
   <h3>Drawn Tokens</h3>
-  {#if canSelectiveRedraw}
-    <p class="hint">Click tokens to select them for redraw</p>
-  {/if}
+  <p class="hint">Click tokens for details{canSelectiveRedraw ? ' \u2022 Use checkboxes to select for redraw' : ''}</p>
 
   <div class="drawn-tokens">
     {#each $drawnTokens as token (token.id)}
@@ -31,6 +29,7 @@
         selectable={canSelectiveRedraw}
         selected={$selectedTokensForRedraw.has(token.id)}
         onSelect={toggleTokenSelection}
+        context={$drawnTokens}
       />
     {/each}
   </div>
