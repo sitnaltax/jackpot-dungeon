@@ -56,12 +56,12 @@
     switch (token.type) {
       case 'insight':
         return 'Contributes to Insight, helping you perceive the fey\'s true nature.';
-      case 'composure':
-        return 'Contributes to Composure, helping you withstand bewilderment.';
+      case 'resolve':
+        return 'Contributes to Resolve, helping you withstand trouble.';
       case 'treasure':
         return 'Adds directly to treasure gained from the encounter.';
       case 'lock':
-        return 'Contributes to Composure. Gains a bonus when drawn with a Key.';
+        return 'Contributes to Resolve. Gains a bonus when drawn with a Key.';
       case 'key':
         return 'Contributes to Insight. Gains a bonus when drawn with a Lock.';
       default:

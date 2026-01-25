@@ -51,8 +51,8 @@ function calculateMystery(encounterNumber) {
   return Math.floor(base + linear + exponential);
 }
 
-function calculateBewilderment(encounterNumber) {
-  // Bewilderment level - what composure must withstand
+function calculateTrouble(encounterNumber) {
+  // Trouble level - what resolve must withstand
   // Slightly lower than mystery to give players breathing room early
   // Encounter 1: 5, 5: 9, 10: 16, 15: 26, 20: 40
   const base = 4;
@@ -75,7 +75,7 @@ export function generateEncounter(encounterNumber) {
   return {
     name: generateEncounterName(encounterNumber),
     mystery: calculateMystery(encounterNumber),
-    bewilderment: calculateBewilderment(encounterNumber),
+    trouble: calculateTrouble(encounterNumber),
     treasureReward: calculateTreasureReward(encounterNumber),
     level: encounterNumber,
   };
@@ -88,7 +88,7 @@ export function previewScaling(maxEncounter = 25) {
     preview.push({
       encounter: i,
       mystery: calculateMystery(i),
-      bewilderment: calculateBewilderment(i),
+      trouble: calculateTrouble(i),
       reward: calculateTreasureReward(i),
     });
   }

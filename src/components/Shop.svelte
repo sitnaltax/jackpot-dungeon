@@ -53,7 +53,7 @@
   </div>
 
   <button class="btn btn-secondary" on:click={skipShop}>
-    Skip Shop →
+    Done Shopping →
   </button>
 </div>
 

@@ -10,8 +10,42 @@
     confirmDraw
   } from '../lib/gameState.js';
   import { calculateDrawTotals } from '../lib/combat.js';
+  import { TOKEN_TYPES, getTokenValue } from '../lib/constants.js';
   import Token from './Token.svelte';
 
+  const STAT_PRIORITY = { insight: 0, resolve: 1, treasure: 2 };
+
+  // Get the primary stat and value a token contributes in context
+  function getTokenContribution(token, allTokens) {
+    const typeData = TOKEN_TYPES[token.type];
+
+    if (typeData.getValue) {
+      const contributions = typeData.getValue(token, allTokens);
+      // Get the first (primary) stat contribution
+      const [stat, value] = Object.entries(contributions)[0];
+      return { stat, value };
+    }
+
+    // Default: contributes to its own type
+    return { stat: token.type, value: getTokenValue(token) };
+  }
+
+  // Sort tokens by stat priority (insight > resolve > treasure), then by value descending
+  function sortTokens(tokens) {
+    return [...tokens].sort((a, b) => {
+      const contribA = getTokenContribution(a, tokens);
+      const contribB = getTokenContribution(b, tokens);
+
+      // First sort by stat priority
+      const priorityDiff = STAT_PRIORITY[contribA.stat] - STAT_PRIORITY[contribB.stat];
+      if (priorityDiff !== 0) return priorityDiff;
+
+      // Then by value descending
+      return contribB.value - contribA.value;
+    });
+  }
+
+  $: sortedTokens = sortTokens($drawnTokens);
   $: totals = calculateDrawTotals($drawnTokens);
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
@@ -22,7 +56,7 @@
   <p class="hint">Click tokens for details{canSelectiveRedraw ? ' \u2022 Use checkboxes to select for redraw' : ''}</p>
 
   <div class="drawn-tokens">
-    {#each $drawnTokens as token (token.id)}
+    {#each sortedTokens as token (token.id)}
       <Token
         {token}
         size="large"
@@ -39,9 +73,9 @@
       <span class="total-label">Insight</span>
       <span class="total-value">👁️ {totals.insight}</span>
     </div>
-    <div class="total composure">
-      <span class="total-label">Composure</span>
-      <span class="total-value">💭 {totals.composure}</span>
+    <div class="total resolve">
+      <span class="total-label">Resolve</span>
+      <span class="total-value">💭 {totals.resolve}</span>
     </div>
     <div class="total treasure">
       <span class="total-label">Treasure</span>
@@ -130,7 +164,7 @@
     color: #e74c3c;
   }
 
-  .total.composure .total-value {
+  .total.resolve .total-value {
     color: #3498db;
   }
 

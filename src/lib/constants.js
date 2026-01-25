@@ -10,8 +10,8 @@ export const CONFIG = {
   startingTreasure: 10,
 
   // Combat settings
-  composureFailFlat: 5,      // Flat stamina loss for failing composure check
-  composureFailScale: 1.5,   // Additional stamina loss per point of deficiency
+  resolveFailFlat: 5,      // Flat stamina loss for failing resolve check
+  resolveFailScale: 1.5,   // Additional stamina loss per point of deficiency
 
   // Redraw settings
   redrawsPerEncounter: 1,           // Number of full redraws allowed
@@ -49,7 +49,7 @@ export function getTokenValue(token) {
 // - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
 export const TOKEN_TYPES = {
   insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
-  composure: { name: 'Composure', icon: '💭', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
+  resolve: { name: 'Resolve', icon: '💭', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
   treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
   lock: {
     name: 'Lock',
@@ -63,7 +63,7 @@ export const TOKEN_TYPES = {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const hasKey = allDrawnTokens.some(t => t.type === 'key');
       const bonus = hasKey ? 2 : 0;
-      return { composure: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
+      return { resolve: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
   key: {

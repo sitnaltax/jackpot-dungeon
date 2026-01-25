@@ -13,8 +13,8 @@
       </div>
       <div class="stat">
         <span class="stat-icon">🌀</span>
-        <span class="stat-label">Bewilderment</span>
-        <span class="stat-value bewilderment">{$currentEncounter.bewilderment}</span>
+        <span class="stat-label">Trouble</span>
+        <span class="stat-value trouble">{$currentEncounter.trouble}</span>
       </div>
       <div class="stat">
         <span class="stat-icon">💰</span>
@@ -74,7 +74,7 @@
     color: #e74c3c;
   }
 
-  .stat-value.bewilderment {
+  .stat-value.trouble {
     color: #3498db;
   }
 

@@ -6,7 +6,7 @@ import { CONFIG, TOKEN_TYPES, getEffectiveValue } from './constants.js';
 export function calculateDrawTotals(drawnTokens) {
   const totals = {
     insight: 0,
-    composure: 0,
+    resolve: 0,
     treasure: 0,
   };
 
@@ -41,9 +41,9 @@ export function resolveCombat(drawnTokens, encounter) {
     staminaLost: 0,
     treasureGained: totals.treasure,
     insightSuccess: false,
-    composureSuccess: false,
+    resolveSuccess: false,
     insightSurplus: 0,
-    composureDeficiency: 0,
+    resolveDeficiency: 0,
   };
 
   // Insight resolution - can you perceive the fey's nature?
@@ -54,14 +54,14 @@ export function resolveCombat(drawnTokens, encounter) {
     result.treasureGained += encounter.treasureReward;
   }
 
-  // Composure resolution - can you withstand the bewilderment?
-  if (totals.composure >= encounter.bewilderment) {
-    result.composureSuccess = true;
+  // Resolve resolution - can you withstand the trouble?
+  if (totals.resolve >= encounter.trouble) {
+    result.resolveSuccess = true;
   } else {
-    result.composureDeficiency = encounter.bewilderment - totals.composure;
+    result.resolveDeficiency = encounter.trouble - totals.resolve;
     // Flat penalty + scaling stamina loss based on deficiency
     result.staminaLost = Math.floor(
-      CONFIG.composureFailFlat + (result.composureDeficiency * CONFIG.composureFailScale)
+      CONFIG.resolveFailFlat + (result.resolveDeficiency * CONFIG.resolveFailScale)
     );
   }
 
@@ -82,12 +82,12 @@ export function getCombatSummary(result) {
     lines.push(`✗ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - Hidden`);
   }
 
-  // Composure summary
-  if (result.composureSuccess) {
-    lines.push(`✓ Composure: ${result.totals.composure} vs ${result.encounter.bewilderment} Bewilderment - Steady!`);
+  // Resolve summary
+  if (result.resolveSuccess) {
+    lines.push(`✓ Resolve: ${result.totals.resolve} vs ${result.encounter.trouble} Trouble - Steady!`);
   } else {
-    lines.push(`✗ Composure: ${result.totals.composure} vs ${result.encounter.bewilderment} Bewilderment - SHAKEN`);
-    lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.composureFailFlat} flat + ${result.composureDeficiency} × ${CONFIG.composureFailScale})`);
+    lines.push(`✗ Resolve: ${result.totals.resolve} vs ${result.encounter.trouble} Trouble - SHAKEN`);
+    lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.resolveFailFlat} flat + ${result.resolveDeficiency} × ${CONFIG.resolveFailScale})`);
   }
 
   // Treasure summary
