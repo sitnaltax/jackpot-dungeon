@@ -43,9 +43,15 @@ export function getTokenValue(token) {
   return Math.floor(typeData.baseValue * rankData.multiplier);
 }
 
+// Helper to count tokens with a specific tag in a draw
+export function countTokensWithTag(tag, allDrawnTokens) {
+  return allDrawnTokens.filter(t => TOKEN_TYPES[t.type].tags?.includes(tag)).length;
+}
+
 // Token types with base values
 // - minDepth: minimum encounter number for this token to appear in shops (default: 0)
 // - weight: relative probability weight for random selection (default: 1)
+// - tags: optional array of tags for synergy groupings (e.g., ['Celestial'])
 // - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
 export const TOKEN_TYPES = {
   insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
@@ -79,6 +85,51 @@ export const TOKEN_TYPES = {
       const hasLock = allDrawnTokens.some(t => t.type === 'lock');
       const bonus = hasLock ? 2 : 0;
       return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
+    },
+  },
+  scorpio: {
+    name: 'Scorpio',
+    icon: '♏',
+    color: '#e74c3c',
+    baseValue: 3,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
+      return { insight: Math.floor((3 + celestialCount) * rankMultiplier) };
+    },
+  },
+  capricorn: {
+    name: 'Capricorn',
+    icon: '♑',
+    color: '#3498db',
+    baseValue: 2,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
+      return { resolve: Math.floor((2 + celestialCount) * rankMultiplier) };
+    },
+  },
+  taurus: {
+    name: 'Taurus',
+    icon: '♉',
+    color: '#f1c40f',
+    baseValue: 3,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
+      return {
+        treasure: Math.floor((3 + celestialCount) * rankMultiplier),
+        insight: Math.floor(1 * rankMultiplier),
+      };
     },
   },
 };

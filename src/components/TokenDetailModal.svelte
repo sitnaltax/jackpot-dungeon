@@ -64,6 +64,12 @@
         return 'Contributes to Resolve. Gains a bonus when drawn with a Key.';
       case 'key':
         return 'Contributes to Insight. Gains a bonus when drawn with a Lock.';
+      case 'scorpio':
+        return 'Contributes to Insight. Gains +1 for each Celestial token drawn.';
+      case 'capricorn':
+        return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
+      case 'taurus':
+        return 'Contributes to Treasure and Insight. Gains +1 Treasure for each Celestial token drawn.';
       default:
         return '';
     }
@@ -93,9 +99,16 @@
         <span class="token-icon">{typeData.icon}</span>
         <div class="token-title">
           <h2>{typeData.name}</h2>
-          {#if token.rank !== 'basic'}
-            <span class="rank-badge">{rankData.name}</span>
-          {/if}
+          <div class="badges">
+            {#if token.rank !== 'basic'}
+              <span class="rank-badge">{rankData.name}</span>
+            {/if}
+            {#if typeData.tags}
+              {#each typeData.tags as tag}
+                <span class="tag-badge">{tag}</span>
+              {/each}
+            {/if}
+          </div>
         </div>
       </div>
 
@@ -201,6 +214,13 @@
     font-size: 1.5rem;
   }
 
+  .badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
   .rank-badge {
     display: inline-block;
     background: var(--rank-color);
@@ -209,7 +229,16 @@
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: bold;
-    margin-top: 0.25rem;
+  }
+
+  .tag-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
   }
 
   .description {
