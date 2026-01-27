@@ -12,7 +12,7 @@
     </div>
     <div class="stat">
       <span class="label">Final Treasure</span>
-      <span class="value">💰 {$player.treasure}</span>
+      <span class="value">$ {$player.treasure}</span>
     </div>
   </div>
 

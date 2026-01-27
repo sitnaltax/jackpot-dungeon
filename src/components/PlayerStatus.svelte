@@ -21,7 +21,7 @@
 
   <div class="stat">
     <span class="label">Treasure</span>
-    <span class="value treasure">💰 {$player.treasure}</span>
+    <span class="value treasure">${$player.treasure}</span>
   </div>
 </div>
 

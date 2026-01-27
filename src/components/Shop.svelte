@@ -1,22 +1,26 @@
 <script>
-  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop } from '../lib/gameState.js';
+  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop } from '../lib/gameState.js';
   import { clonePodTemplate } from '../lib/pods.js';
   import Pod from './Pod.svelte';
   import PodDisplay from './PodDisplay.svelte';
 
-  function handlePurchase(podTemplate) {
-    purchasePod(podTemplate);
+  function handlePurchase(podTemplate, index) {
+    purchasePod(podTemplate, index);
   }
 
+  const refreshCost = 1;
+
   $: canAfford = (cost) => $player.treasure >= cost;
-  $: canPurchase = (cost) => canAfford(cost) && $selectedPodToReplace !== null;
+  $: isPurchased = (index) => $purchasedShopPods.has(index);
+  $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);
+  $: canRefresh = $player.treasure >= refreshCost;
 </script>
 
 <div class="shop">
   <div class="shop-header">
     <h2>🏪 Shop</h2>
     <div class="treasure-display">
-      💰 {$player.treasure}
+      ${$player.treasure}
     </div>
   </div>
 
@@ -25,17 +29,28 @@
   </p>
 
   <div class="shop-section">
-    <h3>Available Pods</h3>
+    <div class="section-header">
+      <h3>Available Pods</h3>
+      <button
+        class="btn btn-refresh"
+        disabled={!canRefresh}
+        on:click={refreshShop}
+      >
+        🔄 Refresh (${refreshCost})
+      </button>
+    </div>
     <div class="shop-pods">
       {#each $shopPods as podTemplate, index}
-        <div class="shop-pod-wrapper">
+        <div class="shop-pod-wrapper" class:sold={isPurchased(index)}>
           <Pod pod={{ id: `preview-${index}`, cost: podTemplate.cost, tokens: podTemplate.tokenDefs.map((t, i) => ({ ...t, id: `preview-${index}-${i}`, rank: t.rank || 'basic' })) }} showCost={true} />
           <button
             class="btn btn-purchase"
-            disabled={!canPurchase(podTemplate.cost)}
-            on:click={() => handlePurchase(podTemplate)}
+            disabled={!canPurchase(podTemplate.cost, index)}
+            on:click={() => handlePurchase(podTemplate, index)}
           >
-            {#if !canAfford(podTemplate.cost)}
+            {#if isPurchased(index)}
+              Sold
+            {:else if !canAfford(podTemplate.cost)}
               Can't Afford
             {:else if !$selectedPodToReplace}
               Select Pod First
@@ -95,12 +110,29 @@
     gap: 1rem;
   }
 
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .shop-section h3 {
     margin: 0;
     font-size: 1rem;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+  }
+
+  .btn-refresh {
+    background: #27ae60;
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .btn-refresh:hover:not(:disabled) {
+    background: #219a52;
   }
 
   .shop-pods {
@@ -113,6 +145,10 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .shop-pod-wrapper.sold {
+    opacity: 0.5;
   }
 
   .btn {

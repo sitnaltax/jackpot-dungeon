@@ -33,6 +33,7 @@ export const selectedTokensForRedraw = writable(new Set());
 export const combatResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
+export const purchasedShopPods = writable(new Set());
 
 // Token inspection modal state
 // inspectedToken: the token being inspected
@@ -196,6 +197,7 @@ export function proceedToShop() {
 
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
+  purchasedShopPods.set(new Set());
   gamePhase.set(PHASES.SHOP);
 }
 
@@ -208,13 +210,15 @@ export function selectPodToReplace(podId) {
   }
 }
 
-export function purchasePod(podTemplate) {
+export function purchasePod(podTemplate, shopIndex) {
   const $player = get(player);
   const $selectedPod = get(selectedPodToReplace);
+  const $purchasedShopPods = get(purchasedShopPods);
 
-  // Check if we can afford it and have selected a pod to replace
+  // Check if we can afford it, have selected a pod to replace, and pod isn't already purchased
   if ($player.treasure < podTemplate.cost) return;
   if (!$selectedPod) return;
+  if ($purchasedShopPods.has(shopIndex)) return;
 
   // Create new pod from template
   const newPod = clonePodTemplate(podTemplate);
@@ -228,7 +232,33 @@ export function purchasePod(podTemplate) {
     ),
   }));
 
+  // Mark this shop pod as purchased
+  purchasedShopPods.update(set => {
+    const newSet = new Set(set);
+    newSet.add(shopIndex);
+    return newSet;
+  });
+
   selectedPodToReplace.set(null);
+}
+
+export function refreshShop() {
+  const $player = get(player);
+  const refreshCost = 1;
+
+  if ($player.treasure < refreshCost) return;
+
+  const encNum = get(encounterNumber);
+  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+
+  player.update(p => ({
+    ...p,
+    treasure: p.treasure - refreshCost,
+  }));
+
+  shopPods.set(generatedPods);
+  selectedPodToReplace.set(null);
+  purchasedShopPods.set(new Set());
 }
 
 export function skipShop() {

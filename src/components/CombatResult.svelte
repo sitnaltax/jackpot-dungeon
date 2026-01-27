@@ -24,7 +24,7 @@
         </div>
       {/if}
       <div class="treasure-gained">
-        +{$combatResult.treasureGained} 💰
+        +{$combatResult.treasureGained} $
       </div>
     </div>
 

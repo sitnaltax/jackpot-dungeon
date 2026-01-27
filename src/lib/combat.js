@@ -91,7 +91,7 @@ export function getCombatSummary(result) {
   }
 
   // Treasure summary
-  lines.push(`💰 Treasure: +${result.treasureGained}`);
+  lines.push(`$ Treasure: +${result.treasureGained}`);
   if (result.revealed) {
     lines.push(`  (${result.totals.treasure} from tokens + ${result.encounter.treasureReward} bonus)`);
   }
