@@ -36,7 +36,7 @@
         disabled={!canRefresh}
         on:click={refreshShop}
       >
-        🔄 Refresh (${refreshCost})
+        Refresh (${refreshCost})
       </button>
     </div>
     <div class="shop-pods">
