@@ -132,6 +132,25 @@ export const TOKEN_TYPES = {
       };
     },
   },
+  libra: {
+    name: 'Libra',
+    icon: '♎',
+    color: '#9b59b6',
+    baseValue: 0,
+    minDepth: 5,
+    weight: 0.5,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const otherCelestials = countTokensWithTag('Celestial', allDrawnTokens) - 1;
+      const bonus = Math.max(0, otherCelestials);
+      return {
+        insight: Math.floor(bonus * rankMultiplier),
+        resolve: Math.floor(bonus * rankMultiplier),
+        treasure: Math.floor(bonus * rankMultiplier),
+      };
+    },
+  },
 };
 
 // Alias for backwards compatibility

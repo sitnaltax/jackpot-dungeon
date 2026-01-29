@@ -70,6 +70,8 @@
         return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
       case 'taurus':
         return 'Contributes to Treasure and Insight. Gains +1 Treasure for each Celestial token drawn.';
+      case 'libra':
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Celestial token drawn.';
       default:
         return '';
     }
