@@ -26,6 +26,9 @@
       <div class="treasure-gained">
         +{$combatResult.treasureGained} $
       </div>
+      <div class="xp-gained">
+        +{$combatResult.xpGained} XP
+      </div>
     </div>
 
     <button class="btn btn-primary" on:click={proceedToShop}>
@@ -91,6 +94,10 @@
 
   .treasure-gained {
     color: #f1c40f;
+  }
+
+  .xp-gained {
+    color: #9b59b6;
   }
 
   .btn {

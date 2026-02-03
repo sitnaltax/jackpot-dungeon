@@ -14,6 +14,10 @@
       <span class="label">Final Treasure</span>
       <span class="value">$ {$player.treasure}</span>
     </div>
+    <div class="stat">
+      <span class="label">Total XP</span>
+      <span class="value xp">{$player.xp}</span>
+    </div>
   </div>
 
   <button class="btn btn-primary" on:click={restartGame}>
@@ -60,6 +64,10 @@
   .value {
     font-size: 2rem;
     font-weight: bold;
+  }
+
+  .value.xp {
+    color: #9b59b6;
   }
 
   .btn {

@@ -23,6 +23,11 @@
     <span class="label">Treasure</span>
     <span class="value treasure">${$player.treasure}</span>
   </div>
+
+  <div class="stat">
+    <span class="label">XP</span>
+    <span class="value xp">{$player.xp}</span>
+  </div>
 </div>
 
 <style>
@@ -56,6 +61,10 @@
 
   .treasure {
     color: #f1c40f;
+  }
+
+  .xp {
+    color: #9b59b6;
   }
 
   .stamina-stat {

@@ -23,6 +23,7 @@ export const player = writable({
   stamina: CONFIG.startingStamina,
   maxStamina: CONFIG.startingStamina,
   treasure: CONFIG.startingTreasure,
+  xp: 0,
 });
 export const currentEncounter = writable(null);
 export const drawnTokens = writable([]);
@@ -73,6 +74,7 @@ export function startNewGame() {
     stamina: CONFIG.startingStamina,
     maxStamina: CONFIG.startingStamina,
     treasure: CONFIG.startingTreasure,
+    xp: 0,
   });
 
   encounterNumber.set(0);
@@ -173,6 +175,10 @@ export function executeCombat() {
   const $encounter = get(currentEncounter);
 
   const result = resolveCombat($drawnTokens, $encounter);
+
+  // Award XP: 3 if insight success, 1 otherwise
+  result.xpGained = result.insightSuccess ? 3 : 1;
+
   combatResult.set(result);
 
   // Apply results to player
@@ -180,6 +186,7 @@ export function executeCombat() {
     ...p,
     stamina: Math.max(0, p.stamina - result.staminaLost),
     treasure: p.treasure + result.treasureGained,
+    xp: p.xp + result.xpGained,
   }));
 
   // Check for game over
