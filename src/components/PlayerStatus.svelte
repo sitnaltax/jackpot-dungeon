@@ -1,8 +1,18 @@
 <script>
-  import { player, encounterNumber } from '../lib/gameState.js';
+  import { player, encounterNumber, inspectEquipment } from '../lib/gameState.js';
+  import { EQUIPMENT_SLOTS } from '../lib/constants.js';
 
   $: staminaPercent = ($player.stamina / $player.maxStamina) * 100;
   $: staminaColor = staminaPercent > 50 ? '#2ecc71' : staminaPercent > 25 ? '#f39c12' : '#e74c3c';
+
+  // Ensure equipment array has correct number of slots
+  $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
+
+  function handleEquipmentClick(item) {
+    if (item) {
+      inspectEquipment(item);
+    }
+  }
 </script>
 
 <div class="player-status">
@@ -27,6 +37,26 @@
   <div class="stat">
     <span class="label">XP</span>
     <span class="value xp">{$player.xp}</span>
+  </div>
+
+  <div class="stat equipment-stat">
+    <span class="label">Equipment</span>
+    <div class="equipment-slots">
+      {#each equipmentSlots as item}
+        <div
+          class="equipment-slot"
+          class:empty={!item}
+          class:clickable={!!item}
+          title={item ? item.name : 'Empty slot'}
+          on:click={() => handleEquipmentClick(item)}
+          on:keydown={(e) => e.key === 'Enter' && handleEquipmentClick(item)}
+          role={item ? 'button' : 'presentation'}
+          tabindex={item ? 0 : -1}
+        >
+          {item ? item.icon : ''}
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -93,5 +123,39 @@
     font-size: 0.875rem;
     font-weight: bold;
     text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  }
+
+  .equipment-slots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .equipment-slot {
+    width: 32px;
+    height: 32px;
+    background: #2c3e50;
+    border: 2px solid #4a6785;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .equipment-slot.clickable {
+    cursor: pointer;
+  }
+
+  .equipment-slot.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #e5c07b;
+  }
+
+  .equipment-slot.empty {
+    border-style: dashed;
+    border-color: #555;
+    cursor: default;
   }
 </style>

@@ -1,7 +1,7 @@
 // Svelte stores for reactive game state
 
 import { writable, derived, get } from 'svelte/store';
-import { CONFIG } from './constants.js';
+import { CONFIG, STARTING_EQUIPMENT } from './constants.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods } from './pods.js';
 import { generateEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
@@ -24,6 +24,7 @@ export const player = writable({
   maxStamina: CONFIG.startingStamina,
   treasure: CONFIG.startingTreasure,
   xp: 0,
+  equipment: [...STARTING_EQUIPMENT],
 });
 export const currentEncounter = writable(null);
 export const drawnTokens = writable([]);
@@ -56,6 +57,38 @@ export function closeInspection() {
   inspectionSelectable.set(false);
 }
 
+// Equipment inspection modal state
+export const inspectedEquipment = writable(null);
+
+export function inspectEquipment(equipment) {
+  inspectedEquipment.set(equipment);
+}
+
+export function closeEquipmentInspection() {
+  inspectedEquipment.set(null);
+}
+
+// Helper to calculate total redraws from equipment
+function getEquipmentBonuses(equipment) {
+  const bonuses = {
+    redraws: 0,
+    selectiveRedraws: 0,
+  };
+
+  for (const item of equipment) {
+    if (item && item.bonuses) {
+      if (item.bonuses.redraws) {
+        bonuses.redraws += item.bonuses.redraws;
+      }
+      if (item.bonuses.selectiveRedraws) {
+        bonuses.selectiveRedraws += item.bonuses.selectiveRedraws;
+      }
+    }
+  }
+
+  return bonuses;
+}
+
 // Derived stores
 export const allTokens = derived(player, ($player) => {
   return $player.pods.flatMap(pod => pod.tokens);
@@ -75,6 +108,7 @@ export function startNewGame() {
     maxStamina: CONFIG.startingStamina,
     treasure: CONFIG.startingTreasure,
     xp: 0,
+    equipment: [...STARTING_EQUIPMENT],
   });
 
   encounterNumber.set(0);
@@ -90,9 +124,13 @@ export function startNextEncounter() {
   const encounter = generateEncounter(encNum);
   currentEncounter.set(encounter);
 
-  // Reset draw state
-  redrawsRemaining.set(CONFIG.redrawsPerEncounter);
-  selectiveRedrawsRemaining.set(CONFIG.selectiveRedrawsPerEncounter);
+  // Calculate redraws from equipment
+  const $player = get(player);
+  const equipmentBonuses = getEquipmentBonuses($player.equipment);
+
+  // Reset draw state with equipment bonuses
+  redrawsRemaining.set(CONFIG.redrawsPerEncounter + equipmentBonuses.redraws);
+  selectiveRedrawsRemaining.set(CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws);
   selectedTokensForRedraw.set(new Set());
   combatResult.set(null);
 

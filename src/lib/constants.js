@@ -13,9 +13,9 @@ export const CONFIG = {
   resolveFailFlat: 5,      // Flat stamina loss for failing resolve check
   resolveFailScale: 1.5,   // Additional stamina loss per point of deficiency
 
-  // Redraw settings
-  redrawsPerEncounter: 1,           // Number of full redraws allowed
-  selectiveRedrawsPerEncounter: 1,  // Number of selective redraws (pick any tokens)
+  // Redraw settings (base values - equipment adds to these)
+  redrawsPerEncounter: 0,           // Number of full redraws allowed
+  selectiveRedrawsPerEncounter: 0,  // Number of selective redraws (pick any tokens)
 
   // Shop settings
   shopSize: 4,             // Number of pods offered in shop
@@ -155,3 +155,34 @@ export const TOKEN_TYPES = {
 
 // Alias for backwards compatibility
 export const getEffectiveValue = getTokenValue;
+
+// Equipment system
+export const EQUIPMENT_SLOTS = 3;
+
+export const EQUIPMENT = {
+  inheritedDiary: {
+    id: 'inheritedDiary',
+    name: 'Inherited Diary',
+    description: 'A worn journal passed down through generations, filled with cryptic notes.',
+    icon: '📔',
+    bonuses: {
+      selectiveRedraws: 1,
+    },
+  },
+  antiquePendant: {
+    id: 'antiquePendant',
+    name: 'Antique Pendant',
+    description: 'A tarnished silver pendant that hums with faint energy.',
+    icon: '📿',
+    bonuses: {
+      redraws: 1,
+    },
+  },
+};
+
+// Starting equipment for new games
+export const STARTING_EQUIPMENT = [
+  EQUIPMENT.inheritedDiary,
+  EQUIPMENT.antiquePendant,
+  null, // Empty slot
+];

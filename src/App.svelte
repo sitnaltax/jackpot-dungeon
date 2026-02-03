@@ -10,9 +10,11 @@
   import Shop from './components/Shop.svelte';
   import GameOver from './components/GameOver.svelte';
   import TokenDetailModal from './components/TokenDetailModal.svelte';
+  import EquipmentDetailModal from './components/EquipmentDetailModal.svelte';
 </script>
 
 <TokenDetailModal />
+<EquipmentDetailModal />
 
 <main>
   {#if $gamePhase === PHASES.START}
