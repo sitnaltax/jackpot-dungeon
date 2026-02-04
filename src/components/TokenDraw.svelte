@@ -4,6 +4,7 @@
     redrawsRemaining,
     selectiveRedrawsRemaining,
     selectedTokensForRedraw,
+    currentEncounter,
     redrawAll,
     toggleTokenSelection,
     redrawSelected,
@@ -49,6 +50,10 @@
   $: totals = calculateDrawTotals($drawnTokens);
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
+
+  // Check if thresholds are met
+  $: insightMet = $currentEncounter && totals.insight >= $currentEncounter.mystery;
+  $: resolveMet = $currentEncounter && totals.resolve >= $currentEncounter.trouble;
 </script>
 
 <div class="token-draw">
@@ -69,13 +74,19 @@
   </div>
 
   <div class="totals">
-    <div class="total insight">
+    <div class="total insight" class:met={insightMet}>
       <span class="total-label">Insight</span>
-      <span class="total-value">👁️ {totals.insight}</span>
+      <span class="total-value">
+        👁️ {totals.insight}
+        <span class="threshold-indicator" class:met={insightMet}>{insightMet ? '✓' : '✗'}</span>
+      </span>
     </div>
-    <div class="total resolve">
+    <div class="total resolve" class:met={resolveMet}>
       <span class="total-label">Resolve</span>
-      <span class="total-value">💭 {totals.resolve}</span>
+      <span class="total-value">
+        💭 {totals.resolve}
+        <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
+      </span>
     </div>
     <div class="total treasure">
       <span class="total-label">Treasure</span>
@@ -170,6 +181,16 @@
 
   .total.treasure .total-value {
     color: #f1c40f;
+  }
+
+  .threshold-indicator {
+    font-size: 0.875rem;
+    margin-left: 0.25rem;
+    color: #e74c3c;
+  }
+
+  .threshold-indicator.met {
+    color: #2ecc71;
   }
 
   .actions {

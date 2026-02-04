@@ -28,8 +28,8 @@ export const RANKS = {
   bronze: { name: 'Bronze', multiplier: 1.25, color: '#cd7f32' },
   silver: { name: 'Silver', multiplier: 1.5, color: '#c0c0c0' },
   gold: { name: 'Gold', multiplier: 1.75, color: '#ffd700' },
-  platinum: { name: 'Platinum', multiplier: 2, color: '#e5e4e2' },
-  diamond: { name: 'Diamond', multiplier: 2.5, color: '#b9f2ff' },
+  platinum: { name: 'Platinum', multiplier: 2, color: '#e2d2df' },
+  diamond: { name: 'Diamond', multiplier: 2.5, color: '#83e8ff' },
 };
 
 // Note: inferior is excluded - it only appears in starting pods
