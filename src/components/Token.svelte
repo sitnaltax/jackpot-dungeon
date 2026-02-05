@@ -13,6 +13,7 @@
   $: rankData = RANKS[token.rank];
   $: effectiveValue = getEffectiveValue(token);
   $: isUpgraded = token.rank !== 'basic';
+  $: borderEffect = typeData.borderEffect || null;
 
   function handleClick() {
     inspectToken(token, context, selectable);
@@ -30,7 +31,8 @@
   class="token {size}"
   class:upgraded={isUpgraded}
   class:selected
-  style="--type-color: {typeData.color}; --rank-color: {rankData.color}"
+  class:has-border-effect={borderEffect}
+  style="--type-color: {typeData.color}; --rank-color: {rankData.color}; --border-effect: {borderEffect || 'none'}"
   on:click={handleClick}
   on:keydown={(e) => e.key === 'Enter' && handleClick()}
   role="button"
@@ -68,6 +70,31 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .token.has-border-effect {
+    border: none;
+    background: var(--border-effect);
+    padding: 3px;
+  }
+
+  .token.has-border-effect::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: linear-gradient(135deg, #2a2a4a 0%, #1a1a2e 100%);
+    border-radius: 5px;
+    z-index: 0;
+  }
+
+  .token.has-border-effect .token-icon,
+  .token.has-border-effect .token-value {
+    position: relative;
+    z-index: 1;
+  }
+
+  .token.has-border-effect .token-rank {
+    z-index: 1;
+  }
+
   .token {
     cursor: pointer;
   }
@@ -81,6 +108,10 @@
     border-color: #e74c3c;
     box-shadow: 0 0 12px #e74c3c, inset 0 0 20px rgba(231, 76, 60, 0.2);
     transform: translateY(-4px);
+  }
+
+  .token.has-border-effect.selected {
+    box-shadow: 0 0 16px #e74c3c, 0 0 24px rgba(231, 76, 60, 0.5);
   }
 
   .token.small {

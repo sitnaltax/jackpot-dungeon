@@ -140,6 +140,7 @@ export const TOKEN_TYPES = {
     minDepth: 5,
     weight: 0.5,
     tags: ['Celestial'],
+    borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const otherCelestials = countTokensWithTag('Celestial', allDrawnTokens) - 1;
