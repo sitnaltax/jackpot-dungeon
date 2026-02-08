@@ -61,22 +61,12 @@ function calculateTrouble(encounterNumber) {
   return Math.floor(base + linear + exponential);
 }
 
-function calculateTreasureReward(encounterNumber) {
-  // Reward for defeating the encounter
-  // Encounter 1: 8, 5: 12, 10: 18, 15: 26, 20: 36
-  const base = 6;
-  const linear = encounterNumber * 1.5;
-  const bonus = Math.floor(encounterNumber / 5) * 2; // Bonus every 5 encounters
-  return Math.floor(base + linear + bonus);
-}
-
 // Generate an encounter for the given encounter number
 export function generateEncounter(encounterNumber) {
   return {
     name: generateEncounterName(encounterNumber),
     mystery: calculateMystery(encounterNumber),
     trouble: calculateTrouble(encounterNumber),
-    treasureReward: calculateTreasureReward(encounterNumber),
     level: encounterNumber,
   };
 }
@@ -85,11 +75,12 @@ export function generateEncounter(encounterNumber) {
 export function previewScaling(maxEncounter = 25) {
   const preview = [];
   for (let i = 1; i <= maxEncounter; i++) {
+    const mystery = calculateMystery(i);
     preview.push({
       encounter: i,
-      mystery: calculateMystery(i),
+      mystery,
       trouble: calculateTrouble(i),
-      reward: calculateTreasureReward(i),
+      reward: Math.ceiling(mystery / 2),
     });
   }
   return preview;

@@ -55,7 +55,7 @@
 
     switch (token.type) {
       case 'insight':
-        return 'Contributes to Insight, helping you perceive the fey\'s true nature.';
+        return 'Contributes to Insight, helping you gain rewards from encounters.';
       case 'resolve':
         return 'Contributes to Resolve, helping you withstand trouble.';
       case 'treasure':

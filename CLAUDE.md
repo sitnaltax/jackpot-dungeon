@@ -41,12 +41,12 @@ Pods contain 3 tokens. Starting pods use inferior/basic ranks. Shop pods scale w
 ### Combat Resolution (`src/lib/combat.js`)
 
 `resolveCombat(drawnTokens, encounter)` calculates totals and returns result:
-- Insight ≥ mystery → reveal bonus treasure
+- Insight ≥ mystery → reveal bonus treasure (half of mystery value)
 - Resolve < trouble → stamina loss (flat + scaled by deficiency)
 
 ### Encounter Scaling (`src/lib/encounters.js`)
 
-`generateEncounter(encounterNumber)` creates encounters with mystery/trouble/reward values that scale with formulas using linear + exponential growth.
+`generateEncounter(encounterNumber)` creates encounters with mystery/trouble values that scale with formulas using linear + exponential growth. Treasure reward is calculated as half the mystery value.
 
 ### Shop Generation (`src/lib/pods.js`)
 

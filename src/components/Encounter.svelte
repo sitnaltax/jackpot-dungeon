@@ -16,11 +16,6 @@
         <span class="stat-label">Trouble</span>
         <span class="stat-value trouble">{$currentEncounter.trouble}</span>
       </div>
-      <div class="stat">
-        <span class="stat-icon">💰</span>
-        <span class="stat-label">Reward</span>
-        <span class="stat-value treasure">{$currentEncounter.treasureReward}</span>
-      </div>
     </div>
   </div>
 {/if}
@@ -76,9 +71,5 @@
 
   .stat-value.trouble {
     color: #3498db;
-  }
-
-  .stat-value.treasure {
-    color: #f1c40f;
   }
 </style>

@@ -51,7 +51,8 @@ export function resolveCombat(drawnTokens, encounter) {
     result.revealed = true;
     result.insightSuccess = true;
     result.insightSurplus = totals.insight - encounter.mystery;
-    result.treasureGained += encounter.treasureReward;
+    // Treasure reward is half of the mystery value
+    result.treasureGained += Math.floor(encounter.mystery / 2);
   }
 
   // Resolve resolution - can you withstand the trouble?
@@ -93,7 +94,8 @@ export function getCombatSummary(result) {
   // Treasure summary
   lines.push(`$ Treasure: +${result.treasureGained}`);
   if (result.revealed) {
-    lines.push(`  (${result.totals.treasure} from tokens + ${result.encounter.treasureReward} bonus)`);
+    const mysteryBonus = Math.floor(result.encounter.mystery / 2);
+    lines.push(`  (${result.totals.treasure} from tokens + ${mysteryBonus} bonus)`);
   }
 
   return lines;
