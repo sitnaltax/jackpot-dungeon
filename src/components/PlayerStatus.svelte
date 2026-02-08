@@ -18,7 +18,7 @@
 <div class="player-status">
   <div class="stat">
     <span class="label">Depth</span>
-    <span class="value">#{$encounterNumber}</span>
+    <span class="value">{$encounterNumber}</span>
   </div>
 
   <div class="stat stamina-stat">

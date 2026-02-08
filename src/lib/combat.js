@@ -76,9 +76,6 @@ export function getCombatSummary(result) {
   // Insight summary
   if (result.insightSuccess) {
     lines.push(`✓ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - REVEALED!`);
-    if (result.insightSurplus > 0) {
-      lines.push(`  Surplus: +${result.insightSurplus}`);
-    }
   } else {
     lines.push(`✗ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - Hidden`);
   }
@@ -95,7 +92,7 @@ export function getCombatSummary(result) {
   lines.push(`$ Treasure: +${result.treasureGained}`);
   if (result.revealed) {
     const mysteryBonus = Math.floor(result.encounter.mystery / 2);
-    lines.push(`  (${result.totals.treasure} from tokens + ${mysteryBonus} bonus)`);
+    lines.push(`  (${result.totals.treasure} from tokens + ${mysteryBonus} from mystery reveal)`);
   }
 
   return lines;

@@ -3,11 +3,7 @@
 </script>
 
 <div class="start-screen">
-  <h1>WyldDive</h1>
-
-  <p class="tagline">
-    Draw your fate. Build your fortune. Venture ever deeper.
-  </p>
+  <h1>Jacques' Quest</h1>
 
   <div class="how-to-play">
     <h3>How to Play</h3>
@@ -15,11 +11,10 @@
       <li>You have <strong>6 pods</strong>, each containing <strong>3 tokens</strong></li>
       <li>Each encounter, <strong>6 tokens</strong> are drawn randomly</li>
       <li>Tokens provide <strong>👁️ Insight</strong>, <strong>🛡️ Resolve</strong>, or <strong>💰 Treasure</strong></li>
-      <li>Match the encounter's <strong>mystery</strong> to gain XP and earn bonus treasure</li>
-      <li>Match the encounter's <strong>trouble</strong> to avoid losing stamina</li>
+      <li>Match the encounter's <strong>mystery</strong> with <strong>insight</strong> to gain XP and earn bonus treasure</li>
+      <li>Match the encounter's <strong>trouble</strong> with <strong>resolve</strong> to avoid losing stamina</li>
       <li>Spend treasure in the shop to upgrade your pods</li>
       <li>Spend XP in the shop to upgrade your equipment</li>
-      <li>Dive as deep as you can!</li>
     </ul>
   </div>
 
@@ -47,12 +42,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .tagline {
-    font-size: 1.25rem;
-    color: #888;
-    margin: 0;
   }
 
   .how-to-play {

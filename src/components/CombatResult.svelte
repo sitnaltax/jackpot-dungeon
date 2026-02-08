@@ -7,8 +7,6 @@
 
 {#if $combatResult}
   <div class="combat-result" class:revealed={$combatResult.revealed}>
-    <h2>{$combatResult.revealed ? '✨ Revealed!' : '🌫️ Still Hidden...'}</h2>
-
     <div class="result-details">
       {#each summary as line}
         <p class:success={line.startsWith('✓')} class:failure={line.startsWith('✗')}>

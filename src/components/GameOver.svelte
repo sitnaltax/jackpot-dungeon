@@ -3,7 +3,7 @@
 </script>
 
 <div class="game-over">
-  <h1>🌙 Lost in the Wyld</h1>
+  <h1>Defeated!</h1>
 
   <div class="stats">
     <div class="stat">
@@ -12,7 +12,7 @@
     </div>
     <div class="stat">
       <span class="label">Final Treasure</span>
-      <span class="value">$ {$player.treasure}</span>
+      <span class="value">${$player.treasure}</span>
     </div>
     <div class="stat">
       <span class="label">Total XP</span>

@@ -5,12 +5,9 @@
 {#if $currentEncounter}
   <div class="encounter">
     <div class="encounter-name">{$currentEncounter.name}</div>
-    {#if $currentEncounter.description}
-      <div class="encounter-effects">{$currentEncounter.description}</div>
-    {/if}
     <div class="encounter-stats">
       <div class="stat">
-        <span class="stat-icon">❓</span>
+        <span class="stat-icon">⁉️</span>
         <span class="stat-label">Mystery</span>
         <span class="stat-value mystery">{$currentEncounter.mystery}</span>
       </div>
