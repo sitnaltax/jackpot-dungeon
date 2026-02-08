@@ -40,25 +40,16 @@ function generateEncounterName(encounterNumber) {
   return encounter;
 }
 
-// Scaling formulas - adjust these for balance
 function calculateMystery(encounterNumber) {
-  // Mystery level - what insight must reveal
-  // Starts at ~8, scales up
-  // Encounter 1: 8, 5: 12, 10: 20, 15: 32, 20: 48
   const base = 6;
-  const linear = encounterNumber * 1.2;
-  const exponential = Math.pow(encounterNumber, 1.3) * 0.3;
-  return Math.floor(base + linear + exponential);
+  const linear = encounterNumber * 2;
+  return Math.floor(base + linear);
 }
 
 function calculateTrouble(encounterNumber) {
-  // Trouble level - what resolve must withstand
-  // Slightly lower than mystery to give players breathing room early
-  // Encounter 1: 5, 5: 9, 10: 16, 15: 26, 20: 40
-  const base = 4;
-  const linear = encounterNumber * 1.0;
-  const exponential = Math.pow(encounterNumber, 1.3) * 0.25;
-  return Math.floor(base + linear + exponential);
+  const base = 6;
+  const linear = encounterNumber * 2;
+  return Math.floor(base + linear);
 }
 
 // Generate an encounter for the given encounter number

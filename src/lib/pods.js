@@ -1,6 +1,6 @@
 // Pod and token definitions
 
-import { RANKS, RANK_ORDER, TOKEN_TYPES as TOKEN_TYPE_DATA } from './constants.js';
+import { RANKS, RANK_ORDER, TOKEN_BASE_COST, TOKEN_TYPES as TOKEN_TYPE_DATA } from './constants.js';
 
 let nextPodId = 1;
 let nextTokenId = 1;
@@ -198,11 +198,10 @@ function generateShopPod(tier, encounterNumber) {
   // Sort tokens by rank (highest first) for nicer display
   tokenDefs.sort((a, b) => RANK_ORDER.indexOf(b.rank) - RANK_ORDER.indexOf(a.rank));
 
-  // Calculate cost based on token values (base * multiplier)
+  // Calculate cost based on token values
   const tokenValueSum = tokenDefs.reduce((sum, t) => {
-    const baseValue = TOKEN_TYPE_DATA[t.type].baseValue;
-    const multiplier = RANKS[t.rank].multiplier;
-    return sum + Math.floor(baseValue * multiplier);
+    const baseValue = TOKEN_BASE_COST;
+    return sum + Math.floor(baseValue + RANKS[t.rank].cost);
   }, 0);
 
   // Add random factor: -10% to +20% of base cost

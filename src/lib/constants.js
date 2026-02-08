@@ -23,13 +23,13 @@ export const CONFIG = {
 
 // Rank system - multipliers applied to base token values
 export const RANKS = {
-  inferior: { name: 'Inferior', multiplier: 0.8, color: '#555' },
-  basic: { name: 'Basic', multiplier: 1, color: '#888' },
-  bronze: { name: 'Bronze', multiplier: 1.25, color: '#cd7f32' },
-  silver: { name: 'Silver', multiplier: 1.5, color: '#c0c0c0' },
-  gold: { name: 'Gold', multiplier: 1.75, color: '#ffd700' },
-  platinum: { name: 'Platinum', multiplier: 2, color: '#e2d2df' },
-  diamond: { name: 'Diamond', multiplier: 2.5, color: '#83e8ff' },
+  inferior: { name: 'Inferior', multiplier: 0.8, cost: 0, color: '#555' },
+  basic: { name: 'Basic', multiplier: 1, cost: 0, color: '#888' },
+  bronze: { name: 'Bronze', multiplier: 1.25, cost: 2, color: '#cd7f32' },
+  silver: { name: 'Silver', multiplier: 1.5, cost: 4, color: '#c0c0c0' },
+  gold: { name: 'Gold', multiplier: 1.75, cost: 6, color: '#ffd700' },
+  platinum: { name: 'Platinum', multiplier: 2, cost: 8, color: '#e2d2df' },
+  diamond: { name: 'Diamond', multiplier: 2.5, cost: 10, color: '#83e8ff' },
 };
 
 // Note: inferior is excluded - it only appears in starting pods
@@ -47,6 +47,8 @@ export function getTokenValue(token) {
 export function countTokensWithTag(tag, allDrawnTokens) {
   return allDrawnTokens.filter(t => TOKEN_TYPES[t.type].tags?.includes(tag)).length;
 }
+
+export const TOKEN_BASE_COST = 3;
 
 // Token types with base values
 // - minDepth: minimum encounter number for this token to appear in shops (default: 0)
