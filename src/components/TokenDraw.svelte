@@ -110,7 +110,7 @@
       Redraw Selected ({$selectiveRedrawsRemaining} left)
     </button>
     <button class="btn btn-primary" on:click={confirmDraw}>
-      Face the Fey
+      Good Enough
     </button>
   </div>
 </div>

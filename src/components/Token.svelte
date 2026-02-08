@@ -105,13 +105,12 @@
   }
 
   .token.selected {
-    border-color: #e74c3c;
-    box-shadow: 0 0 12px #e74c3c, inset 0 0 20px rgba(231, 76, 60, 0.2);
+    box-shadow: 0 0 12px #ffffff, inset 0 0 20px rgba(255, 255, 255, 0.2);
     transform: translateY(-4px);
   }
 
   .token.has-border-effect.selected {
-    box-shadow: 0 0 16px #e74c3c, 0 0 24px rgba(231, 76, 60, 0.5);
+    box-shadow: 0 0 16px #ffffff, 0 0 24px rgba(255, 255, 255, 0.5);
   }
 
   .token.small {
@@ -201,12 +200,13 @@
   }
 
   .select-checkbox:hover {
-    border-color: #e74c3c;
+    border-color: #ffffff;
     background: #2a2a4a;
   }
 
   .select-checkbox.checked {
-    background: #e74c3c;
-    border-color: #e74c3c;
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000;
   }
 </style>
