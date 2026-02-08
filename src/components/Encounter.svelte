@@ -7,7 +7,7 @@
     <div class="encounter-name">{$currentEncounter.name}</div>
     <div class="encounter-stats">
       <div class="stat">
-        <span class="stat-icon">👁️</span>
+        <span class="stat-icon">❓</span>
         <span class="stat-label">Mystery</span>
         <span class="stat-value mystery">{$currentEncounter.mystery}</span>
       </div>

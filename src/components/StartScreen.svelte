@@ -14,10 +14,11 @@
     <ul>
       <li>You have <strong>6 pods</strong>, each containing <strong>3 tokens</strong></li>
       <li>Each encounter, <strong>6 tokens</strong> are drawn randomly</li>
-      <li>Tokens provide <strong>👁️ Insight</strong>, <strong>💭 Resolve</strong>, or <strong>💰 Treasure</strong></li>
-      <li>Match the fey's <strong>mystery</strong> to reveal their nature and earn bonus treasure</li>
+      <li>Tokens provide <strong>👁️ Insight</strong>, <strong>🛡️ Resolve</strong>, or <strong>💰 Treasure</strong></li>
+      <li>Match the fey's <strong>mystery</strong> to gain XP and earn bonus treasure</li>
       <li>Match the fey's <strong>trouble</strong> to avoid losing stamina</li>
       <li>Spend treasure in the shop to upgrade your pods</li>
+      <li>Spend XP in the shop to upgrade your equipment</li>
       <li>Dive as deep as you can!</li>
     </ul>
   </div>

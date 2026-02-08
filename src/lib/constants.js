@@ -55,7 +55,7 @@ export function countTokensWithTag(tag, allDrawnTokens) {
 // - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
 export const TOKEN_TYPES = {
   insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
-  resolve: { name: 'Resolve', icon: '💭', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
+  resolve: { name: 'Resolve', icon: '🛡️', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
   treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
   lock: {
     name: 'Lock',
