@@ -124,13 +124,15 @@ export function startNextEncounter() {
   const encounter = generateEncounter(encNum);
   currentEncounter.set(encounter);
 
-  // Calculate redraws from equipment
+  // Calculate redraws from equipment and encounter bonuses
   const $player = get(player);
   const equipmentBonuses = getEquipmentBonuses($player.equipment);
+  const redrawBonus = encounter.redrawBonus || 0;
+  const selectiveBonus = encounter.selectiveRedrawBonus || 0;
 
-  // Reset draw state with equipment bonuses
-  redrawsRemaining.set(CONFIG.redrawsPerEncounter + equipmentBonuses.redraws);
-  selectiveRedrawsRemaining.set(CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws);
+  // Reset draw state with equipment and encounter bonuses
+  redrawsRemaining.set(Math.max(0, CONFIG.redrawsPerEncounter + equipmentBonuses.redraws + redrawBonus));
+  selectiveRedrawsRemaining.set(Math.max(0, CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws + selectiveBonus));
   selectedTokensForRedraw.set(new Set());
   combatResult.set(null);
 
@@ -215,7 +217,18 @@ export function executeCombat() {
   const result = resolveCombat($drawnTokens, $encounter);
 
   // Award XP: 3 if insight success, 1 otherwise
-  result.xpGained = result.insightSuccess ? 3 : 1;
+  const baseXp = result.insightSuccess ? 3 : 1;
+
+  // Apply encounter multipliers
+  const treasureMultiplier = $encounter.treasureMultiplier || 1.0;
+  const xpMultiplier = $encounter.xpMultiplier || 1.0;
+
+  result.baseTreasure = result.treasureGained;
+  result.baseXp = baseXp;
+  result.treasureMultiplier = treasureMultiplier;
+  result.xpMultiplier = xpMultiplier;
+  result.treasureGained = Math.floor(result.treasureGained * treasureMultiplier);
+  result.xpGained = Math.floor(baseXp * xpMultiplier);
 
   combatResult.set(result);
 

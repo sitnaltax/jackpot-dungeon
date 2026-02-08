@@ -5,6 +5,9 @@
 {#if $currentEncounter}
   <div class="encounter">
     <div class="encounter-name">{$currentEncounter.name}</div>
+    {#if $currentEncounter.description}
+      <div class="encounter-effects">{$currentEncounter.description}</div>
+    {/if}
     <div class="encounter-stats">
       <div class="stat">
         <span class="stat-icon">❓</span>
@@ -32,8 +35,15 @@
   .encounter-name {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: #e74c3c;
+  }
+
+  .encounter-effects {
+    font-size: 0.875rem;
+    color: #f1c40f;
+    font-style: italic;
+    margin-bottom: 1rem;
   }
 
   .encounter-stats {

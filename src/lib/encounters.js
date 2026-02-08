@@ -1,43 +1,388 @@
 // Encounter generation and scaling
 
-// Fey encounter name pools
-const FEY_PREFIXES = ['', 'Curious ', 'Mischievous ', 'Ancient ', 'Twilight ', 'Gleaming '];
-const FEY_ENCOUNTERS = [
-  // Tier 1 (encounters 1-5) - Minor Fey
-  ['Pixie Swarm', 'Will-o\'-Wisp', 'Talking Fox', 'Mirror Sprite', 'Mushroom Circle'],
-  // Tier 2 (encounters 6-10) - Lesser Fey
-  ['Dryad\'s Riddle', 'Selkie Bargain', 'Phooka\'s Game', 'Kelpie Crossing', 'Changeling Child'],
-  // Tier 3 (encounters 11-15) - Greater Fey
-  ['Erlking\'s Hunt', 'Banshee\'s Lament', 'Redcap\'s Challenge', 'Clurichaun\'s Wager', 'Spriggan Court'],
-  // Tier 4 (encounters 16-20) - Noble Fey
-  ['Sidhe Lord', 'Queen\'s Emissary', 'Wild Hunt Scout', 'Fomorian Elder', 'Leanan Sidhe'],
-  // Tier 5 (encounters 21+) - Archfey
-  ['The Erlking Himself', 'Queen of Air and Darkness', 'Lord of the Wild Hunt', 'The Green Man', 'Oberon\'s Shadow'],
+// Encounter definitions with modifiers
+const ENCOUNTERS = [
+  // Tier 1 (minLevel 1-5) - Minor Fey
+  {
+    id: 'pixie_swarm',
+    name: 'Pixie Swarm',
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: null,
+  },
+  {
+    id: 'will_o_wisp',
+    name: "Will-o'-Wisp",
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: 2,
+    troubleMod: -2,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Elusive but harmless',
+  },
+  {
+    id: 'talking_fox',
+    name: 'Talking Fox',
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: -1,
+    troubleMod: 1,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Easy to understand, tricky to please',
+  },
+  {
+    id: 'mirror_sprite',
+    name: 'Mirror Sprite',
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 0,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 0.75,
+    xpMultiplier: 1.0,
+    description: '+1 Redraw, -25% Treasure',
+  },
+  {
+    id: 'mushroom_circle',
+    name: 'Mushroom Circle',
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: 1,
+    troubleMod: 1,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.25,
+    xpMultiplier: 1.0,
+    description: 'Slightly harder, +25% Treasure',
+  },
+
+  // Tier 2 (minLevel 3-6) - Lesser Fey
+  {
+    id: 'riddle_stone',
+    name: 'Riddle Stone',
+    minLevel: 2,
+    weight: 1,
+    mysteryMod: 3,
+    troubleMod: 0,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.25,
+    xpMultiplier: 1.5,
+    description: '+1 Redraw, +25% Treasure, +50% XP',
+  },
+  {
+    id: 'dryads_riddle',
+    name: "Dryad's Riddle",
+    minLevel: 3,
+    weight: 1,
+    mysteryMod: 4,
+    troubleMod: -2,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.25,
+    description: '+1 Selective Redraw, +25% XP',
+  },
+  {
+    id: 'selkie_bargain',
+    name: 'Selkie Bargain',
+    minLevel: 3,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.5,
+    xpMultiplier: 1.0,
+    description: '+50% Treasure',
+  },
+  {
+    id: 'treacherous_bridge',
+    name: 'Treacherous Bridge',
+    minLevel: 3,
+    weight: 1,
+    mysteryMod: -2,
+    troubleMod: 4,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Easy to see, hard to cross',
+  },
+  {
+    id: 'phookas_game',
+    name: "Phooka's Game",
+    minLevel: 4,
+    weight: 1,
+    mysteryMod: 2,
+    troubleMod: 2,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Trickier all around, +1 Redraw',
+  },
+  {
+    id: 'kelpie_crossing',
+    name: 'Kelpie Crossing',
+    minLevel: 4,
+    weight: 1,
+    mysteryMod: -1,
+    troubleMod: 5,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.25,
+    description: 'Very dangerous, +25% XP',
+  },
+  {
+    id: 'changeling_child',
+    name: 'Changeling Child',
+    minLevel: 5,
+    weight: 1,
+    mysteryMod: 3,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Hard to understand',
+  },
+
+  // Tier 3 (minLevel 6-10) - Greater Fey
+  {
+    id: 'erlkings_hunt',
+    name: "Erlking's Hunt",
+    minLevel: 6,
+    weight: 1,
+    mysteryMod: 2,
+    troubleMod: 4,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.25,
+    xpMultiplier: 1.5,
+    description: '+25% Treasure, +50% XP',
+  },
+  {
+    id: 'banshees_lament',
+    name: "Banshee's Lament",
+    minLevel: 6,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 5,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: '+1 Selective Redraw',
+  },
+  {
+    id: 'redcaps_challenge',
+    name: "Redcap's Challenge",
+    minLevel: 7,
+    weight: 1,
+    mysteryMod: -2,
+    troubleMod: 6,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.5,
+    description: 'Brutal combat, +50% XP',
+  },
+  {
+    id: 'clurichauns_wager',
+    name: "Clurichaun's Wager",
+    minLevel: 7,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 2.0,
+    xpMultiplier: 0.5,
+    description: '+100% Treasure, -50% XP',
+  },
+  {
+    id: 'spriggan_court',
+    name: 'Spriggan Court',
+    minLevel: 8,
+    weight: 1,
+    mysteryMod: 4,
+    troubleMod: 2,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.0,
+    description: 'Complex politics, +1 Redraw',
+  },
+
+  // Tier 4 (minLevel 9-15) - Noble Fey
+  {
+    id: 'sidhe_lord',
+    name: 'Sidhe Lord',
+    minLevel: 9,
+    weight: 1,
+    mysteryMod: 5,
+    troubleMod: 3,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 1.5,
+    xpMultiplier: 1.5,
+    description: '+1 Selective, +50% Treasure, +50% XP',
+  },
+  {
+    id: 'queens_emissary',
+    name: "Queen's Emissary",
+    minLevel: 10,
+    weight: 1,
+    mysteryMod: 6,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.25,
+    xpMultiplier: 1.75,
+    description: 'Very mysterious, +25% Treasure, +75% XP',
+  },
+  {
+    id: 'wild_hunt_scout',
+    name: 'Wild Hunt Scout',
+    minLevel: 11,
+    weight: 1,
+    mysteryMod: 0,
+    troubleMod: 8,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.0,
+    xpMultiplier: 1.5,
+    description: 'Extremely dangerous, +1 Redraw, +50% XP',
+  },
+  {
+    id: 'fomorian_elder',
+    name: 'Fomorian Elder',
+    minLevel: 12,
+    weight: 1,
+    mysteryMod: 6,
+    troubleMod: 6,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 1.75,
+    xpMultiplier: 2.0,
+    description: '+1 Selective, +75% Treasure, +100% XP',
+  },
+  {
+    id: 'leanan_sidhe',
+    name: 'Leanan Sidhe',
+    minLevel: 13,
+    weight: 1,
+    mysteryMod: 8,
+    troubleMod: -2,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.5,
+    xpMultiplier: 1.5,
+    description: 'Deeply mysterious but gentle',
+  },
+
+  // Tier 5 (minLevel 14+) - Archfey
+  {
+    id: 'the_erlking',
+    name: 'The Erlking Himself',
+    minLevel: 14,
+    weight: 1,
+    mysteryMod: 8,
+    troubleMod: 8,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 2.0,
+    xpMultiplier: 2.5,
+    description: '+1 of each Redraw, +100% Treasure, +150% XP',
+  },
+  {
+    id: 'queen_air_darkness',
+    name: 'Queen of Air and Darkness',
+    minLevel: 15,
+    weight: 1,
+    mysteryMod: 10,
+    troubleMod: 5,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 2,
+    treasureMultiplier: 2.0,
+    xpMultiplier: 2.0,
+    description: '+2 Selective, +100% Treasure, +100% XP',
+  },
+  {
+    id: 'wild_hunt_lord',
+    name: 'Lord of the Wild Hunt',
+    minLevel: 16,
+    weight: 1,
+    mysteryMod: 4,
+    troubleMod: 12,
+    redrawBonus: 2,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 1.5,
+    xpMultiplier: 2.5,
+    description: '+2 Redraws, +50% Treasure, +150% XP',
+  },
+  {
+    id: 'the_green_man',
+    name: 'The Green Man',
+    minLevel: 17,
+    weight: 1,
+    mysteryMod: 12,
+    troubleMod: 0,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    treasureMultiplier: 3.0,
+    xpMultiplier: 1.0,
+    description: 'Ancient mystery, +200% Treasure',
+  },
+  {
+    id: 'oberons_shadow',
+    name: "Oberon's Shadow",
+    minLevel: 18,
+    weight: 1,
+    mysteryMod: 10,
+    troubleMod: 10,
+    redrawBonus: 1,
+    selectiveRedrawBonus: 1,
+    treasureMultiplier: 2.5,
+    xpMultiplier: 3.0,
+    description: '+1 of each Redraw, +150% Treasure, +200% XP',
+  },
 ];
 
-// Get encounter tier based on encounter number
-function getEncounterTier(encounterNumber) {
-  if (encounterNumber <= 5) return 0;
-  if (encounterNumber <= 10) return 1;
-  if (encounterNumber <= 15) return 2;
-  if (encounterNumber <= 20) return 3;
-  return 4;
-}
+// Select an encounter based on encounter number (weighted random from available)
+function selectEncounter(encounterNumber) {
+  // Filter by minLevel
+  const available = ENCOUNTERS.filter(e => encounterNumber >= e.minLevel);
 
-// Generate a random fey encounter name
-function generateEncounterName(encounterNumber) {
-  const tier = getEncounterTier(encounterNumber);
-  const encounters = FEY_ENCOUNTERS[tier];
-  const encounter = encounters[Math.floor(Math.random() * encounters.length)];
-
-  // Higher encounters get prefixes more often
-  const prefixChance = Math.min(0.1 + (encounterNumber * 0.03), 0.7);
-  if (Math.random() < prefixChance) {
-    const prefix = FEY_PREFIXES[Math.floor(Math.random() * FEY_PREFIXES.length)];
-    return prefix + encounter;
+  if (available.length === 0) {
+    return ENCOUNTERS[0]; // Fallback to first encounter
   }
 
-  return encounter;
+  // Weighted random selection
+  const totalWeight = available.reduce((sum, e) => sum + e.weight, 0);
+  let roll = Math.random() * totalWeight;
+
+  for (const enc of available) {
+    roll -= enc.weight;
+    if (roll <= 0) return enc;
+  }
+
+  return available[0];
 }
 
 function calculateMystery(encounterNumber) {
@@ -54,10 +399,14 @@ function calculateTrouble(encounterNumber) {
 
 // Generate an encounter for the given encounter number
 export function generateEncounter(encounterNumber) {
+  const template = selectEncounter(encounterNumber);
+  const baseMystery = calculateMystery(encounterNumber);
+  const baseTrouble = calculateTrouble(encounterNumber);
+
   return {
-    name: generateEncounterName(encounterNumber),
-    mystery: calculateMystery(encounterNumber),
-    trouble: calculateTrouble(encounterNumber),
+    ...template,
+    mystery: baseMystery + (template.mysteryMod || 0),
+    trouble: baseTrouble + (template.troubleMod || 0),
     level: encounterNumber,
   };
 }
@@ -71,7 +420,7 @@ export function previewScaling(maxEncounter = 25) {
       encounter: i,
       mystery,
       trouble: calculateTrouble(i),
-      reward: Math.ceiling(mystery / 2),
+      reward: Math.ceil(mystery / 2),
     });
   }
   return preview;

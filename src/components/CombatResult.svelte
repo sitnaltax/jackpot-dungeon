@@ -25,9 +25,15 @@
       {/if}
       <div class="treasure-gained">
         +{$combatResult.treasureGained} $
+        {#if $combatResult.treasureMultiplier && $combatResult.treasureMultiplier !== 1.0}
+          <span class="multiplier">(x{$combatResult.treasureMultiplier})</span>
+        {/if}
       </div>
       <div class="xp-gained">
         +{$combatResult.xpGained} XP
+        {#if $combatResult.xpMultiplier && $combatResult.xpMultiplier !== 1.0}
+          <span class="multiplier">(x{$combatResult.xpMultiplier})</span>
+        {/if}
       </div>
     </div>
 
@@ -98,6 +104,12 @@
 
   .xp-gained {
     color: #9b59b6;
+  }
+
+  .multiplier {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
   }
 
   .btn {
