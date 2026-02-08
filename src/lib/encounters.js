@@ -387,13 +387,13 @@ function selectEncounter(encounterNumber) {
 
 function calculateMystery(encounterNumber) {
   const base = 6;
-  const linear = encounterNumber * 2;
+  const linear = encounterNumber * 1;
   return Math.floor(base + linear);
 }
 
 function calculateTrouble(encounterNumber) {
   const base = 6;
-  const linear = encounterNumber * 2;
+  const linear = encounterNumber * 1;
   return Math.floor(base + linear);
 }
 
