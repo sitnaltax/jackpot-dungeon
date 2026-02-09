@@ -1,5 +1,5 @@
 <script>
-  import { combatResult, proceedToShop } from '../lib/gameState.js';
+  import { combatResult, proceedFromCombat } from '../lib/gameState.js';
   import { getCombatSummary } from '../lib/combat.js';
 
   $: summary = $combatResult ? getCombatSummary($combatResult) : [];
@@ -35,8 +35,8 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" on:click={proceedToShop}>
-      Continue to Shop
+    <button class="btn btn-primary" on:click={proceedFromCombat}>
+      Continue
     </button>
   </div>
 {/if}

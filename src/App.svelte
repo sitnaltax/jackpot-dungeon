@@ -4,10 +4,13 @@
   import StartScreen from './components/StartScreen.svelte';
   import PlayerStatus from './components/PlayerStatus.svelte';
   import Encounter from './components/Encounter.svelte';
+  import EncounterChoice from './components/EncounterChoice.svelte';
   import TokenDraw from './components/TokenDraw.svelte';
   import CombatResult from './components/CombatResult.svelte';
   import PodDisplay from './components/PodDisplay.svelte';
   import Shop from './components/Shop.svelte';
+  import PodReward from './components/PodReward.svelte';
+  import ItemShop from './components/ItemShop.svelte';
   import GameOver from './components/GameOver.svelte';
   import TokenDetailModal from './components/TokenDetailModal.svelte';
   import EquipmentDetailModal from './components/EquipmentDetailModal.svelte';
@@ -25,7 +28,11 @@
     <div class="game-container">
       <PlayerStatus />
 
-      {#if $gamePhase === PHASES.DRAW}
+      {#if $gamePhase === PHASES.CHOICE}
+        <div class="choice-section">
+          <EncounterChoice />
+        </div>
+      {:else if $gamePhase === PHASES.DRAW}
         <div class="encounter-section">
           <Encounter />
         </div>
@@ -42,6 +49,10 @@
         <div class="combat-section">
           <CombatResult />
         </div>
+      {:else if $gamePhase === PHASES.POD_REWARD}
+        <PodReward />
+      {:else if $gamePhase === PHASES.ITEM_SHOP}
+        <ItemShop />
       {:else if $gamePhase === PHASES.SHOP}
         <Shop />
       {/if}

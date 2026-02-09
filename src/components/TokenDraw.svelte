@@ -84,7 +84,7 @@
     <div class="total resolve" class:met={resolveMet}>
       <span class="total-label">Resolve</span>
       <span class="total-value">
-        💭 {totals.resolve}
+        🛡️ {totals.resolve}
         <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
       </span>
     </div>

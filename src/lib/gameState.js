@@ -3,15 +3,18 @@
 import { writable, derived, get } from 'svelte/store';
 import { CONFIG, STARTING_EQUIPMENT } from './constants.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods } from './pods.js';
-import { generateEncounter } from './encounters.js';
+import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
 
 // Game phases
 export const PHASES = {
   START: 'start',
+  CHOICE: 'choice',
   DRAW: 'draw',
   COMBAT: 'combat',
   SHOP: 'shop',
+  POD_REWARD: 'podReward',
+  ITEM_SHOP: 'itemShop',
   GAME_OVER: 'gameOver',
 };
 
@@ -36,6 +39,11 @@ export const combatResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
 export const purchasedShopPods = writable(new Set());
+
+// Encounter choice state (for even encounters >= 4)
+export const choiceEncounters = writable({ hard: null, basic: null });
+export const chosenPath = writable(null); // 'hard' or 'basic'
+export const rewardPod = writable(null); // Pod offered as reward after hard path
 
 // Token inspection modal state
 // inspectedToken: the token being inspected
@@ -116,12 +124,38 @@ export function startNewGame() {
   startNextEncounter();
 }
 
+// Check if this encounter number should offer a choice
+function isChoiceEncounter(encNum) {
+  return encNum >= 4 && encNum % 2 === 0;
+}
+
 export function startNextEncounter() {
   encounterNumber.update(n => n + 1);
   const encNum = get(encounterNumber);
 
-  // Generate new encounter
+  // Reset choice state
+  chosenPath.set(null);
+  rewardPod.set(null);
+  combatResult.set(null);
+
+  // Check if this is a choice encounter
+  if (isChoiceEncounter(encNum)) {
+    // Generate both encounter options
+    const hardEncounter = generateEncounter(encNum);
+    const basicEncounter = generateBasicEncounter(encNum);
+
+    choiceEncounters.set({ hard: hardEncounter, basic: basicEncounter });
+    gamePhase.set(PHASES.CHOICE);
+    return;
+  }
+
+  // Normal encounter flow
   const encounter = generateEncounter(encNum);
+  beginEncounter(encounter);
+}
+
+// Begin an encounter (after choice or for non-choice encounters)
+function beginEncounter(encounter) {
   currentEncounter.set(encounter);
 
   // Calculate redraws from equipment and encounter bonuses
@@ -134,12 +168,25 @@ export function startNextEncounter() {
   redrawsRemaining.set(Math.max(0, CONFIG.redrawsPerEncounter + equipmentBonuses.redraws + redrawBonus));
   selectiveRedrawsRemaining.set(Math.max(0, CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws + selectiveBonus));
   selectedTokensForRedraw.set(new Set());
-  combatResult.set(null);
 
   // Draw tokens
   drawTokens();
 
   gamePhase.set(PHASES.DRAW);
+}
+
+// Player chooses the hard path
+export function chooseHardPath() {
+  const $choices = get(choiceEncounters);
+  chosenPath.set('hard');
+  beginEncounter($choices.hard);
+}
+
+// Player chooses the basic path
+export function chooseBasicPath() {
+  const $choices = get(choiceEncounters);
+  chosenPath.set('basic');
+  beginEncounter($choices.basic);
 }
 
 export function drawTokens() {
@@ -247,6 +294,24 @@ export function executeCombat() {
   }
 }
 
+export function proceedFromCombat() {
+  const $chosenPath = get(chosenPath);
+
+  if ($chosenPath === 'hard') {
+    // Hard path: offer pod reward
+    const encNum = get(encounterNumber);
+    const [pod] = generateShopPods(encNum, 1);
+    rewardPod.set(pod);
+    gamePhase.set(PHASES.POD_REWARD);
+  } else if ($chosenPath === 'basic') {
+    // Basic path: item shop
+    gamePhase.set(PHASES.ITEM_SHOP);
+  } else {
+    // Normal encounter: regular shop
+    proceedToShop();
+  }
+}
+
 export function proceedToShop() {
   const encNum = get(encounterNumber);
 
@@ -321,6 +386,56 @@ export function refreshShop() {
 
 export function skipShop() {
   startNextEncounter();
+}
+
+// Pod reward functions (after hard path)
+export function takeRewardPod() {
+  const $rewardPod = get(rewardPod);
+  const $player = get(player);
+
+  if (!$rewardPod) return;
+
+  // Need to select a pod to replace first
+  const $selectedPod = get(selectedPodToReplace);
+  if (!$selectedPod) return;
+
+  // Create new pod from template
+  const newPod = clonePodTemplate($rewardPod);
+
+  // Replace the selected pod
+  player.update(p => ({
+    ...p,
+    pods: p.pods.map(pod =>
+      pod.id === $selectedPod ? newPod : pod
+    ),
+  }));
+
+  selectedPodToReplace.set(null);
+  rewardPod.set(null);
+  proceedToShop();
+}
+
+export function takeRewardTreasure() {
+  const $rewardPod = get(rewardPod);
+
+  if (!$rewardPod) return;
+
+  // Give half the pod's cost as treasure
+  const treasureValue = Math.floor($rewardPod.cost / 2);
+
+  player.update(p => ({
+    ...p,
+    treasure: p.treasure + treasureValue,
+  }));
+
+  selectedPodToReplace.set(null);
+  rewardPod.set(null);
+  proceedToShop();
+}
+
+// Item shop functions (after basic path)
+export function skipItemShop() {
+  proceedToShop();
 }
 
 export function restartGame() {
