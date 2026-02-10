@@ -263,8 +263,8 @@ export function executeCombat() {
 
   const result = resolveCombat($drawnTokens, $encounter);
 
-  // Award XP: 3 if insight success, 1 otherwise
-  const baseXp = result.insightSuccess ? 3 : 1;
+  // Award XP: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
+  const baseXp = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
 
   // Apply encounter multipliers
   const treasureMultiplier = $encounter.treasureMultiplier || 1.0;
