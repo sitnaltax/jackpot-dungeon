@@ -142,7 +142,7 @@ export function startNewGame() {
 
 // Check if this encounter number should offer a choice
 function isChoiceEncounter(encNum) {
-  return encNum >= 4 && encNum % 2 === 0;
+  return encNum >= 2 && encNum % 2 === 0;
 }
 
 export function startNextEncounter() {
