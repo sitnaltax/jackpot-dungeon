@@ -1,8 +1,9 @@
 <script>
-  import { player, encounterNumber, inspectEquipment } from '../lib/gameState.js';
+  import { player, encounterNumber, inspectEquipment, getEffectiveMaxStamina } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
 
-  $: staminaPercent = ($player.stamina / $player.maxStamina) * 100;
+  $: effectiveMax = getEffectiveMaxStamina($player);
+  $: staminaPercent = ($player.stamina / effectiveMax) * 100;
   $: staminaColor = staminaPercent > 50 ? '#2ecc71' : staminaPercent > 25 ? '#f39c12' : '#e74c3c';
 
   // Ensure equipment array has correct number of slots
@@ -25,7 +26,7 @@
     <span class="label">Stamina</span>
     <div class="stamina-bar">
       <div class="stamina-fill" style="width: {staminaPercent}%; background: {staminaColor}"></div>
-      <span class="stamina-text">{$player.stamina} / {$player.maxStamina}</span>
+      <span class="stamina-text">{$player.stamina} / {effectiveMax}</span>
     </div>
   </div>
 

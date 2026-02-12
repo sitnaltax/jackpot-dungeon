@@ -1,10 +1,11 @@
 // Svelte stores for reactive game state
 
 import { writable, derived, get } from 'svelte/store';
-import { CONFIG, STARTING_EQUIPMENT } from './constants.js';
+import { CONFIG } from './constants.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods } from './pods.js';
 import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
+import { STARTING_EQUIPMENT, generateItemShop } from './items.js';
 
 // Game phases
 export const PHASES = {
@@ -39,6 +40,11 @@ export const combatResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
 export const purchasedShopPods = writable(new Set());
+
+// Item shop state
+export const shopItems = writable([]);
+export const purchasedShopItems = writable(new Set());
+export const selectedEquipmentSlot = writable(null); // slot index for replacement
 
 // Encounter choice state (for even encounters >= 4)
 export const choiceEncounters = writable({ hard: null, basic: null });
@@ -76,25 +82,35 @@ export function closeEquipmentInspection() {
   inspectedEquipment.set(null);
 }
 
-// Helper to calculate total redraws from equipment
-function getEquipmentBonuses(equipment) {
+// Helper to calculate all bonuses from equipment
+export function getEquipmentBonuses(equipment) {
   const bonuses = {
     redraws: 0,
     selectiveRedraws: 0,
+    bonusDraw: 0,
+    insight: 0,
+    resolve: 0,
+    maxStamina: 0,
+    staminaRegen: 0,
   };
 
   for (const item of equipment) {
     if (item && item.bonuses) {
-      if (item.bonuses.redraws) {
-        bonuses.redraws += item.bonuses.redraws;
-      }
-      if (item.bonuses.selectiveRedraws) {
-        bonuses.selectiveRedraws += item.bonuses.selectiveRedraws;
+      for (const key of Object.keys(bonuses)) {
+        if (item.bonuses[key]) {
+          bonuses[key] += item.bonuses[key];
+        }
       }
     }
   }
 
   return bonuses;
+}
+
+// Compute effective max stamina (base + equipment bonuses)
+export function getEffectiveMaxStamina(playerState) {
+  const bonuses = getEquipmentBonuses(playerState.equipment || []);
+  return playerState.maxStamina + bonuses.maxStamina;
 }
 
 // Derived stores
@@ -194,8 +210,10 @@ export function drawTokens() {
   const pool = getTokenPool($player.pods);
   tokenPool.set(pool);
 
-  // Draw the configured number of tokens
-  const drawn = pool.slice(0, CONFIG.drawCount);
+  // Draw count includes bonus draws from light sources
+  const equipmentBonuses = getEquipmentBonuses($player.equipment);
+  const totalDraw = CONFIG.drawCount + equipmentBonuses.bonusDraw;
+  const drawn = pool.slice(0, totalDraw);
   drawnTokens.set(drawn);
 }
 
@@ -260,8 +278,16 @@ export function confirmDraw() {
 export function executeCombat() {
   const $drawnTokens = get(drawnTokens);
   const $encounter = get(currentEncounter);
+  const $player = get(player);
 
-  const result = resolveCombat($drawnTokens, $encounter);
+  // Get equipment bonuses for combat
+  const equipmentBonuses = getEquipmentBonuses($player.equipment);
+  const combatBonuses = {
+    insight: equipmentBonuses.insight,
+    resolve: equipmentBonuses.resolve,
+  };
+
+  const result = resolveCombat($drawnTokens, $encounter, combatBonuses);
 
   // Award XP: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
   const baseXp = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
@@ -277,19 +303,29 @@ export function executeCombat() {
   result.treasureGained = Math.floor(result.treasureGained * treasureMultiplier);
   result.xpGained = Math.floor(baseXp * xpMultiplier);
 
+  // Calculate stamina regen from food
+  const staminaRegen = equipmentBonuses.staminaRegen;
+  const effectiveMax = getEffectiveMaxStamina($player);
+  result.staminaRegen = staminaRegen;
+
   combatResult.set(result);
 
-  // Apply results to player
-  player.update(p => ({
-    ...p,
-    stamina: Math.max(0, p.stamina - result.staminaLost),
-    treasure: p.treasure + result.treasureGained,
-    xp: p.xp + result.xpGained,
-  }));
+  // Apply results to player (including stamina regen)
+  player.update(p => {
+    const effMax = getEffectiveMaxStamina(p);
+    const afterDamage = Math.max(0, p.stamina - result.staminaLost);
+    const afterRegen = Math.min(effMax, afterDamage + staminaRegen);
+    return {
+      ...p,
+      stamina: afterRegen,
+      treasure: p.treasure + result.treasureGained,
+      xp: p.xp + result.xpGained,
+    };
+  });
 
   // Check for game over
-  const $player = get(player);
-  if ($player.stamina <= 0) {
+  const $playerAfter = get(player);
+  if ($playerAfter.stamina <= 0) {
     gamePhase.set(PHASES.GAME_OVER);
   }
 }
@@ -305,11 +341,115 @@ export function proceedFromCombat() {
     gamePhase.set(PHASES.POD_REWARD);
   } else if ($chosenPath === 'basic') {
     // Basic path: item shop
-    gamePhase.set(PHASES.ITEM_SHOP);
+    openItemShop();
   } else {
     // Normal encounter: regular shop
     proceedToShop();
   }
+}
+
+// Item shop functions
+export function openItemShop() {
+  const $player = get(player);
+  const encNum = get(encounterNumber);
+  const items = generateItemShop(encNum, $player);
+  shopItems.set(items);
+  purchasedShopItems.set(new Set());
+  selectedEquipmentSlot.set(null);
+  gamePhase.set(PHASES.ITEM_SHOP);
+}
+
+export function selectEquipmentSlot(slotIndex) {
+  const current = get(selectedEquipmentSlot);
+  if (current === slotIndex) {
+    selectedEquipmentSlot.set(null);
+  } else {
+    selectedEquipmentSlot.set(slotIndex);
+  }
+}
+
+export function purchaseItem(item, shopIndex) {
+  const $player = get(player);
+  const $purchasedShopItems = get(purchasedShopItems);
+
+  // Can't afford or already purchased
+  if ($player.xp < item.cost) return;
+  if ($purchasedShopItems.has(shopIndex)) return;
+
+  // Find where to place the item
+  let targetSlot = get(selectedEquipmentSlot);
+
+  // Light source auto-replace: if buying a light source and one is already equipped
+  if (item.category === 'lightSource') {
+    const existingLightSlot = $player.equipment.findIndex(
+      e => e?.category === 'lightSource'
+    );
+    if (existingLightSlot !== -1) {
+      targetSlot = existingLightSlot;
+    }
+  }
+
+  // If no slot selected, try to find an empty one
+  if (targetSlot === null || targetSlot === undefined) {
+    const emptySlot = $player.equipment.findIndex(e => e === null);
+    if (emptySlot !== -1) {
+      targetSlot = emptySlot;
+    } else {
+      // No empty slot and none selected — can't purchase
+      return;
+    }
+  }
+
+  // Prevent equipping a second light source (unless replacing existing one)
+  if (item.category === 'lightSource') {
+    const hasOtherLight = $player.equipment.some(
+      (e, i) => i !== targetSlot && e?.category === 'lightSource'
+    );
+    if (hasOtherLight) return;
+  }
+
+  // Calculate maxStamina change from swapping equipment
+  const oldItem = $player.equipment[targetSlot];
+  const oldMaxBonus = oldItem?.bonuses?.maxStamina || 0;
+  const newMaxBonus = item.bonuses?.maxStamina || 0;
+
+  // Apply purchase
+  player.update(p => {
+    const newEquipment = [...p.equipment];
+    newEquipment[targetSlot] = item;
+
+    // Effective max stamina after swap
+    const effMax = getEffectiveMaxStamina({ ...p, equipment: newEquipment });
+
+    // Apply food heal on pickup
+    let newStamina = p.stamina;
+    if (item.staminaHeal) {
+      newStamina = Math.min(effMax, newStamina + item.staminaHeal);
+    }
+
+    // Cap stamina if max decreased
+    newStamina = Math.min(effMax, newStamina);
+
+    return {
+      ...p,
+      xp: p.xp - item.cost,
+      equipment: newEquipment,
+      stamina: newStamina,
+    };
+  });
+
+  // Mark as purchased
+  purchasedShopItems.update(set => {
+    const newSet = new Set(set);
+    newSet.add(shopIndex);
+    return newSet;
+  });
+
+  selectedEquipmentSlot.set(null);
+}
+
+export function skipItemShop() {
+  proceedToShop();
 }
 
 export function proceedToShop() {
@@ -430,11 +570,6 @@ export function takeRewardTreasure() {
 
   selectedPodToReplace.set(null);
   rewardPod.set(null);
-  proceedToShop();
-}
-
-// Item shop functions (after basic path)
-export function skipItemShop() {
   proceedToShop();
 }
 

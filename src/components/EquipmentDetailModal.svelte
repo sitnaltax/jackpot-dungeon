@@ -5,12 +5,13 @@
 
   function getBonusDescription(bonuses) {
     const descriptions = [];
-    if (bonuses.redraws) {
-      descriptions.push(`+${bonuses.redraws} Redraw All`);
-    }
-    if (bonuses.selectiveRedraws) {
-      descriptions.push(`+${bonuses.selectiveRedraws} Redraw Selected`);
-    }
+    if (bonuses.selectiveRedraws) descriptions.push(`+${bonuses.selectiveRedraws} Redraw Selected`);
+    if (bonuses.redraws) descriptions.push(`+${bonuses.redraws} Redraw All`);
+    if (bonuses.bonusDraw) descriptions.push(`+${bonuses.bonusDraw} Token Draw`);
+    if (bonuses.insight) descriptions.push(`+${bonuses.insight} Insight`);
+    if (bonuses.resolve) descriptions.push(`+${bonuses.resolve} Resolve`);
+    if (bonuses.maxStamina) descriptions.push(`+${bonuses.maxStamina} Max Stamina`);
+    if (bonuses.staminaRegen) descriptions.push(`+${bonuses.staminaRegen} Regen/encounter`);
     return descriptions;
   }
 

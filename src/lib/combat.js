@@ -31,8 +31,13 @@ export function calculateDrawTotals(drawnTokens) {
 }
 
 // Resolve encounter and return results
-export function resolveCombat(drawnTokens, encounter) {
+// bonuses: optional { insight, resolve } flat bonuses from equipment
+export function resolveCombat(drawnTokens, encounter, bonuses = {}) {
   const totals = calculateDrawTotals(drawnTokens);
+
+  // Apply flat bonuses from equipment
+  if (bonuses.insight) totals.insight += bonuses.insight;
+  if (bonuses.resolve) totals.resolve += bonuses.resolve;
 
   const result = {
     totals,

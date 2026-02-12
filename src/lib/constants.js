@@ -161,31 +161,3 @@ export const getEffectiveValue = getTokenValue;
 
 // Equipment system
 export const EQUIPMENT_SLOTS = 3;
-
-export const EQUIPMENT = {
-  inheritedDiary: {
-    id: 'inheritedDiary',
-    name: 'Inherited Diary',
-    description: 'A worn journal passed down through generations, filled with cryptic notes.',
-    icon: '📔',
-    bonuses: {
-      selectiveRedraws: 1,
-    },
-  },
-  antiquePendant: {
-    id: 'antiquePendant',
-    name: 'Antique Pendant',
-    description: 'A tarnished silver pendant that hums with faint energy.',
-    icon: '📿',
-    bonuses: {
-      redraws: 1,
-    },
-  },
-};
-
-// Starting equipment for new games
-export const STARTING_EQUIPMENT = [
-  EQUIPMENT.inheritedDiary,
-  EQUIPMENT.antiquePendant,
-  null, // Empty slot
-];

@@ -21,6 +21,11 @@
           -{$combatResult.staminaLost} Stamina
         </div>
       {/if}
+      {#if $combatResult.staminaRegen > 0}
+        <div class="stamina-regen">
+          +{$combatResult.staminaRegen} Regen
+        </div>
+      {/if}
       <div class="treasure-gained">
         +{$combatResult.treasureGained} $
         {#if $combatResult.treasureMultiplier && $combatResult.treasureMultiplier !== 1.0}
@@ -94,6 +99,10 @@
 
   .stamina-lost {
     color: #e74c3c;
+  }
+
+  .stamina-regen {
+    color: #2ecc71;
   }
 
   .treasure-gained {
