@@ -41,6 +41,7 @@ export function resolveCombat(drawnTokens, encounter, bonuses = {}) {
 
   const result = {
     totals,
+    equipmentBonuses: { insight: bonuses.insight || 0, resolve: bonuses.resolve || 0 },
     encounter,
     revealed: false,
     staminaLost: 0,
@@ -78,18 +79,23 @@ export function resolveCombat(drawnTokens, encounter, bonuses = {}) {
 export function getCombatSummary(result) {
   const lines = [];
 
+  const eqInsight = result.equipmentBonuses?.insight || 0;
+  const eqResolve = result.equipmentBonuses?.resolve || 0;
+  const insightSuffix = eqInsight > 0 ? ` (${result.totals.insight - eqInsight} + ${eqInsight} equip)` : '';
+  const resolveSuffix = eqResolve > 0 ? ` (${result.totals.resolve - eqResolve} + ${eqResolve} equip)` : '';
+
   // Insight summary
   if (result.insightSuccess) {
-    lines.push(`✓ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - REVEALED!`);
+    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - REVEALED!`);
   } else {
-    lines.push(`✗ Insight: ${result.totals.insight} vs ${result.encounter.mystery} Mystery - Hidden`);
+    lines.push(`✗ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Hidden`);
   }
 
   // Resolve summary
   if (result.resolveSuccess) {
-    lines.push(`✓ Resolve: ${result.totals.resolve} vs ${result.encounter.trouble} Trouble - Steady!`);
+    lines.push(`✓ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - Steady!`);
   } else {
-    lines.push(`✗ Resolve: ${result.totals.resolve} vs ${result.encounter.trouble} Trouble - SHAKEN`);
+    lines.push(`✗ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - SHAKEN`);
     lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.resolveFailFlat} flat + ${result.resolveDeficiency} × ${CONFIG.resolveFailScale})`);
   }
 
