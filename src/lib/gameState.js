@@ -2,7 +2,7 @@
 
 import { writable, derived, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
-import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods } from './pods.js';
+import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
 import { STARTING_EQUIPMENT, generateItemShop } from './items.js';
@@ -128,6 +128,7 @@ export function startNewGame() {
 
   player.set({
     pods: startingPods,
+    maxPods: CONFIG.drawCount,
     stamina: CONFIG.startingStamina,
     maxStamina: CONFIG.startingStamina,
     treasure: CONFIG.startingTreasure,
@@ -430,10 +431,27 @@ export function purchaseItem(item, shopIndex) {
     // Cap stamina if max decreased
     newStamina = Math.min(effMax, newStamina);
 
+    // Check if +draw expanded and we need more pods
+    const newBonuses = getEquipmentBonuses(newEquipment);
+    const totalDraw = CONFIG.drawCount + newBonuses.bonusDraw;
+
+    let newPods = [...p.pods];
+    let newMaxPods = p.maxPods;
+
+    if (totalDraw > newMaxPods) {
+      const podsToAdd = totalDraw - newMaxPods;
+      for (let i = 0; i < podsToAdd; i++) {
+        newPods.push(generateWeakPod());
+      }
+      newMaxPods = totalDraw;
+    }
+
     return {
       ...p,
       xp: p.xp - item.cost,
       equipment: newEquipment,
+      pods: newPods,
+      maxPods: newMaxPods,
       stamina: newStamina,
     };
   });

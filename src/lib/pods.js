@@ -233,6 +233,16 @@ export function generateStartingPods() {
   return STARTING_POD_TEMPLATES.map(template => clonePodTemplate(template));
 }
 
+// Generate a weak "level 1" pod for bonus draw slots
+export function generateWeakPod() {
+  const tokenDefs = [
+    { type: 'insight', rank: 'inferior' },
+    { type: 'resolve', rank: 'inferior' },
+    { type: 'treasure', rank: 'inferior' },
+  ];
+  return createPod(tokenDefs, 0);
+}
+
 // Shuffle array utility
 export function shuffle(array) {
   const shuffled = [...array];
