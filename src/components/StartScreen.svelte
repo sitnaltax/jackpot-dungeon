@@ -1,5 +1,5 @@
 <script>
-  import { startNewGame } from '../lib/gameState.js';
+  import { startNewGame, startDebugGame } from '../lib/gameState.js';
 </script>
 
 <div class="start-screen">
@@ -20,6 +20,10 @@
 
   <button class="btn btn-start" on:click={startNewGame}>
     Start Game
+  </button>
+
+  <button class="btn btn-debug" on:click={startDebugGame}>
+    Start in Debug Mode
   </button>
 </div>
 
@@ -87,5 +91,21 @@
   .btn-start:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+  }
+
+  .btn-debug {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #666;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background: transparent;
+    color: #888;
+    transition: all 0.2s ease;
+  }
+
+  .btn-debug:hover {
+    border-color: #e74c3c;
+    color: #e74c3c;
   }
 </style>

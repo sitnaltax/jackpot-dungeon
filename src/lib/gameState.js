@@ -141,6 +141,24 @@ export function startNewGame() {
   startNextEncounter();
 }
 
+export function startDebugGame() {
+  const startingPods = generateStartingPods();
+
+  player.set({
+    pods: startingPods,
+    maxPods: CONFIG.drawCount,
+    stamina: CONFIG.startingStamina + 1000,
+    maxStamina: CONFIG.startingStamina + 1000,
+    treasure: CONFIG.startingTreasure + 1000,
+    xp: 1000,
+    equipment: [...STARTING_EQUIPMENT],
+  });
+
+  encounterNumber.set(0);
+  combatResult.set(null);
+  startNextEncounter();
+}
+
 // Check if this encounter number should offer a choice
 function isChoiceEncounter(encNum) {
   return encNum >= 2 && encNum % 2 === 0;
