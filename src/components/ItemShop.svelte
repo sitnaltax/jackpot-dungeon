@@ -14,7 +14,12 @@
 
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
   $: hasEmptySlot = equipmentSlots.some(e => e === null);
+  $: hasLightSource = equipmentSlots.some(e => e?.category === 'lightSource');
   $: effectiveMaxStamina = getEffectiveMaxStamina($player);
+  $: playerXp = $player.xp;
+  $: selectedSlot = $selectedEquipmentSlot;
+  // Create a reactive version of purchased items to trigger re-renders
+  $: purchasedSet = $purchasedShopItems;
 
   function getBonusList(bonuses) {
     const list = [];
@@ -28,38 +33,37 @@
     return list;
   }
 
-  function canAfford(cost) {
-    return $player.xp >= cost;
+  function canAfford(cost, xp) {
+    return xp >= cost;
   }
 
-  function isPurchased(index) {
-    return $purchasedShopItems.has(index);
+  function isPurchased(index, purchased) {
+    return purchased.has(index);
   }
 
-  function needsSlotSelection(item) {
+  function needsSlotSelection(item, hasEmpty, hasLight) {
     // Light sources auto-replace existing light source
-    if (item.category === 'lightSource') {
-      const hasLight = equipmentSlots.some(e => e?.category === 'lightSource');
-      if (hasLight) return false;
+    if (item.category === 'lightSource' && hasLight) {
+      return false;
     }
     // Auto-equip if empty slot exists
-    if (hasEmptySlot) return false;
+    if (hasEmpty) return false;
     // Otherwise need to select a slot to replace
     return true;
   }
 
-  function canPurchase(item, index) {
-    if (!canAfford(item.cost)) return false;
-    if (isPurchased(index)) return false;
-    if (needsSlotSelection(item) && $selectedEquipmentSlot === null) return false;
+  function canPurchase(item, index, xp, purchased, hasEmpty, hasLight, selected) {
+    if (!canAfford(item.cost, xp)) return false;
+    if (isPurchased(index, purchased)) return false;
+    if (needsSlotSelection(item, hasEmpty, hasLight) && selected === null) return false;
     return true;
   }
 
-  function getPurchaseLabel(item, index) {
-    if (isPurchased(index)) return 'Sold';
-    if (!canAfford(item.cost)) return "Can't Afford";
-    if (needsSlotSelection(item) && $selectedEquipmentSlot === null) return 'Select Slot';
-    if (item.category === 'lightSource' && equipmentSlots.some(e => e?.category === 'lightSource')) {
+  function getPurchaseLabel(item, index, xp, purchased, hasEmpty, hasLight, selected) {
+    if (isPurchased(index, purchased)) return 'Sold';
+    if (!canAfford(item.cost, xp)) return "Can't Afford";
+    if (needsSlotSelection(item, hasEmpty, hasLight) && selected === null) return 'Select Slot';
+    if (item.category === 'lightSource' && hasLight) {
       return 'Buy (replaces light)';
     }
     return 'Buy';
@@ -81,7 +85,7 @@
 
   <div class="items-section">
     {#each $shopItems as item, index}
-      <div class="item-card" class:sold={isPurchased(index)} class:cant-afford={!canAfford(item.cost) && !isPurchased(index)}>
+      <div class="item-card" class:sold={isPurchased(index, purchasedSet)} class:cant-afford={!canAfford(item.cost, playerXp) && !isPurchased(index, purchasedSet)}>
         <div class="item-header">
           <span class="item-icon">{item.icon}</span>
           <div class="item-title">
@@ -90,7 +94,7 @@
               {ITEM_CATEGORIES[item.category]?.name || item.category}
             </span>
           </div>
-          <span class="item-cost" class:affordable={canAfford(item.cost)}>{item.cost} XP</span>
+          <span class="item-cost" class:affordable={canAfford(item.cost, playerXp)}>{item.cost} XP</span>
         </div>
 
         <p class="item-description">{item.description}</p>
@@ -106,10 +110,10 @@
 
         <button
           class="btn btn-purchase"
-          disabled={!canPurchase(item, index)}
+          disabled={!canPurchase(item, index, playerXp, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
           on:click={() => handlePurchase(item, index)}
         >
-          {getPurchaseLabel(item, index)}
+          {getPurchaseLabel(item, index, playerXp, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
         </button>
       </div>
     {/each}
