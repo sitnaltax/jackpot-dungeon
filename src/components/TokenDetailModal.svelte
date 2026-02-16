@@ -22,29 +22,62 @@
     }
   }
 
-  // Calculate base value (without synergies)
-  $: baseValue = token ? getTokenValue(token) : 0;
-
   // Calculate contextual value and contributions (with synergies, if in combat)
-  $: contextualInfo = getContextualInfo(token, context, typeData);
+  $: contextualInfo = getContextualInfo(token, context, typeData, rankData);
 
-  function getContextualInfo(token, context, typeData) {
+  function getContextualInfo(token, context, typeData, rankData) {
     if (!token || !typeData) return null;
+
+    const rankMultiplier = rankData?.multiplier || 1;
 
     // If token has a getValue callback and we have context, calculate synergy effects
     if (typeData.getValue && context) {
       const contributions = typeData.getValue(token, context);
-      const stats = Object.entries(contributions).map(([stat, value]) => ({
-        stat,
-        value,
-        hasBonus: value > baseValue,
-      }));
+      const stats = Object.entries(contributions).map(([stat, value]) => {
+        // Reverse-engineer the calculation to show breakdown
+        const baseWithSynergy = Math.round(value / rankMultiplier);
+        const synergyBonus = baseWithSynergy - typeData.baseValue;
+        return {
+          stat,
+          value,
+          baseValue: typeData.baseValue,
+          synergyBonus,
+          rankMultiplier,
+          hasBonus: synergyBonus > 0,
+        };
+      });
       return { stats, hasSynergy: stats.some(s => s.hasBonus) };
     }
 
+    // For tokens with getValue but no context, show potential
+    if (typeData.getValue) {
+      // Show base calculation without synergy
+      const baseValue = Math.floor(typeData.baseValue * rankMultiplier);
+      return {
+        stats: [{
+          stat: token.type,
+          value: baseValue,
+          baseValue: typeData.baseValue,
+          synergyBonus: 0,
+          rankMultiplier,
+          hasBonus: false,
+        }],
+        hasSynergy: false,
+        hasPotentialSynergy: true,
+      };
+    }
+
     // Default: contributes to its own stat
+    const baseValue = Math.floor(typeData.baseValue * rankMultiplier);
     return {
-      stats: [{ stat: token.type, value: baseValue, hasBonus: false }],
+      stats: [{
+        stat: token.type,
+        value: baseValue,
+        baseValue: typeData.baseValue,
+        synergyBonus: 0,
+        rankMultiplier,
+        hasBonus: false,
+      }],
       hasSynergy: false,
     };
   }
@@ -69,7 +102,7 @@
       case 'capricorn':
         return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
       case 'taurus':
-        return 'Contributes to Treasure and Insight. Gains +1 Treasure for each Celestial token drawn.';
+        return 'Contributes to Treasure. Gains +1 for each Celestial token drawn.';
       case 'libra':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Celestial token drawn.';
       default:
@@ -117,22 +150,33 @@
       <p class="description">{getTokenDescription(token, typeData)}</p>
 
       <div class="stats-section">
-        <h3>{context ? 'Current Effect' : 'Base Value'}</h3>
+        <h3>{context ? 'Current Contribution' : 'Base Value'}</h3>
 
         {#if contextualInfo}
-          {#each contextualInfo.stats as { stat, value, hasBonus }}
-            <div class="stat-row" class:bonus={hasBonus}>
-              <span class="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
-              <span class="stat-value">
-                +{value}
-                {#if hasBonus}
-                  <span class="bonus-indicator">(synergy!)</span>
+          {#each contextualInfo.stats as { stat, value, baseValue, synergyBonus, rankMultiplier, hasBonus }}
+            <div class="stat-block" class:bonus={hasBonus}>
+              <div class="stat-header">
+                <span class="stat-icon">{TOKEN_TYPES[stat]?.icon || '?'}</span>
+                <span class="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
+                <span class="stat-total">+{value}</span>
+              </div>
+              <div class="stat-calculation">
+                <span class="calc-base">{baseValue}</span>
+                {#if synergyBonus > 0}
+                  <span class="calc-op">+</span>
+                  <span class="calc-synergy">{synergyBonus} synergy</span>
                 {/if}
-              </span>
+                {#if rankMultiplier !== 1}
+                  <span class="calc-op">&times;</span>
+                  <span class="calc-rank">{rankMultiplier} rank</span>
+                {/if}
+                <span class="calc-op">=</span>
+                <span class="calc-result">{value}</span>
+              </div>
             </div>
           {/each}
 
-          {#if !context && typeData.getValue}
+          {#if contextualInfo.hasPotentialSynergy}
             <p class="synergy-hint">This token has synergy effects when drawn in combat.</p>
           {/if}
         {/if}
@@ -265,35 +309,73 @@
     letter-spacing: 0.05em;
   }
 
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
+  .stat-block {
+    padding: 0.75rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .stat-row:last-of-type {
+  .stat-block:last-of-type {
     border-bottom: none;
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-icon {
+    font-size: 1.25rem;
   }
 
   .stat-name {
     color: #ccc;
+    flex: 1;
   }
 
-  .stat-value {
+  .stat-total {
     color: var(--type-color);
     font-weight: bold;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 
-  .stat-row.bonus .stat-value {
+  .stat-block.bonus .stat-total {
     color: #2ecc71;
   }
 
-  .bonus-indicator {
-    font-size: 0.75rem;
-    font-weight: normal;
+  .stat-calculation {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: #888;
+    padding-left: 2rem;
+  }
+
+  .calc-base {
+    color: #aaa;
+  }
+
+  .calc-op {
+    color: #666;
+  }
+
+  .calc-synergy {
+    color: #2ecc71;
+    font-weight: bold;
+  }
+
+  .calc-rank {
+    color: var(--rank-color);
+  }
+
+  .calc-result {
+    color: var(--type-color);
+    font-weight: bold;
+  }
+
+  .stat-block.bonus .calc-result {
     color: #2ecc71;
   }
 

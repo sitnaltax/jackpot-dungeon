@@ -128,10 +128,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      return {
-        treasure: Math.floor((3 + celestialCount) * rankMultiplier),
-        insight: Math.floor(1 * rankMultiplier),
-      };
+      return { treasure: Math.floor((3 + celestialCount) * rankMultiplier) };
     },
   },
   libra: {
