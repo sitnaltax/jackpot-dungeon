@@ -32,8 +32,6 @@
     return [{ stat: token.type, value: baseValue, icon: typeData.icon }];
   }
 
-  $: isSingleContribution = contributions.length === 1;
-  $: hasSynergy = context && typeData.getValue;
 
   function handleClick() {
     inspectToken(token, context, selectable);
@@ -52,7 +50,6 @@
   class:upgraded={isUpgraded}
   class:selected
   class:has-border-effect={borderEffect}
-  class:has-synergy={hasSynergy}
   style="--type-color: {typeData.color}; --rank-color: {rankData.color}; --border-effect: {borderEffect || 'none'}"
   on:click={handleClick}
   on:keydown={(e) => e.key === 'Enter' && handleClick()}
@@ -60,18 +57,7 @@
   tabindex="0"
 >
   <div class="token-icon">{typeData.icon}</div>
-  {#if isSingleContribution}
-    <div class="token-value">{contributions[0].value}</div>
-  {:else}
-    <div class="multi-contributions">
-      {#each contributions as { stat, value, icon }}
-        <div class="contribution" style="--contrib-color: {TOKEN_TYPES[stat]?.color || '#fff'}">
-          <span class="contrib-icon">{icon}</span>
-          <span class="contrib-value">{value}</span>
-        </div>
-      {/each}
-    </div>
-  {/if}
+  <div class="token-value">{contributions[0].value}</div>
   {#if isUpgraded}
     <div class="token-rank" title="{rankData.name} (×{rankData.multiplier})">
       {rankData.name[0]}
@@ -185,47 +171,6 @@
 
   .token.large .token-value {
     font-size: 1.5em;
-  }
-
-  .token.has-synergy .token-value {
-    color: #2ecc71;
-    text-shadow: 0 0 4px rgba(46, 204, 113, 0.5);
-  }
-
-  .multi-contributions {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    align-items: center;
-  }
-
-  .contribution {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    font-size: 0.7em;
-  }
-
-  .contrib-icon {
-    font-size: 0.9em;
-  }
-
-  .contrib-value {
-    font-weight: bold;
-    color: var(--contrib-color);
-  }
-
-  .token.small .multi-contributions {
-    gap: 0;
-  }
-
-  .token.small .contribution {
-    font-size: 0.6em;
-  }
-
-  .token.large .contribution {
-    font-size: 0.85em;
-    gap: 3px;
   }
 
   .token-rank {
