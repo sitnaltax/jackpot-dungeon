@@ -1,7 +1,10 @@
 <script>
   import { inspectedEquipment, closeEquipmentInspection } from '../lib/gameState.js';
+  import { ITEM_CATEGORIES } from '../lib/items.js';
 
   $: equipment = $inspectedEquipment;
+  $: categoryName = equipment?.category ? (ITEM_CATEGORIES[equipment.category]?.name || 'Equipment') : 'Equipment';
+  $: categoryColor = equipment?.category ? (ITEM_CATEGORIES[equipment.category]?.color || '#4a6785') : '#4a6785';
 
   function getBonusDescription(bonuses) {
     const descriptions = [];
@@ -39,7 +42,7 @@
         <span class="equipment-icon">{equipment.icon}</span>
         <div class="equipment-title">
           <h2>{equipment.name}</h2>
-          <span class="equipment-type">Equipment</span>
+          <span class="equipment-type" style="background: {categoryColor}">{categoryName}</span>
         </div>
       </div>
 
