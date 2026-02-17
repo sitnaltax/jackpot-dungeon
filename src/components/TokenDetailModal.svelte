@@ -105,6 +105,14 @@
         return 'Contributes to Treasure. Gains +1 for each Celestial token drawn.';
       case 'libra':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Celestial token drawn.';
+      case 'oak':
+        return 'Contributes to Resolve. Gains +1 for each Botanical token drawn.';
+      case 'lotus':
+        return 'Contributes to Insight. Gains +1 for each Botanical token drawn.';
+      case 'clover':
+        return 'Contributes to Treasure. Gains +1 for each Botanical token drawn.';
+      case 'fern':
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Botanical token drawn.';
       default:
         return '';
     }

@@ -151,6 +151,69 @@ export const TOKEN_TYPES = {
       };
     },
   },
+  // Botanical series - mirrors Celestial but with resolve preference
+  oak: {
+    name: 'Oak',
+    icon: '🌳',
+    color: '#3498db',
+    baseValue: 3,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
+      return { resolve: Math.floor((3 + botanicalCount) * rankMultiplier) };
+    },
+  },
+  lotus: {
+    name: 'Lotus',
+    icon: '🪷',
+    color: '#e74c3c',
+    baseValue: 2,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
+      return { insight: Math.floor((2 + botanicalCount) * rankMultiplier) };
+    },
+  },
+  clover: {
+    name: 'Clover',
+    icon: '🍀',
+    color: '#f1c40f',
+    baseValue: 3,
+    minDepth: 3,
+    weight: 0.7,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
+      return { treasure: Math.floor((3 + botanicalCount) * rankMultiplier) };
+    },
+  },
+  fern: {
+    name: 'Fern',
+    icon: '🌿',
+    color: '#9b59b6',
+    baseValue: 0,
+    minDepth: 5,
+    weight: 0.5,
+    tags: ['Botanical'],
+    borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const otherBotanicals = countTokensWithTag('Botanical', allDrawnTokens) - 1;
+      const bonus = Math.max(0, otherBotanicals);
+      return {
+        insight: Math.floor(bonus * rankMultiplier),
+        resolve: Math.floor(bonus * rankMultiplier),
+        treasure: Math.floor(bonus * rankMultiplier),
+      };
+    },
+  },
 };
 
 // Alias for backwards compatibility
