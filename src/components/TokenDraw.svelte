@@ -5,10 +5,12 @@
     selectiveRedrawsRemaining,
     selectedTokensForRedraw,
     currentEncounter,
+    player,
     redrawAll,
     toggleTokenSelection,
     redrawSelected,
-    confirmDraw
+    confirmDraw,
+    getEquipmentBonuses,
   } from '../lib/gameState.js';
   import { calculateDrawTotals } from '../lib/combat.js';
   import { TOKEN_TYPES, getTokenValue } from '../lib/constants.js';
@@ -47,7 +49,13 @@
   }
 
   $: sortedTokens = sortTokens($drawnTokens);
-  $: totals = calculateDrawTotals($drawnTokens);
+  $: tokenTotals = calculateDrawTotals($drawnTokens);
+  $: equipBonuses = getEquipmentBonuses($player.equipment);
+  $: totals = {
+    insight: tokenTotals.insight + (equipBonuses.insight || 0),
+    resolve: tokenTotals.resolve + (equipBonuses.resolve || 0),
+    treasure: tokenTotals.treasure,
+  };
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
 
@@ -78,6 +86,9 @@
       <span class="total-label">Insight</span>
       <span class="total-value">
         👁️ {totals.insight}
+        {#if equipBonuses.insight > 0}
+          <span class="equip-bonus">(+{equipBonuses.insight})</span>
+        {/if}
         <span class="threshold-indicator" class:met={insightMet}>{insightMet ? '✓' : '✗'}</span>
       </span>
     </div>
@@ -85,6 +96,9 @@
       <span class="total-label">Resolve</span>
       <span class="total-value">
         🛡️ {totals.resolve}
+        {#if equipBonuses.resolve > 0}
+          <span class="equip-bonus">(+{equipBonuses.resolve})</span>
+        {/if}
         <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
       </span>
     </div>
@@ -181,6 +195,12 @@
 
   .total.treasure .total-value {
     color: #f1c40f;
+  }
+
+  .equip-bonus {
+    font-size: 0.75rem;
+    color: #e5c07b;
+    margin-left: 0.15rem;
   }
 
   .threshold-indicator {
