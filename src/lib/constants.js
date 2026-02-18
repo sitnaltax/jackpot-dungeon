@@ -214,6 +214,41 @@ export const TOKEN_TYPES = {
       };
     },
   },
+  // Loner tokens - powerful alone, but conflict with other synergy tokens
+  saturn: {
+    name: 'Saturn',
+    icon: '🪐',
+    color: '#e74c3c',
+    baseValue: 8,
+    minDepth: 12,
+    weight: 0.3,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const otherCelestials = allDrawnTokens.filter(t =>
+        t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Celestial')
+      ).length;
+      const value = otherCelestials > 0 ? 0 : 8;
+      return { insight: Math.floor(value * rankMultiplier) };
+    },
+  },
+  hemlock: {
+    name: 'Hemlock',
+    icon: '☠️',
+    color: '#3498db',
+    baseValue: 8,
+    minDepth: 12,
+    weight: 0.3,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const otherBotanicals = allDrawnTokens.filter(t =>
+        t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Botanical')
+      ).length;
+      const value = otherBotanicals > 0 ? 0 : 8;
+      return { resolve: Math.floor(value * rankMultiplier) };
+    },
+  },
 };
 
 // Alias for backwards compatibility
