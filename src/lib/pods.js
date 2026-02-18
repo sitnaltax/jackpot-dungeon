@@ -1,6 +1,7 @@
 // Pod and token definitions
 
-import { RANKS, RANK_ORDER, TOKEN_BASE_COST, TOKEN_TYPES as TOKEN_TYPE_DATA } from './constants.js';
+import { RANKS, RANK_ORDER, TOKEN_BASE_COST } from './constants.js';
+import { TOKEN_TYPES as TOKEN_TYPE_DATA } from './tokens.js';
 
 let nextPodId = 1;
 let nextTokenId = 1;

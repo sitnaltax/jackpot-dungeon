@@ -14,7 +14,7 @@
     getEquipmentBonuses,
   } from '../lib/gameState.js';
   import { calculateDrawTotals } from '../lib/combat.js';
-  import { TOKEN_TYPES, getTokenValue } from '../lib/constants.js';
+  import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
   const STAT_PRIORITY = { insight: 0, resolve: 1, treasure: 2 };

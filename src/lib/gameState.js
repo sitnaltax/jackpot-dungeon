@@ -1,7 +1,8 @@
 // Svelte stores for reactive game state
 
 import { writable, derived, get } from 'svelte/store';
-import { CONFIG, TOKEN_TYPES } from './constants.js';
+import { CONFIG } from './constants.js';
+import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';

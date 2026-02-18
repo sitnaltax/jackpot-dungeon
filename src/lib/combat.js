@@ -1,6 +1,7 @@
 // Encounter resolution logic
 
-import { CONFIG, TOKEN_TYPES, getEffectiveValue } from './constants.js';
+import { CONFIG } from './constants.js';
+import { TOKEN_TYPES, getEffectiveValue } from './tokens.js';
 
 // Calculate totals from drawn tokens
 export function calculateDrawTotals(drawnTokens) {
