@@ -1,7 +1,7 @@
 // Svelte stores for reactive game state
 
 import { writable, derived, get } from 'svelte/store';
-import { CONFIG } from './constants.js';
+import { CONFIG, TOKEN_TYPES } from './constants.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
@@ -50,6 +50,23 @@ export const selectedEquipmentSlot = writable(null); // slot index for replaceme
 export const choiceEncounters = writable({ hard: null, basic: null });
 export const chosenPath = writable(null); // 'hard' or 'basic'
 export const rewardPod = writable(null); // Pod offered as reward after hard path
+
+// Accumulated on-draw effects for the current encounter.
+// Fires each time a token freshly enters the draw (including redraws of the same token).
+export const drawEffects = writable({ insight: 0, resolve: 0, treasure: 0 });
+
+function applyOnDrawEffects(tokens) {
+  for (const token of tokens) {
+    const typeData = TOKEN_TYPES[token.type];
+    if (!typeData.onDraw) continue;
+    const effects = typeData.onDraw(token);
+    drawEffects.update(d => ({
+      insight: d.insight + (effects.insight || 0),
+      resolve: d.resolve + (effects.resolve || 0),
+      treasure: d.treasure + (effects.treasure || 0),
+    }));
+  }
+}
 
 // Token inspection modal state
 // inspectedToken: the token being inspected
@@ -204,6 +221,9 @@ function beginEncounter(encounter) {
   selectiveRedrawsRemaining.set(Math.max(0, CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws + selectiveBonus));
   selectedTokensForRedraw.set(new Set());
 
+  // Reset on-draw effects for this encounter
+  drawEffects.set({ insight: 0, resolve: 0, treasure: 0 });
+
   // Draw tokens
   drawTokens();
 
@@ -234,6 +254,7 @@ export function drawTokens() {
   const totalDraw = CONFIG.drawCount + equipmentBonuses.bonusDraw;
   const drawn = pool.slice(0, totalDraw);
   drawnTokens.set(drawn);
+  applyOnDrawEffects(drawn);
 }
 
 export function redrawAll() {
@@ -281,8 +302,10 @@ export function redrawSelected() {
   const numToDraw = $selected.size;
   const newTokens = availablePool.slice(0, numToDraw);
 
-  // Combine kept and new tokens
-  drawnTokens.set([...keptTokens, ...newTokens]);
+  // Combine kept and new tokens; only newly drawn tokens trigger onDraw effects
+  const combined = [...keptTokens, ...newTokens];
+  drawnTokens.set(combined);
+  applyOnDrawEffects(newTokens);
 
   // Clear selection and decrement redraws
   selectedTokensForRedraw.set(new Set());
@@ -306,7 +329,8 @@ export function executeCombat() {
     resolve: equipmentBonuses.resolve,
   };
 
-  const result = resolveCombat($drawnTokens, $encounter, combatBonuses);
+  const $drawEffects = get(drawEffects);
+  const result = resolveCombat($drawnTokens, $encounter, combatBonuses, $drawEffects);
 
   // Award XP: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
   const baseXp = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);

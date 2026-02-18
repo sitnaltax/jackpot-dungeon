@@ -6,10 +6,7 @@
 * Fix shop refresh costs
 
 ## Tokens
-* Herbalism (opposite of celestial)
 * rare insight/resolve mix
-* rare lock/key mix
-* tokens that benefit from being the only celestial/herbalism
 * tokens that give a bonus when drawn??!
 * tokens that count for several mods
 

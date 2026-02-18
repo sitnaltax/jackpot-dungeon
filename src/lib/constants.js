@@ -263,6 +263,53 @@ export const TOKEN_TYPES = {
       };
     },
   },
+  // Chthonic series - start weak but scale with each other; grant a flat +1 bonus on first draw
+  // onDraw: fires each time a token freshly enters the draw (including redraws)
+  obsidian: {
+    name: 'Obsidian',
+    icon: '🌑',
+    color: '#e74c3c',
+    baseValue: 0,
+    minDepth: 10,
+    weight: 0.5,
+    tags: ['Chthonic'],
+    onDraw: () => ({ insight: 1 }),
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
+      return { insight: Math.floor(2 * chthonicCount * rankMultiplier) };
+    },
+  },
+  granite: {
+    name: 'Granite',
+    icon: '🪨',
+    color: '#3498db',
+    baseValue: 0,
+    minDepth: 10,
+    weight: 0.5,
+    tags: ['Chthonic'],
+    onDraw: () => ({ resolve: 1 }),
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
+      return { resolve: Math.floor(2 * chthonicCount * rankMultiplier) };
+    },
+  },
+  geode: {
+    name: 'Geode',
+    icon: '💎',
+    color: '#f1c40f',
+    baseValue: 0,
+    minDepth: 10,
+    weight: 0.5,
+    tags: ['Chthonic'],
+    onDraw: () => ({ treasure: 1 }),
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
+      return { treasure: Math.floor(2 * chthonicCount * rankMultiplier) };
+    },
+  },
   // Loner tokens - powerful alone, but conflict with other synergy tokens
   pluto: {
     name: 'Pluto',
