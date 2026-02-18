@@ -217,8 +217,8 @@ export const TOKEN_TYPES = {
     },
   },
   // Loner tokens - powerful alone, but conflict with other synergy tokens
-  saturn: {
-    name: 'Saturn',
+  pluto: {
+    name: 'Pluto',
     icon: '🪐',
     color: '#e74c3c',
     baseValue: 8,

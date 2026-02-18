@@ -113,7 +113,7 @@
         return 'Contributes to Treasure. Gains +1 for each Botanical token drawn.';
       case 'fern':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Botanical token drawn.';
-      case 'saturn':
+      case 'pluto':
         return 'Contributes 8 Insight. Drops to 0 if any other Celestial tokens are drawn.';
       case 'hemlock':
         return 'Contributes 8 Resolve. Drops to 0 if any other Botanical tokens are drawn.';
