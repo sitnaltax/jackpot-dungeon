@@ -93,10 +93,10 @@
         return 'Contributes to Resolve, helping you withstand trouble.';
       case 'treasure':
         return 'Adds directly to treasure gained from the encounter.';
-      case 'lock':
-        return 'Contributes to Resolve. Gains a bonus when drawn with a Key.';
-      case 'key':
-        return 'Contributes to Insight. Gains a bonus when drawn with a Lock.';
+      case 'harmony':
+        return 'Contributes to Resolve. Gains a bonus when drawn with a different Musical token.';
+      case 'melody':
+        return 'Contributes to Insight. Gains a bonus when drawn with a different Musical token.';
       case 'scorpio':
         return 'Contributes to Insight. Gains +1 for each Celestial token drawn.';
       case 'capricorn':

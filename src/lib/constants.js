@@ -59,33 +59,35 @@ export const TOKEN_TYPES = {
   insight: { name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
   resolve: { name: 'Resolve', icon: '🛡️', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
   treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
-  lock: {
-    name: 'Lock',
-    icon: '🔒',
+  harmony: {
+    name: 'Harmony',
+    icon: '🎵',
     color: '#3498db',
     baseValue: 4,
     minDepth: 2,
     weight: 1,
+    tags: ['Musical'],
     getValue: (token, allDrawnTokens) => {
       const typeData = TOKEN_TYPES[token.type];
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
-      const hasKey = allDrawnTokens.some(t => t.type === 'key');
-      const bonus = hasKey ? 2 : 0;
+      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
+      const bonus = hasOtherMusical ? 2 : 0;
       return { resolve: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
-  key: {
-    name: 'Key',
-    icon: '🔑',
+  melody: {
+    name: 'Melody',
+    icon: '🎶',
     color: '#e74c3c',
     baseValue: 4,
     minDepth: 2,
     weight: 1,
+    tags: ['Musical'],
     getValue: (token, allDrawnTokens) => {
       const typeData = TOKEN_TYPES[token.type];
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
-      const hasLock = allDrawnTokens.some(t => t.type === 'lock');
-      const bonus = hasLock ? 2 : 0;
+      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
+      const bonus = hasOtherMusical ? 2 : 0;
       return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
