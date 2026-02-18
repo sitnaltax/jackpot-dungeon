@@ -97,6 +97,10 @@
         return 'Contributes to Resolve. Gains a bonus when drawn with a different Musical token.';
       case 'melody':
         return 'Contributes to Insight. Gains a bonus when drawn with a different Musical token.';
+      case 'chord':
+        return 'Contributes 1 Insight, Resolve, and Treasure. Increases to 3 each if drawn with 2 other unique Musical tokens.';
+      case 'discord':
+        return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
       case 'scorpio':
         return 'Contributes to Insight. Gains +1 for each Celestial token drawn.';
       case 'capricorn':

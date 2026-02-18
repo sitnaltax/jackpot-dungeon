@@ -91,6 +91,53 @@ export const TOKEN_TYPES = {
       return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
   },
+  chord: {
+    name: 'Chord',
+    icon: '🎹',
+    color: '#9b59b6',
+    baseValue: 1,
+    minDepth: 7,
+    weight: 0.6,
+    tags: ['Musical'],
+    borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const uniqueOtherMusical = new Set(
+        allDrawnTokens
+          .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
+          .map(t => t.type)
+      ).size;
+      const value = uniqueOtherMusical >= 2 ? 3 : 1;
+      return {
+        insight: Math.floor(value * rankMultiplier),
+        resolve: Math.floor(value * rankMultiplier),
+        treasure: Math.floor(value * rankMultiplier),
+      };
+    },
+  },
+  discord: {
+    name: 'Discord',
+    icon: '🎸',
+    color: '#9b59b6',
+    baseValue: 2,
+    minDepth: 11,
+    weight: 0.4,
+    tags: ['Musical'],
+    borderEffect: 'linear-gradient(135deg, #e74c3c, #3498db)',
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const uniqueOtherMusical = new Set(
+        allDrawnTokens
+          .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
+          .map(t => t.type)
+      ).size;
+      const value = uniqueOtherMusical >= 3 ? 5 : 2;
+      return {
+        insight: Math.floor(value * rankMultiplier),
+        resolve: Math.floor(value * rankMultiplier),
+      };
+    },
+  },
   scorpio: {
     name: 'Scorpio',
     icon: '♏',
