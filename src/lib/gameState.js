@@ -6,11 +6,13 @@ import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter, generateBasicEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
-import { STARTING_EQUIPMENT, generateItemShop } from './items.js';
+import { generateItemShop } from './items.js';
+import { CLASSES } from './classes.js';
 
 // Game phases
 export const PHASES = {
   START: 'start',
+  CLASS_SELECT: 'classSelect',
   CHOICE: 'choice',
   DRAW: 'draw',
   COMBAT: 'combat',
@@ -23,13 +25,15 @@ export const PHASES = {
 // Core game state stores
 export const gamePhase = writable(PHASES.START);
 export const encounterNumber = writable(0);
+export const isDebugMode = writable(false);
 export const player = writable({
   pods: [],
+  playerClass: null,
   stamina: CONFIG.startingStamina,
   maxStamina: CONFIG.startingStamina,
   treasure: CONFIG.startingTreasure,
   xp: 0,
-  equipment: [...STARTING_EQUIPMENT],
+  equipment: [null, null, null],
 });
 export const currentEncounter = writable(null);
 export const drawnTokens = writable([]);
@@ -100,7 +104,18 @@ export function closeEquipmentInspection() {
   inspectedEquipment.set(null);
 }
 
-// Helper to calculate all bonuses from equipment
+// Class detail modal state
+export const inspectedClass = writable(null);
+
+export function inspectClass(playerClass) {
+  inspectedClass.set(playerClass);
+}
+
+export function closeClassInspection() {
+  inspectedClass.set(null);
+}
+
+// Helper to calculate bonuses from equipment only
 export function getEquipmentBonuses(equipment) {
   const bonuses = {
     redraws: 0,
@@ -125,9 +140,21 @@ export function getEquipmentBonuses(equipment) {
   return bonuses;
 }
 
-// Compute effective max stamina (base + equipment bonuses)
-export function getEffectiveMaxStamina(playerState) {
+// Helper to calculate total bonuses from equipment + class
+export function getTotalBonuses(playerState) {
   const bonuses = getEquipmentBonuses(playerState.equipment || []);
+  const classBonuses = playerState.playerClass?.bonuses || {};
+  for (const key of Object.keys(bonuses)) {
+    if (classBonuses[key]) {
+      bonuses[key] += classBonuses[key];
+    }
+  }
+  return bonuses;
+}
+
+// Compute effective max stamina (base + equipment + class bonuses)
+export function getEffectiveMaxStamina(playerState) {
+  const bonuses = getTotalBonuses(playerState);
   return playerState.maxStamina + bonuses.maxStamina;
 }
 
@@ -140,37 +167,48 @@ export const isGameOver = derived(player, ($player) => {
   return $player.stamina <= 0;
 });
 
-// Game actions
+// Game actions — start screen transitions to class select
 export function startNewGame() {
-  const startingPods = generateStartingPods();
-
-  player.set({
-    pods: startingPods,
-    maxPods: CONFIG.drawCount,
-    stamina: CONFIG.startingStamina,
-    maxStamina: CONFIG.startingStamina,
-    treasure: CONFIG.startingTreasure,
-    xp: 0,
-    equipment: [...STARTING_EQUIPMENT],
-  });
-
-  encounterNumber.set(0);
-  combatResult.set(null);
-  startNextEncounter();
+  isDebugMode.set(false);
+  gamePhase.set(PHASES.CLASS_SELECT);
 }
 
 export function startDebugGame() {
-  const startingPods = generateStartingPods();
+  isDebugMode.set(true);
+  gamePhase.set(PHASES.CLASS_SELECT);
+}
 
-  player.set({
+// Player selects a class and the game begins
+export function selectClass(classId) {
+  const chosenClass = CLASSES[classId];
+  if (!chosenClass) return;
+
+  const startingPods = generateStartingPods();
+  const debug = get(isDebugMode);
+
+  const baseStamina = CONFIG.startingStamina;
+  const baseTreasure = CONFIG.startingTreasure + (chosenClass.startingTreasureBonus || 0);
+  const baseXp = chosenClass.startingXpBonus || 0;
+
+  const playerState = {
     pods: startingPods,
     maxPods: CONFIG.drawCount,
-    stamina: CONFIG.startingStamina + 1000,
-    maxStamina: CONFIG.startingStamina + 1000,
-    treasure: CONFIG.startingTreasure + 1000,
-    xp: 1000,
-    equipment: [...STARTING_EQUIPMENT],
-  });
+    playerClass: chosenClass,
+    stamina: baseStamina,
+    maxStamina: baseStamina,
+    treasure: debug ? baseTreasure + 1000 : baseTreasure,
+    xp: debug ? baseXp + 1000 : baseXp,
+    equipment: [...chosenClass.startingEquipment],
+  };
+
+  // Set stamina to effective max (accounts for class + equipment bonuses)
+  const effMax = getEffectiveMaxStamina(playerState);
+  playerState.stamina = debug ? effMax + 1000 : effMax;
+  if (debug) {
+    playerState.maxStamina = baseStamina + 1000;
+  }
+
+  player.set(playerState);
 
   encounterNumber.set(0);
   combatResult.set(null);
@@ -211,15 +249,15 @@ export function startNextEncounter() {
 function beginEncounter(encounter) {
   currentEncounter.set(encounter);
 
-  // Calculate redraws from equipment and encounter bonuses
+  // Calculate redraws from equipment + class and encounter bonuses
   const $player = get(player);
-  const equipmentBonuses = getEquipmentBonuses($player.equipment);
+  const totalBonuses = getTotalBonuses($player);
   const redrawBonus = encounter.redrawBonus || 0;
   const selectiveBonus = encounter.selectiveRedrawBonus || 0;
 
-  // Reset draw state with equipment and encounter bonuses
-  redrawsRemaining.set(Math.max(0, CONFIG.redrawsPerEncounter + equipmentBonuses.redraws + redrawBonus));
-  selectiveRedrawsRemaining.set(Math.max(0, CONFIG.selectiveRedrawsPerEncounter + equipmentBonuses.selectiveRedraws + selectiveBonus));
+  // Reset draw state with total and encounter bonuses
+  redrawsRemaining.set(Math.max(0, CONFIG.redrawsPerEncounter + totalBonuses.redraws + redrawBonus));
+  selectiveRedrawsRemaining.set(Math.max(0, CONFIG.selectiveRedrawsPerEncounter + totalBonuses.selectiveRedraws + selectiveBonus));
   selectedTokensForRedraw.set(new Set());
 
   // Reset on-draw effects for this encounter
@@ -250,9 +288,9 @@ export function drawTokens() {
   const pool = getTokenPool($player.pods);
   tokenPool.set(pool);
 
-  // Draw count includes bonus draws from light sources
-  const equipmentBonuses = getEquipmentBonuses($player.equipment);
-  const totalDraw = CONFIG.drawCount + equipmentBonuses.bonusDraw;
+  // Draw count includes bonus draws from light sources (equipment + class)
+  const totalBonuses = getTotalBonuses($player);
+  const totalDraw = CONFIG.drawCount + totalBonuses.bonusDraw;
   const drawn = pool.slice(0, totalDraw);
   drawnTokens.set(drawn);
   applyOnDrawEffects(drawn);
@@ -323,11 +361,11 @@ export function executeCombat() {
   const $encounter = get(currentEncounter);
   const $player = get(player);
 
-  // Get equipment bonuses for combat
-  const equipmentBonuses = getEquipmentBonuses($player.equipment);
+  // Get total bonuses (equipment + class) for combat
+  const totalBonuses = getTotalBonuses($player);
   const combatBonuses = {
-    insight: equipmentBonuses.insight,
-    resolve: equipmentBonuses.resolve,
+    insight: totalBonuses.insight,
+    resolve: totalBonuses.resolve,
   };
 
   const $drawEffects = get(drawEffects);
@@ -347,9 +385,8 @@ export function executeCombat() {
   result.treasureGained = Math.floor(result.treasureGained * treasureMultiplier);
   result.xpGained = Math.floor(baseXp * xpMultiplier);
 
-  // Calculate stamina regen from food
-  const staminaRegen = equipmentBonuses.staminaRegen;
-  const effectiveMax = getEffectiveMaxStamina($player);
+  // Calculate stamina regen from equipment + class
+  const staminaRegen = totalBonuses.staminaRegen;
   result.staminaRegen = staminaRegen;
 
   combatResult.set(result);
@@ -452,17 +489,12 @@ export function purchaseItem(item, shopIndex) {
     if (hasOtherLight) return;
   }
 
-  // Calculate maxStamina change from swapping equipment
-  const oldItem = $player.equipment[targetSlot];
-  const oldMaxBonus = oldItem?.bonuses?.maxStamina || 0;
-  const newMaxBonus = item.bonuses?.maxStamina || 0;
-
   // Apply purchase
   player.update(p => {
     const newEquipment = [...p.equipment];
     newEquipment[targetSlot] = item;
 
-    // Effective max stamina after swap
+    // Effective max stamina after swap (uses equipment only for hypothetical calc, plus class)
     const effMax = getEffectiveMaxStamina({ ...p, equipment: newEquipment });
 
     // Apply food heal on pickup
@@ -476,7 +508,8 @@ export function purchaseItem(item, shopIndex) {
 
     // Check if +draw expanded and we need more pods
     const newBonuses = getEquipmentBonuses(newEquipment);
-    const totalDraw = CONFIG.drawCount + newBonuses.bonusDraw;
+    const classBonusDraw = p.playerClass?.bonuses?.bonusDraw || 0;
+    const totalDraw = CONFIG.drawCount + newBonuses.bonusDraw + classBonusDraw;
 
     let newPods = [...p.pods];
     let newMaxPods = p.maxPods;
@@ -635,5 +668,5 @@ export function takeRewardTreasure() {
 }
 
 export function restartGame() {
-  startNewGame();
+  gamePhase.set(PHASES.START);
 }

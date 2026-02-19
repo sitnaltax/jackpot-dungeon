@@ -11,7 +11,7 @@
     toggleTokenSelection,
     redrawSelected,
     confirmDraw,
-    getEquipmentBonuses,
+    getTotalBonuses,
   } from '../lib/gameState.js';
   import { calculateDrawTotals } from '../lib/combat.js';
   import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
@@ -51,7 +51,7 @@
 
   $: sortedTokens = sortTokens($drawnTokens);
   $: tokenTotals = calculateDrawTotals($drawnTokens);
-  $: equipBonuses = getEquipmentBonuses($player.equipment);
+  $: equipBonuses = getTotalBonuses($player);
   $: totals = {
     insight: tokenTotals.insight + (equipBonuses.insight || 0) + ($drawEffects.insight || 0),
     resolve: tokenTotals.resolve + (equipBonuses.resolve || 0) + ($drawEffects.resolve || 0),

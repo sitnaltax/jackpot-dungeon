@@ -258,39 +258,10 @@ export const ITEMS = {
     staminaHeal: 10,
   },
 
-  // === STARTING EQUIPMENT ===
-  // These are given at game start and use the same item system
-  inheritedDiary: {
-    id: 'inheritedDiary',
-    name: 'Inherited Diary',
-    description: 'A worn journal passed down through generations, filled with cryptic notes.',
-    icon: '📔',
-    category: 'book',
-    cost: 3,
-    bonuses: { selectiveRedraws: 1 },
-  },
-  antiquePendant: {
-    id: 'antiquePendant',
-    name: 'Antique Pendant',
-    description: 'A tarnished silver pendant that hums with faint energy.',
-    icon: '📿',
-    category: 'navigation',
-    cost: 2,
-    bonuses: { redraws: 1 },
-  },
 };
 
-// Starting equipment for new games
-export const STARTING_EQUIPMENT = [
-  ITEMS.inheritedDiary,
-  ITEMS.antiquePendant,
-  null, // Empty slot
-];
-
-// Get all items available for shops (excludes starting-only items)
-const SHOP_ITEM_POOL = Object.values(ITEMS).filter(
-  item => item.id !== 'inheritedDiary' && item.id !== 'antiquePendant'
-);
+// Get all items available for shops
+const SHOP_ITEM_POOL = Object.values(ITEMS);
 
 // Generate item shop offerings
 export function generateItemShop(encounterNumber, playerState) {

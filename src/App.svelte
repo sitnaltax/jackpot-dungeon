@@ -2,6 +2,7 @@
   import { gamePhase, PHASES } from './lib/gameState.js';
 
   import StartScreen from './components/StartScreen.svelte';
+  import ClassSelect from './components/ClassSelect.svelte';
   import PlayerStatus from './components/PlayerStatus.svelte';
   import Encounter from './components/Encounter.svelte';
   import EncounterChoice from './components/EncounterChoice.svelte';
@@ -14,14 +15,18 @@
   import GameOver from './components/GameOver.svelte';
   import TokenDetailModal from './components/TokenDetailModal.svelte';
   import EquipmentDetailModal from './components/EquipmentDetailModal.svelte';
+  import ClassDetailModal from './components/ClassDetailModal.svelte';
 </script>
 
 <TokenDetailModal />
 <EquipmentDetailModal />
+<ClassDetailModal />
 
 <main>
   {#if $gamePhase === PHASES.START}
     <StartScreen />
+  {:else if $gamePhase === PHASES.CLASS_SELECT}
+    <ClassSelect />
   {:else if $gamePhase === PHASES.GAME_OVER}
     <GameOver />
   {:else}

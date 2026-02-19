@@ -1,10 +1,12 @@
 <script>
-  import { player, encounterNumber, inspectEquipment, getEffectiveMaxStamina } from '../lib/gameState.js';
+  import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
 
   $: effectiveMax = getEffectiveMaxStamina($player);
   $: staminaPercent = ($player.stamina / effectiveMax) * 100;
   $: staminaColor = staminaPercent > 50 ? '#2ecc71' : staminaPercent > 25 ? '#f39c12' : '#e74c3c';
+
+  $: playerClass = $player.playerClass;
 
   // Ensure equipment array has correct number of slots
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
@@ -14,6 +16,12 @@
       inspectEquipment(item);
     }
   }
+
+  function handleClassClick() {
+    if (playerClass) {
+      inspectClass(playerClass);
+    }
+  }
 </script>
 
 <div class="player-status">
@@ -21,6 +29,19 @@
     <span class="label">Depth</span>
     <span class="value">{$encounterNumber}</span>
   </div>
+
+  {#if playerClass}
+    <div
+      class="stat class-stat"
+      on:click={handleClassClick}
+      on:keydown={(e) => e.key === 'Enter' && handleClassClick()}
+      role="button"
+      tabindex="0"
+    >
+      <span class="label">Class</span>
+      <span class="value class-value">{playerClass.icon} {playerClass.name}</span>
+    </div>
+  {/if}
 
   <div class="stat stamina-stat">
     <span class="label">Stamina</span>
@@ -158,5 +179,18 @@
     border-style: dashed;
     border-color: #555;
     cursor: default;
+  }
+
+  .class-stat {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .class-stat:hover {
+    opacity: 0.8;
+  }
+
+  .class-value {
+    color: #f1c40f;
   }
 </style>
