@@ -3,7 +3,7 @@
 </script>
 
 <div class="start-screen">
-  <h1>Jacques' Quest</h1>
+  <h1>Jacq's Quest</h1>
 
   <div class="how-to-play">
     <h3>How to Play</h3>
