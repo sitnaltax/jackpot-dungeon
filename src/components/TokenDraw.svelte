@@ -1,6 +1,7 @@
 <script>
   import {
     drawnTokens,
+    drawEffects,
     redrawsRemaining,
     selectiveRedrawsRemaining,
     selectedTokensForRedraw,
@@ -13,7 +14,7 @@
     getEquipmentBonuses,
   } from '../lib/gameState.js';
   import { calculateDrawTotals } from '../lib/combat.js';
-  import { TOKEN_TYPES, getTokenValue } from '../lib/constants.js';
+  import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
   const STAT_PRIORITY = { insight: 0, resolve: 1, treasure: 2 };
@@ -52,9 +53,9 @@
   $: tokenTotals = calculateDrawTotals($drawnTokens);
   $: equipBonuses = getEquipmentBonuses($player.equipment);
   $: totals = {
-    insight: tokenTotals.insight + (equipBonuses.insight || 0),
-    resolve: tokenTotals.resolve + (equipBonuses.resolve || 0),
-    treasure: tokenTotals.treasure,
+    insight: tokenTotals.insight + (equipBonuses.insight || 0) + ($drawEffects.insight || 0),
+    resolve: tokenTotals.resolve + (equipBonuses.resolve || 0) + ($drawEffects.resolve || 0),
+    treasure: tokenTotals.treasure + ($drawEffects.treasure || 0),
   };
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
@@ -89,6 +90,9 @@
         {#if equipBonuses.insight > 0}
           <span class="equip-bonus">(+{equipBonuses.insight})</span>
         {/if}
+        {#if $drawEffects.insight > 0}
+          <span class="draw-bonus">(+{$drawEffects.insight})</span>
+        {/if}
         <span class="threshold-indicator" class:met={insightMet}>{insightMet ? '✓' : '✗'}</span>
       </span>
     </div>
@@ -99,12 +103,20 @@
         {#if equipBonuses.resolve > 0}
           <span class="equip-bonus">(+{equipBonuses.resolve})</span>
         {/if}
+        {#if $drawEffects.resolve > 0}
+          <span class="draw-bonus">(+{$drawEffects.resolve})</span>
+        {/if}
         <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
       </span>
     </div>
     <div class="total treasure">
       <span class="total-label">Treasure</span>
-      <span class="total-value">💰 {totals.treasure}</span>
+      <span class="total-value">
+        💰 {totals.treasure}
+        {#if $drawEffects.treasure > 0}
+          <span class="draw-bonus">(+{$drawEffects.treasure})</span>
+        {/if}
+      </span>
     </div>
   </div>
 
@@ -200,6 +212,12 @@
   .equip-bonus {
     font-size: 0.75rem;
     color: #e5c07b;
+    margin-left: 0.15rem;
+  }
+
+  .draw-bonus {
+    font-size: 0.75rem;
+    color: #8b7355;
     margin-left: 0.15rem;
   }
 

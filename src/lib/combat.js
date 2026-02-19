@@ -1,6 +1,7 @@
 // Encounter resolution logic
 
-import { CONFIG, TOKEN_TYPES, getEffectiveValue } from './constants.js';
+import { CONFIG } from './constants.js';
+import { TOKEN_TYPES, getEffectiveValue } from './tokens.js';
 
 // Calculate totals from drawn tokens
 export function calculateDrawTotals(drawnTokens) {
@@ -32,16 +33,23 @@ export function calculateDrawTotals(drawnTokens) {
 
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
-export function resolveCombat(drawnTokens, encounter, bonuses = {}) {
+// drawEffects: optional { insight, resolve, treasure } accumulated from token onDraw callbacks
+export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
   const totals = calculateDrawTotals(drawnTokens);
 
   // Apply flat bonuses from equipment
   if (bonuses.insight) totals.insight += bonuses.insight;
   if (bonuses.resolve) totals.resolve += bonuses.resolve;
 
+  // Apply accumulated on-draw effects (flat, not rank-scaled, persist through redraws)
+  if (drawEffects.insight) totals.insight += drawEffects.insight;
+  if (drawEffects.resolve) totals.resolve += drawEffects.resolve;
+  if (drawEffects.treasure) totals.treasure += drawEffects.treasure;
+
   const result = {
     totals,
     equipmentBonuses: { insight: bonuses.insight || 0, resolve: bonuses.resolve || 0 },
+    drawEffects: { insight: drawEffects.insight || 0, resolve: drawEffects.resolve || 0, treasure: drawEffects.treasure || 0 },
     encounter,
     revealed: false,
     staminaLost: 0,
@@ -75,14 +83,28 @@ export function resolveCombat(drawnTokens, encounter, bonuses = {}) {
   return result;
 }
 
+// Build a bonus breakdown suffix like " (8 tokens + 2 equip + 1 draw)"
+function bonusSuffix(total, eqBonus, drawBonus) {
+  if (eqBonus === 0 && drawBonus === 0) return '';
+  const tokenPart = total - eqBonus - drawBonus;
+  const parts = [`${tokenPart} tokens`];
+  if (eqBonus > 0) parts.push(`${eqBonus} equip`);
+  if (drawBonus > 0) parts.push(`${drawBonus} draw`);
+  return ` (${parts.join(' + ')})`;
+}
+
 // Generate encounter summary text
 export function getCombatSummary(result) {
   const lines = [];
 
   const eqInsight = result.equipmentBonuses?.insight || 0;
   const eqResolve = result.equipmentBonuses?.resolve || 0;
-  const insightSuffix = eqInsight > 0 ? ` (${result.totals.insight - eqInsight} + ${eqInsight} equip)` : '';
-  const resolveSuffix = eqResolve > 0 ? ` (${result.totals.resolve - eqResolve} + ${eqResolve} equip)` : '';
+  const deInsight = result.drawEffects?.insight || 0;
+  const deResolve = result.drawEffects?.resolve || 0;
+  const deTreasure = result.drawEffects?.treasure || 0;
+
+  const insightSuffix = bonusSuffix(result.totals.insight, eqInsight, deInsight);
+  const resolveSuffix = bonusSuffix(result.totals.resolve, eqResolve, deResolve);
 
   // Insight summary
   if (result.insightSuccess) {
@@ -101,9 +123,12 @@ export function getCombatSummary(result) {
 
   // Treasure summary
   lines.push(`$ Treasure: +${result.treasureGained}`);
-  if (result.revealed) {
-    const mysteryBonus = Math.floor(result.encounter.mystery / 2);
-    lines.push(`  (${result.totals.treasure} from tokens + ${mysteryBonus} from mystery reveal)`);
+  const tokenTreasure = result.totals.treasure - deTreasure;
+  if (result.revealed || deTreasure > 0) {
+    const parts = [`${tokenTreasure} tokens`];
+    if (deTreasure > 0) parts.push(`${deTreasure} draw`);
+    if (result.revealed) parts.push(`${Math.floor(result.encounter.mystery / 2)} mystery reveal`);
+    lines.push(`  (${parts.join(' + ')})`);
   }
 
   return lines;

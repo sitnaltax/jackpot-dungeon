@@ -1,5 +1,6 @@
 <script>
-  import { TOKEN_TYPES, RANKS, getTokenValue } from '../lib/constants.js';
+  import { RANKS } from '../lib/constants.js';
+  import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import {
     inspectedToken,
     inspectionContext,
