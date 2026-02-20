@@ -1,13 +1,11 @@
 ## TODO ideas
 * Rewrite description for items
-* powers into class
-* fix the "navigation" antique pendant
 * token draw can show up too early on items
 * Fix shop refresh costs
+* Fix class descriptions, ugly icons
 
 ## Tokens
 * rare insight/resolve mix
-* tokens that give a bonus when drawn??!
 * tokens that count for several mods
 
 ## Difficulty
