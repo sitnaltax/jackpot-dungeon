@@ -31,10 +31,7 @@
       <button class="close-btn" on:click={closeClassInspection}>&times;</button>
 
       <div class="class-header">
-        <span class="class-icon">{cls.icon}</span>
-        <div class="class-title">
-          <h2>{cls.name}</h2>
-        </div>
+        <h2>{cls.name}</h2>
       </div>
 
       <p class="description">{cls.description}</p>
@@ -107,17 +104,10 @@
   }
 
   .class-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
     margin-bottom: 1rem;
   }
 
-  .class-icon {
-    font-size: 3rem;
-  }
-
-  .class-title h2 {
+  .class-header h2 {
     margin: 0;
     color: #f1c40f;
     font-size: 1.5rem;

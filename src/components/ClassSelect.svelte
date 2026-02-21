@@ -10,7 +10,6 @@
   <div class="class-cards">
     {#each CLASS_LIST as cls}
       <button class="class-card" on:click={() => selectClass(cls.id)}>
-        <span class="class-icon">{cls.icon}</span>
         <h2>{cls.name}</h2>
         <p class="class-desc">{cls.description}</p>
 
@@ -105,10 +104,6 @@
     transform: translateY(-4px);
     border-color: #f1c40f;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  }
-
-  .class-icon {
-    font-size: 3rem;
   }
 
   .class-card h2 {

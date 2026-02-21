@@ -39,7 +39,7 @@
       tabindex="0"
     >
       <span class="label">Class</span>
-      <span class="value class-value">{playerClass.icon} {playerClass.name}</span>
+      <span class="value class-value">{playerClass.name}</span>
     </div>
   {/if}
 
