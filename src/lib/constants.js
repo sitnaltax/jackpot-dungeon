@@ -17,6 +17,9 @@ export const CONFIG = {
   redrawsPerEncounter: 0,           // Number of full redraws allowed
   selectiveRedrawsPerEncounter: 0,  // Number of selective redraws (pick any tokens)
 
+  // Pod expansion - extra pods added per bonus draw gained
+  podsPerBonusDraw: 2,
+
   // Shop settings
   shopSize: 4,             // Number of pods offered in shop
 };

@@ -190,9 +190,12 @@ export function selectClass(classId) {
   const baseTreasure = CONFIG.startingTreasure + (chosenClass.startingTreasureBonus || 0);
   const baseXp = chosenClass.startingXpBonus || 0;
 
+  const startingBonusDraw = (chosenClass.bonuses?.bonusDraw || 0) +
+    chosenClass.startingEquipment.reduce((sum, e) => sum + (e?.bonuses?.bonusDraw || 0), 0);
+
   const playerState = {
     pods: startingPods,
-    maxPods: CONFIG.drawCount,
+    maxPods: CONFIG.drawCount + startingBonusDraw * CONFIG.podsPerBonusDraw,
     playerClass: chosenClass,
     stamina: baseStamina,
     maxStamina: baseStamina,
@@ -509,17 +512,18 @@ export function purchaseItem(item, shopIndex) {
     // Check if +draw expanded and we need more pods
     const newBonuses = getEquipmentBonuses(newEquipment);
     const classBonusDraw = p.playerClass?.bonuses?.bonusDraw || 0;
-    const totalDraw = CONFIG.drawCount + newBonuses.bonusDraw + classBonusDraw;
+    const totalBonusDraw = newBonuses.bonusDraw + classBonusDraw;
+    const requiredPods = CONFIG.drawCount + totalBonusDraw * CONFIG.podsPerBonusDraw;
 
     let newPods = [...p.pods];
     let newMaxPods = p.maxPods;
 
-    if (totalDraw > newMaxPods) {
-      const podsToAdd = totalDraw - newMaxPods;
+    if (requiredPods > newMaxPods) {
+      const podsToAdd = requiredPods - newMaxPods;
       for (let i = 0; i < podsToAdd; i++) {
         newPods.push(generateWeakPod());
       }
-      newMaxPods = totalDraw;
+      newMaxPods = requiredPods;
     }
 
     return {
