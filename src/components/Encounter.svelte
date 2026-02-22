@@ -36,13 +36,6 @@
     color: #e74c3c;
   }
 
-  .encounter-effects {
-    font-size: 0.875rem;
-    color: #f1c40f;
-    font-style: italic;
-    margin-bottom: 1rem;
-  }
-
   .encounter-stats {
     display: flex;
     justify-content: center;

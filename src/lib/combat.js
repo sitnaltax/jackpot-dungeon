@@ -1,7 +1,7 @@
 // Encounter resolution logic
 
 import { CONFIG } from './constants.js';
-import { TOKEN_TYPES, getEffectiveValue } from './tokens.js';
+import { TOKEN_TYPES, getTokenValue } from './tokens.js';
 
 // Calculate totals from drawn tokens
 export function calculateDrawTotals(drawnTokens) {
@@ -23,7 +23,7 @@ export function calculateDrawTotals(drawnTokens) {
         }
       }
     } else {
-      const value = getEffectiveValue(token);
+      const value = getTokenValue(token);
       totals[token.type] += value;
     }
   }

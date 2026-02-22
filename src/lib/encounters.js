@@ -385,23 +385,15 @@ function selectEncounter(encounterNumber) {
   return available[0];
 }
 
-function calculateMystery(encounterNumber) {
-  const base = 6;
-  const linear = encounterNumber * 1;
-  return Math.floor(base + linear);
-}
-
-function calculateTrouble(encounterNumber) {
-  const base = 6;
-  const linear = encounterNumber * 1;
-  return Math.floor(base + linear);
+function calculateBaseStat(encounterNumber) {
+  return Math.floor(6 + encounterNumber);
 }
 
 // Generate an encounter for the given encounter number
 export function generateEncounter(encounterNumber) {
   const template = selectEncounter(encounterNumber);
-  const baseMystery = calculateMystery(encounterNumber);
-  const baseTrouble = calculateTrouble(encounterNumber);
+  const baseMystery = calculateBaseStat(encounterNumber);
+  const baseTrouble = calculateBaseStat(encounterNumber);
 
   return {
     ...template,
@@ -417,8 +409,8 @@ export function generateBasicEncounter(encounterNumber) {
   // Use encounter number from 2 levels ago for stats
   const effectiveLevel = Math.max(1, encounterNumber - 2);
   const template = selectEncounter(effectiveLevel);
-  const baseMystery = calculateMystery(effectiveLevel);
-  const baseTrouble = calculateTrouble(effectiveLevel);
+  const baseMystery = calculateBaseStat(effectiveLevel);
+  const baseTrouble = calculateBaseStat(effectiveLevel);
 
   return {
     ...template,
@@ -433,11 +425,11 @@ export function generateBasicEncounter(encounterNumber) {
 export function previewScaling(maxEncounter = 25) {
   const preview = [];
   for (let i = 1; i <= maxEncounter; i++) {
-    const mystery = calculateMystery(i);
+    const mystery = calculateBaseStat(i);
     preview.push({
       encounter: i,
       mystery,
-      trouble: calculateTrouble(i),
+      trouble: calculateBaseStat(i),
       reward: Math.ceil(mystery / 2),
     });
   }

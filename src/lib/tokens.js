@@ -21,9 +21,6 @@ export function getTokenValue(token) {
   return Math.floor(typeData.baseValue * rankData.multiplier);
 }
 
-// Alias for backwards compatibility
-export const getEffectiveValue = getTokenValue;
-
 export const TOKEN_TYPES = {
   // --- Core ---
   insight:  { name: 'Insight',  icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },

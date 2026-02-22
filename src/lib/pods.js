@@ -168,31 +168,13 @@ function randomTokenType(encounterNumber) {
 function generateShopPod(tier, encounterNumber) {
   const config = TIER_CONFIG[tier];
 
-  // Decide pod composition: focused (all same type) or mixed
-  const isFocused = Math.random() < 0.0; // For now, no pods are focused
-  const primaryType = randomTokenType(encounterNumber);
-
   const tokenDefs = [];
 
   for (let i = 0; i < 3; i++) {
     // First token gets guaranteed minimum rank
     const isGuaranteed = i === 0;
     const rank = rollTokenRank(config, isGuaranteed);
-
-    // Determine type
-    let type;
-    if (isFocused) {
-      // Focused pods: all same type, maybe one treasure
-      if (i === 2 && primaryType !== 'treasure' && Math.random() < 0.4) {
-        type = 'treasure';
-      } else {
-        type = primaryType;
-      }
-    } else {
-      // Mixed pods: random types
-      type = randomTokenType(encounterNumber);
-    }
-
+    const type = randomTokenType(encounterNumber);
     tokenDefs.push({ type, rank });
   }
 
@@ -222,11 +204,6 @@ export function generateShopPods(encounterNumber, count = 4) {
   }
 
   return pods;
-}
-
-// Legacy function - now just calls generateShopPods
-export function getAvailableShopPods(encounterNumber) {
-  return generateShopPods(encounterNumber);
 }
 
 // Generate starting pods for a new game

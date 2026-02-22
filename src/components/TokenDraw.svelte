@@ -51,10 +51,10 @@
 
   $: sortedTokens = sortTokens($drawnTokens);
   $: tokenTotals = calculateDrawTotals($drawnTokens);
-  $: equipBonuses = getTotalBonuses($player);
+  $: totalBonuses = getTotalBonuses($player);
   $: totals = {
-    insight: tokenTotals.insight + (equipBonuses.insight || 0) + ($drawEffects.insight || 0),
-    resolve: tokenTotals.resolve + (equipBonuses.resolve || 0) + ($drawEffects.resolve || 0),
+    insight: tokenTotals.insight + (totalBonuses.insight || 0) + ($drawEffects.insight || 0),
+    resolve: tokenTotals.resolve + (totalBonuses.resolve || 0) + ($drawEffects.resolve || 0),
     treasure: tokenTotals.treasure + ($drawEffects.treasure || 0),
   };
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
@@ -87,8 +87,8 @@
       <span class="total-label">Insight</span>
       <span class="total-value">
         👁️ {totals.insight}
-        {#if equipBonuses.insight > 0}
-          <span class="equip-bonus">(+{equipBonuses.insight})</span>
+        {#if totalBonuses.insight > 0}
+          <span class="equip-bonus">(+{totalBonuses.insight})</span>
         {/if}
         {#if $drawEffects.insight > 0}
           <span class="draw-bonus">(+{$drawEffects.insight})</span>
@@ -100,8 +100,8 @@
       <span class="total-label">Resolve</span>
       <span class="total-value">
         🛡️ {totals.resolve}
-        {#if equipBonuses.resolve > 0}
-          <span class="equip-bonus">(+{equipBonuses.resolve})</span>
+        {#if totalBonuses.resolve > 0}
+          <span class="equip-bonus">(+{totalBonuses.resolve})</span>
         {/if}
         {#if $drawEffects.resolve > 0}
           <span class="draw-bonus">(+{$drawEffects.resolve})</span>

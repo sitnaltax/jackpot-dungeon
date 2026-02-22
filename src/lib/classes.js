@@ -53,7 +53,6 @@ export const CLASSES = {
   explorer: {
     id: 'explorer',
     name: 'Explorer',
-    icon: '',
     description: 'A seasoned traveler with sharp eyes and quick instincts.',
     benefitDescription: '+1 Redraw Selected',
     bonuses: {
@@ -70,7 +69,6 @@ export const CLASSES = {
   merchant: {
     id: 'merchant',
     name: 'Merchant',
-    icon: '',
     description: 'A shrewd dealer who always comes prepared.',
     benefitDescription: 'No passive benefit (coming soon: shop discounts)',
     bonuses: {},
@@ -85,7 +83,6 @@ export const CLASSES = {
   athlete: {
     id: 'athlete',
     name: 'Athlete',
-    icon: '',
     description: 'Tough and resilient, built to endure.',
     benefitDescription: '+10 Max Stamina, +2 Stamina Regen per encounter',
     bonuses: {

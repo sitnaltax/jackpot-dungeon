@@ -159,10 +159,6 @@ export function getEffectiveMaxStamina(playerState) {
 }
 
 // Derived stores
-export const allTokens = derived(player, ($player) => {
-  return $player.pods.flatMap(pod => pod.tokens);
-});
-
 export const isGameOver = derived(player, ($player) => {
   return $player.stamina <= 0;
 });

@@ -1,6 +1,5 @@
 <script>
   import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop } from '../lib/gameState.js';
-  import { clonePodTemplate } from '../lib/pods.js';
   import Pod from './Pod.svelte';
   import PodDisplay from './PodDisplay.svelte';
 
