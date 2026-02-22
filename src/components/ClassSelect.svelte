@@ -10,7 +10,7 @@
     { id: 'insane', name: 'Insane', description: 'Near-impossible odds. Only for the truly reckless.' },
   ];
 
-  let selectedClass = null;
+  let selectedClass = CLASS_LIST[0];
   let selectedDifficulty = 'normal';
 
   $: selectedDiffData = DIFFICULTIES.find(d => d.id === selectedDifficulty);
