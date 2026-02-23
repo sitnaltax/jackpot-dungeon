@@ -223,7 +223,6 @@
 
   .threshold-indicator {
     font-size: 0.875rem;
-    margin-left: 0.25rem;
     color: #e74c3c;
   }
 
