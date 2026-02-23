@@ -4,7 +4,7 @@ import { writable, derived, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
-import { generateEncounter, generateBasicEncounter } from './encounters.js';
+import { generateEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
 import { generateItemShop } from './items.js';
 import { CLASSES } from './classes.js';
@@ -214,9 +214,9 @@ export function selectClass(classId) {
   startNextEncounter();
 }
 
-// Check if this encounter number should offer a choice
+// Odd floors offer a choice (hard challenge or skip)
 function isChoiceEncounter(encNum) {
-  return encNum >= 2 && encNum % 2 === 0;
+  return encNum >= 3 && encNum % 2 === 1;
 }
 
 export function startNextEncounter() {
@@ -228,18 +228,15 @@ export function startNextEncounter() {
   rewardPod.set(null);
   combatResult.set(null);
 
-  // Check if this is a choice encounter
+  // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
-    // Generate both encounter options
     const hardEncounter = generateEncounter(encNum);
-    const basicEncounter = generateBasicEncounter(encNum);
-
-    choiceEncounters.set({ hard: hardEncounter, basic: basicEncounter });
+    choiceEncounters.set({ hard: hardEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
   }
 
-  // Normal encounter flow
+  // Even floors: normal encounter
   const encounter = generateEncounter(encNum);
   beginEncounter(encounter);
 }
@@ -275,11 +272,9 @@ export function chooseHardPath() {
   beginEncounter($choices.hard);
 }
 
-// Player chooses the basic path
-export function chooseBasicPath() {
-  const $choices = get(choiceEncounters);
-  chosenPath.set('basic');
-  beginEncounter($choices.basic);
+// Player skips the challenge on odd floors
+export function skipChallenge() {
+  startNextEncounter();
 }
 
 export function drawTokens() {
@@ -413,17 +408,18 @@ export function executeCombat() {
 export function proceedFromCombat() {
   const $chosenPath = get(chosenPath);
 
+  const encNum = get(encounterNumber);
+
   if ($chosenPath === 'hard') {
-    // Hard path: offer pod reward
-    const encNum = get(encounterNumber);
+    // Hard path (odd floor): offer pod reward, then pod shop
     const [pod] = generateShopPods(encNum, 1);
     rewardPod.set(pod);
     gamePhase.set(PHASES.POD_REWARD);
-  } else if ($chosenPath === 'basic') {
-    // Basic path: item shop
+  } else if (encNum % 2 === 0) {
+    // Even floor: item shop, then pod shop
     openItemShop();
   } else {
-    // Normal encounter: regular shop
+    // Odd floor (floor 1, no choice): straight to pod shop
     proceedToShop();
   }
 }

@@ -1,15 +1,15 @@
 <script>
-  import { choiceEncounters, chooseHardPath, chooseBasicPath } from '../lib/gameState.js';
+  import { choiceEncounters, chooseHardPath, skipChallenge } from '../lib/gameState.js';
 </script>
 
 <div class="choice-container">
   <h2>Choose Your Path</h2>
-  <p class="choice-intro">A crossroads lies before you. Which path will you take?</p>
+  <p class="choice-intro">A challenge awaits. Will you face it?</p>
 
   <div class="choices">
     <div class="choice-card hard">
       <div class="choice-header">
-        <span class="choice-icon">Hard Path</span>
+        <span class="choice-icon">Challenge</span>
       </div>
 
       {#if $choiceEncounters.hard}
@@ -41,37 +41,15 @@
       </button>
     </div>
 
-    <div class="choice-card basic">
+    <div class="choice-card skip">
       <div class="choice-header">
-        <span class="choice-icon">Safe Path</span>
+        <span class="choice-icon">Skip</span>
       </div>
 
-      {#if $choiceEncounters.basic}
-        <div class="encounter-preview">
-          <div class="encounter-name">{$choiceEncounters.basic.name}</div>
-          {#if $choiceEncounters.basic.description}
-            <div class="encounter-desc">{$choiceEncounters.basic.description}</div>
-          {/if}
-          <div class="encounter-stats">
-            <div class="stat">
-              <span class="label">Mystery</span>
-              <span class="value mystery">{$choiceEncounters.basic.mystery}</span>
-            </div>
-            <div class="stat">
-              <span class="label">Trouble</span>
-              <span class="value trouble">{$choiceEncounters.basic.trouble}</span>
-            </div>
-          </div>
-        </div>
-      {/if}
+      <p class="skip-desc">Move on without fighting. No reward, no risk.</p>
 
-      <div class="choice-reward">
-        <span class="reward-label">Reward:</span>
-        Access to Item Shop
-      </div>
-
-      <button class="btn btn-basic" on:click={chooseBasicPath}>
-        Take the Safe Route
+      <button class="btn btn-skip" on:click={skipChallenge}>
+        Continue Onward
       </button>
     </div>
   </div>
@@ -115,8 +93,8 @@
     border-color: #e74c3c;
   }
 
-  .choice-card.basic {
-    border-color: #2ecc71;
+  .choice-card.skip {
+    border-color: #555;
   }
 
   .choice-header {
@@ -128,8 +106,8 @@
     color: #e74c3c;
   }
 
-  .choice-card.basic .choice-header {
-    color: #2ecc71;
+  .choice-card.skip .choice-header {
+    color: #888;
   }
 
   .encounter-preview {
@@ -194,6 +172,16 @@
     font-weight: bold;
   }
 
+  .skip-desc {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .btn {
     padding: 0.75rem 1.5rem;
     border: none;
@@ -217,12 +205,12 @@
     background: #c0392b;
   }
 
-  .btn-basic {
-    background: #2ecc71;
-    color: #000;
+  .btn-skip {
+    background: #34495e;
+    color: #ccc;
   }
 
-  .btn-basic:hover {
-    background: #27ae60;
+  .btn-skip:hover {
+    background: #2c3e50;
   }
 </style>
