@@ -184,6 +184,7 @@
     color: #000;
     border-radius: 50%;
     font-size: 0.625rem;
+    font-family: system-ui, -apple-system, sans-serif;
     font-weight: bold;
     display: flex;
     align-items: center;

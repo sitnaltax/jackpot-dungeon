@@ -373,7 +373,7 @@
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #888;
     padding-left: 2rem;
   }

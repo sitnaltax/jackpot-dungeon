@@ -71,7 +71,7 @@ export const CLASSES = {
   explorer: {
     id: 'explorer',
     name: 'Explorer',
-    description: 'A seasoned traveler with sharp eyes and quick instincts.',
+    description: 'Skilled at deploying their tools effectively; adaptable and less likely to be caught off guard.',
     benefitDescription: '+1 Redraw Selected',
     bonuses: {
       selectiveRedraws: 1,
@@ -87,7 +87,7 @@ export const CLASSES = {
   merchant: {
     id: 'merchant',
     name: 'Merchant',
-    description: 'A shrewd dealer who always comes prepared.',
+    description: 'Able to negotiate for better deals in the shop, getting the best pods at the lowest prices.',
     benefitDescription: 'No passive benefit (coming soon: shop discounts)',
     bonuses: {},
     startingEquipment: [
@@ -101,7 +101,7 @@ export const CLASSES = {
   athlete: {
     id: 'athlete',
     name: 'Athlete',
-    description: 'Tough and resilient, built to endure.',
+    description: 'Able to push directly through adversity better than the others, reducing the need to focus on resolve.',
     benefitDescription: '+10 Max Stamina, +2 Stamina Regen per encounter',
     bonuses: {
       maxStamina: 10,
@@ -118,7 +118,7 @@ export const CLASSES = {
   fool: {
     id: 'fool',
     name: 'Fool',
-    description: 'Relies on instinct over precision. Lucky, in a blunt sort of way.',
+    description: 'Relies on instinct over precision.',
     benefitDescription: '+2 Redraw All, no Redraw Selected items in shop',
     bonuses: {
       redraws: 2,

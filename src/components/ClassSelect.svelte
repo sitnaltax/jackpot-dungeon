@@ -3,11 +3,11 @@
   import { CLASS_LIST } from '../lib/classes.js';
 
   const DIFFICULTIES = [
-    { id: 'wizard', name: 'Wizard', description: 'A relaxed journey. Encounters are forgiving and treasure flows freely.' },
-    { id: 'normal', name: 'Normal', description: 'The intended experience. A fair challenge with room for mistakes.' },
-    { id: 'hard', name: 'Hard', description: 'Tougher encounters and tighter resources. Plan your draws carefully.' },
-    { id: 'expert', name: 'Expert', description: 'Punishing and precise. Every token matters.' },
-    { id: 'insane', name: 'Insane', description: 'Near-impossible odds. Only for the truly reckless.' },
+    { id: 'wizard', name: 'Wizard', description: 'Limitless resources, for exploring the game or debugging.' },
+    { id: 'normal', name: 'Normal', description: 'Intended for new players. Allows room for experimentation and mistakes.' },
+    { id: 'hard', name: 'Hard', description: 'Intended for experienced players or roguelike veterans. Most strategies should be viable, and win if executed well.' },
+    { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. Most strategies should still be viable if executed well, but victory is uncertain.' },
+    { id: 'insane', name: 'Insane', description: 'Overtuned difficulty; use only if you found something you think is brokenly good.' },
   ];
 
   let selectedClass = CLASS_LIST[0];
