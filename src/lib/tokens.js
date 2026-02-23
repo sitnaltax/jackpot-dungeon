@@ -319,4 +319,28 @@ export const TOKEN_TYPES = {
       return { treasure: Math.floor(2 * chthonicCount * rankMultiplier) };
     },
   },
+
+  // --- Wild ---
+  wild: {
+    name: 'Wild',
+    icon: '🃏',
+    color: '#9b59b6',
+    baseValue: 0,
+    minDepth: 16,
+    weight: 0.2,
+    tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
+    borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const tags = ['Musical', 'Celestial', 'Botanical', 'Chthonic'];
+      let tagCount = 0;
+      for (const tag of tags) {
+        if (allDrawnTokens.some(t => t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes(tag))) {
+          tagCount++;
+        }
+      }
+      const value = Math.floor(2 * tagCount * rankMultiplier);
+      return { insight: value, resolve: value, treasure: value };
+    },
+  },
 };

@@ -122,6 +122,14 @@
         return 'Contributes 8 Insight. Drops to 0 if any other Celestial tokens are drawn.';
       case 'hemlock':
         return 'Contributes 8 Resolve. Drops to 0 if any other Botanical tokens are drawn.';
+      case 'obsidian':
+        return 'Contributes to Insight. Gains +2 per Chthonic token drawn. Grants +1 Insight on draw.';
+      case 'granite':
+        return 'Contributes to Resolve. Gains +2 per Chthonic token drawn. Grants +1 Resolve on draw.';
+      case 'geode':
+        return 'Contributes to Treasure. Gains +2 per Chthonic token drawn. Grants +1 Treasure on draw.';
+      case 'wild':
+        return 'Contributes to all stats. Gains +2 Insight, Resolve, and Treasure for each unique tag (Musical, Celestial, Botanical, Chthonic) present among other drawn tokens.';
       default:
         return '';
     }
