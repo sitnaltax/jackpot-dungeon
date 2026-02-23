@@ -231,7 +231,8 @@ export function startNextEncounter() {
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
     const hardEncounter = generateEncounter(encNum);
-    choiceEncounters.set({ hard: hardEncounter });
+    const nextEncounter = generateEncounter(encNum + 1);
+    choiceEncounters.set({ hard: hardEncounter, next: nextEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
   }
@@ -272,9 +273,14 @@ export function chooseHardPath() {
   beginEncounter($choices.hard);
 }
 
-// Player skips the challenge on odd floors
+// Player skips the challenge on odd floors — use the pre-generated next encounter
 export function skipChallenge() {
-  startNextEncounter();
+  const $choices = get(choiceEncounters);
+  encounterNumber.update(n => n + 1);
+  chosenPath.set(null);
+  rewardPod.set(null);
+  combatResult.set(null);
+  beginEncounter($choices.next);
 }
 
 export function drawTokens() {

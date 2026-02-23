@@ -46,7 +46,25 @@
         <span class="choice-icon">Skip</span>
       </div>
 
-      <p class="skip-desc">Move on without fighting. No reward, no risk.</p>
+      {#if $choiceEncounters.next}
+        <div class="encounter-preview">
+          <div class="next-label">Next encounter:</div>
+          <div class="encounter-name">{$choiceEncounters.next.name}</div>
+          {#if $choiceEncounters.next.description}
+            <div class="encounter-desc">{$choiceEncounters.next.description}</div>
+          {/if}
+          <div class="encounter-stats">
+            <div class="stat">
+              <span class="label">Mystery</span>
+              <span class="value mystery">{$choiceEncounters.next.mystery}</span>
+            </div>
+            <div class="stat">
+              <span class="label">Trouble</span>
+              <span class="value trouble">{$choiceEncounters.next.trouble}</span>
+            </div>
+          </div>
+        </div>
+      {/if}
 
       <button class="btn btn-skip" on:click={skipChallenge}>
         Continue Onward
@@ -114,6 +132,14 @@
     background: #0d1117;
     border-radius: 8px;
     padding: 1rem;
+  }
+
+  .next-label {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
   }
 
   .encounter-name {
