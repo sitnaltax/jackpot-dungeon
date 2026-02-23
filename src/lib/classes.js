@@ -2,28 +2,28 @@
 
 // Mundane starting items - things brought from the real world
 const STARTING_ITEMS = {
-  roadMap: {
-    id: 'roadMap',
-    name: 'Road Map',
-    description: 'A well-worn map from the tourist bureau.',
+  stackOfMaps: {
+    id: 'stackOfMaps',
+    name: 'Stack of Maps',
+    description: 'A stack of old maps, some annotated with scribbles from previous owners.',
     icon: '🗺️',
     category: 'navigation',
     cost: 5,
     bonuses: { redraws: 2 },
   },
-  pocketWatch: {
-    id: 'pocketWatch',
-    name: 'Pocket Watch',
-    description: 'Keeps perfect time, even underground.',
+  elegantWatch: {
+    id: 'elegantWatch',
+    name: 'Elegant Watch',
+    description: 'A beautiful wristwatch that tracks the time back at home.',
     icon: '⌚',
     category: 'navigation',
     cost: 2,
     bonuses: { redraws: 1 },
   },
-  notebook: {
-    id: 'notebook',
-    name: 'Notebook',
-    description: 'Full of calculations and margin notes.',
+  ruinedJournal: {
+    id: 'ruinedJournal',
+    name: 'Ruined Journal',
+    description: 'A damaged journal recovered at great expense from a previous explorer.',
     icon: '📓',
     category: 'book',
     cost: 3,
@@ -77,7 +77,7 @@ export const CLASSES = {
       selectiveRedraws: 1,
     },
     startingEquipment: [
-      STARTING_ITEMS.roadMap,
+      STARTING_ITEMS.stackOfMaps,
       null,
       null,
     ],
@@ -91,8 +91,8 @@ export const CLASSES = {
     benefitDescription: 'No passive benefit (coming soon: shop discounts)',
     bonuses: {},
     startingEquipment: [
-      STARTING_ITEMS.pocketWatch,
-      STARTING_ITEMS.notebook,
+      STARTING_ITEMS.elegantWatch,
+      STARTING_ITEMS.ruinedJournal,
       null,
     ],
     startingTreasureBonus: 10,

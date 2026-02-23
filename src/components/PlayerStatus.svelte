@@ -69,7 +69,6 @@
           class="equipment-slot"
           class:empty={!item}
           class:clickable={!!item}
-          title={item ? item.name : 'Empty slot'}
           on:click={() => handleEquipmentClick(item)}
           on:keydown={(e) => e.key === 'Enter' && handleEquipmentClick(item)}
           role={item ? 'button' : 'presentation'}
