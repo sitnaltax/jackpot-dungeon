@@ -135,7 +135,7 @@
   .token.small {
     width: 40px;
     height: 50px;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
   }
 
   .token.normal {
