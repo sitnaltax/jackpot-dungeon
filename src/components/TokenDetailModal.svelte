@@ -317,7 +317,6 @@
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 1rem;
-    margin-bottom: 1rem;
   }
 
   .stats-section h3 {

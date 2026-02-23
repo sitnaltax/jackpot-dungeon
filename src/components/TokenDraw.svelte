@@ -240,7 +240,7 @@
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
