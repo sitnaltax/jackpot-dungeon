@@ -4,8 +4,8 @@
 
   const DIFFICULTIES = [
     { id: 'wizard', name: 'Wizard', description: 'Limitless resources, for exploring the game or debugging.' },
-    { id: 'normal', name: 'Normal', description: 'Intended for new players. Allows room for experimentation and mistakes.' },
-    { id: 'hard', name: 'Hard', description: 'Intended for experienced players or roguelike veterans. Most strategies should be viable, and win if executed well.' },
+    { id: 'normal', name: 'Normal', description: 'For new and casual players. Allows room for experimentation and mistakes.' },
+    { id: 'hard', name: 'Hard', description: 'For experienced players or roguelike veterans. Most strategies should be viable, and win if executed well.' },
     { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. Most strategies should still be viable if executed well, but victory is uncertain.' },
     { id: 'insane', name: 'Insane', description: 'Overtuned difficulty; use only if you found something you think is brokenly good.' },
   ];

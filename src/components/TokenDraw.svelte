@@ -67,7 +67,6 @@
 
 <div class="token-draw">
   <h3>Drawn Tokens</h3>
-  <p class="hint">Click tokens for details{canSelectiveRedraw ? ' \u2022 Use checkboxes to select for redraw' : ''}</p>
 
   <div class="drawn-tokens">
     {#each sortedTokens as token (token.id)}
