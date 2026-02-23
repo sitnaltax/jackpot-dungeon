@@ -268,6 +268,12 @@ export function generateItemShop(encounterNumber, playerState) {
   // Filter by depth
   let pool = SHOP_ITEM_POOL.filter(item => (item.minDepth || 0) <= encounterNumber);
 
+  // Apply class-specific shop filter
+  const classFilter = playerState.playerClass?.shopItemFilter;
+  if (classFilter) {
+    pool = pool.filter(classFilter);
+  }
+
   // Exclude items the player already has equipped
   const equippedIds = new Set(
     (playerState.equipment || []).filter(e => e).map(e => e.id)

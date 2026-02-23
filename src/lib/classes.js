@@ -47,6 +47,24 @@ const STARTING_ITEMS = {
     cost: 3,
     bonuses: { selectiveRedraws: 1 },
   },
+  luckyPenny: {
+    id: 'luckyPenny',
+    name: 'Lucky Penny',
+    description: 'Found heads-up on the road here.',
+    icon: '🪙',
+    category: 'jewelry',
+    cost: 3,
+    bonuses: { insight: 2 },
+  },
+  travelersCharm: {
+    id: 'travelersCharm',
+    name: "Traveler's Charm",
+    description: 'A crude ward bought from a roadside stall.',
+    icon: '🧿',
+    category: 'weapon',
+    cost: 3,
+    bonuses: { resolve: 2 },
+  },
 };
 
 export const CLASSES = {
@@ -96,6 +114,23 @@ export const CLASSES = {
     ],
     startingTreasureBonus: 0,
     startingXpBonus: 1,
+  },
+  fool: {
+    id: 'fool',
+    name: 'Fool',
+    description: 'Relies on instinct over precision. Lucky, in a blunt sort of way.',
+    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop',
+    bonuses: {
+      redraws: 2,
+    },
+    startingEquipment: [
+      STARTING_ITEMS.luckyPenny,
+      STARTING_ITEMS.travelersCharm,
+      null,
+    ],
+    startingTreasureBonus: 0,
+    startingXpBonus: 0,
+    shopItemFilter: (item) => !item.bonuses?.selectiveRedraws,
   },
 };
 
