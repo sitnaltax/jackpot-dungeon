@@ -207,12 +207,6 @@
         {/if}
       </div>
 
-      {#if token.rank !== 'basic'}
-        <div class="rank-section">
-          <span class="rank-multiplier">Rank multiplier: x{rankData.multiplier}</span>
-        </div>
-      {/if}
-
       {#if selectable}
         <button
           class="select-btn"
@@ -409,16 +403,6 @@
     font-size: 0.8rem;
     color: #888;
     font-style: italic;
-  }
-
-  .rank-section {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .rank-multiplier {
-    color: var(--rank-color);
-    font-size: 0.875rem;
   }
 
   .select-btn {
