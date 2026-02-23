@@ -230,8 +230,8 @@ export function startNextEncounter() {
 
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
-    const hardEncounter = generateEncounter(encNum);
-    const nextEncounter = generateEncounter(encNum + 1);
+    const hardEncounter = generateEncounter(encNum + 2);
+    const nextEncounter = generateEncounter(encNum);
     choiceEncounters.set({ hard: hardEncounter, next: nextEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
