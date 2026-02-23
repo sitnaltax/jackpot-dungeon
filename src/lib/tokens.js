@@ -335,7 +335,7 @@ export const TOKEN_TYPES = {
       const tags = ['Musical', 'Celestial', 'Botanical', 'Chthonic'];
       let tagCount = 0;
       for (const tag of tags) {
-        if (allDrawnTokens.some(t => t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes(tag))) {
+        if (allDrawnTokens.some(t => t.type !== 'wild' && TOKEN_TYPES[t.type].tags?.includes(tag))) {
           tagCount++;
         }
       }
