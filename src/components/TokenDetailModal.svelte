@@ -129,7 +129,7 @@
       case 'geode':
         return 'Contributes to Treasure. Gains +2 per Chthonic token drawn. Grants +1 Treasure on draw.';
       case 'wild':
-        return 'Contributes to all stats. Gains +2 Insight, Resolve, and Treasure for each unique tag (Musical, Celestial, Botanical, Chthonic) present among other drawn tokens.';
+        return 'Contributes to all stats. Needs 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens. Gains +3 per tag to Insight, Resolve, and Treasure.';
       default:
         return '';
     }

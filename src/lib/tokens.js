@@ -339,7 +339,8 @@ export const TOKEN_TYPES = {
           tagCount++;
         }
       }
-      const value = Math.floor(2 * tagCount * rankMultiplier);
+      const bonus = Math.max(0, tagCount - 1);
+      const value = Math.floor(3 * bonus * rankMultiplier);
       return { insight: value, resolve: value, treasure: value };
     },
   },
