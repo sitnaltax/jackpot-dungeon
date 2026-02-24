@@ -19,7 +19,7 @@
   <div class="shop-header">
     <h2>Pod Shop</h2>
     <div class="xp-display">
-      ⭐ {$player.xp}
+      {$player.xp} XP
     </div>
   </div>
 
@@ -35,7 +35,7 @@
         disabled={!canRefresh}
         on:click={refreshShop}
       >
-        Refresh ({refreshCost} ⭐)
+        Refresh ({refreshCost} XP)
       </button>
     </div>
     <div class="shop-pods">

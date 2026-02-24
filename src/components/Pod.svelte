@@ -25,7 +25,7 @@
 >
   {#if showCost && pod.cost > 0}
     <div class="pod-header">
-      <span class="pod-cost">{pod.cost} ⭐</span>
+      <span class="pod-cost">{pod.cost} XP</span>
     </div>
   {/if}
   <div class="pod-tokens">

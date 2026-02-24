@@ -28,7 +28,7 @@
                 rank: t.rank || 'basic'
               }))
             }}
-            showCost={true}
+            showCost={false}
           />
         </div>
       {/if}
@@ -53,12 +53,11 @@
       <p class="option-desc">Take half the pod's value as XP</p>
 
       <div class="xp-preview">
-        <span class="xp-icon">⭐</span>
-        <span class="xp-amount">{xpValue}</span>
+        <span class="xp-amount">{xpValue} XP</span>
       </div>
 
       <button class="btn btn-xp" on:click={takeRewardXp}>
-        Take {xpValue} ⭐
+        Take {xpValue} XP
       </button>
     </div>
   </div>
