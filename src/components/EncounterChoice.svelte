@@ -194,6 +194,7 @@
   }
 
   .btn {
+    margin-top: auto;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
