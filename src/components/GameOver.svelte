@@ -15,13 +15,13 @@
       <span class="value xp">{$player.xp}</span>
     </div>
     <div class="stat">
-      <span class="label">Total Treasure</span>
+      <span class="label">Final Treasure</span>
       <span class="value treasure">${$player.treasure}</span>
     </div>
   </div>
 
   <button class="btn btn-primary" on:click={restartGame}>
-    Dive Again
+    Try Again
   </button>
 </div>
 

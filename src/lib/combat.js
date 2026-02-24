@@ -108,16 +108,16 @@ export function getCombatSummary(result) {
 
   // Insight summary
   if (result.insightSuccess) {
-    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - REVEALED!`);
+    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!`);
   } else {
-    lines.push(`✗ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Hidden`);
+    lines.push(`✗ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - No bonus`);
   }
 
   // Resolve summary
   if (result.resolveSuccess) {
     lines.push(`✓ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - Steady!`);
   } else {
-    lines.push(`✗ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - SHAKEN`);
+    lines.push(`✗ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - Stamina lost`);
     lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.resolveFailFlat} flat + ${result.resolveDeficiency} × ${CONFIG.resolveFailScale})`);
   }
 
