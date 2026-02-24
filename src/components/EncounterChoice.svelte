@@ -4,12 +4,16 @@
 
 <div class="choice-container">
   <h2>Choose Your Path</h2>
-  <p class="choice-intro">A challenge awaits. Will you face it?</p>
 
   <div class="choices">
     <div class="choice-card hard">
       <div class="choice-header">
-        <span class="choice-icon">Challenge</span>
+        <span class="choice-icon">Peril</span>
+      </div>
+
+      <div class="choice-reward">
+        <span class="reward-label">Reward:</span>
+        Free pod or treasure
       </div>
 
       {#if $choiceEncounters.hard}
@@ -31,11 +35,6 @@
         </div>
       {/if}
 
-      <div class="choice-reward">
-        <span class="reward-label">Reward:</span>
-        Free pod or treasure
-      </div>
-
       <button class="btn btn-hard" on:click={chooseHardPath}>
         Face the Challenge
       </button>
@@ -43,12 +42,11 @@
 
     <div class="choice-card skip">
       <div class="choice-header">
-        <span class="choice-icon">Skip</span>
+        <span class="choice-icon">Less Peril</span>
       </div>
 
       {#if $choiceEncounters.next}
         <div class="encounter-preview">
-          <div class="next-label">Next encounter:</div>
           <div class="encounter-name">{$choiceEncounters.next.name}</div>
           {#if $choiceEncounters.next.description}
             <div class="encounter-desc">{$choiceEncounters.next.description}</div>
@@ -67,7 +65,7 @@
       {/if}
 
       <button class="btn btn-skip" on:click={skipChallenge}>
-        Continue Onward
+        Proceed Carefully
       </button>
     </div>
   </div>
@@ -82,11 +80,6 @@
     margin: 0 0 0.5rem;
     color: #f1c40f;
     font-size: 1.75rem;
-  }
-
-  .choice-intro {
-    color: #888;
-    margin-bottom: 1.5rem;
   }
 
   .choices {
@@ -132,14 +125,6 @@
     background: #0d1117;
     border-radius: 8px;
     padding: 1rem;
-  }
-
-  .next-label {
-    font-size: 0.7rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
   }
 
   .encounter-name {
