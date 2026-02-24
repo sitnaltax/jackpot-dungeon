@@ -201,11 +201,11 @@
 
   .select-checkbox {
     position: absolute;
-    bottom: -8px;
+    bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     background: #1a1a2e;
     border: 2px solid #555;
     border-radius: 4px;
