@@ -17,7 +17,7 @@
 
 <div class="shop">
   <div class="shop-header">
-    <h2>Shop</h2>
+    <h2>Pod Shop</h2>
     <div class="treasure-display">
       ${$player.treasure}
     </div>
