@@ -320,6 +320,38 @@ export const TOKEN_TYPES = {
     },
   },
 
+  // --- "Mind" pair. ---
+  // Untagged dual-stat tokens: each contributes to one combat stat + treasure
+  // Efficient but not synergistic, to take up a little space
+  brainstorm: {
+    name: 'Brainstorm',
+    icon: '🧠',
+    color: '#e74c3c',
+    borderEffect: 'linear-gradient(135deg, #e74c3c, #f1c40f)',
+    baseValue: 4,
+    minDepth: 13,
+    weight: 1,
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const value = Math.floor(4 * rankMultiplier);
+      return { insight: value, treasure: value };
+    },
+  },
+  meditation: {
+    name: 'Meditation',
+    icon: '🧘',
+    color: '#3498db',
+    borderEffect: 'linear-gradient(135deg, #3498db, #f1c40f)',
+    baseValue: 4,
+    minDepth: 13,
+    weight: 1,
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const value = Math.floor(4 * rankMultiplier);
+      return { resolve: value, treasure: value };
+    },
+  },
+
   // --- Wild ---
   wild: {
     name: 'Wild',

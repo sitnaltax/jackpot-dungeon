@@ -128,6 +128,10 @@
         return 'Contributes to Resolve. Gains +2 per Chthonic token drawn. Grants +1 Resolve on draw.';
       case 'geode':
         return 'Contributes to Treasure. Gains +2 per Chthonic token drawn. Grants +1 Treasure on draw.';
+      case 'brainstorm':
+        return 'Contributes 4 Insight and 4 Treasure.';
+      case 'meditation':
+        return 'Contributes 4 Resolve and 4 Treasure.';
       case 'wild':
         return 'Contributes to all stats. Needs 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens. Gains +3 per tag to Insight, Resolve, and Treasure.';
       default:
