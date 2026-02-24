@@ -166,7 +166,6 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 1rem 0;
   }
 
   .shop-header {

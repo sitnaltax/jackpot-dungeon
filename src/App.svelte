@@ -9,7 +9,7 @@
   import TokenDraw from './components/TokenDraw.svelte';
   import CombatResult from './components/CombatResult.svelte';
   import PodDisplay from './components/PodDisplay.svelte';
-  import Shop from './components/Shop.svelte';
+  import PodShop from './components/PodShop.svelte';
   import PodReward from './components/PodReward.svelte';
   import ItemShop from './components/ItemShop.svelte';
   import GameOver from './components/GameOver.svelte';
@@ -59,7 +59,7 @@
       {:else if $gamePhase === PHASES.ITEM_SHOP}
         <ItemShop />
       {:else if $gamePhase === PHASES.SHOP}
-        <Shop />
+        <PodShop />
       {/if}
     </div>
   {/if}

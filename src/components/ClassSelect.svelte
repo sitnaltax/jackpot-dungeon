@@ -23,8 +23,6 @@
 </script>
 
 <div class="class-select">
-  <h1>Jacq's Quest</h1>
-
   <div class="section">
     <h3>Class</h3>
     <div class="button-stack">

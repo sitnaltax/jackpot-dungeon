@@ -86,6 +86,7 @@
 
   .shop-header h2 {
     margin: 0;
+    font-size: 1.75rem;
   }
 
   .xp-display {
