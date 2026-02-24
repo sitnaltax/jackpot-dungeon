@@ -11,12 +11,12 @@
       <span class="value">{$encounterNumber - 1}</span>
     </div>
     <div class="stat">
-      <span class="label">Final Treasure</span>
-      <span class="value">${$player.treasure}</span>
+      <span class="label">Final XP</span>
+      <span class="value xp">{$player.xp}</span>
     </div>
     <div class="stat">
-      <span class="label">Total XP</span>
-      <span class="value xp">{$player.xp}</span>
+      <span class="label">Total Treasure</span>
+      <span class="value treasure">${$player.treasure}</span>
     </div>
   </div>
 
@@ -67,6 +67,10 @@
   }
 
   .value.xp {
+    color: #f1c40f;
+  }
+
+  .value.treasure {
     color: #9b59b6;
   }
 

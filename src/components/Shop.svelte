@@ -9,17 +9,17 @@
 
   const refreshCost = 1;
 
-  $: canAfford = (cost) => $player.treasure >= cost;
+  $: canAfford = (cost) => $player.xp >= cost;
   $: isPurchased = (index) => $purchasedShopPods.has(index);
   $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);
-  $: canRefresh = $player.treasure >= refreshCost;
+  $: canRefresh = $player.xp >= refreshCost;
 </script>
 
 <div class="shop">
   <div class="shop-header">
     <h2>Pod Shop</h2>
-    <div class="treasure-display">
-      ${$player.treasure}
+    <div class="xp-display">
+      ⭐ {$player.xp}
     </div>
   </div>
 
@@ -35,7 +35,7 @@
         disabled={!canRefresh}
         on:click={refreshShop}
       >
-        Refresh (${refreshCost})
+        Refresh ({refreshCost} ⭐)
       </button>
     </div>
     <div class="shop-pods">
@@ -88,7 +88,7 @@
     margin: 0;
   }
 
-  .treasure-display {
+  .xp-display {
     font-size: 1.5rem;
     font-weight: bold;
     color: #f1c40f;

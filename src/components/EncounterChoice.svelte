@@ -13,7 +13,7 @@
 
       <div class="choice-reward">
         <span class="reward-label">Reward:</span>
-        Free pod or treasure
+        Free pod or XP
       </div>
 
       {#if $choiceEncounters.hard}

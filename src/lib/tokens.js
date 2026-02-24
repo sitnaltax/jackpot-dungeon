@@ -25,7 +25,7 @@ export const TOKEN_TYPES = {
   // --- Core ---
   insight:  { name: 'Insight',  icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
   resolve:  { name: 'Resolve',  icon: '🛡️', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
-  treasure: { name: 'Treasure', icon: '💰', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
+  xp: { name: 'Experience', icon: '⭐', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
 
   // --- Musical series ---
   harmony: {
@@ -80,7 +80,7 @@ export const TOKEN_TYPES = {
       return {
         insight: Math.floor(value * rankMultiplier),
         resolve: Math.floor(value * rankMultiplier),
-        treasure: Math.floor(value * rankMultiplier),
+        xp: Math.floor(value * rankMultiplier),
       };
     },
   },
@@ -148,7 +148,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      return { treasure: Math.floor((3 + celestialCount) * rankMultiplier) };
+      return { xp: Math.floor((3 + celestialCount) * rankMultiplier) };
     },
   },
   libra: {
@@ -167,7 +167,7 @@ export const TOKEN_TYPES = {
       return {
         insight: Math.floor(bonus * rankMultiplier),
         resolve: Math.floor(bonus * rankMultiplier),
-        treasure: Math.floor(bonus * rankMultiplier),
+        xp: Math.floor(bonus * rankMultiplier),
       };
     },
   },
@@ -229,7 +229,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      return { treasure: Math.floor((3 + botanicalCount) * rankMultiplier) };
+      return { xp: Math.floor((3 + botanicalCount) * rankMultiplier) };
     },
   },
   fern: {
@@ -248,7 +248,7 @@ export const TOKEN_TYPES = {
       return {
         insight: Math.floor(bonus * rankMultiplier),
         resolve: Math.floor(bonus * rankMultiplier),
-        treasure: Math.floor(bonus * rankMultiplier),
+        xp: Math.floor(bonus * rankMultiplier),
       };
     },
   },
@@ -312,16 +312,16 @@ export const TOKEN_TYPES = {
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDraw: () => ({ treasure: 1 }),
+    onDraw: () => ({ xp: 1 }),
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { treasure: Math.floor(2 * chthonicCount * rankMultiplier) };
+      return { xp: Math.floor(2 * chthonicCount * rankMultiplier) };
     },
   },
 
   // --- "Mind" pair. ---
-  // Untagged dual-stat tokens: each contributes to one combat stat + treasure
+  // Untagged dual-stat tokens: each contributes to one combat stat + xp
   // Efficient but not synergistic, to take up a little space
   brainstorm: {
     name: 'Brainstorm',
@@ -334,7 +334,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const value = Math.floor(4 * rankMultiplier);
-      return { insight: value, treasure: value };
+      return { insight: value, xp: value };
     },
   },
   meditation: {
@@ -348,7 +348,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
       const value = Math.floor(4 * rankMultiplier);
-      return { resolve: value, treasure: value };
+      return { resolve: value, xp: value };
     },
   },
 
@@ -373,7 +373,7 @@ export const TOKEN_TYPES = {
       }
       const bonus = Math.max(0, tagCount - 1);
       const value = Math.floor(3 * bonus * rankMultiplier);
-      return { insight: value, resolve: value, treasure: value };
+      return { insight: value, resolve: value, xp: value };
     },
   },
 };

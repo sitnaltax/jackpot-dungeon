@@ -26,16 +26,16 @@
           +{$combatResult.staminaRegen} Regen
         </div>
       {/if}
-      <div class="treasure-gained">
-        +{$combatResult.treasureGained} $
-        {#if $combatResult.treasureMultiplier && $combatResult.treasureMultiplier !== 1.0}
-          <span class="multiplier">(x{$combatResult.treasureMultiplier})</span>
-        {/if}
-      </div>
       <div class="xp-gained">
-        +{$combatResult.xpGained} XP
+        +{$combatResult.xpGained} ⭐
         {#if $combatResult.xpMultiplier && $combatResult.xpMultiplier !== 1.0}
           <span class="multiplier">(x{$combatResult.xpMultiplier})</span>
+        {/if}
+      </div>
+      <div class="treasure-gained">
+        +${$combatResult.treasureGained}
+        {#if $combatResult.treasureMultiplier && $combatResult.treasureMultiplier !== 1.0}
+          <span class="multiplier">(x{$combatResult.treasureMultiplier})</span>
         {/if}
       </div>
     </div>
@@ -105,11 +105,11 @@
     color: #2ecc71;
   }
 
-  .treasure-gained {
+  .xp-gained {
     color: #f1c40f;
   }
 
-  .xp-gained {
+  .treasure-gained {
     color: #9b59b6;
   }
 

@@ -1,9 +1,9 @@
 <script>
-  import { rewardPod, selectedPodToReplace, takeRewardPod, takeRewardTreasure } from '../lib/gameState.js';
+  import { rewardPod, selectedPodToReplace, takeRewardPod, takeRewardXp } from '../lib/gameState.js';
   import Pod from './Pod.svelte';
   import PodDisplay from './PodDisplay.svelte';
 
-  $: treasureValue = $rewardPod ? Math.floor($rewardPod.cost / 2) : 0;
+  $: xpValue = $rewardPod ? Math.floor($rewardPod.cost / 2) : 0;
   $: canTakePod = $selectedPodToReplace !== null;
 </script>
 
@@ -48,17 +48,17 @@
 
     <div class="or-divider">OR</div>
 
-    <div class="option treasure-option">
-      <h3>Treasure</h3>
-      <p class="option-desc">Take half the pod's value as treasure</p>
+    <div class="option xp-option">
+      <h3>XP</h3>
+      <p class="option-desc">Take half the pod's value as XP</p>
 
-      <div class="treasure-preview">
-        <span class="treasure-icon">$</span>
-        <span class="treasure-amount">{treasureValue}</span>
+      <div class="xp-preview">
+        <span class="xp-icon">⭐</span>
+        <span class="xp-amount">{xpValue}</span>
       </div>
 
-      <button class="btn btn-treasure" on:click={takeRewardTreasure}>
-        Take ${treasureValue}
+      <button class="btn btn-xp" on:click={takeRewardXp}>
+        Take {xpValue} ⭐
       </button>
     </div>
   </div>
@@ -122,11 +122,11 @@
     color: #3498db;
   }
 
-  .treasure-option {
+  .xp-option {
     border-color: #f1c40f;
   }
 
-  .treasure-option h3 {
+  .xp-option h3 {
     color: #f1c40f;
   }
 
@@ -146,7 +146,7 @@
     padding: 0.5rem;
   }
 
-  .treasure-preview {
+  .xp-preview {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -156,7 +156,7 @@
     padding: 1rem;
   }
 
-  .treasure-icon {
+  .xp-icon {
     font-size: 2rem;
   }
 
@@ -188,12 +188,12 @@
     background: #2980b9;
   }
 
-  .btn-treasure {
+  .btn-xp {
     background: #f1c40f;
     color: #000;
   }
 
-  .btn-treasure:hover {
+  .btn-xp:hover {
     background: #d4ac0d;
   }
 

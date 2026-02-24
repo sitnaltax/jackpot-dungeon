@@ -13,7 +13,7 @@ export const ITEM_CATEGORIES = {
 // All items in the game
 // Pricing formula from spec:
 //   Base cost for first level of primary resource
-//   Each additional level of same resource: +1 XP cumulative
+//   Each additional level of same resource: +1 Treasure cumulative
 //   Each secondary resource: its base cost + 1 XP
 //
 // Base costs: Selective Redraw 3, Redraw All 2, Bonus Draw 5,

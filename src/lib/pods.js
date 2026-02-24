@@ -42,7 +42,7 @@ export const STARTING_POD_TEMPLATES = [
     tokenDefs: [
       { type: 'insight', rank: 'bronze' },
       { type: 'insight', rank: 'inferior' },
-      { type: 'treasure', rank: 'inferior' },
+      { type: 'xp', rank: 'inferior' },
     ],
     cost: 0,
   },
@@ -59,7 +59,7 @@ export const STARTING_POD_TEMPLATES = [
     tokenDefs: [
       { type: 'resolve', rank: 'bronze' },
       { type: 'resolve', rank: 'inferior' },
-      { type: 'treasure', rank: 'inferior' },
+      { type: 'xp', rank: 'inferior' },
     ],
     cost: 0,
   },
@@ -76,14 +76,14 @@ export const STARTING_POD_TEMPLATES = [
     tokenDefs: [
       { type: 'insight' },
       { type: 'resolve', rank: 'inferior' },
-      { type: 'treasure', rank: 'inferior' },
+      { type: 'xp', rank: 'inferior' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
-      { type: 'treasure' },
-      { type: 'treasure', rank: 'inferior' },
+      { type: 'xp' },
+      { type: 'xp', rank: 'inferior' },
       { type: 'resolve', rank: 'inferior' },
     ],
     cost: 0,
@@ -216,7 +216,7 @@ export function generateWeakPod() {
   const tokenDefs = [
     { type: 'insight', rank: 'inferior' },
     { type: 'resolve', rank: 'inferior' },
-    { type: 'treasure', rank: 'inferior' },
+    { type: 'xp', rank: 'inferior' },
   ];
   return createPod(tokenDefs, 0);
 }

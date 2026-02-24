@@ -16,7 +16,7 @@
   $: hasEmptySlot = equipmentSlots.some(e => e === null);
   $: hasLightSource = equipmentSlots.some(e => e?.category === 'lightSource');
   $: effectiveMaxStamina = getEffectiveMaxStamina($player);
-  $: playerXp = $player.xp;
+  $: playerTreasure = $player.treasure;
   $: selectedSlot = $selectedEquipmentSlot;
   // Create a reactive version of purchased items to trigger re-renders
   $: purchasedSet = $purchasedShopItems;
@@ -77,15 +77,15 @@
 <div class="item-shop">
   <div class="shop-header">
     <h2>Item Shop</h2>
-    <div class="xp-display">
-      <span class="xp-label">XP:</span>
-      <span class="xp-value">{$player.xp}</span>
+    <div class="treasure-display">
+      <span class="treasure-label">Treasure:</span>
+      <span class="treasure-value">${$player.treasure}</span>
     </div>
   </div>
 
   <div class="items-section">
     {#each $shopItems as item, index}
-      <div class="item-card" class:sold={isPurchased(index, purchasedSet)} class:cant-afford={!canAfford(item.cost, playerXp) && !isPurchased(index, purchasedSet)}>
+      <div class="item-card" class:sold={isPurchased(index, purchasedSet)} class:cant-afford={!canAfford(item.cost, playerTreasure) && !isPurchased(index, purchasedSet)}>
         <div class="item-header">
           <span class="item-icon">{item.icon}</span>
           <div class="item-title">
@@ -94,7 +94,7 @@
               {ITEM_CATEGORIES[item.category]?.name || item.category}
             </span>
           </div>
-          <span class="item-cost" class:affordable={canAfford(item.cost, playerXp)}>{item.cost} XP</span>
+          <span class="item-cost" class:affordable={canAfford(item.cost, playerTreasure)}>${item.cost}</span>
         </div>
 
         <p class="item-description">{item.description}</p>
@@ -110,10 +110,10 @@
 
         <button
           class="btn btn-purchase"
-          disabled={!canPurchase(item, index, playerXp, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
+          disabled={!canPurchase(item, index, playerTreasure, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
           on:click={() => handlePurchase(item, index)}
         >
-          {getPurchaseLabel(item, index, playerXp, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
+          {getPurchaseLabel(item, index, playerTreasure, purchasedSet, hasEmptySlot, hasLightSource, selectedSlot)}
         </button>
       </div>
     {/each}
@@ -181,7 +181,7 @@
     font-size: 1.75rem;
   }
 
-  .xp-display {
+  .treasure-display {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -191,12 +191,12 @@
     border: 2px solid #9b59b6;
   }
 
-  .xp-label {
+  .treasure-label {
     color: #888;
     font-size: 1rem;
   }
 
-  .xp-value {
+  .treasure-value {
     color: #9b59b6;
     font-size: 1.5rem;
     font-weight: bold;

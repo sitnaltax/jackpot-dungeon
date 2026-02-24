@@ -52,13 +52,13 @@
   </div>
 
   <div class="stat">
-    <span class="label">Treasure</span>
-    <span class="value treasure">${$player.treasure}</span>
+    <span class="label">XP</span>
+    <span class="value xp">{$player.xp}</span>
   </div>
 
   <div class="stat">
-    <span class="label">XP</span>
-    <span class="value xp">{$player.xp}</span>
+    <span class="label">Treasure</span>
+    <span class="value treasure">${$player.treasure}</span>
   </div>
 
   <div class="stat equipment-stat">
@@ -110,11 +110,11 @@
     font-weight: bold;
   }
 
-  .treasure {
+  .xp {
     color: #f1c40f;
   }
 
-  .xp {
+  .treasure {
     color: #9b59b6;
   }
 

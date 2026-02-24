@@ -81,8 +81,8 @@ export const CLASSES = {
       null,
       null,
     ],
-    startingTreasureBonus: 0,
     startingXpBonus: 0,
+    startingTreasureBonus: 0,
   },
   merchant: {
     id: 'merchant',
@@ -95,8 +95,8 @@ export const CLASSES = {
       STARTING_ITEMS.ruinedJournal,
       null,
     ],
-    startingTreasureBonus: 10,
-    startingXpBonus: 0,
+    startingXpBonus: 10,
+    startingTreasureBonus: 0,
   },
   athlete: {
     id: 'athlete',
@@ -112,8 +112,8 @@ export const CLASSES = {
       STARTING_ITEMS.sweatband,
       null,
     ],
-    startingTreasureBonus: 0,
-    startingXpBonus: 1,
+    startingXpBonus: 0,
+    startingTreasureBonus: 1,
   },
   fool: {
     id: 'fool',
@@ -128,8 +128,8 @@ export const CLASSES = {
       STARTING_ITEMS.travelersCharm,
       null,
     ],
-    startingTreasureBonus: 0,
     startingXpBonus: 0,
+    startingTreasureBonus: 0,
     shopItemFilter: (item) => !item.bonuses?.selectiveRedraws,
   },
 };

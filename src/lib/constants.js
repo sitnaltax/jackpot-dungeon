@@ -7,7 +7,7 @@ export const CONFIG = {
 
   // Player settings
   startingStamina: 20,
-  startingTreasure: 10,
+  startingXp: 10,
 
   // Combat settings
   resolveFailFlat: 5,      // Flat stamina loss for failing resolve check

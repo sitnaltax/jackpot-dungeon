@@ -17,7 +17,7 @@
   import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
-  const STAT_PRIORITY = { insight: 0, resolve: 1, treasure: 2 };
+  const STAT_PRIORITY = { insight: 0, resolve: 1, xp: 2 };
 
   // Get the primary stat and value a token contributes in context
   function getTokenContribution(token, allTokens) {
@@ -34,7 +34,7 @@
     return { stat: token.type, value: getTokenValue(token) };
   }
 
-  // Sort tokens by stat priority (insight > resolve > treasure), then by value descending
+  // Sort tokens by stat priority (insight > resolve > xp), then by value descending
   function sortTokens(tokens) {
     return [...tokens].sort((a, b) => {
       const contribA = getTokenContribution(a, tokens);
@@ -55,7 +55,7 @@
   $: totals = {
     insight: tokenTotals.insight + (totalBonuses.insight || 0) + ($drawEffects.insight || 0),
     resolve: tokenTotals.resolve + (totalBonuses.resolve || 0) + ($drawEffects.resolve || 0),
-    treasure: tokenTotals.treasure + ($drawEffects.treasure || 0),
+    xp: tokenTotals.xp + ($drawEffects.xp || 0),
   };
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
@@ -108,12 +108,12 @@
         <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
       </span>
     </div>
-    <div class="total treasure">
-      <span class="total-label">Treasure</span>
+    <div class="total xp">
+      <span class="total-label">XP</span>
       <span class="total-value">
-        💰 {totals.treasure}
-        {#if $drawEffects.treasure > 0}
-          <span class="draw-bonus">(+{$drawEffects.treasure})</span>
+        ⭐ {totals.xp}
+        {#if $drawEffects.xp > 0}
+          <span class="draw-bonus">(+{$drawEffects.xp})</span>
         {/if}
       </span>
     </div>
@@ -204,7 +204,7 @@
     color: #3498db;
   }
 
-  .total.treasure .total-value {
+  .total.xp .total-value {
     color: #f1c40f;
   }
 

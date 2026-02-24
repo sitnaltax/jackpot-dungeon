@@ -31,8 +31,8 @@ export const player = writable({
   playerClass: null,
   stamina: CONFIG.startingStamina,
   maxStamina: CONFIG.startingStamina,
-  treasure: CONFIG.startingTreasure,
-  xp: 0,
+  xp: CONFIG.startingXp,
+  treasure: 0,
   equipment: [null, null, null],
 });
 export const currentEncounter = writable(null);
@@ -58,7 +58,7 @@ export const rewardPod = writable(null); // Pod offered as reward after hard pat
 
 // Accumulated on-draw effects for the current encounter.
 // Fires each time a token freshly enters the draw (including redraws of the same token).
-export const drawEffects = writable({ insight: 0, resolve: 0, treasure: 0 });
+export const drawEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
 function applyOnDrawEffects(tokens) {
   for (const token of tokens) {
@@ -68,7 +68,7 @@ function applyOnDrawEffects(tokens) {
     drawEffects.update(d => ({
       insight: d.insight + (effects.insight || 0),
       resolve: d.resolve + (effects.resolve || 0),
-      treasure: d.treasure + (effects.treasure || 0),
+      xp: d.xp + (effects.xp || 0),
     }));
   }
 }
@@ -183,8 +183,8 @@ export function selectClass(classId) {
   const debug = get(isDebugMode);
 
   const baseStamina = CONFIG.startingStamina;
-  const baseTreasure = CONFIG.startingTreasure + (chosenClass.startingTreasureBonus || 0);
-  const baseXp = chosenClass.startingXpBonus || 0;
+  const baseXp = CONFIG.startingXp + (chosenClass.startingXpBonus || 0);
+  const baseTreasure = chosenClass.startingTreasureBonus || 0;
 
   const startingBonusDraw = (chosenClass.bonuses?.bonusDraw || 0) +
     chosenClass.startingEquipment.reduce((sum, e) => sum + (e?.bonuses?.bonusDraw || 0), 0);
@@ -195,8 +195,8 @@ export function selectClass(classId) {
     playerClass: chosenClass,
     stamina: baseStamina,
     maxStamina: baseStamina,
-    treasure: debug ? baseTreasure + 1000 : baseTreasure,
     xp: debug ? baseXp + 1000 : baseXp,
+    treasure: debug ? baseTreasure + 1000 : baseTreasure,
     equipment: [...chosenClass.startingEquipment],
   };
 
@@ -258,7 +258,7 @@ function beginEncounter(encounter) {
   selectedTokensForRedraw.set(new Set());
 
   // Reset on-draw effects for this encounter
-  drawEffects.set({ insight: 0, resolve: 0, treasure: 0 });
+  drawEffects.set({ insight: 0, resolve: 0, xp: 0 });
 
   // Draw tokens
   drawTokens();
@@ -371,19 +371,19 @@ export function executeCombat() {
   const $drawEffects = get(drawEffects);
   const result = resolveCombat($drawnTokens, $encounter, combatBonuses, $drawEffects);
 
-  // Award XP: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
-  const baseXp = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
+  // Award Treasure: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
+  const baseTreasure = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
 
   // Apply encounter multipliers
-  const treasureMultiplier = $encounter.treasureMultiplier || 1.0;
   const xpMultiplier = $encounter.xpMultiplier || 1.0;
+  const treasureMultiplier = $encounter.treasureMultiplier || 1.0;
 
-  result.baseTreasure = result.treasureGained;
-  result.baseXp = baseXp;
-  result.treasureMultiplier = treasureMultiplier;
+  result.baseXp = result.xpGained;
+  result.baseTreasure = baseTreasure;
   result.xpMultiplier = xpMultiplier;
-  result.treasureGained = Math.floor(result.treasureGained * treasureMultiplier);
-  result.xpGained = Math.floor(baseXp * xpMultiplier);
+  result.treasureMultiplier = treasureMultiplier;
+  result.xpGained = Math.floor(result.xpGained * xpMultiplier);
+  result.treasureGained = Math.floor(baseTreasure * treasureMultiplier);
 
   // Calculate stamina regen from equipment + class
   const staminaRegen = totalBonuses.staminaRegen;
@@ -399,8 +399,8 @@ export function executeCombat() {
     return {
       ...p,
       stamina: afterRegen,
-      treasure: p.treasure + result.treasureGained,
       xp: p.xp + result.xpGained,
+      treasure: p.treasure + result.treasureGained,
     };
   });
 
@@ -455,7 +455,7 @@ export function purchaseItem(item, shopIndex) {
   const $purchasedShopItems = get(purchasedShopItems);
 
   // Can't afford or already purchased
-  if ($player.xp < item.cost) return;
+  if ($player.treasure < item.cost) return;
   if ($purchasedShopItems.has(shopIndex)) return;
 
   // Find where to place the item
@@ -526,7 +526,7 @@ export function purchaseItem(item, shopIndex) {
 
     return {
       ...p,
-      xp: p.xp - item.cost,
+      treasure: p.treasure - item.cost,
       equipment: newEquipment,
       pods: newPods,
       maxPods: newMaxPods,
@@ -575,7 +575,7 @@ export function purchasePod(podTemplate, shopIndex) {
   const $purchasedShopPods = get(purchasedShopPods);
 
   // Check if we can afford it, have selected a pod to replace, and pod isn't already purchased
-  if ($player.treasure < podTemplate.cost) return;
+  if ($player.xp < podTemplate.cost) return;
   if (!$selectedPod) return;
   if ($purchasedShopPods.has(shopIndex)) return;
 
@@ -585,7 +585,7 @@ export function purchasePod(podTemplate, shopIndex) {
   // Replace the selected pod
   player.update(p => ({
     ...p,
-    treasure: p.treasure - podTemplate.cost,
+    xp: p.xp - podTemplate.cost,
     pods: p.pods.map(pod =>
       pod.id === $selectedPod ? newPod : pod
     ),
@@ -605,14 +605,14 @@ export function refreshShop() {
   const $player = get(player);
   const refreshCost = 1;
 
-  if ($player.treasure < refreshCost) return;
+  if ($player.xp < refreshCost) return;
 
   const encNum = get(encounterNumber);
   const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
 
   player.update(p => ({
     ...p,
-    treasure: p.treasure - refreshCost,
+    xp: p.xp - refreshCost,
   }));
 
   shopPods.set(generatedPods);
@@ -651,17 +651,17 @@ export function takeRewardPod() {
   proceedToShop();
 }
 
-export function takeRewardTreasure() {
+export function takeRewardXp() {
   const $rewardPod = get(rewardPod);
 
   if (!$rewardPod) return;
 
-  // Give half the pod's cost as treasure
-  const treasureValue = Math.floor($rewardPod.cost / 2);
+  // Give half the pod's cost as XP
+  const xpValue = Math.floor($rewardPod.cost / 2);
 
   player.update(p => ({
     ...p,
-    treasure: p.treasure + treasureValue,
+    xp: p.xp + xpValue,
   }));
 
   selectedPodToReplace.set(null);

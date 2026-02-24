@@ -92,14 +92,14 @@
         return 'Contributes to Insight, helping you gain rewards from encounters.';
       case 'resolve':
         return 'Contributes to Resolve, helping you withstand trouble.';
-      case 'treasure':
-        return 'Adds directly to treasure gained from the encounter.';
+      case 'xp':
+        return 'Adds directly to XP gained from the encounter.';
       case 'harmony':
         return 'Contributes to Resolve. Gains a bonus when drawn with a different Musical token.';
       case 'melody':
         return 'Contributes to Insight. Gains a bonus when drawn with a different Musical token.';
       case 'chord':
-        return 'Contributes 1 Insight, Resolve, and Treasure. Increases to 3 each if drawn with 2 other unique Musical tokens.';
+        return 'Contributes 1 Insight, Resolve, and XP. Increases to 3 each if drawn with 2 other unique Musical tokens.';
       case 'discord':
         return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
       case 'scorpio':
@@ -107,17 +107,17 @@
       case 'capricorn':
         return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
       case 'taurus':
-        return 'Contributes to Treasure. Gains +1 for each Celestial token drawn.';
+        return 'Contributes to XP. Gains +1 for each Celestial token drawn.';
       case 'libra':
-        return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Celestial token drawn.';
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Celestial token drawn.';
       case 'oak':
         return 'Contributes to Resolve. Gains +1 for each Botanical token drawn.';
       case 'lotus':
         return 'Contributes to Insight. Gains +1 for each Botanical token drawn.';
       case 'clover':
-        return 'Contributes to Treasure. Gains +1 for each Botanical token drawn.';
+        return 'Contributes to XP. Gains +1 for each Botanical token drawn.';
       case 'fern':
-        return 'Contributes to all stats. Gains +1 Insight, Resolve, and Treasure for each other Botanical token drawn.';
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Botanical token drawn.';
       case 'pluto':
         return 'Contributes 8 Insight. Drops to 0 if any other Celestial tokens are drawn.';
       case 'hemlock':
@@ -127,13 +127,13 @@
       case 'granite':
         return 'Contributes to Resolve. Gains +2 per Chthonic token drawn. Grants +1 Resolve on draw.';
       case 'geode':
-        return 'Contributes to Treasure. Gains +2 per Chthonic token drawn. Grants +1 Treasure on draw.';
+        return 'Contributes to XP. Gains +2 per Chthonic token drawn. Grants +1 XP on draw.';
       case 'brainstorm':
-        return 'Contributes 4 Insight and 4 Treasure.';
+        return 'Contributes 4 Insight and 4 XP.';
       case 'meditation':
-        return 'Contributes 4 Resolve and 4 Treasure.';
+        return 'Contributes 4 Resolve and 4 XP.';
       case 'wild':
-        return 'Contributes to all stats. Needs 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens. Gains +3 per tag to Insight, Resolve, and Treasure.';
+        return 'Contributes to all stats. Needs 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens. Gains +3 per tag to Insight, Resolve, and XP.';
       default:
         return '';
     }
@@ -186,7 +186,7 @@
             <div class="stat-block" class:bonus={hasBonus}>
               <div class="stat-header">
                 <span class="stat-icon">{TOKEN_TYPES[stat]?.icon || '?'}</span>
-                <span class="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
+                <span class="stat-name">{stat === 'xp' ? 'XP' : stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
                 <span class="stat-total">+{value}</span>
               </div>
               <div class="stat-calculation">

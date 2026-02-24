@@ -8,7 +8,7 @@ export function calculateDrawTotals(drawnTokens) {
   const totals = {
     insight: 0,
     resolve: 0,
-    treasure: 0,
+    xp: 0,
   };
 
   for (const token of drawnTokens) {
@@ -33,7 +33,7 @@ export function calculateDrawTotals(drawnTokens) {
 
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
-// drawEffects: optional { insight, resolve, treasure } accumulated from token onDraw callbacks
+// drawEffects: optional { insight, resolve, xp } accumulated from token onDraw callbacks
 export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
   const totals = calculateDrawTotals(drawnTokens);
 
@@ -44,16 +44,16 @@ export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects 
   // Apply accumulated on-draw effects (flat, not rank-scaled, persist through redraws)
   if (drawEffects.insight) totals.insight += drawEffects.insight;
   if (drawEffects.resolve) totals.resolve += drawEffects.resolve;
-  if (drawEffects.treasure) totals.treasure += drawEffects.treasure;
+  if (drawEffects.xp) totals.xp += drawEffects.xp;
 
   const result = {
     totals,
     equipmentBonuses: { insight: bonuses.insight || 0, resolve: bonuses.resolve || 0 },
-    drawEffects: { insight: drawEffects.insight || 0, resolve: drawEffects.resolve || 0, treasure: drawEffects.treasure || 0 },
+    drawEffects: { insight: drawEffects.insight || 0, resolve: drawEffects.resolve || 0, xp: drawEffects.xp || 0 },
     encounter,
     revealed: false,
     staminaLost: 0,
-    treasureGained: totals.treasure,
+    xpGained: totals.xp,
     insightSuccess: false,
     resolveSuccess: false,
     insightSurplus: 0,
@@ -65,8 +65,8 @@ export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects 
     result.revealed = true;
     result.insightSuccess = true;
     result.insightSurplus = totals.insight - encounter.mystery;
-    // Treasure reward is half of the mystery value
-    result.treasureGained += Math.floor(encounter.mystery / 2);
+    // XP reward is half of the mystery value
+    result.xpGained += Math.floor(encounter.mystery / 2);
   }
 
   // Resolve resolution - can you withstand the trouble?
@@ -101,7 +101,7 @@ export function getCombatSummary(result) {
   const eqResolve = result.equipmentBonuses?.resolve || 0;
   const deInsight = result.drawEffects?.insight || 0;
   const deResolve = result.drawEffects?.resolve || 0;
-  const deTreasure = result.drawEffects?.treasure || 0;
+  const deXp = result.drawEffects?.xp || 0;
 
   const insightSuffix = bonusSuffix(result.totals.insight, eqInsight, deInsight);
   const resolveSuffix = bonusSuffix(result.totals.resolve, eqResolve, deResolve);
@@ -121,12 +121,12 @@ export function getCombatSummary(result) {
     lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.resolveFailFlat} flat + ${result.resolveDeficiency} × ${CONFIG.resolveFailScale})`);
   }
 
-  // Treasure summary
-  lines.push(`$ Treasure: +${result.treasureGained}`);
-  const tokenTreasure = result.totals.treasure - deTreasure;
-  if (result.revealed || deTreasure > 0) {
-    const parts = [`${tokenTreasure} tokens`];
-    if (deTreasure > 0) parts.push(`${deTreasure} draw`);
+  // XP summary
+  lines.push(`⭐ XP: +${result.xpGained}`);
+  const tokenXp = result.totals.xp - deXp;
+  if (result.revealed || deXp > 0) {
+    const parts = [`${tokenXp} tokens`];
+    if (deXp > 0) parts.push(`${deXp} draw`);
     if (result.revealed) parts.push(`${Math.floor(result.encounter.mystery / 2)} mystery reveal`);
     lines.push(`  (${parts.join(' + ')})`);
   }
