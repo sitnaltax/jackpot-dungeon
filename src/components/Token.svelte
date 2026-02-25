@@ -202,6 +202,19 @@
     right: -4px;
   }
 
+  .token.large .token-rank {
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    clip-path: path('M 0 0 L 22 0 Q 30 0 30 8 L 30 30 Z');
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 3px 5px 0 0;
+    font-size: 0.6rem;
+  }
+
   .select-checkbox {
     position: absolute;
     bottom: -15px;
