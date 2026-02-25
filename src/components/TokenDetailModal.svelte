@@ -165,9 +165,9 @@
         <div class="token-title">
           <h2>{typeData.name}</h2>
           <div class="badges">
-            {#if token.rank !== 'basic'}
-              <span class="rank-badge">{rankData.name}</span>
-            {/if}
+            <span class="rank-badge" style="background: {token.rank === 'basic' ? '#c8f0c0' : rankData.color}">
+              {token.rank === 'basic' ? 'Ordinary' : rankData.name}
+            </span>
             {#if typeData.tags}
               {#each typeData.tags as tag}
                 <span class="tag-badge">{tag}</span>

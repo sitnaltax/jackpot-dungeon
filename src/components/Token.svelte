@@ -14,6 +14,9 @@
   $: rankData = RANKS[token.rank];
   $: baseValue = getTokenValue(token);
   $: isUpgraded = token.rank !== 'basic';
+  $: rankBadge = token.rank === 'basic'
+    ? { letter: 'O', color: '#c8f0c0' }
+    : { letter: rankData.name[0], color: rankData.color };
   $: borderEffect = typeData.borderEffect || null;
 
   // Calculate contextual contributions (with synergies if context provided)
@@ -60,11 +63,13 @@
 >
   <div class="token-icon">{typeData.icon}</div>
   <div class="token-value">{contributions[0].value}</div>
-  {#if isUpgraded}
-    <div class="token-rank" title="{rankData.name} (×{rankData.multiplier})">
-      {rankData.name[0]}
-    </div>
-  {/if}
+  <div
+    class="token-rank"
+    style="background: {rankBadge.color}"
+    title="{token.rank === 'basic' ? 'Ordinary' : rankData.name + ' (×' + rankData.multiplier + ')'}"
+  >
+    {rankBadge.letter}
+  </div>
   {#if selectable}
     <button
       class="select-checkbox"

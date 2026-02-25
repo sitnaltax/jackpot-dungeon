@@ -35,22 +35,22 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 insight-focused, 2 resolve-focused, 2 balanced
-// Each pod has 1 basic token and 2 inferior tokens
+// Each pod has 1 basic token and 2 iron tokens
 export const STARTING_POD_TEMPLATES = [
   // Insight-focused pods
   {
     tokenDefs: [
       { type: 'insight', rank: 'bronze' },
-      { type: 'insight', rank: 'inferior' },
-      { type: 'xp', rank: 'inferior' },
+      { type: 'insight', rank: 'iron' },
+      { type: 'xp', rank: 'iron' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'insight' },
-      { type: 'insight', rank: 'inferior' },
-      { type: 'insight', rank: 'inferior' },
+      { type: 'insight', rank: 'iron' },
+      { type: 'insight', rank: 'iron' },
     ],
     cost: 0,
   },
@@ -58,16 +58,16 @@ export const STARTING_POD_TEMPLATES = [
   {
     tokenDefs: [
       { type: 'resolve', rank: 'bronze' },
-      { type: 'resolve', rank: 'inferior' },
-      { type: 'xp', rank: 'inferior' },
+      { type: 'resolve', rank: 'iron' },
+      { type: 'xp', rank: 'iron' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'resolve' },
-      { type: 'resolve', rank: 'inferior' },
-      { type: 'resolve', rank: 'inferior' },
+      { type: 'resolve', rank: 'iron' },
+      { type: 'resolve', rank: 'iron' },
     ],
     cost: 0,
   },
@@ -75,16 +75,16 @@ export const STARTING_POD_TEMPLATES = [
   {
     tokenDefs: [
       { type: 'insight' },
-      { type: 'resolve', rank: 'inferior' },
-      { type: 'xp', rank: 'inferior' },
+      { type: 'resolve', rank: 'iron' },
+      { type: 'xp', rank: 'iron' },
     ],
     cost: 0,
   },
   {
     tokenDefs: [
       { type: 'xp' },
-      { type: 'xp', rank: 'inferior' },
-      { type: 'resolve', rank: 'inferior' },
+      { type: 'xp', rank: 'iron' },
+      { type: 'resolve', rank: 'iron' },
     ],
     cost: 0,
   },
@@ -214,9 +214,9 @@ export function generateStartingPods() {
 // Generate a weak "level 1" pod for bonus draw slots
 export function generateWeakPod() {
   const tokenDefs = [
-    { type: 'insight', rank: 'inferior' },
-    { type: 'resolve', rank: 'inferior' },
-    { type: 'xp', rank: 'inferior' },
+    { type: 'insight', rank: 'iron' },
+    { type: 'resolve', rank: 'iron' },
+    { type: 'xp', rank: 'iron' },
   ];
   return createPod(tokenDefs, 0);
 }
