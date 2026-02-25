@@ -1,7 +1,10 @@
 <script>
-  import { inspectedClass, closeClassInspection, inspectEquipment } from '../lib/gameState.js';
+  import { inspectedClass, closeClassInspection, player } from '../lib/gameState.js';
+  import { DIFFICULTIES } from '../lib/classes.js';
 
   $: cls = $inspectedClass;
+  $: difficultyId = $player?.difficulty;
+  $: difficulty = DIFFICULTIES.find(d => d.id === difficultyId);
 
   function handleBackdropClick(e) {
     if (e.target === e.currentTarget) {
@@ -12,13 +15,6 @@
   function handleKeydown(e) {
     if (e.key === 'Escape') {
       closeClassInspection();
-    }
-  }
-
-  function handleItemClick(item) {
-    if (item) {
-      closeClassInspection();
-      inspectEquipment(item);
     }
   }
 </script>
@@ -42,22 +38,13 @@
         <p class="benefit-text">{cls.benefitDescription}</p>
       </div>
 
-      <div class="equipment-section">
-        <h3>Starting Gear</h3>
-        <div class="item-list">
-          {#each cls.startingEquipment as item}
-            {#if item}
-              <button class="item-row" on:click={() => handleItemClick(item)}>
-                <span class="item-icon">{item.icon}</span>
-                <div class="item-info">
-                  <span class="item-name">{item.name}</span>
-                  <span class="item-desc">{item.description}</span>
-                </div>
-              </button>
-            {/if}
-          {/each}
+      {#if difficulty}
+        <div class="difficulty-section">
+          <h3>Difficulty</h3>
+          <p class="difficulty-name">{difficulty.name}</p>
+          <p class="difficulty-desc">{difficulty.description}</p>
         </div>
-      </div>
+      {/if}
     </div>
   </div>
 {/if}
@@ -143,63 +130,31 @@
     font-size: 0.9rem;
   }
 
-  .equipment-section {
+  .difficulty-section {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 1rem;
   }
 
-  .equipment-section h3 {
-    margin: 0 0 0.75rem 0;
+  .difficulty-section h3 {
+    margin: 0 0 0.5rem 0;
     font-size: 0.875rem;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .item-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .item-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    color: inherit;
-    font-family: inherit;
-    text-align: left;
-  }
-
-  .item-row:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .item-icon {
-    font-size: 1.5rem;
-  }
-
-  .item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .item-name {
+  .difficulty-name {
+    margin: 0 0 0.35rem 0;
     color: #e5c07b;
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 
-  .item-desc {
-    color: #888;
-    font-size: 0.75rem;
+  .difficulty-desc {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 </style>

@@ -177,7 +177,7 @@ export function startDebugGame() {
 }
 
 // Player selects a class and the game begins
-export function selectClass(classId) {
+export function selectClass(classId, difficultyId = 'normal') {
   const chosenClass = CLASSES[classId];
   if (!chosenClass) return;
 
@@ -195,6 +195,7 @@ export function selectClass(classId) {
     pods: startingPods,
     maxPods: CONFIG.drawCount + startingBonusDraw * CONFIG.podsPerBonusDraw,
     playerClass: chosenClass,
+    difficulty: difficultyId,
     stamina: baseStamina,
     maxStamina: baseStamina,
     xp: debug ? baseXp + 1000 : baseXp,

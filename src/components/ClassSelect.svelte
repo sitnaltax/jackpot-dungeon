@@ -1,14 +1,6 @@
 <script>
   import { selectClass } from '../lib/gameState.js';
-  import { CLASS_LIST } from '../lib/classes.js';
-
-  const DIFFICULTIES = [
-    { id: 'wizard', name: 'Wizard', description: 'Limitless resources, for exploring the game or debugging.' },
-    { id: 'normal', name: 'Normal', description: 'For new and casual players. Allows room for experimentation and mistakes.' },
-    { id: 'hard', name: 'Hard', description: 'For experienced players or roguelike veterans. Most strategies should be viable, and win if executed well.' },
-    { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. Most strategies should still be viable if executed well, but victory is uncertain.' },
-    { id: 'insane', name: 'Insane', description: 'Overtuned difficulty; use only if you found something you think is brokenly good.' },
-  ];
+  import { CLASS_LIST, DIFFICULTIES } from '../lib/classes.js';
 
   let selectedClass = CLASS_LIST[0];
   let selectedDifficulty = 'normal';
@@ -17,7 +9,7 @@
 
   function handleStart() {
     if (selectedClass) {
-      selectClass(selectedClass.id);
+      selectClass(selectedClass.id, selectedDifficulty);
     }
   }
 </script>
