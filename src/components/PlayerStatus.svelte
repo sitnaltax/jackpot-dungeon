@@ -31,6 +31,7 @@
   </div>
 
   {#if playerClass}
+    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <div
       class="stat class-stat"
       on:click={handleClassClick}
@@ -65,6 +66,7 @@
     <span class="label">Equipment</span>
     <div class="equipment-slots">
       {#each equipmentSlots as item}
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <div
           class="equipment-slot"
           class:empty={!item}

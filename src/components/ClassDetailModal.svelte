@@ -26,6 +26,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if cls}
+  <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <div class="modal-backdrop" on:click={handleBackdropClick} role="dialog" aria-modal="true">
     <div class="modal-content">
       <button class="close-btn" on:click={closeClassInspection}>&times;</button>

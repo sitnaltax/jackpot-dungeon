@@ -130,6 +130,7 @@
     </p>
     <div class="equipment-grid">
       {#each equipmentSlots as equip, i}
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <div
           class="equip-slot"
           class:empty={!equip}

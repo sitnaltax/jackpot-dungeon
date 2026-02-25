@@ -155,6 +155,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if token}
+  <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <div class="modal-backdrop" on:click={handleBackdropClick} role="dialog" aria-modal="true">
     <div class="modal-content" style="--type-color: {typeData.color}; --rank-color: {rankData.color}">
       <button class="close-btn" on:click={closeInspection}>&times;</button>
