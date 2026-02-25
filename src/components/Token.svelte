@@ -197,7 +197,7 @@
   .token.small .token-rank {
     width: 14px;
     height: 14px;
-    font-size: 0.5rem;
+    font-size: 0.65rem;
     top: -4px;
     right: -4px;
   }
