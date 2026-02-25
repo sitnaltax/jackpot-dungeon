@@ -3,6 +3,7 @@
 </script>
 
 <div class="start-screen">
+
   <h1>Jacq's Quest</h1>
 
   <div class="how-to-play">
@@ -35,17 +36,24 @@
     gap: 2rem;
     padding: 3rem;
     text-align: center;
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
   }
 
   h1 {
     margin: 0;
     font-size: 3rem;
-    background: linear-gradient(135deg, #f1c40f 0%, #e74c3c 100%);
+    line-height: 1;
+    padding-bottom: 0.2em;
+    background: linear-gradient(180deg, #ffffff 0%, #c8d0d8 50%, #7f8c9a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: silver-glow 5s ease-in-out infinite;
+  }
+  @keyframes silver-glow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(180, 190, 200, 0.5)); }
+    50%       { filter: drop-shadow(0 0 9px rgba(200, 210, 220, 0.8)) drop-shadow(0 0 18px rgba(127, 140, 154, 0.3)); }
   }
 
   .how-to-play {
