@@ -49,7 +49,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: silver-glow 5s ease-in-out infinite;
+    animation: silver-glow 10s ease-in-out infinite;
   }
   @keyframes silver-glow {
     0%, 100% { filter: drop-shadow(0 0 4px rgba(180, 190, 200, 0.5)); }
