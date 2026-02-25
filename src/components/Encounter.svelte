@@ -44,6 +44,7 @@
   .encounter-left {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.35rem;
     flex-shrink: 0;
   }
@@ -97,5 +98,14 @@
     line-height: 1.5;
     border-left: 1px solid #3a2020;
     padding-left: 1.25rem;
+  }
+
+  @media (max-width: 500px) {
+    .encounter-flavor {
+      display: none;
+    }
+    .encounter {
+      justify-content: center;
+    }
   }
 </style>
