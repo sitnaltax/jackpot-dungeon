@@ -82,6 +82,26 @@ Pods contain 3 tokens. Starting pods use iron/ordinary ranks. Shop pods scale wi
 
 Bonus draws expand the pod pool: each bonus draw adds `CONFIG.podsPerBonusDraw` (default 2) weak pods.
 
+### Persistence (`src/lib/persistence.js`)
+
+Game state is saved to `localStorage` automatically so mobile browsers don't lose progress when a tab is evicted from memory.
+
+- `initAutoSave(stores)` — subscribes to all meaningful stores and debounces saves (500ms). Called once in `App.svelte` `onMount`.
+- `loadSavedGame(stores)` — reads and restores state on page load. Called before `initAutoSave`.
+- `clearSave()` — wipes the save. Called at the start of `selectClass` so each new run starts clean.
+- `SAVE_VERSION` constant — bump this whenever the saved data shape changes incompatibly. Mismatched saves are discarded and the player starts fresh.
+
+**When adding new persistent state:**
+1. Add the store to the `saveGame` serialization block in `persistence.js`
+2. Add it to the `loadSavedGame` restoration block (with a safe default for old saves)
+3. Add it to the `initAutoSave` subscriptions array
+4. Bump `SAVE_VERSION`
+
+**Serialization caveats:**
+- `player.playerClass` contains functions and cannot be JSON-serialized. It is stored as `playerClassId` and restored via `CLASSES[playerClassId]`.
+- `Set` values (`purchasedShopPods`, `purchasedShopItems`) are serialized as arrays and reconstructed as Sets on load.
+- Phases `start` and `classSelect` are not saved — nothing worth restoring there.
+
 ## Configuration
 
 `CONFIG` object in `src/lib/constants.js` contains all balance values:
