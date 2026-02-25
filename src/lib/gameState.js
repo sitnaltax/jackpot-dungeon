@@ -8,6 +8,7 @@ import { generateEncounter } from './encounters.js';
 import { resolveCombat } from './combat.js';
 import { generateItemShop } from './items.js';
 import { CLASSES } from './classes.js';
+import { clearSave } from './persistence.js';
 
 // Game phases
 export const PHASES = {
@@ -178,6 +179,7 @@ export function startDebugGame() {
 
 // Player selects a class and the game begins
 export function selectClass(classId, difficultyId = 'normal') {
+  clearSave();
   const chosenClass = CLASSES[classId];
   if (!chosenClass) return;
 

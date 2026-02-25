@@ -1,5 +1,14 @@
 <script>
-  import { gamePhase, PHASES } from './lib/gameState.js';
+  import { onMount } from 'svelte';
+  import * as gameState from './lib/gameState.js';
+  import { loadSavedGame, initAutoSave } from './lib/persistence.js';
+
+  const { gamePhase, PHASES } = gameState;
+
+  onMount(() => {
+    loadSavedGame(gameState);
+    return initAutoSave(gameState);
+  });
 
   import StartScreen from './components/StartScreen.svelte';
   import ClassSelect from './components/ClassSelect.svelte';
