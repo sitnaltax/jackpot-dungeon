@@ -54,7 +54,7 @@ Token series with synergies via `getValue(token, allDrawnTokens)`:
 - **Botanical** (oak, lotus, clover, fern, hemlock) - Scale with Botanical count
 - **Chthonic** (obsidian, granite, geode) - Scale with Chthonic count, have `onDraw` effects
 
-Pods contain 3 tokens. Starting pods use iron/basic ranks. Shop pods scale with encounter tier.
+Pods contain 3 tokens. Starting pods use iron/ordinary ranks. Shop pods scale with encounter tier.
 
 ### Equipment System (`src/lib/items.js`)
 

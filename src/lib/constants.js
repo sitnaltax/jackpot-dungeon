@@ -27,7 +27,7 @@ export const CONFIG = {
 // Rank system - multipliers applied to base token values
 export const RANKS = {
   iron: { name: 'Iron', multiplier: 0.8, cost: 0, color: '#555' },
-  basic:    { name: 'Basic',    multiplier: 1,   cost: 0, color: '#888' },
+  ordinary: { name: 'Ordinary', multiplier: 1,   cost: 0, color: '#c8f0c0' },
   bronze:   { name: 'Bronze',   multiplier: 1.25, cost: 2, color: '#cd7f32' },
   silver:   { name: 'Silver',   multiplier: 1.5,  cost: 4, color: '#c0c0c0' },
   gold:     { name: 'Gold',     multiplier: 1.75, cost: 6, color: '#ffd700' },
@@ -36,7 +36,7 @@ export const RANKS = {
 };
 
 // Note: iron is excluded - it only appears in starting pods
-export const RANK_ORDER = ['basic', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
+export const RANK_ORDER = ['ordinary', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
 export const TOKEN_BASE_COST = 2;
 

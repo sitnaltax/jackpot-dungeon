@@ -165,8 +165,8 @@
         <div class="token-title">
           <h2>{typeData.name}</h2>
           <div class="badges">
-            <span class="rank-badge" style="background: {token.rank === 'basic' ? '#c8f0c0' : rankData.color}">
-              {token.rank === 'basic' ? 'Ordinary' : rankData.name}
+            <span class="rank-badge" style="background: {rankData.color}">
+              {rankData.name}
             </span>
             {#if typeData.tags}
               {#each typeData.tags as tag}

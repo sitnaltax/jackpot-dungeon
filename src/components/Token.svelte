@@ -13,10 +13,7 @@
   $: typeData = TOKEN_TYPES[token.type];
   $: rankData = RANKS[token.rank];
   $: baseValue = getTokenValue(token);
-  $: isUpgraded = token.rank !== 'basic';
-  $: rankBadge = token.rank === 'basic'
-    ? { letter: 'O', color: '#c8f0c0' }
-    : { letter: rankData.name[0], color: rankData.color };
+  $: isUpgraded = token.rank !== 'ordinary';
   $: borderEffect = typeData.borderEffect || null;
 
   // Calculate contextual contributions (with synergies if context provided)
@@ -65,10 +62,10 @@
   <div class="token-value">{contributions[0].value}</div>
   <div
     class="token-rank"
-    style="background: {rankBadge.color}"
-    title="{token.rank === 'basic' ? 'Ordinary' : rankData.name + ' (×' + rankData.multiplier + ')'}"
+    style="background: {rankData.color}"
+    title="{rankData.name} (×{rankData.multiplier})"
   >
-    {rankBadge.letter}
+    {rankData.name[0]}
   </div>
   {#if selectable}
     <button

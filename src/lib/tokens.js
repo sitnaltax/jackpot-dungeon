@@ -17,7 +17,7 @@ export function countTokensWithTag(tag, allDrawnTokens) {
 // Used for display and shop pricing - does not account for synergies
 export function getTokenValue(token) {
   const typeData = TOKEN_TYPES[token.type];
-  const rankData = RANKS[token.rank] || RANKS.basic;
+  const rankData = RANKS[token.rank] || RANKS.ordinary;
   return Math.floor(typeData.baseValue * rankData.multiplier);
 }
 
@@ -38,7 +38,7 @@ export const TOKEN_TYPES = {
     tags: ['Musical'],
     getValue: (token, allDrawnTokens) => {
       const typeData = TOKEN_TYPES[token.type];
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
       const bonus = hasOtherMusical ? 2 : 0;
       return { resolve: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
@@ -54,7 +54,7 @@ export const TOKEN_TYPES = {
     tags: ['Musical'],
     getValue: (token, allDrawnTokens) => {
       const typeData = TOKEN_TYPES[token.type];
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
       const bonus = hasOtherMusical ? 2 : 0;
       return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
@@ -70,7 +70,7 @@ export const TOKEN_TYPES = {
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const uniqueOtherMusical = new Set(
         allDrawnTokens
           .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
@@ -94,7 +94,7 @@ export const TOKEN_TYPES = {
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #e74c3c, #3498db)',
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const uniqueOtherMusical = new Set(
         allDrawnTokens
           .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
@@ -118,7 +118,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
       return { insight: Math.floor((3 + celestialCount) * rankMultiplier) };
     },
@@ -132,7 +132,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
       return { resolve: Math.floor((2 + celestialCount) * rankMultiplier) };
     },
@@ -146,7 +146,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
       return { xp: Math.floor((3 + celestialCount) * rankMultiplier) };
     },
@@ -161,7 +161,7 @@ export const TOKEN_TYPES = {
     tags: ['Celestial'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherCelestials = countTokensWithTag('Celestial', allDrawnTokens) - 1;
       const bonus = Math.max(0, otherCelestials);
       return {
@@ -180,7 +180,7 @@ export const TOKEN_TYPES = {
     weight: 0.3,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherCelestials = allDrawnTokens.filter(t =>
         t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Celestial')
       ).length;
@@ -199,7 +199,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
       return { resolve: Math.floor((3 + botanicalCount) * rankMultiplier) };
     },
@@ -213,7 +213,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
       return { insight: Math.floor((2 + botanicalCount) * rankMultiplier) };
     },
@@ -227,7 +227,7 @@ export const TOKEN_TYPES = {
     weight: 0.7,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
       return { xp: Math.floor((3 + botanicalCount) * rankMultiplier) };
     },
@@ -242,7 +242,7 @@ export const TOKEN_TYPES = {
     tags: ['Botanical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherBotanicals = countTokensWithTag('Botanical', allDrawnTokens) - 1;
       const bonus = Math.max(0, otherBotanicals);
       return {
@@ -261,7 +261,7 @@ export const TOKEN_TYPES = {
     weight: 0.3,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherBotanicals = allDrawnTokens.filter(t =>
         t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Botanical')
       ).length;
@@ -284,7 +284,7 @@ export const TOKEN_TYPES = {
     tags: ['Chthonic'],
     onDraw: () => ({ insight: 1 }),
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
       return { insight: Math.floor(2 * chthonicCount * rankMultiplier) };
     },
@@ -299,7 +299,7 @@ export const TOKEN_TYPES = {
     tags: ['Chthonic'],
     onDraw: () => ({ resolve: 1 }),
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
       return { resolve: Math.floor(2 * chthonicCount * rankMultiplier) };
     },
@@ -314,7 +314,7 @@ export const TOKEN_TYPES = {
     tags: ['Chthonic'],
     onDraw: () => ({ xp: 1 }),
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
       return { xp: Math.floor(2 * chthonicCount * rankMultiplier) };
     },
@@ -332,7 +332,7 @@ export const TOKEN_TYPES = {
     minDepth: 13,
     weight: 1,
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const value = Math.floor(4 * rankMultiplier);
       return { insight: value, xp: value };
     },
@@ -346,7 +346,7 @@ export const TOKEN_TYPES = {
     minDepth: 13,
     weight: 1,
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const value = Math.floor(4 * rankMultiplier);
       return { resolve: value, xp: value };
     },
@@ -363,7 +363,7 @@ export const TOKEN_TYPES = {
     tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.basic).multiplier;
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const tags = ['Musical', 'Celestial', 'Botanical', 'Chthonic'];
       let tagCount = 0;
       for (const tag of tags) {

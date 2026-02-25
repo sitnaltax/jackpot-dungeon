@@ -8,7 +8,7 @@ let nextTokenId = 1;
 
 
 // Create a token (value determined by type + rank)
-export function createToken(type, rank = 'basic') {
+export function createToken(type, rank = 'ordinary') {
   return {
     id: `token-${nextTokenId++}`,
     type,
@@ -20,7 +20,7 @@ export function createToken(type, rank = 'basic') {
 export function createPod(tokenDefs, cost = 0) {
   return {
     id: `pod-${nextPodId++}`,
-    tokens: tokenDefs.map(def => createToken(def.type, def.rank || 'basic')),
+    tokens: tokenDefs.map(def => createToken(def.type, def.rank || 'ordinary')),
     cost,
   };
 }
@@ -35,7 +35,7 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 insight-focused, 2 resolve-focused, 2 balanced
-// Each pod has 1 basic token and 2 iron tokens
+// Each pod has 1 ordinary token and 2 iron tokens
 export const STARTING_POD_TEMPLATES = [
   // Insight-focused pods
   {
@@ -109,7 +109,7 @@ function getShopTier(encounterNumber) {
 // - upgradeChance: chance for each token to upgrade one tier
 // - maxUpgrades: maximum number of tier upgrades per token
 const TIER_CONFIG = {
-  1: { minRank: 'bronze', baseRank: 'basic', upgradeChance: 0.30, maxUpgrades: 2 },
+  1: { minRank: 'bronze', baseRank: 'ordinary', upgradeChance: 0.30, maxUpgrades: 2 },
   2: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 2 },
   3: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.30, maxUpgrades: 2 },
   4: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.30, maxUpgrades: 2 },
