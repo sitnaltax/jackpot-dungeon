@@ -33,6 +33,8 @@ export const player = writable({
   maxStamina: CONFIG.startingStamina,
   xp: CONFIG.startingXp,
   treasure: 0,
+  totalXpEarned: 0,
+  totalTreasureEarned: 0,
   equipment: [null, null, null],
 });
 export const currentEncounter = writable(null);
@@ -197,6 +199,8 @@ export function selectClass(classId) {
     maxStamina: baseStamina,
     xp: debug ? baseXp + 1000 : baseXp,
     treasure: debug ? baseTreasure + 1000 : baseTreasure,
+    totalXpEarned: baseXp,
+    totalTreasureEarned: baseTreasure,
     equipment: [...chosenClass.startingEquipment],
   };
 
@@ -401,6 +405,8 @@ export function executeCombat() {
       stamina: afterRegen,
       xp: p.xp + result.xpGained,
       treasure: p.treasure + result.treasureGained,
+      totalXpEarned: p.totalXpEarned + result.xpGained,
+      totalTreasureEarned: p.totalTreasureEarned + result.treasureGained,
     };
   });
 
@@ -662,6 +668,7 @@ export function takeRewardXp() {
   player.update(p => ({
     ...p,
     xp: p.xp + xpValue,
+    totalXpEarned: p.totalXpEarned + xpValue,
   }));
 
   selectedPodToReplace.set(null);

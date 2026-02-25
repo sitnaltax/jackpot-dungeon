@@ -11,12 +11,12 @@
       <span class="value">{$encounterNumber - 1}</span>
     </div>
     <div class="stat">
-      <span class="label">Final XP</span>
-      <span class="value xp">{$player.xp}</span>
+      <span class="label">Total XP Earned</span>
+      <span class="value xp">{$player.totalXpEarned}</span>
     </div>
     <div class="stat">
-      <span class="label">Final Treasure</span>
-      <span class="value treasure">${$player.treasure}</span>
+      <span class="label">Total Treasure Earned</span>
+      <span class="value treasure">${$player.totalTreasureEarned}</span>
     </div>
   </div>
 
