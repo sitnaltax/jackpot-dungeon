@@ -156,13 +156,6 @@
     letter-spacing: 0.05em;
   }
 
-  .hint {
-    margin: 0;
-    font-size: 0.875rem;
-    color: #666;
-    font-style: italic;
-  }
-
   .drawn-tokens {
     display: flex;
     gap: 1rem;

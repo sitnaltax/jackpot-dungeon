@@ -84,15 +84,6 @@
     margin: 0 auto;
   }
 
-  h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    background: linear-gradient(135deg, #f1c40f 0%, #e74c3c 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   .section {
     width: 100%;
     display: flex;

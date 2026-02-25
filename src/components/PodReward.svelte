@@ -155,10 +155,6 @@
     padding: 1rem;
   }
 
-  .xp-icon {
-    font-size: 2rem;
-  }
-
   .btn {
     padding: 0.75rem 1.5rem;
     border: none;

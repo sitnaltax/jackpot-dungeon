@@ -183,16 +183,6 @@
     font-weight: bold;
   }
 
-  .skip-desc {
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .btn {
     margin-top: auto;
     padding: 0.75rem 1.5rem;
