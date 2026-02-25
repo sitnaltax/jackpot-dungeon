@@ -11,14 +11,11 @@ export const ITEM_CATEGORIES = {
 };
 
 // All items in the game
-// Pricing formula from spec:
-//   Base cost for first level of primary resource
-//   Each additional level of same resource: +1 Treasure cumulative
-//   Each secondary resource: its base cost + 1 XP
-//
-// Base costs: Selective Redraw 3, Redraw All 2, Bonus Draw 5,
-//             Resolve 3 (for 2), Insight 3 (for 2),
-//             Stamina 3 (for 10 max, 10 heal, +2 regen)
+// Flat additive pricing:
+//   Selective Redraw $4, Redraw All $2, Bonus Draw $5,
+//   Resolve $3 (for 2), Insight $3 (for 2),
+//   Stamina $3 (for 10 max, 10 heal, +2 regen)
+// Multi-bonus items: just sum the base costs.
 
 export const ITEMS = {
   // === BOOKS (Redraw Selected) ===
@@ -28,7 +25,7 @@ export const ITEMS = {
     description: 'A dog-eared book of minor divinations.',
     icon: '📖',
     category: 'book',
-    cost: 3, // 3 (1 selective)
+    cost: 4, // 4 (1 selective)
     bonuses: { selectiveRedraws: 1 },
   },
   sagesFolio: {
@@ -37,7 +34,7 @@ export const ITEMS = {
     description: 'Collected wisdom of a dozen seers.',
     icon: '📜',
     category: 'book',
-    cost: 7, // 3 + 4 (2 selective)
+    cost: 8, // 4 + 4 (2 selective)
     bonuses: { selectiveRedraws: 2 },
   },
   enchantedGrimoire: {
@@ -46,7 +43,7 @@ export const ITEMS = {
     description: 'Its pages glow faintly in the dark.',
     icon: '📕',
     category: 'book',
-    cost: 7, // 3 (selective) + 3 (insight) + 1 (secondary)
+    cost: 7, // 4 (selective) + 3 (insight)
     bonuses: { selectiveRedraws: 1, insight: 2 },
   },
   battleManual: {
@@ -55,7 +52,7 @@ export const ITEMS = {
     description: 'Tactical formations of the fey wars.',
     icon: '📗',
     category: 'book',
-    cost: 7, // 3 (selective) + 3 (resolve) + 1 (secondary)
+    cost: 7, // 4 (selective) + 3 (resolve)
     bonuses: { selectiveRedraws: 1, resolve: 2 },
   },
 
@@ -75,7 +72,7 @@ export const ITEMS = {
     description: 'Navigate by stars and steel.',
     icon: '🔭',
     category: 'navigation',
-    cost: 6, // 2 (redraw all) + 3 (resolve) + 1 (secondary)
+    cost: 5, // 2 (redraw all) + 3 (resolve)
     bonuses: { redraws: 1, resolve: 2 },
   },
   goldenAstrolabe: {
@@ -84,7 +81,7 @@ export const ITEMS = {
     description: 'Maps the movements of celestial bodies.',
     icon: '⚙️',
     category: 'navigation',
-    cost: 5, // 2 + 3 (2 redraw all)
+    cost: 4, // 2 + 2 (2 redraw all)
     bonuses: { redraws: 2 },
   },
   diviningRod: {
@@ -93,13 +90,13 @@ export const ITEMS = {
     description: 'Twitches toward hidden truths.',
     icon: '🪄',
     category: 'navigation',
-    cost: 6, // 2 (redraw all) + 3 (insight) + 1 (secondary)
+    cost: 5, // 2 (redraw all) + 3 (insight)
     bonuses: { redraws: 1, insight: 2 },
   },
 
   // === LIGHT SOURCES (Bonus Draw) ===
   // Only one light source can be equipped at a time.
-  // +2 draw items only appear at depth 14+.
+  // +1 draw at depth 6+, +2 draw at depth 12+, +3 draw at depth 18+.
   tallowCandle: {
     id: 'tallowCandle',
     name: 'Tallow Candle',
@@ -107,6 +104,7 @@ export const ITEMS = {
     icon: '🕯️',
     category: 'lightSource',
     cost: 5, // 5 (1 draw)
+    minDepth: 6,
     bonuses: { bonusDraw: 1 },
   },
   ironLantern: {
@@ -116,6 +114,7 @@ export const ITEMS = {
     icon: '🏮',
     category: 'lightSource',
     cost: 5, // 5 (1 draw)
+    minDepth: 6,
     bonuses: { bonusDraw: 1 },
   },
   enchantedTorch: {
@@ -124,8 +123,8 @@ export const ITEMS = {
     description: 'Burns with foxfire that never fades.',
     icon: '🔥',
     category: 'lightSource',
-    cost: 11, // 5 + 6 (2 draw)
-    minDepth: 14,
+    cost: 10, // 5 + 5 (2 draw)
+    minDepth: 12,
     bonuses: { bonusDraw: 2 },
   },
   faerieLamp: {
@@ -134,9 +133,29 @@ export const ITEMS = {
     description: 'Captured starlight in a glass vial.',
     icon: '✨',
     category: 'lightSource',
-    cost: 11, // 5 + 6 (2 draw)
-    minDepth: 14,
+    cost: 10, // 5 + 5 (2 draw)
+    minDepth: 12,
     bonuses: { bonusDraw: 2 },
+  },
+  blazingSunstone: {
+    id: 'blazingSunstone',
+    name: 'Blazing Sunstone',
+    description: 'A fragment of captured dawn.',
+    icon: '☀️',
+    category: 'lightSource',
+    cost: 15, // 5 + 5 + 5 (3 draw)
+    minDepth: 18,
+    bonuses: { bonusDraw: 3 },
+  },
+  etherealLantern: {
+    id: 'etherealLantern',
+    name: 'Ethereal Lantern',
+    description: 'Burns with light from another plane.',
+    icon: '💡',
+    category: 'lightSource',
+    cost: 15, // 5 + 5 + 5 (3 draw)
+    minDepth: 18,
+    bonuses: { bonusDraw: 3 },
   },
 
   // === WEAPONS (Resolve) ===
@@ -155,7 +174,7 @@ export const ITEMS = {
     description: 'Forged to fight the fey.',
     icon: '⚔️',
     category: 'weapon',
-    cost: 7, // 3 + 4 (4 resolve)
+    cost: 6, // 3 + 3 (4 resolve)
     bonuses: { resolve: 4 },
   },
   rowanShield: {
@@ -164,7 +183,7 @@ export const ITEMS = {
     description: 'Warding wood that turns aside curses.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 6, // 3 (resolve) + 2 (redraw all) + 1 (secondary)
+    cost: 5, // 3 (resolve) + 2 (redraw all)
     bonuses: { resolve: 2, redraws: 1 },
   },
   thornWhip: {
@@ -173,7 +192,7 @@ export const ITEMS = {
     description: 'Grown from a fey bramble. Reveals as it strikes.',
     icon: '🌿',
     category: 'weapon',
-    cost: 7, // 3 (resolve) + 3 (insight) + 1 (secondary)
+    cost: 6, // 3 (resolve) + 3 (insight)
     bonuses: { resolve: 2, insight: 2 },
   },
 
@@ -193,7 +212,7 @@ export const ITEMS = {
     description: 'See by inner light.',
     icon: '💍',
     category: 'jewelry',
-    cost: 7, // 3 + 4 (4 insight)
+    cost: 6, // 3 + 3 (4 insight)
     bonuses: { insight: 4 },
   },
   amethystCirclet: {
@@ -202,7 +221,7 @@ export const ITEMS = {
     description: 'A crown of foresight.',
     icon: '👑',
     category: 'jewelry',
-    cost: 7, // 3 (insight) + 3 (selective) + 1 (secondary)
+    cost: 7, // 3 (insight) + 4 (selective)
     bonuses: { insight: 2, selectiveRedraws: 1 },
   },
   opalBrooch: {
@@ -211,7 +230,7 @@ export const ITEMS = {
     description: 'Beauty and strength intertwined.',
     icon: '📿',
     category: 'jewelry',
-    cost: 7, // 3 (insight) + 3 (resolve) + 1 (secondary)
+    cost: 6, // 3 (insight) + 3 (resolve)
     bonuses: { insight: 2, resolve: 2 },
   },
 
@@ -233,7 +252,7 @@ export const ITEMS = {
     description: 'One bite restores the weary.',
     icon: '🥐',
     category: 'food',
-    cost: 7, // 3 + 4 (double stamina)
+    cost: 6, // 3 + 3 (double stamina)
     bonuses: { maxStamina: 20, staminaRegen: 4 },
     staminaHeal: 20,
   },
@@ -243,7 +262,7 @@ export const ITEMS = {
     description: "Nature's remedy strengthens body and will.",
     icon: '🌿',
     category: 'food',
-    cost: 7, // 3 (stamina) + 3 (resolve) + 1 (secondary)
+    cost: 6, // 3 (stamina) + 3 (resolve)
     bonuses: { maxStamina: 10, staminaRegen: 2, resolve: 2 },
     staminaHeal: 10,
   },
@@ -253,18 +272,51 @@ export const ITEMS = {
     description: 'Sweet and strange, it sharpens the senses.',
     icon: '🍇',
     category: 'food',
-    cost: 7, // 3 (stamina) + 3 (insight) + 1 (secondary)
+    cost: 6, // 3 (stamina) + 3 (insight)
     bonuses: { maxStamina: 10, staminaRegen: 2, insight: 2 },
     staminaHeal: 10,
   },
 
 };
 
+// Weak fallback items for when the player can't afford anything normal
+const WEAK_ITEMS = [
+  {
+    id: 'weakInsight',
+    name: 'Cracked Lens',
+    description: 'Chipped but still reveals a little.',
+    icon: '🔍',
+    category: 'jewelry',
+    cost: 1,
+    bonuses: { insight: 1 },
+  },
+  {
+    id: 'weakResolve',
+    name: 'Rusty Knife',
+    description: 'Dull but still pointy.',
+    icon: '🔪',
+    category: 'weapon',
+    cost: 1,
+    bonuses: { resolve: 1 },
+  },
+  {
+    id: 'weakStamina',
+    name: 'Stale Bread',
+    description: 'Hard as a rock but nourishing.',
+    icon: '🥖',
+    category: 'food',
+    cost: 1,
+    bonuses: { staminaRegen: 2 },
+  },
+];
+
 // Get all items available for shops
 const SHOP_ITEM_POOL = Object.values(ITEMS);
 
 // Generate item shop offerings
 export function generateItemShop(encounterNumber, playerState) {
+  const budget = playerState.treasure || 0;
+
   // Filter by depth
   let pool = SHOP_ITEM_POOL.filter(item => (item.minDepth || 0) <= encounterNumber);
 
@@ -280,6 +332,16 @@ export function generateItemShop(encounterNumber, playerState) {
   );
   pool = pool.filter(item => !equippedIds.has(item.id));
 
+  // Only offer items the player can afford
+  let affordablePool = pool.filter(item => item.cost <= budget);
+
+  // If nothing affordable, use weak fallback items
+  let usingWeakItems = false;
+  if (affordablePool.length === 0) {
+    affordablePool = WEAK_ITEMS.filter(item => item.cost <= budget);
+    usingWeakItems = true;
+  }
+
   const shopItems = [];
   const usedIds = new Set();
 
@@ -292,40 +354,42 @@ export function generateItemShop(encounterNumber, playerState) {
     return pick;
   }
 
-  // Guarantee: depth 14+ → at least one +2 draw Light Source
-  const hasLightSource = (playerState.equipment || []).some(
-    e => e?.category === 'lightSource'
-  );
-  const hasGoodLight = (playerState.equipment || []).some(
-    e => e?.category === 'lightSource' && (e.bonuses?.bonusDraw || 0) >= 2
-  );
+  if (!usingWeakItems) {
+    // Guarantee: depth 6+ → best affordable light source
+    if (encounterNumber >= 6) {
+      const affordableLights = affordablePool.filter(i => i.category === 'lightSource');
+      if (affordableLights.length > 0) {
+        // Pick the highest bonusDraw tier the player can afford
+        const maxDraw = Math.max(...affordableLights.map(i => i.bonuses.bonusDraw || 0));
+        const bestLights = affordableLights.filter(i => (i.bonuses.bonusDraw || 0) === maxDraw);
+        pickFrom(bestLights);
+      }
+    }
 
-  if (encounterNumber >= 14 && !hasGoodLight) {
-    const bigLights = pool.filter(
-      i => i.category === 'lightSource' && (i.bonuses.bonusDraw || 0) >= 2
-    );
-    pickFrom(bigLights);
-  } else if (encounterNumber >= 8 && !hasLightSource) {
-    // Guarantee: depth 8+ → at least one Light Source
-    const lights = pool.filter(i => i.category === 'lightSource');
-    pickFrom(lights);
-  }
-
-  // Guarantee: low HP → at least one Food
-  const hpPercent = playerState.stamina / playerState.maxStamina;
-  if (hpPercent < 0.75) {
-    const foods = pool.filter(i => i.category === 'food' && !usedIds.has(i.id));
-    pickFrom(foods);
+    // Guarantee: low HP → at least one affordable Food
+    const hpPercent = playerState.stamina / playerState.maxStamina;
+    if (hpPercent < 0.75) {
+      const foods = affordablePool.filter(i => i.category === 'food' && !usedIds.has(i.id));
+      if (foods.length > 0) {
+        pickFrom(foods);
+      }
+    }
   }
 
   // Fill remaining slots (up to 3 total)
-  const remaining = pool.filter(i => !usedIds.has(i.id));
-  const shuffled = [...remaining].sort(() => Math.random() - 0.5);
-
-  for (const item of shuffled) {
-    if (shopItems.length >= 3) break;
-    shopItems.push(item);
-    usedIds.add(item.id);
+  // Pick 2x free slots randomly, then take the most expensive ones
+  const freeSlots = 3 - shopItems.length;
+  if (freeSlots > 0) {
+    const remaining = affordablePool.filter(i => !usedIds.has(i.id));
+    const shuffled = [...remaining].sort(() => Math.random() - 0.5);
+    const candidates = shuffled.slice(0, freeSlots * 2);
+    // Sort by cost descending, pick the most expensive
+    candidates.sort((a, b) => b.cost - a.cost);
+    for (const item of candidates) {
+      if (shopItems.length >= 3) break;
+      shopItems.push(item);
+      usedIds.add(item.id);
+    }
   }
 
   return shopItems;
