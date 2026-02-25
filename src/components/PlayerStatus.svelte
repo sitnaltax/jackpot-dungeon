@@ -1,6 +1,9 @@
 <script>
   import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
+  import GameMenu from './GameMenu.svelte';
+
+  let collapsed = false;
 
   $: effectiveMax = getEffectiveMaxStamina($player);
   $: staminaPercent = ($player.stamina / effectiveMax) * 100;
@@ -12,75 +15,89 @@
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
 
   function handleEquipmentClick(item) {
-    if (item) {
-      inspectEquipment(item);
-    }
+    if (item) inspectEquipment(item);
   }
 
   function handleClassClick() {
-    if (playerClass) {
-      inspectClass(playerClass);
-    }
+    if (playerClass) inspectClass(playerClass);
   }
 </script>
 
-<div class="player-status">
-  <div class="stat">
-    <span class="label">Depth</span>
-    <span class="value">{$encounterNumber}</span>
-  </div>
+<div class="player-status" class:collapsed>
+  <GameMenu />
 
-  {#if playerClass}
-    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-    <div
-      class="stat class-stat"
-      on:click={handleClassClick}
-      on:keydown={(e) => e.key === 'Enter' && handleClassClick()}
-      role="button"
-      tabindex="0"
-    >
-      <span class="label">Class</span>
-      <span class="value class-value">{playerClass.name}</span>
+  {#if !collapsed}
+    <div class="stat">
+      <span class="label">Depth</span>
+      <span class="value">{$encounterNumber}</span>
     </div>
-  {/if}
 
-  <div class="stat stamina-stat">
-    <span class="label">Stamina</span>
-    <div class="stamina-bar">
+    {#if playerClass}
+      <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+      <div
+        class="stat class-stat"
+        on:click={handleClassClick}
+        on:keydown={(e) => e.key === 'Enter' && handleClassClick()}
+        role="button"
+        tabindex="0"
+      >
+        <span class="label">Class</span>
+        <span class="value class-value">{playerClass.name}</span>
+      </div>
+    {/if}
+
+    <div class="stat stamina-stat">
+      <span class="label">Stamina</span>
+      <div class="stamina-bar">
+        <div class="stamina-fill" style="width: {staminaPercent}%; background: {staminaColor}"></div>
+        <span class="stamina-text">{$player.stamina} / {effectiveMax}</span>
+      </div>
+    </div>
+
+    <div class="stat">
+      <span class="label">XP</span>
+      <span class="value xp">{$player.xp}</span>
+    </div>
+
+    <div class="stat">
+      <span class="label">Treasure</span>
+      <span class="value treasure">${$player.treasure}</span>
+    </div>
+
+    <div class="stat equipment-stat">
+      <span class="label">Equipment</span>
+      <div class="equipment-slots">
+        {#each equipmentSlots as item}
+          <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+          <div
+            class="equipment-slot"
+            class:empty={!item}
+            class:clickable={!!item}
+            on:click={() => handleEquipmentClick(item)}
+            on:keydown={(e) => e.key === 'Enter' && handleEquipmentClick(item)}
+            role={item ? 'button' : 'presentation'}
+            tabindex={item ? 0 : -1}
+          >
+            {item ? item.icon : ''}
+          </div>
+        {/each}
+      </div>
+    </div>
+  {:else}
+    <!-- Collapsed: just a minimal stamina pill -->
+    <div class="stamina-bar collapsed-bar">
       <div class="stamina-fill" style="width: {staminaPercent}%; background: {staminaColor}"></div>
       <span class="stamina-text">{$player.stamina} / {effectiveMax}</span>
     </div>
-  </div>
+  {/if}
 
-  <div class="stat">
-    <span class="label">XP</span>
-    <span class="value xp">{$player.xp}</span>
-  </div>
-
-  <div class="stat">
-    <span class="label">Treasure</span>
-    <span class="value treasure">${$player.treasure}</span>
-  </div>
-
-  <div class="stat equipment-stat">
-    <span class="label">Equipment</span>
-    <div class="equipment-slots">
-      {#each equipmentSlots as item}
-        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-        <div
-          class="equipment-slot"
-          class:empty={!item}
-          class:clickable={!!item}
-          on:click={() => handleEquipmentClick(item)}
-          on:keydown={(e) => e.key === 'Enter' && handleEquipmentClick(item)}
-          role={item ? 'button' : 'presentation'}
-          tabindex={item ? 0 : -1}
-        >
-          {item ? item.icon : ''}
-        </div>
-      {/each}
-    </div>
-  </div>
+  <button
+    class="collapse-btn"
+    on:click={() => collapsed = !collapsed}
+    aria-label={collapsed ? 'Expand header' : 'Collapse header'}
+  >
+    {collapsed ? '▼' : '▲'}
+  </button>
 </div>
 
 <style>
@@ -92,6 +109,12 @@
     border-radius: 8px;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .player-status.collapsed {
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    flex-wrap: nowrap;
   }
 
   .stat {
@@ -131,6 +154,11 @@
     background: #333;
     border-radius: 4px;
     overflow: hidden;
+  }
+
+  .collapsed-bar {
+    flex: 1;
+    height: 20px;
   }
 
   .stamina-fill {
@@ -193,5 +221,23 @@
 
   .class-value {
     color: #f1c40f;
+  }
+
+  .collapse-btn {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0.25rem 0.4rem;
+    border-radius: 4px;
+    line-height: 1;
+    margin-left: auto;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .collapse-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
   }
 </style>
