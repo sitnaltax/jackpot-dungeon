@@ -19,7 +19,8 @@
   <div class="shop-header">
     <h2>Pod Shop</h2>
     <div class="xp-display">
-      {$player.xp} XP
+      <span class="xp-label">XP:</span>
+      <span class="xp-value">{$player.xp}</span>
     </div>
   </div>
 
@@ -90,12 +91,24 @@
   }
 
   .xp-display {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #f1c40f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     background: #16213e;
     padding: 0.5rem 1rem;
-    border-radius: 6px;
+    border-radius: 8px;
+    border: 2px solid #f1c40f;
+  }
+
+  .xp-label {
+    color: #888;
+    font-size: 1rem;
+  }
+
+  .xp-value {
+    color: #f1c40f;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 
   .instructions {
