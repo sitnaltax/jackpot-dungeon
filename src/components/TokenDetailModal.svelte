@@ -327,7 +327,7 @@
   .stats-section h3 {
     margin: 0 0 0.75rem 0;
     font-size: 0.875rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -372,7 +372,7 @@
     align-items: center;
     gap: 0.35rem;
     font-size: 1rem;
-    color: #888;
+    color: #aaa;
     padding-left: 2rem;
   }
 
@@ -405,7 +405,7 @@
   .synergy-hint {
     margin: 0.75rem 0 0 0;
     font-size: 0.8rem;
-    color: #888;
+    color: #aaa;
     font-style: italic;
   }
 

@@ -126,7 +126,7 @@
   .label {
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: #888;
+    color: #aaa;
     letter-spacing: 0.05em;
   }
 

@@ -192,7 +192,7 @@
   }
 
   .treasure-label {
-    color: #888;
+    color: #aaa;
     font-size: 1rem;
   }
 
@@ -275,7 +275,7 @@
 
   .item-description {
     margin: 0;
-    color: #999;
+    color: #aaa;
     font-size: 0.85rem;
     font-style: italic;
     line-height: 1.3;
@@ -310,7 +310,7 @@
   .equipment-section h3 {
     margin: 0 0 0.25rem 0;
     font-size: 1rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }

@@ -63,7 +63,6 @@
   </div>
 
   <div class="your-pods-section">
-    <h3>Your Pods</h3>
     <p class="instruction">Select a pod to replace if taking the free pod</p>
     <PodDisplay selectable={true} />
   </div>
@@ -84,7 +83,7 @@
   }
 
   .intro {
-    color: #888;
+    color: #aaa;
     margin: 0;
   }
 
@@ -130,7 +129,7 @@
   }
 
   .option-desc {
-    color: #888;
+    color: #aaa;
     font-size: 0.875rem;
     margin: 0;
   }
@@ -138,7 +137,7 @@
   .or-divider {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #555;
+    color: #888;
   }
 
   .pod-preview {
@@ -202,7 +201,7 @@
   .your-pods-section h3 {
     margin: 0 0 0.5rem;
     font-size: 1rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
   }
 

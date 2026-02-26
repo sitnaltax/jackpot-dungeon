@@ -30,8 +30,8 @@
 
 <style>
   .encounter {
-    background: linear-gradient(135deg, #2d1b1b 0%, #1a1a2e 100%);
-    border: 2px solid #8b0000;
+    background: linear-gradient(135deg, #26190a 0%, #1a1814 100%);
+    border: 2px solid #a07840;
     border-radius: 10px;
     padding: 0.6rem 1rem;
     display: flex;
@@ -52,7 +52,7 @@
   .encounter-name {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #e74c3c;
+    color: #d4aa70;
   }
 
   .encounter-stats {
@@ -72,7 +72,7 @@
 
   .stat-label {
     font-size: 0.7rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -93,10 +93,10 @@
   .encounter-flavor {
     flex: 1;
     font-size: 0.8rem;
-    color: #777;
+    color: #aaa;
     font-style: italic;
     line-height: 1.5;
-    border-left: 1px solid #3a2020;
+    border-left: 1px solid #3d2e18;
     padding-left: 1.25rem;
   }
 

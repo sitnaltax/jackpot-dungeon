@@ -66,7 +66,7 @@
 
   .how-to-play h3 {
     margin: 0 0 1rem 0;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
     font-size: 0.875rem;
     letter-spacing: 0.05em;

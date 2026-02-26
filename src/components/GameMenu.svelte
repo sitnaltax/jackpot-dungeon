@@ -70,7 +70,7 @@
   .menu-btn {
     background: none;
     border: none;
-    color: #888;
+    color: #aaa;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.25rem 0.5rem;

@@ -118,7 +118,7 @@
   }
 
   .choice-card.skip .choice-header {
-    color: #888;
+    color: #aaa;
   }
 
   .encounter-preview {
@@ -156,7 +156,7 @@
 
   .stat .label {
     font-size: 0.7rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
   }
 

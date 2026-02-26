@@ -151,7 +151,7 @@
   h3 {
     margin: 0;
     font-size: 1rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -180,7 +180,7 @@
 
   .total-label {
     font-size: 0.75rem;
-    color: #888;
+    color: #aaa;
     text-transform: uppercase;
   }
 
