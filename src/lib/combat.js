@@ -123,11 +123,8 @@ export function getCombatSummary(result) {
 
   // XP summary
   lines.push(`⭐ XP: +${result.xpGained}`);
-  const tokenXp = result.totals.xp - deXp;
-  if (result.revealed || deXp > 0) {
-    const parts = [`${tokenXp} tokens`];
-    if (deXp > 0) parts.push(`${deXp} draw`);
-    if (result.revealed) parts.push(`${Math.floor(result.encounter.mystery / 2)} mystery reveal`);
+  if (result.revealed) {
+    const parts = [`${result.totals.xp} from tokens`, `${Math.floor(result.encounter.mystery / 2)} from mystery reveal`];
     lines.push(`  (${parts.join(' + ')})`);
   }
 
