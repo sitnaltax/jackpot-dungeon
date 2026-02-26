@@ -6,6 +6,23 @@ import { TOKEN_TYPES as TOKEN_TYPE_DATA } from './tokens.js';
 let nextPodId = 1;
 let nextTokenId = 1;
 
+// After loading a save, advance the ID counters past any already-used IDs so
+// newly-created pods/tokens never collide with restored ones.
+export function reseedIds(pods, tokens) {
+  for (const pod of pods) {
+    const n = parseInt(pod.id?.replace('pod-', '') || '0');
+    if (n >= nextPodId) nextPodId = n + 1;
+    for (const token of pod.tokens || []) {
+      const t = parseInt(token.id?.replace('token-', '') || '0');
+      if (t >= nextTokenId) nextTokenId = t + 1;
+    }
+  }
+  for (const token of tokens) {
+    const t = parseInt(token.id?.replace('token-', '') || '0');
+    if (t >= nextTokenId) nextTokenId = t + 1;
+  }
+}
+
 
 // Create a token (value determined by type + rank)
 export function createToken(type, rank = 'ordinary') {

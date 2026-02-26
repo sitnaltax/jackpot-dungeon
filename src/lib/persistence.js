@@ -5,10 +5,11 @@
 
 import { get } from 'svelte/store';
 import { CLASSES } from './classes.js';
+import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 2;
 
 // Phases that have nothing worth restoring
 const TRANSIENT_PHASES = ['start', 'classSelect'];
@@ -87,6 +88,12 @@ export function loadSavedGame(stores) {
     stores.chosenPath.set(data.chosenPath ?? null);
     stores.rewardPod.set(data.rewardPod ?? null);
     stores.drawEffects.set(data.drawEffects ?? { insight: 0, resolve: 0, xp: 0 });
+
+    // Advance ID counters so newly-created pods/tokens don't collide with restored ones.
+    reseedIds(
+      data.player?.pods ?? [],
+      [...(data.drawnTokens ?? []), ...(data.tokenPool ?? [])],
+    );
 
     return true;
   } catch {
