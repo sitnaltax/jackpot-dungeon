@@ -226,7 +226,7 @@
   .collapse-btn {
     background: none;
     border: none;
-    color: #555;
+    color: #888;
     font-size: 0.75rem;
     cursor: pointer;
     padding: 0.25rem 0.4rem;

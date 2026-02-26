@@ -6,7 +6,7 @@ export const CONFIG = {
   drawCount: 6,
 
   // Player settings
-  startingStamina: 20,
+  startingStamina: 25,
   startingXp: 10,
 
   // Combat settings

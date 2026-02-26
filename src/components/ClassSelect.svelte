@@ -70,7 +70,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    padding: 2rem;
+    padding: 0.5rem;
     text-align: center;
     max-width: 400px;
     margin: 0 auto;

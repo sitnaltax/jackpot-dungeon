@@ -84,10 +84,10 @@ export const CLASSES = {
     startingXpBonus: 0,
     startingTreasureBonus: 0,
   },
-  merchant: {
-    id: 'merchant',
-    name: 'Merchant',
-    description: 'Able to negotiate for better deals in the shop, getting the best pods at the lowest prices.',
+  dilletante: {
+    id: 'dilletante',
+    name: 'Dilletante',
+    description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply.',
     benefitDescription: 'No passive benefit (coming soon: shop discounts)',
     bonuses: {},
     startingEquipment: [
@@ -118,7 +118,7 @@ export const CLASSES = {
   fool: {
     id: 'fool',
     name: 'Fool',
-    description: 'Relies on instinct over precision.',
+    description: 'Relies on instinct over precision. Bonus redraws, but can never get Redraw Selected.',
     benefitDescription: '+2 Redraw All, no Redraw Selected items in shop',
     bonuses: {
       redraws: 2,
