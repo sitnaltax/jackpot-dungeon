@@ -11,10 +11,10 @@
   <h2>Challenge Complete!</h2>
   <p class="intro">Choose your reward for conquering the hard path:</p>
 
-  <div class="reward-options">
-    <div class="option pod-option">
-      <h3>Free Pod</h3>
-      <p class="option-desc">Take this pod (replaces one of yours)</p>
+  <div class="choices">
+    <div class="choice-card pod-option">
+      <div class="choice-header">Free Pod</div>
+      <p class="option-desc">Take this pod and replace one of yours</p>
 
       {#if $rewardPod}
         <div class="pod-preview">
@@ -38,22 +38,16 @@
         disabled={!canTakePod}
         on:click={takeRewardPod}
       >
-        {#if canTakePod}
-          Take Pod
-        {:else}
-          Select Pod to Replace
-        {/if}
+        {canTakePod ? 'Take Pod' : 'Select Pod to Replace'}
       </button>
     </div>
 
-    <div class="or-divider">OR</div>
-
-    <div class="option xp-option">
-      <h3>XP</h3>
-      <p class="option-desc">Take half the pod's value as XP</p>
+    <div class="choice-card xp-option">
+      <div class="choice-header">XP</div>
+      <p class="option-desc">Take half the pod's value as XP instead</p>
 
       <div class="xp-preview">
-        <span class="xp-amount">{xpValue} XP</span>
+        {xpValue} XP
       </div>
 
       <button class="btn btn-xp" on:click={takeRewardXp}>
@@ -87,36 +81,35 @@
     margin: 0;
   }
 
-  .reward-options {
+  .choices {
     display: flex;
+    gap: 1.5rem;
     justify-content: center;
-    align-items: center;
-    gap: 2rem;
     flex-wrap: wrap;
   }
 
-  .option {
+  .choice-card {
     background: #16213e;
     border: 2px solid #333;
     border-radius: 12px;
     padding: 1.5rem;
-    min-width: 200px;
+    width: 240px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
 
-  .option h3 {
-    margin: 0;
+  .choice-header {
     font-size: 1.25rem;
+    font-weight: bold;
   }
 
   .pod-option {
     border-color: #3498db;
   }
 
-  .pod-option h3 {
+  .pod-option .choice-header {
     color: #3498db;
   }
 
@@ -124,7 +117,7 @@
     border-color: #f1c40f;
   }
 
-  .xp-option h3 {
+  .xp-option .choice-header {
     color: #f1c40f;
   }
 
@@ -134,33 +127,29 @@
     margin: 0;
   }
 
-  .or-divider {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #888;
-  }
-
   .pod-preview {
     padding: 0.5rem;
   }
 
   .xp-preview {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
     font-size: 2.5rem;
     font-weight: bold;
     color: #f1c40f;
     padding: 1rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
 
   .btn {
+    width: 100%;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    margin-top: auto;
     transition: background 0.2s ease, transform 0.2s ease;
   }
 
@@ -196,13 +185,6 @@
     border-radius: 12px;
     padding: 1.5rem;
     text-align: left;
-  }
-
-  .your-pods-section h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
-    color: #aaa;
-    text-transform: uppercase;
   }
 
   .instruction {
