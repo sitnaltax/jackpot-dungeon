@@ -59,15 +59,15 @@ export const choiceEncounters = writable({ hard: null, basic: null });
 export const chosenPath = writable(null); // 'hard' or 'basic'
 export const rewardPod = writable(null); // Pod offered as reward after hard path
 
-// Accumulated on-draw effects for the current encounter.
-// Fires each time a token freshly enters the draw (including redraws of the same token).
+// Accumulated discard effects for the current encounter.
+// Fires each time a token is discarded from the draw (via redrawAll or redrawSelected).
 export const drawEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
-function applyOnDrawEffects(tokens) {
+function applyOnDiscardEffects(tokens) {
   for (const token of tokens) {
     const typeData = TOKEN_TYPES[token.type];
-    if (!typeData.onDraw) continue;
-    const effects = typeData.onDraw(token);
+    if (!typeData.onDiscard) continue;
+    const effects = typeData.onDiscard(token);
     drawEffects.update(d => ({
       insight: d.insight + (effects.insight || 0),
       resolve: d.resolve + (effects.resolve || 0),
@@ -300,7 +300,6 @@ export function drawTokens() {
   const totalDraw = CONFIG.drawCount + totalBonuses.bonusDraw;
   const drawn = pool.slice(0, totalDraw);
   drawnTokens.set(drawn);
-  applyOnDrawEffects(drawn);
 }
 
 export function redrawAll() {
@@ -309,6 +308,7 @@ export function redrawAll() {
 
   redrawsRemaining.update(n => n - 1);
   selectedTokensForRedraw.set(new Set());
+  applyOnDiscardEffects(get(drawnTokens));
   drawTokens();
 }
 
@@ -348,10 +348,12 @@ export function redrawSelected() {
   const numToDraw = $selected.size;
   const newTokens = availablePool.slice(0, numToDraw);
 
-  // Combine kept and new tokens; only newly drawn tokens trigger onDraw effects
+  // Apply onDiscard effects for the tokens being replaced
+  const discardedTokens = $drawnTokens.filter(t => $selected.has(t.id));
+  applyOnDiscardEffects(discardedTokens);
+
   const combined = [...keptTokens, ...newTokens];
   drawnTokens.set(combined);
-  applyOnDrawEffects(newTokens);
 
   // Clear selection and decrement redraws
   selectedTokensForRedraw.set(new Set());

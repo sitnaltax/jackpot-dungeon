@@ -3,7 +3,7 @@
 // - weight: relative probability weight for random selection (default: 1)
 // - tags: optional array of tags for synergy groupings (e.g., ['Celestial'])
 // - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
-// - onDraw: optional callback(token) returning { stat: value } applied once each time the token
+// - onDiscard: optional callback(token) returning { stat: value } applied once each time the token
 //           freshly enters the draw (persists through redraws, even if the token is discarded)
 
 import { RANKS } from './constants.js';
@@ -346,11 +346,11 @@ export const TOKEN_TYPES = {
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDraw: () => ({ insight: 1 }),
+    onDiscard: () => ({ insight: 2 }),
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { insight: Math.floor(2 * chthonicCount * rankMultiplier) };
+      return { insight: Math.floor(chthonicCount * rankMultiplier) };
     },
   },
   granite: {
@@ -361,11 +361,11 @@ export const TOKEN_TYPES = {
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDraw: () => ({ resolve: 1 }),
+    onDiscard: () => ({ resolve: 2 }),
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { resolve: Math.floor(2 * chthonicCount * rankMultiplier) };
+      return { resolve: Math.floor(chthonicCount * rankMultiplier) };
     },
   },
   geode: {
@@ -376,11 +376,11 @@ export const TOKEN_TYPES = {
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDraw: () => ({ xp: 1 }),
+    onDiscard: () => ({ xp: 2 }),
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { xp: Math.floor(2 * chthonicCount * rankMultiplier) };
+      return { xp: Math.floor(chthonicCount * rankMultiplier) };
     },
   },
 

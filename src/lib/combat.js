@@ -33,7 +33,7 @@ export function calculateDrawTotals(drawnTokens) {
 
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
-// drawEffects: optional { insight, resolve, xp } accumulated from token onDraw callbacks
+// drawEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
 export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
   const totals = calculateDrawTotals(drawnTokens);
 

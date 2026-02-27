@@ -131,11 +131,11 @@
       case 'hemlock':
         return 'Contributes 8 Resolve. Drops to 0 if any other Botanical tokens are drawn.';
       case 'obsidian':
-        return 'Contributes to Insight. Gains +2 per Chthonic token drawn. Grants +1 Insight on draw.';
+        return 'Contributes to Insight. Gains +2 per Chthonic token drawn. Grants +1 Insight when discarded.';
       case 'granite':
-        return 'Contributes to Resolve. Gains +2 per Chthonic token drawn. Grants +1 Resolve on draw.';
+        return 'Contributes to Resolve. Gains +2 per Chthonic token drawn. Grants +1 Resolve when discarded.';
       case 'geode':
-        return 'Contributes to XP. Gains +2 per Chthonic token drawn. Grants +1 XP on draw.';
+        return 'Contributes to XP. Gains +2 per Chthonic token drawn. Grants +1 XP when discarded.';
       case 'brainstorm':
         return 'Contributes 4 Insight and 4 XP.';
       case 'meditation':
