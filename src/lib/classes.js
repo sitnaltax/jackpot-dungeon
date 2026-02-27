@@ -84,9 +84,9 @@ export const CLASSES = {
     startingXpBonus: 0,
     startingTreasureBonus: 0,
   },
-  dilettante: {
-    id: 'dilettante',
-    name: 'Dilettante',
+  polymath: {
+    id: 'polymath',
+    name: 'Polymath',
     description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply.',
     benefitDescription: 'No passive benefit (coming soon: shop discounts)',
     bonuses: {},
