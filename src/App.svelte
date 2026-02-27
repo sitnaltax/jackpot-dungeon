@@ -56,8 +56,7 @@
 {#if crashed}
   <div class="crash-screen">
     <h2>Something went wrong</h2>
-    <p>The game hit an unexpected error. Your save has been cleared so you can start fresh.</p>
-    <p class="tip">You can also always reset by visiting <code>?reset</code> in the URL.</p>
+    <p>The game hit an unexpected error. Please let the developer know.</p>
     <button on:click={() => window.location.reload()}>Reload Game</button>
   </div>
 {:else}
