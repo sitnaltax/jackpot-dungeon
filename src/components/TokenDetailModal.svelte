@@ -108,6 +108,10 @@
         return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
       case 'taurus':
         return 'Contributes to XP. Gains +1 for each Celestial token drawn.';
+      case 'virgo':
+        return 'Contributes to Insight and XP. Gains +1 each for each Celestial token drawn.';   
+      case 'aries':
+        return 'Contributes to Resolve and XP. Gains +1 each for each Celestial token drawn.';     
       case 'libra':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Celestial token drawn.';
       case 'oak':

@@ -154,10 +154,11 @@ export const TOKEN_TYPES = {
   virgo: {
     name: 'Virgo',
     icon: '♍',
-    color: '#d4a820',
+    color: '#e74c3c',
+    borderEffect: 'linear-gradient(135deg, #e74c3c, #f1c40f)',
     baseValue: 2,
     minDepth: 6,
-    weight: 0.5,
+    weight: 0.4,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
@@ -169,10 +170,11 @@ export const TOKEN_TYPES = {
   aries: {
     name: 'Aries',
     icon: '♈',
-    color: '#6aaa96',
+    color: '#3498db',
+    borderEffect: 'linear-gradient(135deg, #3498db, #f1c40f)',
     baseValue: 2,
     minDepth: 6,
-    weight: 0.3,
+    weight: 0.2,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
@@ -187,7 +189,7 @@ export const TOKEN_TYPES = {
     color: '#9b59b6',
     baseValue: 0,
     minDepth: 8,
-    weight: 0.3,
+    weight: 0.2,
     tags: ['Celestial'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
@@ -265,10 +267,11 @@ export const TOKEN_TYPES = {
   willow: {
     name: 'Willow',
     icon: '🌾',
-    color: '#6aaa96',
+    color: '#3498db',
+    borderEffect: 'linear-gradient(135deg, #3498db, #f1c40f)',
     baseValue: 2,
     minDepth: 6,
-    weight: 0.5,
+    weight: 0.4,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
@@ -280,10 +283,11 @@ export const TOKEN_TYPES = {
   orchid: {
     name: 'Orchid',
     icon: '🌺',
-    color: '#d4a820',
+    color: '#e74c3c',
+    borderEffect: 'linear-gradient(135deg, #e74c3c, #f1c40f)',
     baseValue: 2,
     minDepth: 6,
-    weight: 0.3,
+    weight: 0.2,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
@@ -298,7 +302,7 @@ export const TOKEN_TYPES = {
     color: '#9b59b6',
     baseValue: 0,
     minDepth: 8,
-    weight: 0.3,
+    weight: 0.2,
     tags: ['Botanical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
