@@ -1,10 +1,12 @@
 ## TODO ideas
 * Rewrite description for items
-* token draw can show up too early on items
 * Fix shop refresh costs
 * Add icon
 * Difficulty tuning and difficulty levels
-* Shop availability priorities
-* Light sources by floor
-* Fix encounter results screen
-
+* 2-factor items replacing Libra/Fern
+* Celestial/Botanical nerf
+* Chthonic nerf: bonus on discard, bigger bonus, worse scaling bonus
+* Musical tag on items
+* Bonuses on lights
+* Lights names: Firefly Lantern, Meteor Torch
+* Handle JS failure on load

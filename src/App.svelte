@@ -1,13 +1,39 @@
 <script>
   import { onMount } from 'svelte';
   import * as gameState from './lib/gameState.js';
-  import { loadSavedGame, initAutoSave } from './lib/persistence.js';
+  import { loadSavedGame, initAutoSave, clearSave } from './lib/persistence.js';
 
   const { gamePhase, PHASES } = gameState;
 
+  let crashed = false;
+
+  function handleCrash() {
+    try { clearSave(); } catch {}
+    crashed = true;
+  }
+
   onMount(() => {
-    loadSavedGame(gameState);
-    return initAutoSave(gameState);
+    // ?reset clears the save and reloads cleanly — bookmark it as an escape hatch
+    if (new URLSearchParams(window.location.search).has('reset')) {
+      clearSave();
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
+    try {
+      loadSavedGame(gameState);
+    } catch {
+      clearSave();
+    }
+
+    window.addEventListener('error', handleCrash);
+    window.addEventListener('unhandledrejection', handleCrash);
+
+    const cleanup = initAutoSave(gameState);
+    return () => {
+      cleanup();
+      window.removeEventListener('error', handleCrash);
+      window.removeEventListener('unhandledrejection', handleCrash);
+    };
   });
 
   import StartScreen from './components/StartScreen.svelte';
@@ -26,6 +52,15 @@
   import EquipmentDetailModal from './components/EquipmentDetailModal.svelte';
   import ClassDetailModal from './components/ClassDetailModal.svelte';
 </script>
+
+{#if crashed}
+  <div class="crash-screen">
+    <h2>Something went wrong</h2>
+    <p>The game hit an unexpected error. Your save has been cleared so you can start fresh.</p>
+    <p class="tip">You can also always reset by visiting <code>?reset</code> in the URL.</p>
+    <button on:click={() => window.location.reload()}>Reload Game</button>
+  </div>
+{:else}
 
 <TokenDetailModal />
 <EquipmentDetailModal />
@@ -74,7 +109,58 @@
   {/if}
 </main>
 
+{/if}
+
 <style>
+  .crash-screen {
+    max-width: 480px;
+    margin: 6rem auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .crash-screen h2 {
+    color: #e74c3c;
+    font-size: 1.75rem;
+    margin: 0;
+  }
+
+  .crash-screen p {
+    color: #aaa;
+    margin: 0;
+  }
+
+  .crash-screen .tip {
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  .crash-screen code {
+    background: #16213e;
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    color: #f1c40f;
+  }
+
+  .crash-screen button {
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .crash-screen button:hover {
+    background: #c0392b;
+  }
+
   :global(body) {
     padding: 1rem;
   }
