@@ -151,13 +151,43 @@ export const TOKEN_TYPES = {
       return { xp: Math.floor((3 + celestialCount) * rankMultiplier) };
     },
   },
+  virgo: {
+    name: 'Virgo',
+    icon: '♍',
+    color: '#d4a820',
+    baseValue: 2,
+    minDepth: 6,
+    weight: 0.5,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
+      const value = Math.floor((2 + celestialCount) * rankMultiplier);
+      return { insight: value, xp: value };
+    },
+  },
+  aries: {
+    name: 'Aries',
+    icon: '♈',
+    color: '#6aaa96',
+    baseValue: 2,
+    minDepth: 6,
+    weight: 0.3,
+    tags: ['Celestial'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
+      const value = Math.floor((1 + celestialCount) * rankMultiplier);
+      return { resolve: value, xp: value };
+    },
+  },
   libra: {
     name: 'Libra',
     icon: '♎',
     color: '#9b59b6',
     baseValue: 0,
-    minDepth: 5,
-    weight: 0.5,
+    minDepth: 8,
+    weight: 0.3,
     tags: ['Celestial'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {
@@ -232,13 +262,43 @@ export const TOKEN_TYPES = {
       return { xp: Math.floor((3 + botanicalCount) * rankMultiplier) };
     },
   },
+  willow: {
+    name: 'Willow',
+    icon: '🌾',
+    color: '#6aaa96',
+    baseValue: 2,
+    minDepth: 6,
+    weight: 0.5,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
+      const value = Math.floor((2 + botanicalCount) * rankMultiplier);
+      return { resolve: value, xp: value };
+    },
+  },
+  orchid: {
+    name: 'Orchid',
+    icon: '🌺',
+    color: '#d4a820',
+    baseValue: 2,
+    minDepth: 6,
+    weight: 0.3,
+    tags: ['Botanical'],
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
+      const value = Math.floor((1 + botanicalCount) * rankMultiplier);
+      return { insight: value, xp: value };
+    },
+  },
   fern: {
     name: 'Fern',
     icon: '🌿',
     color: '#9b59b6',
     baseValue: 0,
-    minDepth: 5,
-    weight: 0.5,
+    minDepth: 8,
+    weight: 0.3,
     tags: ['Botanical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     getValue: (token, allDrawnTokens) => {

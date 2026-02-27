@@ -116,6 +116,10 @@
         return 'Contributes to Insight. Gains +1 for each Botanical token drawn.';
       case 'clover':
         return 'Contributes to XP. Gains +1 for each Botanical token drawn.';
+      case 'willow':
+        return 'Contributes to Resolve and XP. Gains +1 each for each Botanical token drawn.';
+      case 'orchid':
+        return 'Contributes to Insight and XP. Gains +1 each for each Botanical token drawn.';
       case 'fern':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Botanical token drawn.';
       case 'pluto':
