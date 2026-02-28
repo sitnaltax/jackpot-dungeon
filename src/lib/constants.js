@@ -30,9 +30,9 @@ export const RANKS = {
   ordinary: { name: 'Ordinary', multiplier: 1,   cost: 0, color: '#c8f0c0' },
   bronze:   { name: 'Bronze',   multiplier: 1.25, cost: 2, color: '#cd7f32' },
   silver:   { name: 'Silver',   multiplier: 1.5,  cost: 4, color: '#c0c0c0' },
-  gold:     { name: 'Gold',     multiplier: 1.75, cost: 6, color: '#ffd700' },
-  platinum: { name: 'Platinum', multiplier: 2,   cost: 8, color: '#e2d2df' },
-  diamond:  { name: 'Diamond',  multiplier: 2.5, cost: 10, color: '#83e8ff' },
+  gold:     { name: 'Gold',     multiplier: 1.75, cost: 7, color: '#ffd700' },
+  platinum: { name: 'Platinum', multiplier: 2,   cost: 10, color: '#e2d2df' },
+  diamond:  { name: 'Diamond',  multiplier: 2.5, cost: 14, color: '#83e8ff' },
 };
 
 // Note: iron is excluded - it only appears in starting pods

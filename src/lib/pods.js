@@ -113,10 +113,10 @@ export const STARTING_POD_TEMPLATES = [
 
 // Get shop tier based on encounter number
 function getShopTier(encounterNumber) {
-  if (encounterNumber >= 20) return 5;
-  if (encounterNumber >= 15) return 4;
-  if (encounterNumber >= 10) return 3;
-  if (encounterNumber >= 5) return 2;
+  if (encounterNumber >= 16) return 5;
+  if (encounterNumber >= 12) return 4;
+  if (encounterNumber >= 8) return 3;
+  if (encounterNumber >= 4) return 2;
   return 1;
 }
 
