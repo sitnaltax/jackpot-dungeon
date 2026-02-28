@@ -230,17 +230,19 @@ export function startNextEncounter() {
   rewardPod.set(null);
   encounterResult.set(null);
 
+  const difficulty = get(player).difficulty;
+
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
-    const hardEncounter = generateEncounter(encNum + 2);
-    const nextEncounter = generateEncounter(encNum);
+    const hardEncounter = generateEncounter(encNum + 2, difficulty);
+    const nextEncounter = generateEncounter(encNum, difficulty);
     choiceEncounters.set({ hard: hardEncounter, next: nextEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
   }
 
   // Even floors: normal encounter
-  const encounter = generateEncounter(encNum);
+  const encounter = generateEncounter(encNum, difficulty);
   beginEncounter(encounter);
 }
 
