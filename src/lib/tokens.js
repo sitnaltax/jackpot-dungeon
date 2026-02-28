@@ -163,7 +163,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      const value = Math.floor((2 + celestialCount) * rankMultiplier);
+      const value = Math.floor((2 + Math.min(3, celestialCount)) * rankMultiplier);
       return { insight: value, xp: value };
     },
   },
@@ -172,14 +172,14 @@ export const TOKEN_TYPES = {
     icon: '♈',
     color: '#3498db',
     borderEffect: 'linear-gradient(135deg, #3498db, #f1c40f)',
-    baseValue: 2,
+    baseValue: 1,
     minDepth: 6,
     weight: 0.2,
     tags: ['Celestial'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      const value = Math.floor((1 + celestialCount) * rankMultiplier);
+      const value = Math.floor((1 + Math.min(3, celestialCount)) * rankMultiplier);
       return { resolve: value, xp: value };
     },
   },
@@ -276,7 +276,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      const value = Math.floor((2 + botanicalCount) * rankMultiplier);
+      const value = Math.floor((2 + Math.min(3, botanicalCount)) * rankMultiplier);
       return { resolve: value, xp: value };
     },
   },
@@ -285,14 +285,14 @@ export const TOKEN_TYPES = {
     icon: '🌺',
     color: '#e74c3c',
     borderEffect: 'linear-gradient(135deg, #e74c3c, #f1c40f)',
-    baseValue: 2,
+    baseValue: 1,
     minDepth: 6,
     weight: 0.2,
     tags: ['Botanical'],
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      const value = Math.floor((1 + botanicalCount) * rankMultiplier);
+      const value = Math.floor((1 + Math.min(3, botanicalCount)) * rankMultiplier);
       return { insight: value, xp: value };
     },
   },
