@@ -97,25 +97,35 @@ export const ITEMS = {
   // === LIGHT SOURCES (Bonus Draw) ===
   // Only one light source can be equipped at a time.
   // +1 draw at depth 6+, +2 draw at depth 12+, +3 draw at depth 18+.
-  tallowCandle: {
-    id: 'tallowCandle',
-    name: 'Tallow Candle',
-    description: 'Barely enough to see by.',
+  weatherproofCandle: {
+    id: 'weatherproofCandle',
+    name: 'Weatherproof Candle',
+    description: 'This candle burns steadily and brightly in any wind or rain.',
     icon: '🕯️',
     category: 'lightSource',
     cost: 5, // 5 (1 draw)
     minDepth: 6,
     bonuses: { bonusDraw: 1 },
   },
-  ironLantern: {
-    id: 'ironLantern',
-    name: 'Iron Lantern',
-    description: 'Steady light for dark places.',
+  fireflyLantern: {
+    id: 'fireflyLantern',
+    name: 'Firefly Lantern',
+    description: 'A crystal jar filled with silvery glowing fireflies.',
     icon: '🏮',
     category: 'lightSource',
-    cost: 5, // 5 (1 draw)
+    cost: 7, // 5 (1 draw) + 2 (redraw all)
     minDepth: 6,
-    bonuses: { bonusDraw: 1 },
+    bonuses: { bonusDraw: 1, redraws: 1 },
+  },
+  catsEyeDraught: {
+    id: 'catsEyeDraught',
+    name: 'Cat\'s Eye Draught',
+    description: 'An enchanted elixir that lets you see clearly in even the faintest starlight.',
+    icon: '🧪',
+    category: 'lightSource',
+    cost: 8, // 5 (1 draw) + 3 (insight)
+    minDepth: 6,
+    bonuses: { bonusDraw: 1, insight: 2 },
   },
   enchantedTorch: {
     id: 'enchantedTorch',

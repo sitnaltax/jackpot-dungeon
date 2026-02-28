@@ -68,9 +68,9 @@ const STARTING_ITEMS = {
 };
 
 export const CLASSES = {
-  investigator: {
-    id: 'investigator',
-    name: 'Investigator',
+  bricoleur: {
+    id: 'bricoleur',
+    name: 'Bricoleur',
     description: 'Skilled at deploying their tools effectively; adaptable and less likely to be caught off guard.',
     benefitDescription: '+1 Redraw Selected',
     bonuses: {
