@@ -387,41 +387,25 @@ function selectEncounter(encounterNumber) {
 
 // Base mystery/trouble stat per encounter level (index 0 = level 1).
 // If encounterNumber exceeds the array, the last value is used.
-const BASE_STATS = [
-   7, //  1
-   8, //  2
-   9, //  3
-  10, //  4
-  11, //  5
-  12, //  6
-  13, //  7
-  14, //  8
-  15, //  9
-  16, // 10
-  17, // 11
-  18, // 12
-  19, // 13
-  20, // 14
-  21, // 15
-  22, // 16
-  23, // 17
-  24, // 18
-  25, // 19
-  26, // 20
-];
+//            1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+const BASE_STATS = 
+           [  7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26];
 
-// Flat adjustment to base stats per difficulty
+// Per-level adjustment to base stats per difficulty (index 0 = level 1).
+// If encounterNumber exceeds the array, the last value is used.
+//            1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
 const DIFFICULTY_ADJUSTMENTS = {
-  wizard:  -4,
-  normal:   0,
-  hard:     3,
-  expert:   5,
-  insane:   8,
+  wizard:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
+  normal:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
+  hard:    [  3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3],
+  expert:  [  5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5],
+  insane:  [  8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8],
 };
 
 function calculateBaseStat(encounterNumber, difficulty = 'normal') {
   const base = BASE_STATS[encounterNumber - 1] ?? BASE_STATS[BASE_STATS.length - 1];
-  const adjustment = DIFFICULTY_ADJUSTMENTS[difficulty] ?? 0;
+  const adjustments = DIFFICULTY_ADJUSTMENTS[difficulty] ?? DIFFICULTY_ADJUSTMENTS.normal;
+  const adjustment = adjustments[encounterNumber - 1] ?? adjustments[adjustments.length - 1];
   return base + adjustment;
 }
 
