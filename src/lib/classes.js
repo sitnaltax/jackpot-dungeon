@@ -98,9 +98,9 @@ export const CLASSES = {
     startingXpBonus: 10,
     startingTreasureBonus: 0,
   },
-  athlete: {
-    id: 'athlete',
-    name: 'Athlete',
+  agonist: {
+    id: 'agonist',
+    name: 'Agonist',
     description: 'Able to push directly through adversity better than the others, reducing the need to focus on resolve.',
     benefitDescription: '+10 Max Stamina, +2 Stamina Regen per encounter',
     bonuses: {
@@ -115,9 +115,9 @@ export const CLASSES = {
     startingXpBonus: 0,
     startingTreasureBonus: 1,
   },
-  fool: {
-    id: 'fool',
-    name: 'Fool',
+  maverick: {
+    id: 'maverick',
+    name: 'Maverick',
     description: 'Relies on instinct over precision. Bonus redraws, but can never get Redraw Selected.',
     benefitDescription: '+2 Redraw All, no Redraw Selected items in shop',
     bonuses: {
