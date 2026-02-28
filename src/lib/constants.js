@@ -9,10 +9,6 @@ export const CONFIG = {
   startingStamina: 25,
   startingXp: 10,
 
-  // Encounter settings
-  resolveFailFlat: 5,      // Flat stamina loss for failing resolve check
-  resolveFailScale: 1.5,   // Additional stamina loss per point of deficiency
-
   // Redraw settings (base values - equipment adds to these)
   redrawsPerEncounter: 0,           // Number of full redraws allowed
   selectiveRedrawsPerEncounter: 0,  // Number of selective redraws (pick any tokens)
