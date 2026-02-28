@@ -5,7 +5,7 @@ import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter } from './encounters.js';
-import { resolveCombat } from './combat.js';
+import { resolveEncounter } from './encounter.js';
 import { generateItemShop } from './items.js';
 import { CLASSES } from './classes.js';
 import { clearSave } from './persistence.js';
@@ -16,7 +16,7 @@ export const PHASES = {
   CLASS_SELECT: 'classSelect',
   CHOICE: 'choice',
   DRAW: 'draw',
-  COMBAT: 'combat',
+  ENCOUNTER: 'encounter',
   SHOP: 'shop',
   POD_REWARD: 'podReward',
   ITEM_SHOP: 'itemShop',
@@ -44,7 +44,7 @@ export const tokenPool = writable([]);
 export const redrawsRemaining = writable(CONFIG.redrawsPerEncounter);
 export const selectiveRedrawsRemaining = writable(CONFIG.selectiveRedrawsPerEncounter);
 export const selectedTokensForRedraw = writable(new Set());
-export const combatResult = writable(null);
+export const encounterResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
 export const purchasedShopPods = writable(new Set());
@@ -217,7 +217,7 @@ export function selectClass(classId, difficultyId = 'normal') {
   player.set(playerState);
 
   encounterNumber.set(0);
-  combatResult.set(null);
+  encounterResult.set(null);
   startNextEncounter();
 }
 
@@ -233,7 +233,7 @@ export function startNextEncounter() {
   // Reset choice state
   chosenPath.set(null);
   rewardPod.set(null);
-  combatResult.set(null);
+  encounterResult.set(null);
 
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
@@ -286,7 +286,7 @@ export function skipChallenge() {
   encounterNumber.update(n => n + 1);
   chosenPath.set(null);
   rewardPod.set(null);
-  combatResult.set(null);
+  encounterResult.set(null);
   beginEncounter($choices.next);
 }
 
@@ -361,24 +361,24 @@ export function redrawSelected() {
 }
 
 export function confirmDraw() {
-  gamePhase.set(PHASES.COMBAT);
-  executeCombat();
+  gamePhase.set(PHASES.ENCOUNTER);
+  executeEncounter();
 }
 
-export function executeCombat() {
+export function executeEncounter() {
   const $drawnTokens = get(drawnTokens);
   const $encounter = get(currentEncounter);
   const $player = get(player);
 
-  // Get total bonuses (equipment + class) for combat
+  // Get total bonuses (equipment + class) for encounter
   const totalBonuses = getTotalBonuses($player);
-  const combatBonuses = {
+  const encounterBonuses = {
     insight: totalBonuses.insight,
     resolve: totalBonuses.resolve,
   };
 
   const $drawEffects = get(drawEffects);
-  const result = resolveCombat($drawnTokens, $encounter, combatBonuses, $drawEffects);
+  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $drawEffects);
 
   // Award Treasure: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
   const baseTreasure = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
@@ -398,7 +398,7 @@ export function executeCombat() {
   const staminaRegen = totalBonuses.staminaRegen;
   result.staminaRegen = staminaRegen;
 
-  combatResult.set(result);
+  encounterResult.set(result);
 
   // Apply results to player (including stamina regen)
   player.update(p => {
@@ -422,7 +422,7 @@ export function executeCombat() {
   }
 }
 
-export function proceedFromCombat() {
+export function proceedFromEncounter() {
   const $chosenPath = get(chosenPath);
 
   const encNum = get(encounterNumber);

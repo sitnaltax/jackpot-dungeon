@@ -1,12 +1,12 @@
 <script>
-  import { combatResult, proceedFromCombat } from '../lib/gameState.js';
-  import { getCombatSummary } from '../lib/combat.js';
+  import { encounterResult, proceedFromEncounter } from '../lib/gameState.js';
+  import { getEncounterSummary } from '../lib/encounter.js';
 
-  $: summary = $combatResult ? getCombatSummary($combatResult) : [];
+  $: summary = $encounterResult ? getEncounterSummary($encounterResult) : [];
 </script>
 
-{#if $combatResult}
-  <div class="combat-result" class:revealed={$combatResult.revealed}>
+{#if $encounterResult}
+  <div class="encounter-result" class:revealed={$encounterResult.revealed}>
     <h2>Encounter Result</h2>
     <div class="result-details">
       {#each summary as line}
@@ -17,38 +17,38 @@
     </div>
 
     <div class="result-summary">
-      {#if $combatResult.staminaLost > 0}
+      {#if $encounterResult.staminaLost > 0}
         <div class="stamina-lost">
-          -{$combatResult.staminaLost} Stamina
+          -{$encounterResult.staminaLost} Stamina
         </div>
       {/if}
-      {#if $combatResult.staminaRegen > 0}
+      {#if $encounterResult.staminaRegen > 0}
         <div class="stamina-regen">
-          +{$combatResult.staminaRegen} Regen
+          +{$encounterResult.staminaRegen} Regen
         </div>
       {/if}
       <div class="xp-gained">
-        +{$combatResult.xpGained} XP
-        {#if $combatResult.xpMultiplier && $combatResult.xpMultiplier !== 1.0}
-          <span class="multiplier">(x{$combatResult.xpMultiplier})</span>
+        +{$encounterResult.xpGained} XP
+        {#if $encounterResult.xpMultiplier && $encounterResult.xpMultiplier !== 1.0}
+          <span class="multiplier">(x{$encounterResult.xpMultiplier})</span>
         {/if}
       </div>
       <div class="treasure-gained">
-        +${$combatResult.treasureGained}
-        {#if $combatResult.treasureMultiplier && $combatResult.treasureMultiplier !== 1.0}
-          <span class="multiplier">(x{$combatResult.treasureMultiplier})</span>
+        +${$encounterResult.treasureGained}
+        {#if $encounterResult.treasureMultiplier && $encounterResult.treasureMultiplier !== 1.0}
+          <span class="multiplier">(x{$encounterResult.treasureMultiplier})</span>
         {/if}
       </div>
     </div>
 
-    <button class="btn btn-primary" on:click={proceedFromCombat}>
+    <button class="btn btn-primary" on:click={proceedFromEncounter}>
       Continue
     </button>
   </div>
 {/if}
 
 <style>
-  .combat-result {
+  .encounter-result {
     background: #16213e;
     border: 2px solid #333;
     border-radius: 12px;
@@ -60,7 +60,7 @@
     align-items: center;
   }
 
-  .combat-result.revealed {
+  .encounter-result.revealed {
     border-color: #2ecc71;
   }
 

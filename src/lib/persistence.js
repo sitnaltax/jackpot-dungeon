@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 2;
+const SAVE_VERSION = 3;
 
 // Phases that have nothing worth restoring
 const TRANSIENT_PHASES = ['start', 'classSelect'];
@@ -34,7 +34,7 @@ export function saveGame(stores) {
       tokenPool: get(stores.tokenPool),
       redrawsRemaining: get(stores.redrawsRemaining),
       selectiveRedrawsRemaining: get(stores.selectiveRedrawsRemaining),
-      combatResult: get(stores.combatResult),
+      encounterResult: get(stores.encounterResult),
       shopPods: get(stores.shopPods),
       selectedPodToReplace: get(stores.selectedPodToReplace),
       purchasedShopPods: [...get(stores.purchasedShopPods)],
@@ -77,7 +77,7 @@ export function loadSavedGame(stores) {
     stores.tokenPool.set(data.tokenPool ?? []);
     stores.redrawsRemaining.set(data.redrawsRemaining ?? 0);
     stores.selectiveRedrawsRemaining.set(data.selectiveRedrawsRemaining ?? 0);
-    stores.combatResult.set(data.combatResult ?? null);
+    stores.encounterResult.set(data.encounterResult ?? null);
     stores.shopPods.set(data.shopPods ?? []);
     stores.selectedPodToReplace.set(data.selectedPodToReplace ?? null);
     stores.purchasedShopPods.set(new Set(data.purchasedShopPods ?? []));
@@ -126,7 +126,7 @@ export function initAutoSave(stores) {
     stores.tokenPool,
     stores.redrawsRemaining,
     stores.selectiveRedrawsRemaining,
-    stores.combatResult,
+    stores.encounterResult,
     stores.shopPods,
     stores.purchasedShopPods,
     stores.shopItems,

@@ -200,7 +200,7 @@ const ENCOUNTERS = [
     selectiveRedrawBonus: 0,
     xpMultiplier: 1.0,
     treasureMultiplier: 1.5,
-    description: 'Brutal combat, +50% Treasure',
+    description: 'Brutal encounter, +50% Treasure',
   },
   {
     id: 'clurichauns_wager',

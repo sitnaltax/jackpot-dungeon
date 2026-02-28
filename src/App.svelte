@@ -42,7 +42,7 @@
   import Encounter from './components/Encounter.svelte';
   import EncounterChoice from './components/EncounterChoice.svelte';
   import TokenDraw from './components/TokenDraw.svelte';
-  import CombatResult from './components/CombatResult.svelte';
+  import EncounterResult from './components/EncounterResult.svelte';
   import PodDisplay from './components/PodDisplay.svelte';
   import PodShop from './components/PodShop.svelte';
   import PodReward from './components/PodReward.svelte';
@@ -90,12 +90,12 @@
         <div class="pods-section">
           <PodDisplay />
         </div>
-      {:else if $gamePhase === PHASES.COMBAT}
+      {:else if $gamePhase === PHASES.ENCOUNTER}
         <div class="encounter-section">
           <Encounter />
         </div>
-        <div class="combat-section">
-          <CombatResult />
+        <div class="result-section">
+          <EncounterResult />
         </div>
       {:else if $gamePhase === PHASES.POD_REWARD}
         <PodReward />
@@ -186,7 +186,7 @@
     padding: 1.5rem;
   }
 
-  .combat-section {
+  .result-section {
     display: flex;
     justify-content: center;
   }

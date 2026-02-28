@@ -385,7 +385,7 @@ export const TOKEN_TYPES = {
   },
 
   // --- "Mind" pair. ---
-  // Untagged dual-stat tokens: each contributes to one combat stat + xp
+  // Untagged dual-stat tokens: each contributes to one encounter stat + xp
   // Efficient but not synergistic, to take up a little space
   brainstorm: {
     name: 'Brainstorm',

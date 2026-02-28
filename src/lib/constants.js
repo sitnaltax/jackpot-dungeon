@@ -9,7 +9,7 @@ export const CONFIG = {
   startingStamina: 25,
   startingXp: 10,
 
-  // Combat settings
+  // Encounter settings
   resolveFailFlat: 5,      // Flat stamina loss for failing resolve check
   resolveFailScale: 1.5,   // Additional stamina loss per point of deficiency
 

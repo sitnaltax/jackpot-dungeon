@@ -34,7 +34,7 @@ export function calculateDrawTotals(drawnTokens) {
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
 // drawEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
-export function resolveCombat(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
+export function resolveEncounter(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
   const totals = calculateDrawTotals(drawnTokens);
 
   // Apply flat bonuses from equipment
@@ -94,7 +94,7 @@ function bonusSuffix(total, eqBonus, drawBonus) {
 }
 
 // Generate encounter summary text
-export function getCombatSummary(result) {
+export function getEncounterSummary(result) {
   const lines = [];
 
   const eqInsight = result.equipmentBonuses?.insight || 0;
