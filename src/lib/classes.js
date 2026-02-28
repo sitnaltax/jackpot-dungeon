@@ -71,7 +71,7 @@ export const CLASSES = {
   bricoleur: {
     id: 'bricoleur',
     name: 'Bricoleur',
-    description: 'Skilled at deploying their tools effectively; adaptable and less likely to be caught off guard.',
+    description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens.',
     benefitDescription: '+1 Redraw Selected',
     bonuses: {
       selectiveRedraws: 1,
@@ -101,7 +101,7 @@ export const CLASSES = {
   agonist: {
     id: 'agonist',
     name: 'Agonist',
-    description: 'Able to push directly through adversity better than the others, reducing the need to focus on resolve.',
+    description: 'Able to push directly through adversity. Tough and resilient, driven from within.',
     benefitDescription: '+10 Max Stamina, +2 Stamina Regen per encounter',
     bonuses: {
       maxStamina: 10,
