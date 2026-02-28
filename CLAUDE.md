@@ -70,7 +70,7 @@ Pods contain 3 tokens. Starting pods mostly use iron/ordinary ranks, with a coup
 - Insight ≥ mystery → reveal bonus treasure (half of mystery value)
 - Resolve < trouble → stamina loss (flat + scaled by deficiency)
 - `bonuses` includes equipment + class insight/resolve
-- `drawEffects` includes accumulated onDiscard token effects
+- `discardEffects` includes accumulated onDiscard token effects
 
 ### Encounter Scaling (`src/lib/encounters.js`)
 

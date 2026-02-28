@@ -32,8 +32,8 @@ export function calculateDrawTotals(drawnTokens) {
 
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
-// drawEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
-export function resolveEncounter(drawnTokens, encounter, bonuses = {}, drawEffects = {}) {
+// discardEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
+export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEffects = {}) {
   const totals = calculateDrawTotals(drawnTokens);
 
   // Apply flat bonuses from equipment
@@ -41,14 +41,14 @@ export function resolveEncounter(drawnTokens, encounter, bonuses = {}, drawEffec
   if (bonuses.resolve) totals.resolve += bonuses.resolve;
 
   // Apply accumulated on-draw effects (flat, not rank-scaled, persist through redraws)
-  if (drawEffects.insight) totals.insight += drawEffects.insight;
-  if (drawEffects.resolve) totals.resolve += drawEffects.resolve;
-  if (drawEffects.xp) totals.xp += drawEffects.xp;
+  if (discardEffects.insight) totals.insight += discardEffects.insight;
+  if (discardEffects.resolve) totals.resolve += discardEffects.resolve;
+  if (discardEffects.xp) totals.xp += discardEffects.xp;
 
   const result = {
     totals,
     equipmentBonuses: { insight: bonuses.insight || 0, resolve: bonuses.resolve || 0 },
-    drawEffects: { insight: drawEffects.insight || 0, resolve: drawEffects.resolve || 0, xp: drawEffects.xp || 0 },
+    discardEffects: { insight: discardEffects.insight || 0, resolve: discardEffects.resolve || 0, xp: discardEffects.xp || 0 },
     encounter,
     revealed: false,
     staminaLost: 0,
@@ -104,9 +104,9 @@ export function getEncounterSummary(result) {
 
   const eqInsight = result.equipmentBonuses?.insight || 0;
   const eqResolve = result.equipmentBonuses?.resolve || 0;
-  const deInsight = result.drawEffects?.insight || 0;
-  const deResolve = result.drawEffects?.resolve || 0;
-  const deXp = result.drawEffects?.xp || 0;
+  const deInsight = result.discardEffects?.insight || 0;
+  const deResolve = result.discardEffects?.resolve || 0;
+  const deXp = result.discardEffects?.xp || 0;
 
   const insightSuffix = bonusSuffix(result.totals.insight, eqInsight, deInsight);
   const resolveSuffix = bonusSuffix(result.totals.resolve, eqResolve, deResolve);

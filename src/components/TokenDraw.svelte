@@ -1,7 +1,7 @@
 <script>
   import {
     drawnTokens,
-    drawEffects,
+    discardEffects,
     redrawsRemaining,
     selectiveRedrawsRemaining,
     selectedTokensForRedraw,
@@ -53,9 +53,9 @@
   $: tokenTotals = calculateDrawTotals($drawnTokens);
   $: totalBonuses = getTotalBonuses($player);
   $: totals = {
-    insight: tokenTotals.insight + (totalBonuses.insight || 0) + ($drawEffects.insight || 0),
-    resolve: tokenTotals.resolve + (totalBonuses.resolve || 0) + ($drawEffects.resolve || 0),
-    xp: tokenTotals.xp + ($drawEffects.xp || 0),
+    insight: tokenTotals.insight + (totalBonuses.insight || 0) + ($discardEffects.insight || 0),
+    resolve: tokenTotals.resolve + (totalBonuses.resolve || 0) + ($discardEffects.resolve || 0),
+    xp: tokenTotals.xp + ($discardEffects.xp || 0),
   };
   $: canSelectiveRedraw = $selectiveRedrawsRemaining > 0;
   $: hasSelection = $selectedTokensForRedraw.size > 0;
@@ -89,8 +89,8 @@
         {#if totalBonuses.insight > 0}
           <span class="equip-bonus">(+{totalBonuses.insight})</span>
         {/if}
-        {#if $drawEffects.insight > 0}
-          <span class="draw-bonus">(+{$drawEffects.insight})</span>
+        {#if $discardEffects.insight > 0}
+          <span class="draw-bonus">(+{$discardEffects.insight})</span>
         {/if}
         <span class="threshold-indicator" class:met={insightMet}>{insightMet ? '✓' : '✗'}</span>
       </span>
@@ -102,8 +102,8 @@
         {#if totalBonuses.resolve > 0}
           <span class="equip-bonus">(+{totalBonuses.resolve})</span>
         {/if}
-        {#if $drawEffects.resolve > 0}
-          <span class="draw-bonus">(+{$drawEffects.resolve})</span>
+        {#if $discardEffects.resolve > 0}
+          <span class="draw-bonus">(+{$discardEffects.resolve})</span>
         {/if}
         <span class="threshold-indicator" class:met={resolveMet}>{resolveMet ? '✓' : '✗'}</span>
       </span>
@@ -112,8 +112,8 @@
       <span class="total-label">XP</span>
       <span class="total-value">
         ⭐ {totals.xp}
-        {#if $drawEffects.xp > 0}
-          <span class="draw-bonus">(+{$drawEffects.xp})</span>
+        {#if $discardEffects.xp > 0}
+          <span class="draw-bonus">(+{$discardEffects.xp})</span>
         {/if}
       </span>
     </div>

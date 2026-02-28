@@ -61,14 +61,14 @@ export const rewardPod = writable(null); // Pod offered as reward after hard pat
 
 // Accumulated discard effects for the current encounter.
 // Fires each time a token is discarded from the draw (via redrawAll or redrawSelected).
-export const drawEffects = writable({ insight: 0, resolve: 0, xp: 0 });
+export const discardEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
 function applyOnDiscardEffects(tokens) {
   for (const token of tokens) {
     const typeData = TOKEN_TYPES[token.type];
     if (!typeData.onDiscard) continue;
     const effects = typeData.onDiscard(token);
-    drawEffects.update(d => ({
+    discardEffects.update(d => ({
       insight: d.insight + (effects.insight || 0),
       resolve: d.resolve + (effects.resolve || 0),
       xp: d.xp + (effects.xp || 0),
@@ -260,7 +260,7 @@ function beginEncounter(encounter) {
   selectedTokensForRedraw.set(new Set());
 
   // Reset on-draw effects for this encounter
-  drawEffects.set({ insight: 0, resolve: 0, xp: 0 });
+  discardEffects.set({ insight: 0, resolve: 0, xp: 0 });
 
   // Draw tokens
   drawTokens();
@@ -372,8 +372,8 @@ export function executeEncounter() {
     resolve: totalBonuses.resolve,
   };
 
-  const $drawEffects = get(drawEffects);
-  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $drawEffects);
+  const $discardEffects = get(discardEffects);
+  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects);
 
   // Award Treasure: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
   const baseTreasure = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
