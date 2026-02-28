@@ -403,24 +403,6 @@ export function generateEncounter(encounterNumber) {
   };
 }
 
-// Generate a basic (easier) encounter for the choice system
-// Uses stats from 2 encounters ago and picks from lower-tier pool
-export function generateBasicEncounter(encounterNumber) {
-  // Use encounter number from 2 levels ago for stats
-  const effectiveLevel = Math.max(1, encounterNumber - 2);
-  const template = selectEncounter(effectiveLevel);
-  const baseMystery = calculateBaseStat(effectiveLevel);
-  const baseTrouble = calculateBaseStat(effectiveLevel);
-
-  return {
-    ...template,
-    mystery: baseMystery + (template.mysteryMod || 0),
-    trouble: baseTrouble + (template.troubleMod || 0),
-    level: encounterNumber,
-    isBasic: true,
-  };
-}
-
 // Preview scaling (useful for balance testing)
 export function previewScaling(maxEncounter = 25) {
   const preview = [];
