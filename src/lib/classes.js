@@ -23,7 +23,7 @@ const STARTING_ITEMS = {
   ruinedJournal: {
     id: 'ruinedJournal',
     name: 'Ruined Journal',
-    description: 'A damaged journal recovered at great expense from a previous explorer.',
+    description: 'A damaged journal recovered at great expense from a previous investigator.',
     icon: '📓',
     category: 'book',
     cost: 3,
@@ -68,9 +68,9 @@ const STARTING_ITEMS = {
 };
 
 export const CLASSES = {
-  explorer: {
-    id: 'explorer',
-    name: 'Explorer',
+  investigator: {
+    id: 'investigator',
+    name: 'Investigator',
     description: 'Skilled at deploying their tools effectively; adaptable and less likely to be caught off guard.',
     benefitDescription: '+1 Redraw Selected',
     bonuses: {
