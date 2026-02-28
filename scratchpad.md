@@ -5,4 +5,6 @@
 * Difficulty tuning and difficulty levels
 * Musical tag on items
 * Bonuses on lights
-* Lights names: Firefly Lantern, Meteor Torch
+* Lights names: Meteor Torch
+* Increasing treasure rewards and costs
+* Encounters: Dreaming Cat-Colony, Mist-Shrouded Forest, Vengeful Ash, Bramble Ward

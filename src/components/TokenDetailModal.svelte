@@ -23,7 +23,7 @@
     }
   }
 
-  // Calculate contextual value and contributions (with synergies, if in combat)
+  // Calculate contextual value and contributions (with synergies, if in an encounter)
   $: contextualInfo = getContextualInfo(token, context, typeData, rankData);
 
   function getContextualInfo(token, context, typeData, rankData) {
@@ -215,7 +215,7 @@
           {/each}
 
           {#if contextualInfo.hasPotentialSynergy}
-            <p class="synergy-hint">This token has synergy effects when drawn in combat.</p>
+            <p class="synergy-hint">This token has synergy effects when drawn in encounters.</p>
           {/if}
         {/if}
       </div>

@@ -78,7 +78,7 @@ function applyOnDiscardEffects(tokens) {
 
 // Token inspection modal state
 // inspectedToken: the token being inspected
-// inspectionContext: array of all drawn tokens (for synergy display), or null if not in combat
+// inspectionContext: array of all drawn tokens (for synergy display), or null if not in an encounter
 // inspectionSelectable: whether the token can be selected for redraw
 export const inspectedToken = writable(null);
 export const inspectionContext = writable(null);
