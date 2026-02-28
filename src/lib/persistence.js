@@ -11,6 +11,36 @@ const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
 const SAVE_VERSION = 4;
 
+// Preferences are stored separately and survive game resets / version bumps.
+// They are only cleared by explicit user reset (crash recovery or ?reset param).
+const PREFS_KEY = 'jackpot-dungeon-prefs';
+const PREFS_VERSION = 1;
+
+export function loadPrefs() {
+  try {
+    const raw = localStorage.getItem(PREFS_KEY);
+    if (!raw) return {};
+    const data = JSON.parse(raw);
+    if (data.version !== PREFS_VERSION) {
+      clearPrefs();
+      return {};
+    }
+    return data;
+  } catch {
+    return {};
+  }
+}
+
+export function savePrefs(updates) {
+  try {
+    localStorage.setItem(PREFS_KEY, JSON.stringify({ ...loadPrefs(), ...updates, version: PREFS_VERSION }));
+  } catch {}
+}
+
+export function clearPrefs() {
+  localStorage.removeItem(PREFS_KEY);
+}
+
 // Phases that have nothing worth restoring
 const TRANSIENT_PHASES = ['start', 'classSelect'];
 

@@ -1,14 +1,17 @@
 <script>
   import { selectClass } from '../lib/gameState.js';
   import { CLASS_LIST, DIFFICULTIES } from '../lib/classes.js';
+  import { loadPrefs, savePrefs } from '../lib/persistence.js';
 
-  let selectedClass = CLASS_LIST[0];
-  let selectedDifficulty = 'normal';
+  const prefs = loadPrefs();
+  let selectedClass = CLASS_LIST.find(c => c.id === prefs.lastClass) ?? CLASS_LIST[0];
+  let selectedDifficulty = prefs.lastDifficulty ?? 'normal';
 
   $: selectedDiffData = DIFFICULTIES.find(d => d.id === selectedDifficulty);
 
   function handleStart() {
     if (selectedClass) {
+      savePrefs({ lastClass: selectedClass.id, lastDifficulty: selectedDifficulty });
       selectClass(selectedClass.id, selectedDifficulty);
     }
   }

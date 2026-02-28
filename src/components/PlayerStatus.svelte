@@ -1,9 +1,15 @@
 <script>
   import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
+  import { loadPrefs, savePrefs } from '../lib/persistence.js';
   import GameMenu from './GameMenu.svelte';
 
-  let collapsed = false;
+  let collapsed = loadPrefs().statusBarCollapsed ?? false;
+
+  function toggleCollapsed() {
+    collapsed = !collapsed;
+    savePrefs({ statusBarCollapsed: collapsed });
+  }
 
   $: effectiveMax = getEffectiveMaxStamina($player);
   $: staminaPercent = ($player.stamina / effectiveMax) * 100;
@@ -93,7 +99,7 @@
 
   <button
     class="collapse-btn"
-    on:click={() => collapsed = !collapsed}
+    on:click={toggleCollapsed}
     aria-label={collapsed ? 'Expand header' : 'Collapse header'}
   >
     {collapsed ? '▼' : '▲'}

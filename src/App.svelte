@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import * as gameState from './lib/gameState.js';
-  import { loadSavedGame, initAutoSave, clearSave } from './lib/persistence.js';
+  import { loadSavedGame, initAutoSave, clearSave, clearPrefs } from './lib/persistence.js';
 
   const { gamePhase, PHASES } = gameState;
 
@@ -9,6 +9,7 @@
 
   function handleCrash() {
     try { clearSave(); } catch {}
+    try { clearPrefs(); } catch {}
     crashed = true;
   }
 
@@ -16,6 +17,7 @@
     // ?reset clears the save and reloads cleanly — bookmark it as an escape hatch
     if (new URLSearchParams(window.location.search).has('reset')) {
       clearSave();
+      clearPrefs();
       window.history.replaceState({}, '', window.location.pathname);
     }
 
