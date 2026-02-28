@@ -1,6 +1,5 @@
 // Encounter resolution logic
 
-import { CONFIG } from './constants.js';
 import { TOKEN_TYPES, getTokenValue } from './tokens.js';
 
 // Calculate totals from drawn tokens
@@ -74,10 +73,16 @@ export function resolveEncounter(drawnTokens, encounter, bonuses = {}, drawEffec
     result.resolveSuccess = true;
   } else {
     result.resolveDeficiency = encounter.trouble - totals.resolve;
-    // Flat penalty + scaling stamina loss based on deficiency
-    result.staminaLost = Math.floor(
-      CONFIG.resolveFailFlat + (result.resolveDeficiency * CONFIG.resolveFailScale)
-    );
+    // Linear interpolation between near-miss (deficiency=1 → 5 stamina) and
+    // total failure (deficiency=trouble → 20+depth stamina).
+    const depth = encounter.level || 1;
+    const trouble = encounter.trouble;
+    if (trouble <= 1) {
+      result.staminaLost = 5;
+    } else {
+      const t = (result.resolveDeficiency - 1) / (trouble - 1);
+      result.staminaLost = Math.round(5 + t * (15 + depth));
+    }
   }
 
   return result;
@@ -118,7 +123,7 @@ export function getEncounterSummary(result) {
     lines.push(`✓ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - Steady!`);
   } else {
     lines.push(`✗ Resolve: ${result.totals.resolve}${resolveSuffix} vs ${result.encounter.trouble} Trouble - Stamina lost`);
-    lines.push(`  Lost ${result.staminaLost} stamina (${CONFIG.resolveFailFlat} flat + ${result.resolveDeficiency} × ${CONFIG.resolveFailScale})`);
+    lines.push(`  Lost ${result.staminaLost} stamina (${result.resolveDeficiency} short of ${result.encounter.trouble} Trouble)`);
   }
 
   // XP summary
