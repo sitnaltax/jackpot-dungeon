@@ -402,18 +402,3 @@ export function generateEncounter(encounterNumber) {
     level: encounterNumber,
   };
 }
-
-// Preview scaling (useful for balance testing)
-export function previewScaling(maxEncounter = 25) {
-  const preview = [];
-  for (let i = 1; i <= maxEncounter; i++) {
-    const mystery = calculateBaseStat(i);
-    preview.push({
-      encounter: i,
-      mystery,
-      trouble: calculateBaseStat(i),
-      reward: Math.ceil(mystery / 2),
-    });
-  }
-  return preview;
-}

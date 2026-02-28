@@ -84,7 +84,7 @@ export function loadSavedGame(stores) {
     stores.shopItems.set(data.shopItems ?? []);
     stores.purchasedShopItems.set(new Set(data.purchasedShopItems ?? []));
     stores.selectedEquipmentSlot.set(data.selectedEquipmentSlot ?? null);
-    stores.choiceEncounters.set(data.choiceEncounters ?? { hard: null, basic: null });
+    stores.choiceEncounters.set(data.choiceEncounters ?? { hard: null, next: null });
     stores.chosenPath.set(data.chosenPath ?? null);
     stores.rewardPod.set(data.rewardPod ?? null);
     stores.drawEffects.set(data.drawEffects ?? { insight: 0, resolve: 0, xp: 0 });

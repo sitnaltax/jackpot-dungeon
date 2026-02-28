@@ -132,18 +132,6 @@
     margin: 0;
   }
 
-  .crash-screen .tip {
-    font-size: 0.85rem;
-    color: #666;
-  }
-
-  .crash-screen code {
-    background: #16213e;
-    padding: 0.1em 0.4em;
-    border-radius: 4px;
-    color: #f1c40f;
-  }
-
   .crash-screen button {
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;

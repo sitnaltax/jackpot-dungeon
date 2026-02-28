@@ -1,6 +1,6 @@
 // Svelte stores for reactive game state
 
-import { writable, derived, get } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
@@ -55,7 +55,7 @@ export const purchasedShopItems = writable(new Set());
 export const selectedEquipmentSlot = writable(null); // slot index for replacement
 
 // Encounter choice state (for even encounters >= 4)
-export const choiceEncounters = writable({ hard: null, basic: null });
+export const choiceEncounters = writable({ hard: null, next: null });
 export const chosenPath = writable(null); // 'hard' or 'basic'
 export const rewardPod = writable(null); // Pod offered as reward after hard path
 
@@ -160,11 +160,6 @@ export function getEffectiveMaxStamina(playerState) {
   const bonuses = getTotalBonuses(playerState);
   return playerState.maxStamina + bonuses.maxStamina;
 }
-
-// Derived stores
-export const isGameOver = derived(player, ($player) => {
-  return $player.stamina <= 0;
-});
 
 // Game actions — start screen transitions to class select
 export function startNewGame() {
