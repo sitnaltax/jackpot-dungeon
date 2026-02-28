@@ -34,10 +34,11 @@
     // If token has a getValue callback and we have context, calculate synergy effects
     if (typeData.getValue && context) {
       const contributions = typeData.getValue(token, context);
+      // Compute pre-rank contributions to get rank-independent synergy
+      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, context);
       const stats = Object.entries(contributions).map(([stat, value]) => {
-        // Reverse-engineer the calculation to show breakdown
-        const baseWithSynergy = Math.round(value / rankMultiplier);
-        const synergyBonus = baseWithSynergy - typeData.baseValue;
+        const preRankValue = preRankContributions[stat] ?? typeData.baseValue;
+        const synergyBonus = preRankValue - typeData.baseValue;
         return {
           stat,
           value,
