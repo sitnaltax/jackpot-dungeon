@@ -365,14 +365,18 @@ export function generateItemShop(encounterNumber, playerState) {
   }
 
   if (!usingWeakItems) {
-    // Guarantee: depth 6+ → best affordable light source
+    // Guarantee: depth 6+ → best affordable light source (unless player already has one at that level)
     if (encounterNumber >= 6) {
       const affordableLights = affordablePool.filter(i => i.category === 'lightSource');
       if (affordableLights.length > 0) {
         // Pick the highest bonusDraw tier the player can afford
         const maxDraw = Math.max(...affordableLights.map(i => i.bonuses.bonusDraw || 0));
-        const bestLights = affordableLights.filter(i => (i.bonuses.bonusDraw || 0) === maxDraw);
-        pickFrom(bestLights);
+        const equippedLight = (playerState.equipment || []).find(e => e?.category === 'lightSource');
+        const equippedDraw = equippedLight?.bonuses?.bonusDraw || 0;
+        if (equippedDraw < maxDraw) {
+          const bestLights = affordableLights.filter(i => (i.bonuses.bonusDraw || 0) === maxDraw);
+          pickFrom(bestLights);
+        }
       }
     }
 
