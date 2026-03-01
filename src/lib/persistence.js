@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 4;
+const SAVE_VERSION = 5;
 
 // Preferences are stored separately and survive game resets / version bumps.
 // They are only cleared by explicit user reset (crash recovery or ?reset param).
@@ -75,6 +75,7 @@ export function saveGame(stores) {
       chosenPath: get(stores.chosenPath),
       rewardPod: get(stores.rewardPod),
       discardEffects: get(stores.discardEffects),
+      shopRefreshCount: get(stores.shopRefreshCount),
     };
 
     localStorage.setItem(SAVE_KEY, JSON.stringify(data));
@@ -118,6 +119,7 @@ export function loadSavedGame(stores) {
     stores.chosenPath.set(data.chosenPath ?? null);
     stores.rewardPod.set(data.rewardPod ?? null);
     stores.discardEffects.set(data.discardEffects ?? { insight: 0, resolve: 0, xp: 0 });
+    stores.shopRefreshCount.set(data.shopRefreshCount ?? 0);
 
     // Advance ID counters so newly-created pods/tokens don't collide with restored ones.
     reseedIds(
@@ -165,6 +167,7 @@ export function initAutoSave(stores) {
     stores.chosenPath,
     stores.rewardPod,
     stores.discardEffects,
+    stores.shopRefreshCount,
   ].map(store => store.subscribe(scheduleSave));
 
   return () => {

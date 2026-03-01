@@ -1,5 +1,5 @@
 <script>
-  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop } from '../lib/gameState.js';
+  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop, shopRefreshCount, getRefreshCost } from '../lib/gameState.js';
   import Pod from './Pod.svelte';
   import PodDisplay from './PodDisplay.svelte';
 
@@ -7,8 +7,7 @@
     purchasePod(podTemplate, index);
   }
 
-  const refreshCost = 1;
-
+  $: refreshCost = getRefreshCost($player.playerClass, $shopRefreshCount);
   $: canAfford = (cost) => $player.xp >= cost;
   $: isPurchased = (index) => $purchasedShopPods.has(index);
   $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);

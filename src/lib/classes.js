@@ -72,10 +72,11 @@ export const CLASSES = {
     id: 'bricoleur',
     name: 'Bricoleur',
     description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens.',
-    benefitDescription: '+1 Redraw Selected',
+    benefitDescription: '+1 Redraw Selected; shop refreshes cost 1/3/5… (+2 each)',
     bonuses: {
       selectiveRedraws: 1,
     },
+    refreshCostFn: (n) => 1 + 2 * n,
     startingEquipment: [
       STARTING_ITEMS.stackOfMaps,
       null,
@@ -88,8 +89,9 @@ export const CLASSES = {
     id: 'polymath',
     name: 'Polymath',
     description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply.',
-    benefitDescription: 'No passive benefit (coming soon: shop discounts)',
+    benefitDescription: 'Shop refreshes cost 1/2/2… (never increases past 2)',
     bonuses: {},
+    refreshCostFn: (n) => Math.min(2, n + 1),
     startingEquipment: [
       STARTING_ITEMS.elegantWatch,
       STARTING_ITEMS.ruinedJournal,

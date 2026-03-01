@@ -48,6 +48,15 @@ export const encounterResult = writable(null);
 export const shopPods = writable([]);
 export const selectedPodToReplace = writable(null);
 export const purchasedShopPods = writable(new Set());
+export const shopRefreshCount = writable(0);
+
+// Returns the XP cost of the next shop refresh for the given class.
+// n is the number of refreshes already used this shop visit.
+// Default: 1, 2, 3… Classes may override via refreshCostFn.
+export function getRefreshCost(playerClass, n) {
+  if (playerClass?.refreshCostFn) return playerClass.refreshCostFn(n);
+  return n + 1;
+}
 
 // Item shop state
 export const shopItems = writable([]);
@@ -567,6 +576,7 @@ export function proceedToShop() {
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
+  shopRefreshCount.set(0);
   gamePhase.set(PHASES.SHOP);
 }
 
@@ -613,18 +623,16 @@ export function purchasePod(podTemplate, shopIndex) {
 
 export function refreshShop() {
   const $player = get(player);
-  const refreshCost = 1;
+  const $refreshCount = get(shopRefreshCount);
+  const refreshCost = getRefreshCost($player.playerClass, $refreshCount);
 
   if ($player.xp < refreshCost) return;
 
   const encNum = get(encounterNumber);
   const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
 
-  player.update(p => ({
-    ...p,
-    xp: p.xp - refreshCost,
-  }));
-
+  player.update(p => ({ ...p, xp: p.xp - refreshCost }));
+  shopRefreshCount.update(n => n + 1);
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
