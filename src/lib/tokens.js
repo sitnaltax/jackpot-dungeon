@@ -120,7 +120,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      return { insight: Math.floor((3 + celestialCount) * rankMultiplier) };
+      return { insight: Math.floor((3 + Math.min(4, celestialCount)) * rankMultiplier) };
     },
   },
   capricorn: {
@@ -134,7 +134,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      return { resolve: Math.floor((2 + celestialCount) * rankMultiplier) };
+      return { resolve: Math.floor((2 + Math.min(4, celestialCount)) * rankMultiplier) };
     },
   },
   taurus: {
@@ -148,7 +148,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const celestialCount = countTokensWithTag('Celestial', allDrawnTokens);
-      return { xp: Math.floor((3 + celestialCount) * rankMultiplier) };
+      return { xp: Math.floor((3 + Math.min(4, celestialCount)) * rankMultiplier) };
     },
   },
   virgo: {
@@ -233,7 +233,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      return { resolve: Math.floor((3 + botanicalCount) * rankMultiplier) };
+      return { resolve: Math.floor((3 + Math.min(4, botanicalCount)) * rankMultiplier) };
     },
   },
   lotus: {
@@ -247,7 +247,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      return { insight: Math.floor((2 + botanicalCount) * rankMultiplier) };
+      return { insight: Math.floor((2 + Math.min(4, botanicalCount)) * rankMultiplier) };
     },
   },
   clover: {
@@ -261,7 +261,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const botanicalCount = countTokensWithTag('Botanical', allDrawnTokens);
-      return { xp: Math.floor((3 + botanicalCount) * rankMultiplier) };
+      return { xp: Math.floor((3 + Math.min(4, botanicalCount)) * rankMultiplier) };
     },
   },
   willow: {

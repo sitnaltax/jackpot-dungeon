@@ -1,10 +1,11 @@
 ## TODO ideas
 * Rewrite description for items
 * Fix shop refresh costs
-* Add icon
 * Difficulty tuning and difficulty levels
 * Musical tag on items
 * Bonuses on lights
-* Lights names: Meteor Torch
+* Lights names: Meteor Torch, Frozen Thunderbolt, Moon Consort's Blessing / Sun Geode,
 * Increasing treasure rewards and costs
-* Encounters: Dreaming Cat-Colony, Mist-Shrouded Forest, Vengeful Ash, Bramble Ward
+* Woods Encounters: Dreaming Cat-Colony, Mist-Shrouded Forest, Vengeful Ash, Bramble Ward, Labyrinth of Crossroads, Demanding Sprite, Too-Clever Fox
+* Celestial Encounters: Treacherous Horizon, Petal Hailstorm, 
+* Underworld Encounters: 

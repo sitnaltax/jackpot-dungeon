@@ -104,11 +104,11 @@
       case 'discord':
         return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
       case 'scorpio':
-        return 'Contributes to Insight. Gains +1 for each Celestial token drawn.';
+        return 'Contributes to Insight. Gains +1 for each Celestial token drawn, up to +4.';
       case 'capricorn':
-        return 'Contributes to Resolve. Gains +1 for each Celestial token drawn.';
+        return 'Contributes to Resolve. Gains +1 for each Celestial token drawn, up to +4.';
       case 'taurus':
-        return 'Contributes to XP. Gains +1 for each Celestial token drawn.';
+        return 'Contributes to XP. Gains +1 for each Celestial token drawn, up to +4.';
       case 'virgo':
         return 'Contributes to Insight and XP. Gains +1 each for each Celestial token drawn, up to +3.';
       case 'aries':
@@ -116,11 +116,11 @@
       case 'libra':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Celestial token drawn.';
       case 'oak':
-        return 'Contributes to Resolve. Gains +1 for each Botanical token drawn.';
+        return 'Contributes to Resolve. Gains +1 for each Botanical token drawn, up to +4.';
       case 'lotus':
-        return 'Contributes to Insight. Gains +1 for each Botanical token drawn.';
+        return 'Contributes to Insight. Gains +1 for each Botanical token drawn, up to +4.';
       case 'clover':
-        return 'Contributes to XP. Gains +1 for each Botanical token drawn.';
+        return 'Contributes to XP. Gains +1 for each Botanical token drawn, up to +4.';
       case 'willow':
         return 'Contributes to Resolve and XP. Gains +1 each for each Botanical token drawn, up to +3.';
       case 'orchid':
