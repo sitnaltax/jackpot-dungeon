@@ -188,6 +188,8 @@ export function selectClass(classId, difficultyId = 'normal') {
   const startingBonusDraw = (chosenClass.bonuses?.bonusDraw || 0) +
     chosenClass.startingEquipment.reduce((sum, e) => sum + (e?.bonuses?.bonusDraw || 0), 0);
 
+  const wizard = difficultyId === 'wizard';
+
   const playerState = {
     pods: startingPods,
     maxPods: CONFIG.drawCount + startingBonusDraw * CONFIG.podsPerBonusDraw,
@@ -195,8 +197,8 @@ export function selectClass(classId, difficultyId = 'normal') {
     difficulty: difficultyId,
     stamina: baseStamina,
     maxStamina: baseStamina,
-    xp: debug ? baseXp + 1000 : baseXp,
-    treasure: debug ? baseTreasure + 1000 : baseTreasure,
+    xp: debug || wizard ? baseXp + 99999 : baseXp,
+    treasure: debug || wizard ? baseTreasure + 99999 : baseTreasure,
     totalXpEarned: baseXp,
     totalTreasureEarned: baseTreasure,
     equipment: [...chosenClass.startingEquipment],
@@ -204,9 +206,9 @@ export function selectClass(classId, difficultyId = 'normal') {
 
   // Set stamina to effective max (accounts for class + equipment bonuses)
   const effMax = getEffectiveMaxStamina(playerState);
-  playerState.stamina = debug ? effMax + 1000 : effMax;
-  if (debug) {
-    playerState.maxStamina = baseStamina + 1000;
+  playerState.stamina = debug || wizard ? effMax + 99999 : effMax;
+  if (debug || wizard) {
+    playerState.maxStamina = baseStamina + 99999;
   }
 
   player.set(playerState);
