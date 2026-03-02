@@ -49,6 +49,14 @@
 
       <p class="description">{equipment.description}</p>
 
+      {#if equipment.tags?.length}
+        <div class="tags-row">
+          {#each equipment.tags as tag}
+            <span class="tag">{tag}</span>
+          {/each}
+        </div>
+      {/if}
+
       <div class="bonuses-section">
         <h3>Bonuses</h3>
         {#each getBonusDescription(equipment.bonuses) as bonus}
@@ -56,6 +64,15 @@
             <span class="bonus-value">{bonus}</span>
           </div>
         {/each}
+        {#if getBonusDescription(equipment.bonuses).length === 0}
+          <p class="no-bonuses">
+            {#if equipment.tags?.length}
+              No bonuses, but provides the {equipment.tags.join(', ')} {equipment.tags.length === 1 ? 'tag' : 'tags'}.
+            {:else}
+              No bonuses.
+            {/if}
+          </p>
+        {/if}
       </div>
     </div>
   </div>
@@ -168,5 +185,30 @@
     color: #2ecc71;
     font-weight: bold;
     font-size: 1.125rem;
+  }
+
+  .tags-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    background: rgba(241, 196, 15, 0.15);
+    border: 1px solid rgba(241, 196, 15, 0.4);
+    color: #f1c40f;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+
+  .no-bonuses {
+    color: #666;
+    font-style: italic;
+    font-size: 0.875rem;
+    margin: 0;
   }
 </style>

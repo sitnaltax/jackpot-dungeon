@@ -91,17 +91,20 @@ function applyOnDiscardEffects(tokens) {
 // inspectionSelectable: whether the token can be selected for redraw
 export const inspectedToken = writable(null);
 export const inspectionContext = writable(null);
+export const inspectionEquipment = writable([]);
 export const inspectionSelectable = writable(false);
 
-export function inspectToken(token, context = null, selectable = false) {
+export function inspectToken(token, context = null, selectable = false, equipment = []) {
   inspectedToken.set(token);
   inspectionContext.set(context);
+  inspectionEquipment.set(equipment);
   inspectionSelectable.set(selectable);
 }
 
 export function closeInspection() {
   inspectedToken.set(null);
   inspectionContext.set(null);
+  inspectionEquipment.set([]);
   inspectionSelectable.set(false);
 }
 
@@ -387,7 +390,7 @@ export function executeEncounter() {
   };
 
   const $discardEffects = get(discardEffects);
-  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects);
+  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || []);
 
   // Award Treasure: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
   const baseTreasure = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);

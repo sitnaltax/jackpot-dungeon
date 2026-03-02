@@ -24,7 +24,7 @@
     const typeData = TOKEN_TYPES[token.type];
 
     if (typeData.getValue) {
-      const contributions = typeData.getValue(token, allTokens);
+      const contributions = typeData.getValue(token, allTokens, equipment);
       // Get the first (primary) stat contribution
       const [stat, value] = Object.entries(contributions)[0];
       return { stat, value };
@@ -49,8 +49,9 @@
     });
   }
 
+  $: equipment = $player.equipment || [];
   $: sortedTokens = sortTokens($drawnTokens);
-  $: tokenTotals = calculateDrawTotals($drawnTokens);
+  $: tokenTotals = calculateDrawTotals($drawnTokens, equipment);
   $: totalBonuses = getTotalBonuses($player);
   $: totals = {
     insight: tokenTotals.insight + (totalBonuses.insight || 0) + ($discardEffects.insight || 0),
@@ -82,6 +83,7 @@
         selected={$selectedTokensForRedraw.has(token.id)}
         onSelect={toggleTokenSelection}
         context={$drawnTokens}
+        {equipment}
       />
     {/each}
   </div>

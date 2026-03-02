@@ -36,10 +36,11 @@ export const TOKEN_TYPES = {
     minDepth: 2,
     weight: 1,
     tags: ['Musical'],
-    getValue: (token, allDrawnTokens) => {
+    getValue: (token, allDrawnTokens, equippedItems = []) => {
       const typeData = TOKEN_TYPES[token.type];
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
+      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
+        || equippedItems.some(item => item?.tags?.includes('Musical'));
       const bonus = hasOtherMusical ? 2 : 0;
       return { resolve: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
@@ -52,10 +53,11 @@ export const TOKEN_TYPES = {
     minDepth: 2,
     weight: 1,
     tags: ['Musical'],
-    getValue: (token, allDrawnTokens) => {
+    getValue: (token, allDrawnTokens, equippedItems = []) => {
       const typeData = TOKEN_TYPES[token.type];
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'));
+      const hasOtherMusical = allDrawnTokens.some(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
+        || equippedItems.some(item => item?.tags?.includes('Musical'));
       const bonus = hasOtherMusical ? 2 : 0;
       return { insight: Math.floor((typeData.baseValue + bonus) * rankMultiplier) };
     },
@@ -69,13 +71,14 @@ export const TOKEN_TYPES = {
     weight: 0.6,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
-    getValue: (token, allDrawnTokens) => {
+    getValue: (token, allDrawnTokens, equippedItems = []) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const musicalItemBonus = equippedItems.some(item => item?.tags?.includes('Musical')) ? 1 : 0;
       const uniqueOtherMusical = new Set(
         allDrawnTokens
           .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
           .map(t => t.type)
-      ).size;
+      ).size + musicalItemBonus;
       const value = uniqueOtherMusical >= 2 ? 3 : 1;
       return {
         insight: Math.floor(value * rankMultiplier),
@@ -93,13 +96,14 @@ export const TOKEN_TYPES = {
     weight: 0.4,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #e74c3c, #3498db)',
-    getValue: (token, allDrawnTokens) => {
+    getValue: (token, allDrawnTokens, equippedItems = []) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
+      const musicalItemBonus = equippedItems.some(item => item?.tags?.includes('Musical')) ? 1 : 0;
       const uniqueOtherMusical = new Set(
         allDrawnTokens
           .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
           .map(t => t.type)
-      ).size;
+      ).size + musicalItemBonus;
       const value = uniqueOtherMusical >= 3 ? 5 : 2;
       return {
         insight: Math.floor(value * rankMultiplier),

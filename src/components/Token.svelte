@@ -9,6 +9,7 @@
   export let selected = false;
   export let onSelect = null;
   export let context = null; // Array of all drawn tokens for synergy display
+  export let equipment = []; // Equipped items for synergy display
 
   $: typeData = TOKEN_TYPES[token.type];
   $: rankData = RANKS[token.rank];
@@ -17,12 +18,12 @@
   $: borderEffect = typeData.borderEffect || null;
 
   // Calculate contextual contributions (with synergies if context provided)
-  $: contributions = getContributions(token, context, typeData, baseValue);
+  $: contributions = getContributions(token, context, equipment, typeData, baseValue);
 
-  function getContributions(token, context, typeData, baseValue) {
+  function getContributions(token, context, equipment, typeData, baseValue) {
     if (context && typeData.getValue) {
       // Token has synergy - calculate contextual values
-      const values = typeData.getValue(token, context);
+      const values = typeData.getValue(token, context, equipment);
       return Object.entries(values).map(([stat, value]) => ({
         stat,
         value,
@@ -33,9 +34,8 @@
     return [{ stat: token.type, value: baseValue, icon: typeData.icon }];
   }
 
-
   function handleClick() {
-    inspectToken(token, context, selectable);
+    inspectToken(token, context, selectable, equipment);
   }
 
   function handleSelectClick(e) {

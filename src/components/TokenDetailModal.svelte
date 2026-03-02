@@ -4,6 +4,7 @@
   import {
     inspectedToken,
     inspectionContext,
+    inspectionEquipment,
     inspectionSelectable,
     closeInspection,
     selectedTokensForRedraw,
@@ -12,6 +13,7 @@
 
   $: token = $inspectedToken;
   $: context = $inspectionContext;
+  $: equipment = $inspectionEquipment;
   $: selectable = $inspectionSelectable;
   $: isSelected = token ? $selectedTokensForRedraw.has(token.id) : false;
   $: typeData = token ? TOKEN_TYPES[token.type] : null;
@@ -24,18 +26,18 @@
   }
 
   // Calculate contextual value and contributions (with synergies, if in an encounter)
-  $: contextualInfo = getContextualInfo(token, context, typeData, rankData);
+  $: contextualInfo = getContextualInfo(token, context, equipment, typeData, rankData);
 
-  function getContextualInfo(token, context, typeData, rankData) {
+  function getContextualInfo(token, context, equipment, typeData, rankData) {
     if (!token || !typeData) return null;
 
     const rankMultiplier = rankData?.multiplier || 1;
 
     // If token has a getValue callback and we have context, calculate synergy effects
     if (typeData.getValue && context) {
-      const contributions = typeData.getValue(token, context);
+      const contributions = typeData.getValue(token, context, equipment);
       // Compute pre-rank contributions to get rank-independent synergy
-      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, context);
+      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, context, equipment);
       const stats = Object.entries(contributions).map(([stat, value]) => {
         const preRankValue = preRankContributions[stat] ?? typeData.baseValue;
         const synergyBonus = preRankValue - typeData.baseValue;

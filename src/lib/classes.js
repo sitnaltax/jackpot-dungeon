@@ -65,6 +65,16 @@ const STARTING_ITEMS = {
     cost: 3,
     bonuses: { resolve: 2 },
   },
+  foolsPipe: {
+    id: 'foolsPipe',
+    name: "Fool's Pipe",
+    description: 'An old keepsake. For some reason, it\'s very easy to play it here.',
+    icon: '🪈',
+    category: 'instrument',
+    cost: 4,
+    bonuses: {},
+    tags: ['Musical'],
+  },
 };
 
 export const CLASSES = {
@@ -129,7 +139,7 @@ export const CLASSES = {
     startingEquipment: [
       STARTING_ITEMS.luckyPenny,
       STARTING_ITEMS.travelersCharm,
-      null,
+      STARTING_ITEMS.foolsPipe,
     ],
     startingXpBonus: 0,
     startingTreasureBonus: 0,

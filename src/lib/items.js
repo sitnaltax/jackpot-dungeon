@@ -8,6 +8,7 @@ export const ITEM_CATEGORIES = {
   weapon: { name: 'Weapon', color: '#e74c3c' },
   jewelry: { name: 'Jewelry', color: '#e91e63' },
   food: { name: 'Food', color: '#2ecc71' },
+  instrument: { name: 'Instrument', color: '#f1c40f' },
 };
 
 // All items in the game

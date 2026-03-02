@@ -3,7 +3,7 @@
 import { TOKEN_TYPES, getTokenValue } from './tokens.js';
 
 // Calculate totals from drawn tokens
-export function calculateDrawTotals(drawnTokens) {
+export function calculateDrawTotals(drawnTokens, equippedItems = []) {
   const totals = {
     insight: 0,
     resolve: 0,
@@ -15,7 +15,7 @@ export function calculateDrawTotals(drawnTokens) {
 
     // Use getValue callback if defined, otherwise default behavior
     if (typeData.getValue) {
-      const contributions = typeData.getValue(token, drawnTokens);
+      const contributions = typeData.getValue(token, drawnTokens, equippedItems);
       for (const [stat, value] of Object.entries(contributions)) {
         if (stat in totals) {
           totals[stat] += value;
@@ -43,8 +43,8 @@ export function calculateStaminaLost(deficiency, encounter) {
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
 // discardEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
-export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEffects = {}) {
-  const totals = calculateDrawTotals(drawnTokens);
+export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEffects = {}, equippedItems = []) {
+  const totals = calculateDrawTotals(drawnTokens, equippedItems);
 
   // Apply flat bonuses from equipment
   if (bonuses.insight) totals.insight += bonuses.insight;
