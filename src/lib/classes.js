@@ -71,8 +71,8 @@ export const CLASSES = {
   bricoleur: {
     id: 'bricoleur',
     name: 'Bricoleur',
-    description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens.',
-    benefitDescription: '+1 Redraw Selected; shop refreshes cost 1/3/5… (+2 each)',
+    description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens',
+    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes',
     bonuses: {
       selectiveRedraws: 1,
     },
@@ -88,8 +88,8 @@ export const CLASSES = {
   polymath: {
     id: 'polymath',
     name: 'Polymath',
-    description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply.',
-    benefitDescription: 'Shop refreshes cost 1/2/2… (never increases past 2)',
+    description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply',
+    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina',
     bonuses: {},
     refreshCostFn: (n) => Math.min(2, n + 1),
     startingEquipment: [
@@ -104,8 +104,8 @@ export const CLASSES = {
   agonist: {
     id: 'agonist',
     name: 'Agonist',
-    description: 'Able to push directly through adversity. Tough and resilient, driven from within.',
-    benefitDescription: '+10 Max Stamina, +2 Stamina Regen per encounter',
+    description: 'Able to push directly through adversity. Tough and resilient, driven from within',
+    benefitDescription: 'Bonus stamina and regeneration; mediocre starting equipment',
     bonuses: {
       maxStamina: 10,
       staminaRegen: 2,
@@ -121,8 +121,8 @@ export const CLASSES = {
   maverick: {
     id: 'maverick',
     name: 'Maverick',
-    description: 'Relies on instinct over precision. Bonus redraws, but can never get Redraw Selected.',
-    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop',
+    description: 'Relies on instinct over planning. Bonus treasure, but no Redraw Selected items',
+    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds bonus treasure',
     bonuses: {
       redraws: 2,
     },
