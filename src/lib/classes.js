@@ -122,7 +122,7 @@ export const CLASSES = {
     id: 'maverick',
     name: 'Maverick',
     description: 'Relies on instinct over planning. Bonus treasure, but no Redraw Selected items',
-    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds bonus treasure',
+    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds more treasure when failing Insight checks',
     bonuses: {
       redraws: 2,
     },
@@ -134,6 +134,7 @@ export const CLASSES = {
     startingXpBonus: 0,
     startingTreasureBonus: 0,
     shopItemFilter: (item) => !item.bonuses?.selectiveRedraws,
+    onInsightFailure: () => ({ treasure: 1 }),
   },
 };
 

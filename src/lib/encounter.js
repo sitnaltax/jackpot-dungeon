@@ -115,7 +115,12 @@ export function getEncounterSummary(result) {
   if (result.insightSuccess) {
     lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!`);
   } else {
-    lines.push(`✗ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - No bonus`);
+    const failureBonus = result.insightFailureBonus ?? {};
+    const bonusParts = [];
+    if (failureBonus.treasure) bonusParts.push(`+$${failureBonus.treasure}`);
+    if (failureBonus.xp) bonusParts.push(`+${failureBonus.xp} XP`);
+    const bonusText = bonusParts.length ? ` (${bonusParts.join(', ')})` : '';
+    lines.push(`✗ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - No bonus${bonusText}`);
   }
 
   // Resolve summary
