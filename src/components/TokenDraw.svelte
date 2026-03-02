@@ -13,7 +13,7 @@
     confirmDraw,
     getTotalBonuses,
   } from '../lib/gameState.js';
-  import { calculateDrawTotals } from '../lib/encounter.js';
+  import { calculateDrawTotals, calculateStaminaLost } from '../lib/encounter.js';
   import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
@@ -63,6 +63,11 @@
   // Check if thresholds are met
   $: insightMet = $currentEncounter && totals.insight >= $currentEncounter.mystery;
   $: resolveMet = $currentEncounter && totals.resolve >= $currentEncounter.trouble;
+
+  // Predict stamina loss
+  $: predictedStaminaLost = (!$currentEncounter || resolveMet)
+    ? 0
+    : calculateStaminaLost($currentEncounter.trouble - totals.resolve, $currentEncounter);
 </script>
 
 <div class="token-draw">
@@ -125,17 +130,17 @@
       on:click={redrawAll}
       disabled={$redrawsRemaining <= 0}
     >
-      Redraw All ({$redrawsRemaining} left)
+      Redraw All <span class="btn-aside">({$redrawsRemaining} left)</span>
     </button>
     <button
       class="btn btn-selective"
       on:click={redrawSelected}
       disabled={!canSelectiveRedraw || !hasSelection}
     >
-      Redraw Selected ({$selectiveRedrawsRemaining} left)
+      Redraw Selected <span class="btn-aside">({$selectiveRedrawsRemaining} left)</span>
     </button>
     <button class="btn btn-primary" on:click={confirmDraw}>
-      Onwards
+      Onwards {#if predictedStaminaLost > 0} <span class="btn-aside">(-{predictedStaminaLost} stam)</span>{/if}
     </button>
   </div>
 </div>
@@ -271,5 +276,10 @@
 
   .btn-selective:hover:not(:disabled) {
     background: #8e44ad;
+  }
+
+  .btn-aside {
+    font-size: 0.75em;
+    opacity: 0.85;
   }
 </style>

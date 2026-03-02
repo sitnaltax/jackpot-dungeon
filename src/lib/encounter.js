@@ -30,6 +30,16 @@ export function calculateDrawTotals(drawnTokens) {
   return totals;
 }
 
+// Calculate stamina lost given a resolve deficiency and encounter.
+// deficiency = encounter.trouble - resolve (must be > 0).
+export function calculateStaminaLost(deficiency, encounter) {
+  const depth = encounter.level || 1;
+  const trouble = encounter.trouble;
+  if (trouble <= 1) return 5;
+  const t = (deficiency - 1) / (trouble - 1);
+  return Math.round(5 + t * (15 + depth));
+}
+
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
 // discardEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
@@ -73,16 +83,7 @@ export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEf
     result.resolveSuccess = true;
   } else {
     result.resolveDeficiency = encounter.trouble - totals.resolve;
-    // Linear interpolation between near-miss (deficiency=1 → 5 stamina) and
-    // total failure (deficiency=trouble → 20+depth stamina).
-    const depth = encounter.level || 1;
-    const trouble = encounter.trouble;
-    if (trouble <= 1) {
-      result.staminaLost = 5;
-    } else {
-      const t = (result.resolveDeficiency - 1) / (trouble - 1);
-      result.staminaLost = Math.round(5 + t * (15 + depth));
-    }
+    result.staminaLost = calculateStaminaLost(result.resolveDeficiency, encounter);
   }
 
   return result;
