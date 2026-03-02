@@ -21,8 +21,9 @@
   // Create a reactive version of purchased items to trigger re-renders
   $: purchasedSet = $purchasedShopItems;
 
-  function getBonusList(bonuses) {
+  function getBonusList(item) {
     const list = [];
+    const bonuses = item.bonuses || {};
     if (bonuses.selectiveRedraws) list.push(`+${bonuses.selectiveRedraws} Redraw Selected`);
     if (bonuses.redraws) list.push(`+${bonuses.redraws} Redraw All`);
     if (bonuses.bonusDraw) list.push(`+${bonuses.bonusDraw} Token Draw`);
@@ -30,6 +31,7 @@
     if (bonuses.resolve) list.push(`+${bonuses.resolve} Resolve`);
     if (bonuses.maxStamina) list.push(`+${bonuses.maxStamina} Max Stamina`);
     if (bonuses.staminaRegen) list.push(`+${bonuses.staminaRegen} Regen/encounter`);
+    if (item.tags?.length) item.tags.forEach(tag => list.push(tag));
     return list;
   }
 
@@ -100,8 +102,8 @@
         <p class="item-description">{item.description}</p>
 
         <div class="item-bonuses">
-          {#each getBonusList(item.bonuses) as bonus}
-            <span class="bonus-tag">{bonus}</span>
+          {#each getBonusList(item) as bonus}
+            <span class="bonus-tag" class:tag-tag={item.tags?.includes(bonus)}>{bonus}</span>
           {/each}
           {#if item.staminaHeal}
             <span class="bonus-tag heal-tag">+{item.staminaHeal} Stamina on pickup</span>
@@ -145,7 +147,7 @@
             <span class="equip-icon">{equip.icon}</span>
             <span class="equip-name">{equip.name}</span>
             <div class="equip-bonuses">
-              {#each getBonusList(equip.bonuses) as bonus}
+              {#each getBonusList(equip) as bonus}
                 <span class="equip-bonus">{bonus}</span>
               {/each}
             </div>
@@ -298,6 +300,12 @@
 
   .heal-tag {
     background: rgba(241, 196, 0, 0.15);
+    color: #f1c40f;
+  }
+
+  .tag-tag {
+    background: rgba(241, 196, 15, 0.15);
+    border: 1px solid rgba(241, 196, 15, 0.4);
     color: #f1c40f;
   }
 
