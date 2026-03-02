@@ -72,7 +72,7 @@ export const CLASSES = {
     id: 'bricoleur',
     name: 'Bricoleur',
     description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens',
-    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes',
+    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes.',
     bonuses: {
       selectiveRedraws: 1,
     },
@@ -89,8 +89,8 @@ export const CLASSES = {
     id: 'polymath',
     name: 'Polymath',
     description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply',
-    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina',
-    bonuses: {},
+    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina.',
+    bonuses: { encounterXpMultiplier: 1.25 },
     refreshCostFn: (n) => Math.min(2, n + 1),
     startingEquipment: [
       STARTING_ITEMS.elegantWatch,
@@ -105,7 +105,7 @@ export const CLASSES = {
     id: 'agonist',
     name: 'Agonist',
     description: 'Able to push directly through adversity. Tough and resilient, driven from within',
-    benefitDescription: 'Bonus stamina and regeneration; mediocre starting equipment',
+    benefitDescription: 'Bonus stamina and regeneration; mediocre starting equipment.',
     bonuses: {
       maxStamina: 10,
       staminaRegen: 2,
@@ -122,7 +122,7 @@ export const CLASSES = {
     id: 'maverick',
     name: 'Maverick',
     description: 'Relies on instinct over planning. Bonus treasure, but no Redraw Selected items',
-    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds more treasure when failing Insight checks',
+    benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds bonus treasure when failing Insight checks.',
     bonuses: {
       redraws: 2,
     },

@@ -395,6 +395,7 @@ export function executeEncounter() {
   // Apply encounter multipliers
   const xpMultiplier = $encounter.xpMultiplier || 1.0;
   const treasureMultiplier = $encounter.treasureMultiplier || 1.0;
+  const classXpMultiplier = $player.playerClass?.bonuses?.encounterXpMultiplier ?? 1.0;
 
   // Class callbacks for encounter outcomes
   const insightFailureBonus = !result.insightSuccess
@@ -404,9 +405,9 @@ export function executeEncounter() {
   result.baseXp = result.xpGained;
   result.baseTreasure = baseTreasure;
   result.insightFailureBonus = insightFailureBonus;
-  result.xpMultiplier = xpMultiplier;
+  result.xpMultiplier = xpMultiplier * classXpMultiplier;
   result.treasureMultiplier = treasureMultiplier;
-  result.xpGained = Math.floor(result.xpGained * xpMultiplier) + (insightFailureBonus.xp ?? 0);
+  result.xpGained = Math.floor(result.xpGained * xpMultiplier * classXpMultiplier) + (insightFailureBonus.xp ?? 0);
   result.treasureGained = Math.floor(baseTreasure * treasureMultiplier) + (insightFailureBonus.treasure ?? 0);
 
   // Calculate stamina regen from equipment + class
