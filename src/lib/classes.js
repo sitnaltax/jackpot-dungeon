@@ -99,6 +99,7 @@ export const CLASSES = {
     ],
     startingXpBonus: 10,
     startingTreasureBonus: 0,
+    startingStaminaOffset: -10,
   },
   agonist: {
     id: 'agonist',

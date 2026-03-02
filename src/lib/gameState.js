@@ -215,7 +215,8 @@ export function selectClass(classId, difficultyId = 'normal') {
 
   // Set stamina to effective max (accounts for class + equipment bonuses)
   const effMax = getEffectiveMaxStamina(playerState);
-  playerState.stamina = debug || wizard ? effMax + 99999 : effMax;
+  const staminaOffset = chosenClass.startingStaminaOffset || 0;
+  playerState.stamina = debug || wizard ? effMax + 99999 : effMax + staminaOffset;
   if (debug || wizard) {
     playerState.maxStamina = baseStamina + 99999;
   }
