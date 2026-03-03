@@ -2,7 +2,6 @@
 * Rewrite description for items
 * Difficulty tuning and difficulty levels
 * Bonuses on lights
-* Lights names: Meteor Torch, Frozen Thunderbolt, Moon Consort's Blessing / Sun Geode, Prismatic Diamond, Perfect Crystal Sphere
 * Increasing treasure rewards and costs
 * Image backgrounds for tokens
 * Endgame

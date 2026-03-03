@@ -121,53 +121,73 @@ export const ITEMS = {
   catsEyeDraught: {
     id: 'catsEyeDraught',
     name: 'Cat\'s Eye Draught',
-    description: 'An enchanted elixir that lets you see clearly in even the faintest starlight.',
+    description: 'An enchanted drink that lets you see clearly in even the faintest starlight.',
     icon: '🧪',
     category: 'lightSource',
     cost: 8, // 5 (1 draw) + 3 (insight)
     minDepth: 6,
     bonuses: { bonusDraw: 1, insight: 2 },
   },
-  enchantedTorch: {
-    id: 'enchantedTorch',
-    name: 'Enchanted Torch',
-    description: 'Burns with foxfire that never fades.',
-    icon: '🔥',
+  meteoriteTorch: {
+    id: 'meteoriteTorch',
+    name: 'Meteorite Torch',
+    description: 'A luminescent shard of falling star, lashed to a carved oaken handle.',
+    icon: '🌠',
     category: 'lightSource',
-    cost: 10, // 5 + 5 (2 draw)
+    cost: 10, //made up
     minDepth: 12,
     bonuses: { bonusDraw: 2 },
   },
-  faerieLamp: {
-    id: 'faerieLamp',
-    name: 'Faerie Lamp',
-    description: 'Captured starlight in a glass vial.',
-    icon: '✨',
+  frozenThunderbolt: {
+    id: 'frozenThunderbolt',
+    name: 'Frozen Thunderbolt',
+    description: 'A miniature thunderbolt, somehow frozen. It feels dangerous to touch, frostbitingly cold and full of ominous potential.',
+    icon: '⚡',
     category: 'lightSource',
-    cost: 10, // 5 + 5 (2 draw)
+    cost: 14, //made up
     minDepth: 12,
-    bonuses: { bonusDraw: 2 },
+    bonuses: { bonusDraw: 2, insight: 4 },
   },
-  blazingSunstone: {
-    id: 'blazingSunstone',
-    name: 'Blazing Sunstone',
-    description: 'A fragment of captured dawn.',
+  moonConsortsBlessing: {
+    id: 'moonConsortsBlessing',
+    name: 'Moon Consort\'s Blessing',
+    description: 'An eldritch blessing from the moon\'s mercurial love. Light or dark, see the world as if bathed in cool, pale moonlight.',
+    icon: '🌙',
+    category: 'lightSource',
+    cost: 15, // made up
+    minDepth: 12,
+    bonuses: { bonusDraw: 2, redraws: 1 },
+  },  
+  ancientSunshard: {
+    id: 'ancientSunshard',
+    name: 'Ancient Sunshard',
+    description: 'A fragment of the dawn from before memory, lost for a thousand years and shining bright in your grasp.',
     icon: '☀️',
     category: 'lightSource',
     cost: 15, // 5 + 5 + 5 (3 draw)
     minDepth: 18,
     bonuses: { bonusDraw: 3 },
   },
-  etherealLantern: {
-    id: 'etherealLantern',
-    name: 'Ethereal Lantern',
-    description: 'Burns with light from another plane.',
-    icon: '💡',
+  prismaticDiamond: {
+    id: 'prismaticDiamond',
+    name: 'Prismatic Diamond',
+    description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
+    icon: '💎',
     category: 'lightSource',
-    cost: 15, // 5 + 5 + 5 (3 draw)
+    cost: 25, // made up
     minDepth: 18,
-    bonuses: { bonusDraw: 3 },
+    bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
   },
+  perfectCrystalSphere: {
+    id: 'perfectCrystalSphere',
+    name: 'Perfect Crystal Sphere',
+    description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
+    icon: '🔮',
+    category: 'lightSource',
+    cost: 30, // made up
+    minDepth: 18,
+    bonuses: { bonusDraw: 3, selectiveRedraws: 1 },
+  },  
 
   // === WEAPONS (Resolve) ===
   ironDagger: {
