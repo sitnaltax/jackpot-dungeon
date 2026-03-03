@@ -141,9 +141,9 @@ export const TOKEN_TYPES = {
       return { resolve: Math.floor((2 + Math.min(4, celestialCount)) * rankMultiplier) };
     },
   },
-  taurus: {
-    name: 'Taurus',
-    icon: '♉',
+  sagittarius: {
+    name: 'Sagittarius',
+    icon: '♐',
     color: '#f1c40f',
     baseValue: 3,
     minDepth: 3,

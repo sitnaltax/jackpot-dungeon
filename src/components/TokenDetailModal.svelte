@@ -109,7 +109,7 @@
         return 'Contributes to Insight. Gains +1 for each Celestial token drawn, up to +4.';
       case 'capricorn':
         return 'Contributes to Resolve. Gains +1 for each Celestial token drawn, up to +4.';
-      case 'taurus':
+      case 'sagittarius':
         return 'Contributes to XP. Gains +1 for each Celestial token drawn, up to +4.';
       case 'virgo':
         return 'Contributes to Insight and XP. Gains +1 each for each Celestial token drawn, up to +3.';
