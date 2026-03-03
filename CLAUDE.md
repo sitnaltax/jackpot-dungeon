@@ -12,7 +12,7 @@ npm run preview  # Preview production build
 
 ## Architecture
 
-Jackpot Dungeon is a Svelte 4 roguelike deck-builder where players draw tokens from pods to overcome fey encounters.
+Jacq's Quest is a Svelte 4 roguelike deck-builder where players draw tokens from pods to overcome fey encounters. The atmosphere should be eerie and lonely with actual combat not happening.
 
 ### Core Game Loop
 
