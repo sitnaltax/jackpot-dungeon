@@ -17,10 +17,10 @@ Jackpot Dungeon is a Svelte 4 roguelike deck-builder where players draw tokens f
 ### Core Game Loop
 
 1. **CLASS_SELECT phase** - Player picks a class and difficulty
-2. **CHOICE phase** - On even encounters (≥2), player picks hard path (pod reward) or basic path (item shop)
+2. **CHOICE phase** - On even encounters (≥2), player picks hard path (pod reward) or basic path (easier encounter)
 3. **DRAW phase** - Player draws tokens from shuffled pool, can redraw
 4. **ENCOUNTER phase** - Tokens resolve against encounter (insight vs mystery, resolve vs trouble)
-5. **SHOP phase** - Spend treasure to replace pods with better ones
+5. **SHOP phase** - Spend XP to replace pods with better ones
 
 ### State Management (`src/lib/gameState.js`)
 
@@ -62,12 +62,12 @@ Pods contain 3 tokens. Starting pods mostly use iron/ordinary ranks, with a coup
 
 - Light sources: only one equipped at a time, auto-replace
 - Food: heals on purchase, provides persistent maxStamina/staminaRegen while equipped
-- `generateItemShop(encounterNumber, playerState)` - Generates 3 items with guarantee rules (food when low HP, light source at depth 8+, +2 draw at depth 14+). Respects class `shopItemFilter`.
+- `generateItemShop(encounterNumber, playerState)` - Generates 3 items with guarantee rules (food when low HP, light source at depth 6+, +2 draw at depth 12+, +3 draw at depth 18+). Respects class `shopItemFilter`.
 
 ### Encounter Resolution (`src/lib/encounter.js`)
 
 `resolveEncounter(drawnTokens, encounter, bonuses, drawEffects)` calculates totals and returns result:
-- Insight ≥ mystery → reveal bonus treasure (half of mystery value)
+- Insight ≥ mystery → reveal bonus XP (half of mystery value)
 - Resolve < trouble → stamina loss (flat + scaled by deficiency)
 - `bonuses` includes equipment + class insight/resolve
 - `discardEffects` includes accumulated onDiscard token effects
