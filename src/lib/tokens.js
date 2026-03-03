@@ -2,7 +2,8 @@
 // - minDepth: minimum encounter number for this token to appear in shops (default: 0)
 // - weight: relative probability weight for random selection (default: 1)
 // - tags: optional array of tags for synergy groupings (e.g., ['Celestial'])
-// - getValue: optional callback(token, allDrawnTokens) returning { stat: value } contributions
+// - getValue: optional callback(token, allDrawnTokens, equippedItems) returning { stat: value } contributions
+// - noSynergy: if true, getValue is called with an empty draw context (token has a fixed value, not context-dependent)
 // - onDiscard: optional callback(token) returning { stat: value } applied once each time the token
 //           freshly enters the draw (persists through redraws, even if the token is discarded)
 
@@ -23,9 +24,21 @@ export function getTokenValue(token) {
 
 export const TOKEN_TYPES = {
   // --- Core ---
-  insight:  { name: 'Insight',  icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1 },
-  resolve:  { name: 'Resolve',  icon: '🛡️', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1 },
-  xp: { name: 'Experience', icon: '⭐', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1 },
+  insight: {
+    name: 'Insight', icon: '👁️', color: '#e74c3c', baseValue: 5, minDepth: 0, weight: 1,
+    noSynergy: true,
+    getValue: (token) => ({ insight: Math.floor(5 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+  },
+  resolve: {
+    name: 'Resolve', icon: '🛡️', color: '#3498db', baseValue: 5, minDepth: 0, weight: 1,
+    noSynergy: true,
+    getValue: (token) => ({ resolve: Math.floor(5 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+  },
+  xp: {
+    name: 'Experience', icon: '⭐', color: '#f1c40f', baseValue: 5, minDepth: 0, weight: 1,
+    noSynergy: true,
+    getValue: (token) => ({ xp: Math.floor(5 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+  },
 
   // --- Musical series ---
   harmony: {
@@ -121,6 +134,8 @@ export const TOKEN_TYPES = {
     minDepth: 7,
     weight: 0.2,
     tags: ['Musical', 'Celestial'],
+    noSynergy: true,
+    getValue: (token) => ({ insight: Math.floor(5 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
   },
   bellflower: {
     name: 'Bellflower',
@@ -130,6 +145,8 @@ export const TOKEN_TYPES = {
     minDepth: 7,
     weight: 0.2,
     tags: ['Musical', 'Botanical'],
+    noSynergy: true,
+    getValue: (token) => ({ resolve: Math.floor(5 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
   },
 
   // --- Celestial series ---
@@ -419,6 +436,7 @@ export const TOKEN_TYPES = {
     baseValue: 4,
     minDepth: 13,
     weight: 1,
+    noSynergy: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const value = Math.floor(4 * rankMultiplier);
@@ -433,6 +451,7 @@ export const TOKEN_TYPES = {
     baseValue: 4,
     minDepth: 13,
     weight: 1,
+    noSynergy: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const value = Math.floor(4 * rankMultiplier);

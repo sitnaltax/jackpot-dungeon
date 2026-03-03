@@ -21,9 +21,13 @@
   $: contributions = getContributions(token, context, equipment, typeData, baseValue);
 
   function getContributions(token, context, equipment, typeData, baseValue) {
-    if (context && typeData.getValue) {
-      // Token has synergy - calculate contextual values
-      const values = typeData.getValue(token, context, equipment);
+    if (typeData.getValue) {
+      if (!typeData.noSynergy && !context) {
+        // Synergy token without context: fall back to base value display
+        return [{ stat: token.type, value: baseValue, icon: typeData.icon }];
+      }
+      const effectiveContext = typeData.noSynergy ? [] : context;
+      const values = typeData.getValue(token, effectiveContext, equipment);
       return Object.entries(values).map(([stat, value]) => ({
         stat,
         value,

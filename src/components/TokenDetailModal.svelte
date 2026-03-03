@@ -33,11 +33,14 @@
 
     const rankMultiplier = rankData?.multiplier || 1;
 
-    // If token has a getValue callback and we have context, calculate synergy effects
-    if (typeData.getValue && context) {
-      const contributions = typeData.getValue(token, context, equipment);
-      // Compute pre-rank contributions to get rank-independent synergy
-      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, context, equipment);
+    // If token has getValue: calculate contributions
+    // noSynergy tokens always calculate (using empty draw context)
+    // Synergy tokens only calculate when encounter context is available
+    if (typeData.getValue && (typeData.noSynergy || context)) {
+      const effectiveContext = typeData.noSynergy ? [] : context;
+      const contributions = typeData.getValue(token, effectiveContext, equipment);
+      // Compute pre-rank contributions to isolate rank-independent synergy bonus
+      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, effectiveContext, equipment);
       const stats = Object.entries(contributions).map(([stat, value]) => {
         const preRankValue = preRankContributions[stat] ?? typeData.baseValue;
         const synergyBonus = preRankValue - typeData.baseValue;
@@ -50,12 +53,11 @@
           hasBonus: synergyBonus > 0,
         };
       });
-      return { stats, hasSynergy: stats.some(s => s.hasBonus) };
+      return { stats, hasSynergy: !typeData.noSynergy && stats.some(s => s.hasBonus) };
     }
 
-    // For tokens with getValue but no context, show potential
+    // Synergy token without context: show base value + hint that synergy exists
     if (typeData.getValue) {
-      // Show base calculation without synergy
       const baseValue = Math.floor(typeData.baseValue * rankMultiplier);
       return {
         stats: [{
@@ -71,7 +73,7 @@
       };
     }
 
-    // Default: contributes to its own stat
+    // Fallback for any token with no getValue at all
     const baseValue = Math.floor(typeData.baseValue * rankMultiplier);
     return {
       stats: [{
