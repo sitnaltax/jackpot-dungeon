@@ -1,7 +1,6 @@
 ## TODO ideas
 * Rewrite description for items
 * Difficulty tuning and difficulty levels
-* Musical tag on items
 * Bonuses on lights
 * Lights names: Meteor Torch, Frozen Thunderbolt, Moon Consort's Blessing / Sun Geode, Prismatic Diamond, Perfect Crystal Sphere
 * Increasing treasure rewards and costs
