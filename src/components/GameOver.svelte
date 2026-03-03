@@ -2,6 +2,7 @@
   import { encounterNumber, player, restartGame, currentEncounter, encounterResult } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
+  import { DIFFICULTIES } from '../lib/classes.js';
   import Pod from './Pod.svelte';
 
   $: encounter = $currentEncounter;
@@ -62,6 +63,13 @@
         <div class="char-stat">
           <span class="label">Class</span>
           <span class="value class-val">{$player.playerClass.name}</span>
+        </div>
+      {/if}
+      {#if $player.difficulty}
+        {@const diffName = DIFFICULTIES.find(d => d.id === $player.difficulty)?.name ?? $player.difficulty}
+        <div class="char-stat">
+          <span class="label">Difficulty</span>
+          <span class="value class-val">{diffName}</span>
         </div>
       {/if}
       <div class="char-stat">

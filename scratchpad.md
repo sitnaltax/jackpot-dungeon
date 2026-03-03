@@ -7,7 +7,6 @@
 * Music/Botanical and Music/Celestial tokens: Lyre, Aster
 * Image backgrounds for tokens
 * Endgame
-* Can't afford any pods, disable refresh
 * No duplicate encounters
 * Woods Encounters: Dreaming Cat-Colony, Mist-Shrouded Forest, Vengeful Ash, Bramble Ward, Labyrinth of Crossroads, Demanding Sprite, Too-Clever Fox
 * Celestial Encounters: Treacherous Horizon, Petal Hailstorm, Bridge Across the Sky, 
