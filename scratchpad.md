@@ -4,7 +4,7 @@
 * Bonuses on lights
 * Lights names: Meteor Torch, Frozen Thunderbolt, Moon Consort's Blessing / Sun Geode, Prismatic Diamond, Perfect Crystal Sphere
 * Increasing treasure rewards and costs
-* Music/Botanical and Music/Celestial tokens: Lyre, Aster
+* Music/Botanical and Music/Celestial tokens: Lyre, Bellflower
 * Image backgrounds for tokens
 * Endgame
 * No duplicate encounters

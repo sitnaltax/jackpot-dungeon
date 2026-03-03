@@ -105,6 +105,10 @@
         return 'Contributes 1 Insight, Resolve, and XP. Increases to 3 each if drawn with 2 other unique Musical tokens.';
       case 'discord':
         return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
+      case 'lyra':
+        return 'Contributes to Insight. Carries both the Musical and Celestial tags, but gains no synergy bonus itself.';
+      case 'bellflower':
+        return 'Contributes to Resolve. Carries both the Musical and Botanical tags, but gains no synergy bonus itself.';
       case 'scorpio':
         return 'Contributes to Insight. Gains +1 for each Celestial token drawn, up to +4.';
       case 'capricorn':

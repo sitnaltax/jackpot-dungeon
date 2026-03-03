@@ -112,6 +112,26 @@ export const TOKEN_TYPES = {
     },
   },
 
+  // --- Musical dual-tag tokens ---
+  lyra: {
+    name: 'Lyra',
+    icon: '🎼',
+    color: '#e74c3c',
+    baseValue: 5,
+    minDepth: 7,
+    weight: 0.2,
+    tags: ['Musical', 'Celestial'],
+  },
+  bellflower: {
+    name: 'Bellflower',
+    icon: '🔔',
+    color: '#3498db',
+    baseValue: 5,
+    minDepth: 7,
+    weight: 0.2,
+    tags: ['Musical', 'Botanical'],
+  },
+
   // --- Celestial series ---
   scorpio: {
     name: 'Scorpio',
