@@ -64,7 +64,6 @@
 <style>
   .menu-wrapper {
     position: relative;
-    margin-left: auto;
   }
 
   .menu-btn {
@@ -93,7 +92,7 @@
   .dropdown {
     position: absolute;
     top: calc(100% + 0.5rem);
-    right: 0;
+    left: 0;
     z-index: 11;
     background: #1a2744;
     border: 1px solid #2c3e50;
