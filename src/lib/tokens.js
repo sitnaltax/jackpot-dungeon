@@ -236,7 +236,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherCelestials = countTokensWithTag('Celestial', allDrawnTokens) - 1;
-      const bonus = Math.max(0, otherCelestials);
+      const bonus = Math.min(5, Math.max(0, otherCelestials));
       return {
         insight: Math.floor(bonus * rankMultiplier),
         resolve: Math.floor(bonus * rankMultiplier),
@@ -349,7 +349,7 @@ export const TOKEN_TYPES = {
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherBotanicals = countTokensWithTag('Botanical', allDrawnTokens) - 1;
-      const bonus = Math.max(0, otherBotanicals);
+      const bonus = Math.min(5, Math.max(0, otherBotanicals));
       return {
         insight: Math.floor(bonus * rankMultiplier),
         resolve: Math.floor(bonus * rankMultiplier),

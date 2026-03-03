@@ -122,7 +122,7 @@
       case 'aries':
         return 'Contributes to Resolve and XP. Gains +1 each for each Celestial token drawn, up to +3.';
       case 'libra':
-        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Celestial token drawn.';
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Celestial token drawn, up to +5.';
       case 'oak':
         return 'Contributes to Resolve. Gains +1 for each Botanical token drawn, up to +4.';
       case 'lotus':
@@ -134,7 +134,7 @@
       case 'orchid':
         return 'Contributes to Insight and XP. Gains +1 each for each Botanical token drawn, up to +3.';
       case 'fern':
-        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Botanical token drawn.';
+        return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Botanical token drawn, up to +5.';
       case 'pluto':
         return 'Contributes 8 Insight. Drops to 0 if any other Celestial tokens are drawn.';
       case 'hemlock':
