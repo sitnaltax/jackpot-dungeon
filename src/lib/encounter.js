@@ -114,7 +114,8 @@ export function getEncounterSummary(result) {
 
   // Insight summary
   if (result.insightSuccess) {
-    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!`);
+    const depthBonus = result.insightDepthBonus > 0 ? ` (+${result.insightDepthBonus} depth)` : '';
+    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!${depthBonus}`);
   } else {
     const failureBonus = result.insightFailureBonus ?? {};
     const bonusParts = [];

@@ -1,7 +1,6 @@
 ## TODO ideas
 * Rewrite description for items
 * Difficulty tuning and difficulty levels
-* Bonuses on lights
 * Increasing treasure rewards and costs
 * Image backgrounds for tokens
 * Endgame

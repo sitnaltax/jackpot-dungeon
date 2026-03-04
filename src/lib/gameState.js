@@ -392,8 +392,13 @@ export function executeEncounter() {
   const $discardEffects = get(discardEffects);
   const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || []);
 
-  // Award Treasure: 3 if insight success, 1 otherwise, plus 1 per 5 depth level
-  const baseTreasure = (result.insightSuccess ? 3 : 1) + Math.floor(get(encounterNumber) / 5);
+  // Award Treasure: 3 if insight success, 1 otherwise.
+  // Depth thresholds add bonus treasure on insight success: +1 at depth 6, +2 at depth 12.
+  const depth = get(encounterNumber);
+  const insightDepthBonus = result.insightSuccess
+    ? (depth >= 12 ? 2 : depth >= 6 ? 1 : 0)
+    : 0;
+  const baseTreasure = (result.insightSuccess ? 3 : 1) + insightDepthBonus;
 
   // Apply encounter multipliers
   const xpMultiplier = $encounter.xpMultiplier || 1.0;
@@ -407,6 +412,7 @@ export function executeEncounter() {
 
   result.baseXp = result.xpGained;
   result.baseTreasure = baseTreasure;
+  result.insightDepthBonus = insightDepthBonus;
   result.insightFailureBonus = insightFailureBonus;
   result.xpMultiplier = xpMultiplier * classXpMultiplier;
   result.treasureMultiplier = treasureMultiplier;
