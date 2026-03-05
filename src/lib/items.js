@@ -20,79 +20,80 @@ export const ITEM_CATEGORIES = {
 
 export const ITEMS = {
   // === BOOKS (Redraw Selected) ===
-  wornSpellbook: {
-    id: 'wornSpellbook',
-    name: 'Worn Spellbook',
-    description: 'A dog-eared book of minor divinations.',
+  bookOfTales: {
+    id: 'bookOfTales',
+    name: 'Book of Tales',
+    description: 'A leatherbound book containing fifty useful stories about the nature of this land. Exactly ten of them are true; unfortunately, those aren\'t marked.',
     icon: '📖',
     category: 'book',
     cost: 4, // 4 (1 selective)
     bonuses: { selectiveRedraws: 1 },
   },
-  sagesFolio: {
-    id: 'sagesFolio',
-    name: "Sage's Folio",
-    description: 'Collected wisdom of a dozen seers.',
+  librettoOfLies: {
+    id: 'librettoOfLies',
+    name: "Libretto of Lies",
+    description: 'A thin volume written in watery gray ink. If you turn your mind inside-out, you can get useful information from it.',
     icon: '📜',
     category: 'book',
-    cost: 8, // 4 + 4 (2 selective)
+    cost: 10, // made up
     bonuses: { selectiveRedraws: 2 },
   },
-  enchantedGrimoire: {
-    id: 'enchantedGrimoire',
-    name: 'Enchanted Grimoire',
-    description: 'Its pages glow faintly in the dark.',
+  jacqsDiary: {
+    id: 'jacqsDiary',
+    name: 'Jacq\'s Diary',
+    description: 'A diary you don\'t remember writing, written in your own hand.',
     icon: '📕',
     category: 'book',
-    cost: 7, // 4 (selective) + 3 (insight)
-    bonuses: { selectiveRedraws: 1, insight: 2 },
+    cost: 14, // made up
+    bonuses: { selectiveRedraws: 2, insight: 4 },
   },
-  battleManual: {
-    id: 'battleManual',
-    name: 'Battle Manual',
-    description: 'Tactical formations of the fey wars.',
+  vitreousBible: {
+    id: 'vitreousBible',
+    name: 'Vitreous Bible',
+    description: 'It\'s the Old Testament, describing a bizarre alternate world where everything was made of glass. The back cover is cracked.',
     icon: '📗',
     category: 'book',
-    cost: 7, // 4 (selective) + 3 (resolve)
-    bonuses: { selectiveRedraws: 1, resolve: 2 },
+    cost: 14, // made up
+    bonuses: { selectiveRedraws: 2, resolve: 4 },
   },
 
   // === NAVIGATION TOOLS (Redraw All) ===
   brassCompass: {
     id: 'brassCompass',
     name: 'Brass Compass',
-    description: 'Points toward something, not always north.',
+    description: 'A toy for faerie children. Each one points toward a different object its first owner will never reach.',
     icon: '🧭',
     category: 'navigation',
     cost: 2, // 2 (1 redraw all)
     bonuses: { redraws: 1 },
   },
-  silverSextant: {
-    id: 'silverSextant',
-    name: 'Silver Sextant',
-    description: 'Navigate by stars and steel.',
+  filigreedSextant: {
+    id: 'filigreedSextant',
+    name: 'Filigreed Sextant',
+    description: 'The stars here are completely unfamiliar, but the designs etched into the metal show the traces of somehow-familiar lands',
     icon: '🔭',
     category: 'navigation',
-    cost: 5, // 2 (redraw all) + 3 (resolve)
-    bonuses: { redraws: 1, resolve: 2 },
-  },
-  goldenAstrolabe: {
-    id: 'goldenAstrolabe',
-    name: 'Golden Astrolabe',
-    description: 'Maps the movements of celestial bodies.',
-    icon: '⚙️',
-    category: 'navigation',
-    cost: 4, // 2 + 2 (2 redraw all)
+    cost: 6, // made up
     bonuses: { redraws: 2 },
+  },
+  goldenAtlas: {
+    id: 'goldenAtlas',
+    name: 'Golden Atlas',
+    description: 'A sheaf of gold-foiled pewter plates. A map is embossed in each, with features labeled in a mysterious spidery alphabet..',
+    icon: '🗺️',
+    category: 'navigation',
+    cost: 10, // made up
+    bonuses: { redraws: 2, insight: 4 },
   },
   diviningRod: {
     id: 'diviningRod',
     name: 'Divining Rod',
-    description: 'Twitches toward hidden truths.',
+    description: 'A thin willow bough that tugs inexorably to your greatest desire. Less useful if you need to find your second greatest desire.',
     icon: '🪄',
     category: 'navigation',
-    cost: 5, // 2 (redraw all) + 3 (insight)
-    bonuses: { redraws: 1, insight: 2 },
+    cost: 16, // made up
+    minDepth: 12,
+    bonuses: { redraws: 2, selectiveRedraws: 1 },
   },
 
   // === LIGHT SOURCES (Bonus Draw) ===
@@ -131,7 +132,7 @@ export const ITEMS = {
   meteoriteTorch: {
     id: 'meteoriteTorch',
     name: 'Meteorite Torch',
-    description: 'A luminescent shard of falling star, lashed to a carved oaken handle.',
+    description: 'A luminescent shard of fallen star, lashed to a carved oaken handle.',
     icon: '🌠',
     category: 'lightSource',
     cost: 10, //made up
@@ -193,38 +194,29 @@ export const ITEMS = {
   ironDagger: {
     id: 'ironDagger',
     name: 'Iron Dagger',
-    description: 'Simple but dependable.',
+    description: 'A weapon made of iron marks you as a pariah or rebel. Still, it can absorb dangerous magic in a pinch.',
     icon: '🗡️',
     category: 'weapon',
-    cost: 3, // 3 (2 resolve)
+    cost: 2, // 3 (2 resolve)
     bonuses: { resolve: 2 },
   },
   silverSword: {
     id: 'silverSword',
     name: 'Silver Sword',
-    description: 'Forged to fight the fey.',
+    description: 'It\'s not like you would have any chance to win a sword fight. Still, this beautiful weapon makes you feel heroic just holding it.',
     icon: '⚔️',
     category: 'weapon',
-    cost: 6, // 3 + 3 (4 resolve)
-    bonuses: { resolve: 4 },
+    cost: 8, // 3 + 3 (4 resolve)
+    bonuses: { resolve: 6 },
   },
-  rowanShield: {
-    id: 'rowanShield',
-    name: 'Rowan Shield',
-    description: 'Warding wood that turns aside curses.',
+  turnspellShield: {
+    id: 'turnspellShield',
+    name: 'Turnspell Shield',
+    description: 'The planks are oak and rowan, bound with steel and decorated with silver. Weapons and magic alike simply glide off.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 5, // 3 (resolve) + 2 (redraw all)
-    bonuses: { resolve: 2, redraws: 1 },
-  },
-  thornWhip: {
-    id: 'thornWhip',
-    name: 'Thorn Whip',
-    description: 'Grown from a fey bramble. Reveals as it strikes.',
-    icon: '🌿',
-    category: 'weapon',
-    cost: 6, // 3 (resolve) + 3 (insight)
-    bonuses: { resolve: 2, insight: 2 },
+    cost: 12, // 3 (resolve) + 2 (redraw all)
+    bonuses: { resolve: 6, insight: 2 },
   },
 
   // === JEWELRY (Insight) ===
