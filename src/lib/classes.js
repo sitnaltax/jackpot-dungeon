@@ -1,11 +1,13 @@
 // Character class definitions
 
+import { gamePhase } from "./gameState";
+
 // Mundane starting items - things brought from the real world
 const STARTING_ITEMS = {
   stackOfMaps: {
     id: 'stackOfMaps',
     name: 'Stack of Maps',
-    description: 'A stack of old maps, some annotated with scribbles from previous owners.',
+    description: 'A stack of old maps, some annotated with scribbles from previous owners. You don\'t recognize any of the locations.',
     icon: '🗺️',
     category: 'navigation',
     cost: 5,
@@ -14,7 +16,7 @@ const STARTING_ITEMS = {
   elegantWatch: {
     id: 'elegantWatch',
     name: 'Elegant Watch',
-    description: 'A beautiful wristwatch that tracks the time back at home.',
+    description: 'An elegant, sturdy mechanical wristwatch. It keeps perfect time at home.',
     icon: '⌚',
     category: 'navigation',
     cost: 2,
@@ -23,44 +25,44 @@ const STARTING_ITEMS = {
   ruinedJournal: {
     id: 'ruinedJournal',
     name: 'Ruined Journal',
-    description: 'A damaged journal recovered at great expense from a previous investigator.',
+    description: 'A journal recovered at great expense from a previous investigator. It\'s damaged, but you can glean a few clues from the surviving scraps.',
     icon: '📓',
     category: 'book',
     cost: 3,
     bonuses: { selectiveRedraws: 1 },
   },
-  runningShoes: {
-    id: 'runningShoes',
-    name: 'Running Shoes',
-    description: 'Worn but reliable.',
-    icon: '👟',
+  gps: {
+    id: 'gps',
+    name: 'GPS',
+    description: 'A portable GPS device. There\'s no way it gets a satellite signal here, but the voice navigation still gives directions.',
+    icon: '🧭',
     category: 'navigation',
     cost: 2,
     bonuses: { redraws: 1 },
   },
-  sweatband: {
-    id: 'sweatband',
-    name: 'Sweatband',
-    description: "It's seen better days.",
-    icon: '🎽',
+  rhymingDictionary: {
+    id: 'rhymingDictionary',
+    name: 'Rhyming Dictionary',
+    description: 'A battered rhyming dictionary... you never know when you might need to compose a poem, after all.',
+    icon: '📚',
     category: 'book',
     cost: 3,
     bonuses: { selectiveRedraws: 1 },
   },
-  luckyPenny: {
-    id: 'luckyPenny',
-    name: 'Lucky Penny',
-    description: 'Found heads-up on the road here.',
-    icon: '🪙',
+  silverDollar: {
+    id: 'silverDollar',
+    name: 'Silver Dollar',
+    description: 'A polished one-ounce silver coin, face value $10 but worth much more for its metal. Here, who knows its value?',
+    icon: '💵',
     category: 'jewelry',
     cost: 3,
     bonuses: { insight: 2 },
   },
-  travelersCharm: {
-    id: 'travelersCharm',
-    name: "Traveler's Charm",
-    description: 'A crude ward bought from a roadside stall.',
-    icon: '🧿',
+  handgun: {
+    id: 'handgun',
+    name: 'Handgun',
+    description: 'An optimistic inscription reads: "To defeat the Unseelie King, shoot at him until he dies."',
+    icon: '🔫',
     category: 'weapon',
     cost: 3,
     bonuses: { resolve: 2 },
@@ -121,8 +123,8 @@ export const CLASSES = {
       staminaRegen: 2,
     },
     startingEquipment: [
-      STARTING_ITEMS.runningShoes,
-      STARTING_ITEMS.sweatband,
+      STARTING_ITEMS.gps,
+      STARTING_ITEMS.rhymingDictionary,
       null,
     ],
     startingXpBonus: 0,
@@ -137,8 +139,8 @@ export const CLASSES = {
       redraws: 2,
     },
     startingEquipment: [
-      STARTING_ITEMS.luckyPenny,
-      STARTING_ITEMS.travelersCharm,
+      STARTING_ITEMS.handgun,
+      STARTING_ITEMS.silverDollar,
       STARTING_ITEMS.foolsPipe,
     ],
     startingXpBonus: 0,

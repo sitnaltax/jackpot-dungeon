@@ -41,7 +41,7 @@ export const ITEMS = {
   jacqsDiary: {
     id: 'jacqsDiary',
     name: 'Jacq\'s Diary',
-    description: 'A diary you don\'t remember writing, written in your own hand.',
+    description: 'An Earth-made diary. You have no memory of writing in it, and yet the handwriting is unmistakeably yours.',
     icon: '📕',
     category: 'book',
     cost: 14, // made up
