@@ -302,10 +302,6 @@ export function chooseHardPath() {
 // Player skips the challenge on odd floors — use the pre-generated next encounter
 export function skipChallenge() {
   const $choices = get(choiceEncounters);
-  encounterNumber.update(n => n + 1);
-  chosenPath.set(null);
-  rewardPod.set(null);
-  encounterResult.set(null);
   beginEncounter($choices.next);
 }
 
