@@ -72,6 +72,9 @@ export const rewardPod = writable(null); // Pod offered as reward after hard pat
 // Fires each time a token is discarded from the draw (via redrawAll or redrawSelected).
 export const discardEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
+// IDs of encounters that have been played this run (prevents repeats)
+export const seenEncounterIds = writable(new Set());
+
 function applyOnDiscardEffects(tokens) {
   for (const token of tokens) {
     const typeData = TOKEN_TYPES[token.type];
@@ -228,6 +231,7 @@ export function selectClass(classId, difficultyId = 'normal') {
 
   encounterNumber.set(0);
   encounterResult.set(null);
+  seenEncounterIds.set(new Set());
   startNextEncounter();
 }
 
@@ -246,23 +250,26 @@ export function startNextEncounter() {
   encounterResult.set(null);
 
   const difficulty = get(player).difficulty;
+  const $seen = get(seenEncounterIds);
 
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
-    const hardEncounter = generateEncounter(encNum + 2, difficulty);
-    const nextEncounter = generateEncounter(encNum, difficulty);
+    const hardEncounter = generateEncounter(encNum + 2, difficulty, $seen);
+    // Also exclude the hard encounter's ID so the two options are always distinct
+    const nextEncounter = generateEncounter(encNum, difficulty, new Set([...$seen, hardEncounter.id]));
     choiceEncounters.set({ hard: hardEncounter, next: nextEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
   }
 
   // Even floors: normal encounter
-  const encounter = generateEncounter(encNum, difficulty);
+  const encounter = generateEncounter(encNum, difficulty, $seen);
   beginEncounter(encounter);
 }
 
 // Begin an encounter (after choice or for non-choice encounters)
 function beginEncounter(encounter) {
+  seenEncounterIds.update(s => new Set([...s, encounter.id]));
   currentEncounter.set(encounter);
 
   // Calculate redraws from equipment + class and encounter bonuses

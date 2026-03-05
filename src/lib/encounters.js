@@ -365,24 +365,26 @@ const ENCOUNTERS = [
 ];
 
 // Select an encounter based on encounter number (weighted random from available)
-function selectEncounter(encounterNumber) {
-  // Filter by minLevel
-  const available = ENCOUNTERS.filter(e => encounterNumber >= e.minLevel);
+// excluded: Set of encounter IDs already seen this run (will not be selected)
+function selectEncounter(encounterNumber, excluded = new Set()) {
+  const valid = ENCOUNTERS.filter(e => encounterNumber >= e.minLevel);
 
-  if (available.length === 0) {
-    return ENCOUNTERS[0]; // Fallback to first encounter
-  }
+  if (valid.length === 0) return ENCOUNTERS[0];
+
+  // Prefer unseen encounters; fall back to all valid if all have been seen
+  const pool = valid.filter(e => !excluded.has(e.id));
+  const candidates = pool.length > 0 ? pool : valid;
 
   // Weighted random selection
-  const totalWeight = available.reduce((sum, e) => sum + e.weight, 0);
+  const totalWeight = candidates.reduce((sum, e) => sum + e.weight, 0);
   let roll = Math.random() * totalWeight;
 
-  for (const enc of available) {
+  for (const enc of candidates) {
     roll -= enc.weight;
     if (roll <= 0) return enc;
   }
 
-  return available[0];
+  return candidates[0];
 }
 
 // Base mystery/trouble stat per encounter level (index 0 = level 1).
@@ -410,8 +412,9 @@ function calculateBaseStat(encounterNumber, difficulty = 'normal') {
 }
 
 // Generate an encounter for the given encounter number
-export function generateEncounter(encounterNumber, difficulty = 'normal') {
-  const template = selectEncounter(encounterNumber);
+// excluded: Set of encounter IDs to avoid (already seen this run)
+export function generateEncounter(encounterNumber, difficulty = 'normal', excluded = new Set()) {
+  const template = selectEncounter(encounterNumber, excluded);
   const base = calculateBaseStat(encounterNumber, difficulty);
 
   return {
