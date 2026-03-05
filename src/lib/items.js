@@ -61,7 +61,7 @@ export const ITEMS = {
   brassCompass: {
     id: 'brassCompass',
     name: 'Brass Compass',
-    description: 'A toy for faerie children. Each one points toward a different object its first owner will never reach.',
+    description: 'A toy for faerie children. When they first touch it, it forevermore points toward an object they will never reach.',
     icon: '🧭',
     category: 'navigation',
     cost: 2, // 2 (1 redraw all)
@@ -356,14 +356,7 @@ export function generateItemShop(encounterNumber, playerState) {
   pool = pool.filter(item => !equippedIds.has(item.id));
 
   // Only offer items the player can afford
-  let affordablePool = pool.filter(item => item.cost <= budget);
-
-  // If nothing affordable, use weak fallback items
-  let usingWeakItems = false;
-  if (affordablePool.length === 0) {
-    affordablePool = WEAK_ITEMS.filter(item => item.cost <= budget);
-    usingWeakItems = true;
-  }
+  const affordablePool = pool.filter(item => item.cost <= budget);
 
   const shopItems = [];
   const usedIds = new Set();
@@ -377,7 +370,7 @@ export function generateItemShop(encounterNumber, playerState) {
     return pick;
   }
 
-  if (!usingWeakItems) {
+  if (affordablePool.length > 0) {
     // Guarantee: depth 6+ → best affordable light source (unless player already has one at that level)
     if (encounterNumber >= 6) {
       const affordableLights = affordablePool.filter(i => i.category === 'lightSource');
@@ -401,18 +394,27 @@ export function generateItemShop(encounterNumber, playerState) {
         pickFrom(foods);
       }
     }
+
+    // Fill remaining slots from normal pool
+    // Pick 2x free slots randomly, then take the most expensive ones
+    const freeSlots = 3 - shopItems.length;
+    if (freeSlots > 0) {
+      const remaining = affordablePool.filter(i => !usedIds.has(i.id));
+      const shuffled = [...remaining].sort(() => Math.random() - 0.5);
+      const candidates = shuffled.slice(0, freeSlots * 2);
+      candidates.sort((a, b) => b.cost - a.cost);
+      for (const item of candidates) {
+        if (shopItems.length >= 3) break;
+        shopItems.push(item);
+        usedIds.add(item.id);
+      }
+    }
   }
 
-  // Fill remaining slots (up to 3 total)
-  // Pick 2x free slots randomly, then take the most expensive ones
-  const freeSlots = 3 - shopItems.length;
-  if (freeSlots > 0) {
-    const remaining = affordablePool.filter(i => !usedIds.has(i.id));
-    const shuffled = [...remaining].sort(() => Math.random() - 0.5);
-    const candidates = shuffled.slice(0, freeSlots * 2);
-    // Sort by cost descending, pick the most expensive
-    candidates.sort((a, b) => b.cost - a.cost);
-    for (const item of candidates) {
+  // Pad with weak items if fewer than 3 slots were filled by normal items
+  if (shopItems.length < 3) {
+    const weakAvailable = WEAK_ITEMS.filter(i => i.cost <= budget && !usedIds.has(i.id));
+    for (const item of weakAvailable) {
       if (shopItems.length >= 3) break;
       shopItems.push(item);
       usedIds.add(item.id);
