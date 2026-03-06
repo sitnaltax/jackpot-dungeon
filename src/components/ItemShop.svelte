@@ -418,6 +418,7 @@
     background: #9b59b6;
     color: #fff;
     align-self: stretch;
+    margin-top: auto;
   }
 
   .btn-purchase:hover:not(:disabled) {
