@@ -4,7 +4,8 @@
   import { loadPrefs, savePrefs } from '../lib/persistence.js';
   import GameMenu from './GameMenu.svelte';
 
-  let collapsed = loadPrefs().statusBarCollapsed ?? false;
+  const defaultCollapsed = typeof window !== 'undefined' && window.innerWidth < 768;
+  let collapsed = loadPrefs().statusBarCollapsed ?? defaultCollapsed;
 
   function toggleCollapsed() {
     collapsed = !collapsed;
