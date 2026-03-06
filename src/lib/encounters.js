@@ -12,8 +12,6 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: null,
   },
   {
@@ -25,8 +23,6 @@ const ENCOUNTERS = [
     troubleMod: -2,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Elusive but harmless',
   },
   {
@@ -38,8 +34,6 @@ const ENCOUNTERS = [
     troubleMod: 1,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Easy to understand, tricky to please',
   },
   {
@@ -51,9 +45,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 0.75,
-    treasureMultiplier: 1.0,
-    description: '+1 Redraw, -25% XP',
+    description: '+1 Redraw',
   },
   {
     id: 'mushroom_circle',
@@ -64,9 +56,7 @@ const ENCOUNTERS = [
     troubleMod: 1,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.25,
-    treasureMultiplier: 1.0,
-    description: 'Slightly harder, +25% XP',
+    description: 'Slightly harder',
   },
 
   // Tier 2 (minLevel 3-6) - Lesser Fey
@@ -79,9 +69,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.25,
-    treasureMultiplier: 1.5,
-    description: '+1 Redraw, +25% XP, +50% Treasure',
+    description: '+1 Redraw',
   },
   {
     id: 'dryads_riddle',
@@ -92,9 +80,7 @@ const ENCOUNTERS = [
     troubleMod: -2,
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.25,
-    description: '+1 Selective Redraw, +25% Treasure',
+    description: '+1 Selective Redraw',
   },
   {
     id: 'selkie_bargain',
@@ -105,9 +91,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.5,
-    treasureMultiplier: 1.0,
-    description: '+50% XP',
+    description: null,
   },
   {
     id: 'treacherous_bridge',
@@ -118,8 +102,6 @@ const ENCOUNTERS = [
     troubleMod: 4,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Easy to see, hard to cross',
   },
   {
@@ -131,8 +113,6 @@ const ENCOUNTERS = [
     troubleMod: 2,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Trickier all around, +1 Redraw',
   },
   {
@@ -144,9 +124,7 @@ const ENCOUNTERS = [
     troubleMod: 5,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.25,
-    description: 'Very dangerous, +25% Treasure',
+    description: 'Very dangerous',
   },
   {
     id: 'changeling_child',
@@ -157,8 +135,6 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Hard to understand',
   },
 
@@ -172,9 +148,7 @@ const ENCOUNTERS = [
     troubleMod: 4,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.25,
-    treasureMultiplier: 1.5,
-    description: '+25% XP, +50% Treasure',
+    description: null,
   },
   {
     id: 'banshees_lament',
@@ -185,8 +159,6 @@ const ENCOUNTERS = [
     troubleMod: 5,
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: '+1 Selective Redraw',
   },
   {
@@ -198,9 +170,7 @@ const ENCOUNTERS = [
     troubleMod: 6,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.5,
-    description: 'Brutal encounter, +50% Treasure',
+    description: 'Brutal encounter',
   },
   {
     id: 'clurichauns_wager',
@@ -211,9 +181,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 2.0,
-    treasureMultiplier: 0.5,
-    description: '+100% XP, -50% Treasure',
+    description: null,
   },
   {
     id: 'spriggan_court',
@@ -224,8 +192,6 @@ const ENCOUNTERS = [
     troubleMod: 2,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.0,
     description: 'Complex politics, +1 Redraw',
   },
 
@@ -239,9 +205,7 @@ const ENCOUNTERS = [
     troubleMod: 3,
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 1.5,
-    treasureMultiplier: 1.5,
-    description: '+1 Selective, +50% XP, +50% Treasure',
+    description: '+1 Selective Redraw',
   },
   {
     id: 'queens_emissary',
@@ -252,9 +216,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.25,
-    treasureMultiplier: 1.75,
-    description: 'Very mysterious, +25% XP, +75% Treasure',
+    description: 'Very mysterious',
   },
   {
     id: 'wild_hunt_scout',
@@ -265,9 +227,7 @@ const ENCOUNTERS = [
     troubleMod: 8,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.0,
-    treasureMultiplier: 1.5,
-    description: 'Extremely dangerous, +1 Redraw, +50% Treasure',
+    description: 'Extremely dangerous, +1 Redraw',
   },
   {
     id: 'fomorian_elder',
@@ -278,9 +238,7 @@ const ENCOUNTERS = [
     troubleMod: 6,
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 1.75,
-    treasureMultiplier: 2.0,
-    description: '+1 Selective, +75% XP, +100% Treasure',
+    description: '+1 Selective Redraw',
   },
   {
     id: 'leanan_sidhe',
@@ -291,8 +249,6 @@ const ENCOUNTERS = [
     troubleMod: -2,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.5,
-    treasureMultiplier: 1.5,
     description: 'Deeply mysterious but gentle',
   },
 
@@ -306,9 +262,7 @@ const ENCOUNTERS = [
     troubleMod: 8,
     redrawBonus: 1,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 2.0,
-    treasureMultiplier: 2.5,
-    description: '+1 of each Redraw, +100% XP, +150% Treasure',
+    description: '+1 Redraw, +1 Selective Redraw',
   },
   {
     id: 'queen_air_darkness',
@@ -319,9 +273,7 @@ const ENCOUNTERS = [
     troubleMod: 5,
     redrawBonus: 0,
     selectiveRedrawBonus: 2,
-    xpMultiplier: 2.0,
-    treasureMultiplier: 2.0,
-    description: '+2 Selective, +100% XP, +100% Treasure',
+    description: '+2 Selective Redraws',
   },
   {
     id: 'wild_hunt_lord',
@@ -332,9 +284,7 @@ const ENCOUNTERS = [
     troubleMod: 12,
     redrawBonus: 2,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 1.5,
-    treasureMultiplier: 2.5,
-    description: '+2 Redraws, +50% XP, +150% Treasure',
+    description: '+2 Redraws',
   },
   {
     id: 'the_green_man',
@@ -345,9 +295,7 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    xpMultiplier: 3.0,
-    treasureMultiplier: 1.0,
-    description: 'Ancient mystery, +200% XP',
+    description: 'Ancient mystery',
   },
   {
     id: 'oberons_shadow',
@@ -358,9 +306,7 @@ const ENCOUNTERS = [
     troubleMod: 10,
     redrawBonus: 1,
     selectiveRedrawBonus: 1,
-    xpMultiplier: 2.5,
-    treasureMultiplier: 3.0,
-    description: '+1 of each Redraw, +150% XP, +200% Treasure',
+    description: '+1 Redraw, +1 Selective Redraw',
   },
 ];
 

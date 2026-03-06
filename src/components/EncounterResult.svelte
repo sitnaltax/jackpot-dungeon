@@ -29,15 +29,12 @@
       {/if}
       <div class="xp-gained">
         +{$encounterResult.xpGained} XP
-        {#if $encounterResult.xpMultiplier && $encounterResult.xpMultiplier !== 1.0}
-          <span class="multiplier">(x{$encounterResult.xpMultiplier})</span>
+        {#if $encounterResult.classXpMultiplier && $encounterResult.classXpMultiplier !== 1.0}
+          <span class="multiplier">(x{$encounterResult.classXpMultiplier})</span>
         {/if}
       </div>
       <div class="treasure-gained">
         +${$encounterResult.treasureGained}
-        {#if $encounterResult.treasureMultiplier && $encounterResult.treasureMultiplier !== 1.0}
-          <span class="multiplier">(x{$encounterResult.treasureMultiplier})</span>
-        {/if}
       </div>
     </div>
 
