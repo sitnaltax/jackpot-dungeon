@@ -376,53 +376,43 @@ export const TOKEN_TYPES = {
   },
 
   // --- Chthonic series ---
-  // Start at 0 power but gain +2 per Chthonic token drawn (including self).
-  // Each token also grants a flat +1 to its stat immediately upon entering the draw,
-  // even if later discarded — this fires again if the same token is redrawn.
+  // Flat base power of 3 (no synergy between Chthonic tokens).
+  // Each token grants a bonus to its stat when discarded via redraw, scaled by rank.
   obsidian: {
     name: 'Obsidian',
     icon: '🌑',
     color: '#e74c3c',
-    baseValue: 0,
+    baseValue: 3,
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDiscard: () => ({ insight: 2 }),
-    getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { insight: Math.floor(chthonicCount * rankMultiplier) };
-    },
+    noSynergy: true,
+    onDiscard: (token) => ({ insight: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+    getValue: (token) => ({ insight: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
   },
   granite: {
     name: 'Granite',
     icon: '🪨',
     color: '#3498db',
-    baseValue: 0,
+    baseValue: 3,
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDiscard: () => ({ resolve: 2 }),
-    getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { resolve: Math.floor(chthonicCount * rankMultiplier) };
-    },
+    noSynergy: true,
+    onDiscard: (token) => ({ resolve: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+    getValue: (token) => ({ resolve: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
   },
-  geode: {
-    name: 'Geode',
+  starRuby: {
+    name: 'Star Ruby',
     icon: '💎',
     color: '#f1c40f',
-    baseValue: 0,
+    baseValue: 3,
     minDepth: 10,
     weight: 0.5,
     tags: ['Chthonic'],
-    onDiscard: () => ({ xp: 2 }),
-    getValue: (token, allDrawnTokens) => {
-      const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const chthonicCount = countTokensWithTag('Chthonic', allDrawnTokens);
-      return { xp: Math.floor(chthonicCount * rankMultiplier) };
-    },
+    noSynergy: true,
+    onDiscard: (token) => ({ xp: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
+    getValue: (token) => ({ xp: Math.floor(3 * (RANKS[token.rank] || RANKS.ordinary).multiplier) }),
   },
 
   // --- "Mind" pair. ---
