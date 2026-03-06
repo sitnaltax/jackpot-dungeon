@@ -223,81 +223,81 @@ export const ITEMS = {
   crystalPendant: {
     id: 'crystalPendant',
     name: 'Crystal Pendant',
-    description: "Focuses the mind's eye.",
+    description: "Looking through it is like looking through a broken kaleidoscope. It's a dizzying but effective way to get a new perspective.",
     icon: '💎',
     category: 'jewelry',
-    cost: 3, // 3 (2 insight)
+    cost: 2, // made up
     bonuses: { insight: 2 },
   },
-  moonstoneRing: {
-    id: 'moonstoneRing',
-    name: 'Moonstone Ring',
-    description: 'See by inner light.',
+  hammeredPewterRing: {
+    id: 'hammeredPewterRing',
+    name: 'Hammered Pewter Ring',
+    description: 'A hammered pewter ring set with a roughly carved sapphire. It vibrates silently to call your attention to something you\'ve missed. It\'s usually vibrating.',
     icon: '💍',
     category: 'jewelry',
-    cost: 6, // 3 + 3 (4 insight)
-    bonuses: { insight: 4 },
+    cost: 8, // made up
+    bonuses: { insight: 6 },
   },
-  amethystCirclet: {
-    id: 'amethystCirclet',
-    name: 'Amethyst Circlet',
-    description: 'A crown of foresight.',
+  ivyCrown: {
+    id: 'ivyCrown',
+    name: 'Ivy Crown',
+    description: 'This circlet is made of still-living ivy, with no seams in the vines and no signs of them ever having been cut. ',
     icon: '👑',
     category: 'jewelry',
-    cost: 7, // 3 (insight) + 4 (selective)
-    bonuses: { insight: 2, selectiveRedraws: 1 },
+    cost: 12, // made up
+    bonuses: { insight: 6, resolve: 2 },
   },
   opalBrooch: {
     id: 'opalBrooch',
     name: 'Opal Brooch',
-    description: 'Beauty and strength intertwined.',
+    description: 'An enchanted brooch that opens others\' minds--but the communication runs both ways. Advantageous, because they are used to bewildered mortals, but their thoughts are usefully new to you.',
     icon: '📿',
     category: 'jewelry',
-    cost: 6, // 3 (insight) + 3 (resolve)
-    bonuses: { insight: 2, resolve: 2 },
+    cost: 14, // made up
+    bonuses: { insight: 6, redraws: 1 },
   },
 
   // === FOOD (Stamina) ===
   // On purchase: heal staminaHeal, gain maxStamina bonus (persistent), gain staminaRegen (persistent)
-  trailRations: {
-    id: 'trailRations',
-    name: 'Trail Rations',
-    description: 'Enough to keep you going.',
+  trailMix: {
+    id: 'trailMix',
+    name: 'Trail Mix',
+    description: 'Contains nuts like your familiar trail mix, with the chocolate replaced with incredibly sweet dried berries. Delicious!',
     icon: '🍞',
     category: 'food',
     cost: 3, // 3 (stamina base)
     bonuses: { maxStamina: 10, staminaRegen: 2 },
     staminaHeal: 10,
   },
-  elvenWaybread: {
-    id: 'elvenWaybread',
-    name: 'Elven Waybread',
-    description: 'One bite restores the weary.',
+  waybread: {
+    id: 'waybread',
+    name: 'Waybread',
+    description: 'The local word for this is an insult, or perhaps a swear. The taste is is like thinly-spiced dust. But it\'s nourishing and surprisingly energizing once you choke it down.',
     icon: '🥐',
     category: 'food',
     cost: 6, // 3 + 3 (double stamina)
     bonuses: { maxStamina: 20, staminaRegen: 4 },
     staminaHeal: 20,
   },
-  healingHerbs: {
-    id: 'healingHerbs',
-    name: 'Healing Herbs',
-    description: "Nature's remedy strengthens body and will.",
+  medicinalHerbs: {
+    id: 'medicinalHerbs',
+    name: 'Medicinal Herbs',
+    description: "Wolfsbane, bearsbane, lionsbane, and for some reason tunasbane. What\'s bad for the predators is good for you; you quickly forget the pain of your trials and injuries.",
     icon: '🌿',
     category: 'food',
-    cost: 6, // 3 (stamina) + 3 (resolve)
-    bonuses: { maxStamina: 10, staminaRegen: 2, resolve: 2 },
+    cost: 12, // made up
+    bonuses: { maxStamina: 20, staminaRegen: 4, redraws: 1 },
     staminaHeal: 10,
   },
-  feyFruit: {
-    id: 'feyFruit',
-    name: 'Fey Fruit',
-    description: 'Sweet and strange, it sharpens the senses.',
-    icon: '🍇',
+  feywine: {
+    id: 'feywine',
+    name: 'Feywine',
+    description: 'They say if you drink it, you\'ll never be able to return home. That\'s because it helps you see all the advantages of where you are.',
+    icon: '🍷',
     category: 'food',
-    cost: 6, // 3 (stamina) + 3 (insight)
-    bonuses: { maxStamina: 10, staminaRegen: 2, insight: 2 },
-    staminaHeal: 10,
+    cost: 16, // 3 (stamina) + 3 (insight)
+    bonuses: { maxStamina: 20, staminaRegen: 4, selectiveRedraws: 1 },
+    staminaHeal: 20,
   },
 
 };
