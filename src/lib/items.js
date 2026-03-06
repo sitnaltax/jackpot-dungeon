@@ -282,12 +282,12 @@ export const ITEMS = {
   medicinalHerbs: {
     id: 'medicinalHerbs',
     name: 'Medicinal Herbs',
-    description: "Wolfsbane, bearsbane, lionsbane, and for some reason tunasbane. What\'s bad for the predators is good for you; you quickly forget the pain of your trials and injuries.",
+    description: "Wolfsbane, bearsbane, lionsbane, and sharksbane. The bane works retroactively.",
     icon: '🌿',
     category: 'food',
     cost: 12, // made up
     bonuses: { maxStamina: 20, staminaRegen: 4, redraws: 1 },
-    staminaHeal: 10,
+    staminaHeal: 20,
   },
   feywine: {
     id: 'feywine',
