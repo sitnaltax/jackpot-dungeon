@@ -7,7 +7,7 @@ import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generate
 import { generateEncounter } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop } from './items.js';
-import { CLASSES } from './classes.js';
+import { CLASSES, DIFFICULTIES } from './classes.js';
 import { clearSave } from './persistence.js';
 
 // Game phases
@@ -196,7 +196,9 @@ export function selectClass(classId, difficultyId = 'normal') {
   const startingPods = generateStartingPods();
   const debug = get(isDebugMode);
 
-  const baseStamina = CONFIG.startingStamina;
+  const difficultyData = DIFFICULTIES.find(d => d.id === difficultyId);
+  const difficultyStaminaBonus = wizard ? 0 : (difficultyData?.staminaBonus || 0);
+  const baseStamina = CONFIG.startingStamina + difficultyStaminaBonus;
   const baseXp = CONFIG.startingXp + (chosenClass.startingXpBonus || 0);
   const baseTreasure = chosenClass.startingTreasureBonus || 0;
 
