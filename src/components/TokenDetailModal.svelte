@@ -100,13 +100,13 @@
       case 'xp':
         return 'Adds directly to XP gained from the encounter.';
       case 'harmony':
-        return 'Contributes to Resolve. Gains a bonus when drawn with a different Musical token.';
+        return 'Contributes to Resolve. Gains +2 when drawn with another Musical token, or with a Musical instrument equipped.';
       case 'melody':
-        return 'Contributes to Insight. Gains a bonus when drawn with a different Musical token.';
+        return 'Contributes to Insight. Gains +2 when drawn with another Musical token, or with a Musical instrument equipped.';
       case 'chord':
-        return 'Contributes 1 Insight, Resolve, and XP. Increases to 5 each if drawn with 2 other unique Musical tokens.';
+        return 'Contributes 1 Insight, Resolve, and XP. Increases to 5 each with 2+ other unique Musical tokens or instruments.';
       case 'discord':
-        return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
+        return 'Contributes 2 Insight and Resolve. Increases to 5 each with 3+ other unique Musical tokens or instruments.';
       case 'lyra':
         return 'Contributes to Insight. Carries both the Musical and Celestial tags, but gains no synergy bonus itself.';
       case 'bellflower':
@@ -150,7 +150,7 @@
       case 'meditation':
         return 'Contributes a base 4 Resolve and 4 XP.';
       case 'wild':
-        return 'Contributes to all stats. Needs 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens. Gains +3 per tag to Insight, Resolve, and XP.';
+        return 'Contributes to all stats. With 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens, gains +3 Insight, Resolve, and XP per additional tag beyond the first.';
       default:
         return '';
     }
