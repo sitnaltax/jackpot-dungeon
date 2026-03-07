@@ -1,7 +1,5 @@
 <script>
   import { currentEncounter } from '../lib/gameState.js';
-
-  const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.';
 </script>
 
 {#if $currentEncounter}
@@ -23,7 +21,7 @@
     </div>
 
     <div class="encounter-flavor">
-      {$currentEncounter.flavorText || LOREM}
+      {$currentEncounter.flavorText}
     </div>
   </div>
 {/if}

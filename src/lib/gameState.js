@@ -196,6 +196,8 @@ export function selectClass(classId, difficultyId = 'normal') {
   const startingPods = generateStartingPods();
   const debug = get(isDebugMode);
 
+  const wizard = difficultyId === 'wizard';
+
   const difficultyData = DIFFICULTIES.find(d => d.id === difficultyId);
   const difficultyStaminaBonus = wizard ? 0 : (difficultyData?.staminaBonus || 0);
   const baseStamina = CONFIG.startingStamina + difficultyStaminaBonus;
@@ -204,8 +206,6 @@ export function selectClass(classId, difficultyId = 'normal') {
 
   const startingBonusDraw = (chosenClass.bonuses?.bonusDraw || 0) +
     chosenClass.startingEquipment.reduce((sum, e) => sum + (e?.bonuses?.bonusDraw || 0), 0);
-
-  const wizard = difficultyId === 'wizard';
 
   const playerState = {
     pods: startingPods,

@@ -2,10 +2,9 @@
 
 // Encounter definitions with modifiers
 const ENCOUNTERS = [
-  // Tier 1 (minLevel 1-5) - Minor Fey
   {
-    id: 'pixie_swarm',
-    name: 'Pixie Swarm',
+    id: 'fogShroudedForest',
+    name: 'Fog-Shrouded Forest',
     minLevel: 1,
     weight: 1,
     mysteryMod: 0,
@@ -13,28 +12,31 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
+    flavorText: "The understory of this forest is sparse, the trunks of enormous trees crowding out any brush or shrubs. A dense, still fog hangs everywhere. You can't see even the lowest branches of the trees, nor more than a dozen steps ahead. Your goal could be a mere stone's throw away and you'd never know."
   },
   {
-    id: 'will_o_wisp',
-    name: "Will-o'-Wisp",
-    minLevel: 1,
-    weight: 1,
-    mysteryMod: 2,
-    troubleMod: -2,
-    redrawBonus: 0,
-    selectiveRedrawBonus: 0,
-    description: 'Elusive but harmless',
-  },
-  {
-    id: 'talking_fox',
-    name: 'Talking Fox',
+    id: 'vengefulAsh',
+    name: "Vengeful Ash",
     minLevel: 1,
     weight: 1,
     mysteryMod: -1,
     troubleMod: 1,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Easy to understand, tricky to please',
+    description: null,
+    flavorText: "Trees have long memories. Something about you--your smell? your voice?--has awoken a grudge in this ancient, sturdy ash. It musters all of its malice and violence to expel you and defend its secrets."
+  },
+  {
+    id: 'brambleWard',
+    name: 'Bramble Ward',
+    minLevel: 1,
+    weight: 1,
+    mysteryMod: -1,
+    troubleMod: 1,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    description: null,
+    flavorText: "An apparently-endless barrier of fierce, thorny brambles blocks your path. Pushing your hand through, it's as if the vines are writing creatures, thirsting for your blood. Somehow, you need to find a way around, or else grit your teeth, ready your bandages, and charge through."
   },
   {
     id: 'mirror_sprite',
@@ -46,6 +48,7 @@ const ENCOUNTERS = [
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
     description: '+1 Redraw',
+    flavorText: "A fleeting reflection darts between the trees ahead of you, mimicking your posture, your gait, your hesitation. It vanishes the moment you try to look at it directly.",
   },
   {
     id: 'mushroom_circle',
@@ -56,10 +59,9 @@ const ENCOUNTERS = [
     troubleMod: 1,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Slightly harder',
+    description: null,
+    flavorText: "A perfect ring of pale mushrooms marks the ground ahead. The air inside the circle smells faintly of rain and something older. You're not sure if crossing it is wise.",
   },
-
-  // Tier 2 (minLevel 3-6) - Lesser Fey
   {
     id: 'riddle_stone',
     name: 'Riddle Stone',
@@ -70,6 +72,7 @@ const ENCOUNTERS = [
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
     description: '+1 Redraw',
+    flavorText: "A standing stone carved with intertwining symbols blocks the narrowest part of the path. Some of the carvings seem to shift when you look away. The stone does not move, but it is clearly waiting.",
   },
   {
     id: 'dryads_riddle',
@@ -81,6 +84,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
     description: '+1 Selective Redraw',
+    flavorText: "A face peers out from the bark of an oak, patient and unhurried. It poses a question without words. You understand it perfectly, and have no idea what it means.",
   },
   {
     id: 'selkie_bargain',
@@ -92,6 +96,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
+    flavorText: "Something rises from the black water at the shore's edge. It regards you with large, dark eyes. It has something you might want. You have something it certainly wants. The question is whether the exchange is worth making.",
   },
   {
     id: 'treacherous_bridge',
@@ -102,7 +107,8 @@ const ENCOUNTERS = [
     troubleMod: 4,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Easy to see, hard to cross',
+    description: null,
+    flavorText: "The bridge spans the gorge without difficulty. The gorge below has no visible bottom. The bridge sways pleasantly in a wind you cannot feel. You need to cross it.",
   },
   {
     id: 'phookas_game',
@@ -113,7 +119,8 @@ const ENCOUNTERS = [
     troubleMod: 2,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    description: 'Trickier all around, +1 Redraw',
+    description: '+1 Redraw',
+    flavorText: "A shapeless, shifting thing is crouched in the road ahead, arranging small stones in patterns that make your eyes ache. It looks up and grins with a mouth that has too many teeth. It wants to play a game.",
   },
   {
     id: 'kelpie_crossing',
@@ -124,7 +131,8 @@ const ENCOUNTERS = [
     troubleMod: 5,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Very dangerous',
+    description: null,
+    flavorText: "A beautiful horse stands at the water's edge, perfectly still, watching you approach. Its mane is wet. The river is wide. The horse does not move. You get the feeling the offer is not one you can simply decline.",
   },
   {
     id: 'changeling_child',
@@ -135,10 +143,9 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Hard to understand',
+    description: null,
+    flavorText: "A child sits alone on a log, watching you with eyes that have seen far too much. It asks you questions you shouldn't be able to understand. You answer anyway.",
   },
-
-  // Tier 3 (minLevel 6-10) - Greater Fey
   {
     id: 'erlkings_hunt',
     name: "Erlking's Hunt",
@@ -149,6 +156,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
+    flavorText: "Distant horns echo through the trees. They are getting closer. Whatever the hunt has found tonight, you would prefer not to be it.",
   },
   {
     id: 'banshees_lament',
@@ -160,6 +168,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
     description: '+1 Selective Redraw',
+    flavorText: "The keening comes from everywhere at once, rising and falling. A pale figure floats at the treeline, facing away. You don't know whose death it mourns. You hope it isn't yours.",
   },
   {
     id: 'redcaps_challenge',
@@ -170,7 +179,8 @@ const ENCOUNTERS = [
     troubleMod: 6,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Brutal encounter',
+    description: null,
+    flavorText: "A small figure with a dripping red cap blocks the path, arms crossed, looking at you like a problem to be solved. It has solved many problems this way. The cap was once white.",
   },
   {
     id: 'clurichauns_wager',
@@ -182,6 +192,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
+    flavorText: "A flushed, merry figure sits atop a barrel and waves you over. It has a proposal. It seems very confident in its proposal. It smells strongly of something fermented.",
   },
   {
     id: 'spriggan_court',
@@ -192,10 +203,9 @@ const ENCOUNTERS = [
     troubleMod: 2,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    description: 'Complex politics, +1 Redraw',
+    description: '+1 Redraw',
+    flavorText: "Dozens of small, ugly creatures are mid-deliberation when you stumble into their court. They stop. They all turn. They resume deliberating, but now the subject is you.",
   },
-
-  // Tier 4 (minLevel 9-15) - Noble Fey
   {
     id: 'sidhe_lord',
     name: 'Sidhe Lord',
@@ -206,6 +216,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
     description: '+1 Selective Redraw',
+    flavorText: "A tall, pale figure sits on a throne of living wood and regards you with what might be curiosity, or might be something that simply looks like it. It speaks, and the words rearrange themselves into meaning just before they reach you.",
   },
   {
     id: 'queens_emissary',
@@ -216,7 +227,8 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Very mysterious',
+    description: null,
+    flavorText: "A figure in grey stands at a crossroads, holding a sealed letter. It extends the letter toward you without speaking. It will stand there as long as it takes. The wax seal depicts something you can't quite make out.",
   },
   {
     id: 'wild_hunt_scout',
@@ -227,7 +239,8 @@ const ENCOUNTERS = [
     troubleMod: 8,
     redrawBonus: 1,
     selectiveRedrawBonus: 0,
-    description: 'Extremely dangerous, +1 Redraw',
+    description: '+1 Redraw',
+    flavorText: "A lone rider stops on the ridge above you. It is watching. It has already decided something. The main hunt is somewhere behind it, and you are in between.",
   },
   {
     id: 'fomorian_elder',
@@ -239,6 +252,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 1,
     description: '+1 Selective Redraw',
+    flavorText: "Something ancient and enormous sits among the stones ahead, its mismatched eyes half-closed. It has been here a very long time. It will be here a very long time after you are gone. It knows this, and finds it restful.",
   },
   {
     id: 'leanan_sidhe',
@@ -249,10 +263,9 @@ const ENCOUNTERS = [
     troubleMod: -2,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Deeply mysterious but gentle',
+    description: null,
+    flavorText: "A figure of terrible beauty sits by the roadside, watching the distance. It turns to look at you and you feel immediately that you could accomplish extraordinary things. You also feel that the feeling has a price.",
   },
-
-  // Tier 5 (minLevel 14+) - Archfey
   {
     id: 'the_erlking',
     name: 'The Erlking Himself',
@@ -263,6 +276,7 @@ const ENCOUNTERS = [
     redrawBonus: 1,
     selectiveRedrawBonus: 1,
     description: '+1 Redraw, +1 Selective Redraw',
+    flavorText: "He is taller than you remembered, and older, and more present. The trees lean away from him slightly. He looks at you the way a storm looks at a barn.",
   },
   {
     id: 'queen_air_darkness',
@@ -274,6 +288,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 2,
     description: '+2 Selective Redraws',
+    flavorText: "She is not there, and then she is. Cold attaches to her the way warmth attaches to a fire. She regards you without expression. She has already decided how this ends.",
   },
   {
     id: 'wild_hunt_lord',
@@ -285,6 +300,7 @@ const ENCOUNTERS = [
     redrawBonus: 2,
     selectiveRedrawBonus: 0,
     description: '+2 Redraws',
+    flavorText: "The sound of the hunt precedes him by a long time. When he arrives, the ground trembles slightly with each step. He does not appear to notice you at first, which is the best outcome you could have hoped for.",
   },
   {
     id: 'the_green_man',
@@ -295,7 +311,8 @@ const ENCOUNTERS = [
     troubleMod: 0,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
-    description: 'Ancient mystery',
+    description: null,
+    flavorText: "Leaves grow from his face, or his face grows from the leaves. The distinction feels academic. He is the oldest thing you have ever stood next to. He gestures, patiently, for you to explain yourself.",
   },
   {
     id: 'oberons_shadow',
@@ -307,6 +324,7 @@ const ENCOUNTERS = [
     redrawBonus: 1,
     selectiveRedrawBonus: 1,
     description: '+1 Redraw, +1 Selective Redraw',
+    flavorText: "Oberon is not here. His shadow is. It moves independently of any light source, and it has his bearing, his authority, and apparently his patience. It has been waiting for you specifically.",
   },
 ];
 
