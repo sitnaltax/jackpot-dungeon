@@ -80,43 +80,10 @@ const STARTING_ITEMS = {
 };
 
 export const CLASSES = {
-  bricoleur: {
-    id: 'bricoleur',
-    name: 'Bricoleur',
-    description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens',
-    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes.',
-    bonuses: {
-      selectiveRedraws: 1,
-    },
-    refreshCostFn: (n) => 1 + 2 * n,
-    startingEquipment: [
-      STARTING_ITEMS.stackOfMaps,
-      null,
-      null,
-    ],
-    startingXpBonus: 0,
-    startingTreasureBonus: 0,
-  },
-  polymath: {
-    id: 'polymath',
-    name: 'Polymath',
-    description: 'Learns quickly; gets pods at a discounted rate, and can also refresh more cheaply',
-    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina.',
-    bonuses: { encounterXpMultiplier: 1.25 },
-    refreshCostFn: (n) => Math.min(2, n + 1),
-    startingEquipment: [
-      STARTING_ITEMS.elegantWatch,
-      STARTING_ITEMS.ruinedJournal,
-      null,
-    ],
-    startingXpBonus: 10,
-    startingTreasureBonus: 0,
-    startingStaminaOffset: -10,
-  },
   agonist: {
     id: 'agonist',
     name: 'Agonist',
-    description: 'Able to push directly through adversity. Tough and resilient, driven from within',
+    description: 'Able to push directly through adversity. Tough and resilient, driven from within.',
     benefitDescription: 'Bonus stamina and regeneration; mediocre starting equipment.',
     bonuses: {
       maxStamina: 10,
@@ -133,7 +100,7 @@ export const CLASSES = {
   maverick: {
     id: 'maverick',
     name: 'Maverick',
-    description: 'Relies on instinct over planning. Bonus treasure, but no Redraw Selected items',
+    description: 'Relies on instinct over planning. Bonus treasure, but no Redraw Selected items.',
     benefitDescription: '+2 Redraw All, no Redraw Selected items in shop; finds bonus treasure when failing Insight checks.',
     bonuses: {
       redraws: 2,
@@ -147,6 +114,39 @@ export const CLASSES = {
     startingTreasureBonus: 0,
     shopItemFilter: (item) => !item.bonuses?.selectiveRedraws,
     onInsightFailure: () => ({ treasure: 1 }),
+  },
+  polymath: {
+    id: 'polymath',
+    name: 'Polymath',
+    description: 'Learns quickly; gets bonus XP, and can also refresh more cheaply.',
+    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina.',
+    bonuses: { encounterXpMultiplier: 1.25 },
+    refreshCostFn: (n) => Math.min(2, n),
+    startingEquipment: [
+      STARTING_ITEMS.elegantWatch,
+      STARTING_ITEMS.ruinedJournal,
+      null,
+    ],
+    startingXpBonus: 10,
+    startingTreasureBonus: 0,
+    startingStaminaOffset: -10,
+  },
+  bricoleur: {
+    id: 'bricoleur',
+    name: 'Bricoleur',
+    description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens.',
+    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes.',
+    bonuses: {
+      selectiveRedraws: 1,
+    },
+    refreshCostFn: (n) => 1 + 2 * n,
+    startingEquipment: [
+      STARTING_ITEMS.stackOfMaps,
+      null,
+      null,
+    ],
+    startingXpBonus: 0,
+    startingTreasureBonus: 0,
   },
 };
 
