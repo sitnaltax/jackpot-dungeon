@@ -104,7 +104,7 @@
       case 'melody':
         return 'Contributes to Insight. Gains a bonus when drawn with a different Musical token.';
       case 'chord':
-        return 'Contributes 1 Insight, Resolve, and XP. Increases to 3 each if drawn with 2 other unique Musical tokens.';
+        return 'Contributes 1 Insight, Resolve, and XP. Increases to 5 each if drawn with 2 other unique Musical tokens.';
       case 'discord':
         return 'Contributes 2 Insight and Resolve. Increases to 5 each if drawn with 3 other unique Musical tokens.';
       case 'lyra':
