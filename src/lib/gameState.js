@@ -427,11 +427,11 @@ export function executeEncounter() {
   // Apply results to player (including stamina regen)
   player.update(p => {
     const effMax = getEffectiveMaxStamina(p);
-    const afterDamage = Math.max(0, p.stamina - result.staminaLost);
-    const afterRegen = Math.min(effMax, afterDamage + staminaRegen);
+    const afterRegen = p.stamina + staminaRegen;
+    const afterDamage = afterRegen - result.staminaLost;
     return {
       ...p,
-      stamina: afterRegen,
+      stamina: Math.min(effMax, Math.max(0, afterDamage)),
       xp: p.xp + result.xpGained,
       treasure: p.treasure + result.treasureGained,
       totalXpEarned: p.totalXpEarned + result.xpGained,
@@ -439,7 +439,7 @@ export function executeEncounter() {
     };
   });
 
-  // Check for game over
+  // Check for game over after regen is applied
   const $playerAfter = get(player);
   if ($playerAfter.stamina <= 0) {
     gamePhase.set(PHASES.GAME_OVER);
