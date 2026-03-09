@@ -135,7 +135,7 @@ export const CLASSES = {
     id: 'bricoleur',
     name: 'Bricoleur',
     description: 'Flexible and good at making use of the resources available. Adaptable to whatever happens.',
-    benefitDescription: '+1 Redraw Selected; move expensive shop refreshes.',
+    benefitDescription: '+1 Redraw Selected; more expensive shop refreshes.',
     bonuses: {
       selectiveRedraws: 1,
     },
