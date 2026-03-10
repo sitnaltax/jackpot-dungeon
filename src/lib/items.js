@@ -215,7 +215,7 @@ export const ITEMS = {
     description: 'The planks are oak and rowan, bound with steel and decorated with silver. Weapons and magic alike simply glide off.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 12, // 3 (resolve) + 2 (redraw all)
+    cost: 9, 
     bonuses: { resolve: 6, insight: 2 },
   },
 
@@ -244,7 +244,7 @@ export const ITEMS = {
     description: 'This circlet is made of still-living ivy, with no seams in the vines and no signs of them ever having been cut. ',
     icon: '👑',
     category: 'jewelry',
-    cost: 12, // made up
+    cost: 9, 
     bonuses: { insight: 6, resolve: 2 },
   },
   opalBrooch: {
