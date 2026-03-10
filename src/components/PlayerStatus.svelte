@@ -91,10 +91,26 @@
       </div>
     </div>
   {:else}
-    <!-- Collapsed: just a minimal stamina pill -->
+    <!-- Collapsed: stamina pill + equipment slots -->
     <div class="stamina-bar collapsed-bar">
       <div class="stamina-fill" style="width: {staminaPercent}%; background: {staminaColor}"></div>
       <span class="stamina-text">{$player.stamina} / {effectiveMax}</span>
+    </div>
+    <div class="equipment-slots collapsed-equipment">
+      {#each equipmentSlots as item}
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+        <div
+          class="equipment-slot"
+          class:empty={!item}
+          class:clickable={!!item}
+          on:click={() => handleEquipmentClick(item)}
+          on:keydown={(e) => e.key === 'Enter' && handleEquipmentClick(item)}
+          role={item ? 'button' : 'presentation'}
+          tabindex={item ? 0 : -1}
+        >
+          {item ? item.icon : ''}
+        </div>
+      {/each}
     </div>
   {/if}
 
@@ -215,6 +231,17 @@
     border-style: dashed;
     border-color: #555;
     cursor: default;
+  }
+
+  .collapsed-equipment {
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .collapsed-equipment .equipment-slot {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
   }
 
   .class-stat {
