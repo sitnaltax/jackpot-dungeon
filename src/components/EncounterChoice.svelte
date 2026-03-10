@@ -94,7 +94,9 @@
     border: 2px solid #333;
     border-radius: 12px;
     padding: 1.5rem;
-    width: 280px;
+    flex: 1;
+    min-width: 140px;
+    max-width: 280px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -214,5 +216,14 @@
 
   .btn-skip:hover {
     background: #2c3e50;
+  }
+
+  @media (max-width: 400px) {
+    .choice-card {
+      padding: 1rem;
+    }
+    .choices {
+      gap: 0.75rem;
+    }
   }
 </style>

@@ -93,7 +93,9 @@
     border: 2px solid #333;
     border-radius: 12px;
     padding: 1.5rem;
-    width: 240px;
+    flex: 1;
+    min-width: 140px;
+    max-width: 240px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -192,5 +194,14 @@
     font-size: 0.875rem;
     margin: 0 0 1rem;
     font-style: italic;
+  }
+
+  @media (max-width: 400px) {
+    .choice-card {
+      padding: 1rem;
+    }
+    .choices {
+      gap: 0.75rem;
+    }
   }
 </style>
