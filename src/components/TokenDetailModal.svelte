@@ -40,7 +40,7 @@
       const effectiveContext = typeData.noSynergy ? [] : context;
       const contributions = typeData.getValue(token, effectiveContext, equipment);
       // Compute pre-rank contributions to isolate rank-independent synergy bonus
-      const preRankContributions = typeData.getValue({ ...token, rank: 'ordinary' }, effectiveContext, equipment);
+      const preRankContributions = typeData.getValue({ ...token, rank: 'bronze' }, effectiveContext, equipment);
       const stats = Object.entries(contributions).map(([stat, value]) => {
         const preRankValue = preRankContributions[stat] ?? typeData.baseValue;
         const synergyBonus = preRankValue - typeData.baseValue;

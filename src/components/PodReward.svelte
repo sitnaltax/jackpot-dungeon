@@ -25,7 +25,7 @@
               tokens: $rewardPod.tokenDefs.map((t, i) => ({
                 ...t,
                 id: `reward-${i}`,
-                rank: t.rank || 'ordinary'
+                rank: t.rank || 'bronze'
               }))
             }}
             showCost={false}

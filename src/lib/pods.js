@@ -25,7 +25,7 @@ export function reseedIds(pods, tokens) {
 
 
 // Create a token (value determined by type + rank)
-export function createToken(type, rank = 'ordinary') {
+export function createToken(type, rank = 'bronze') {
   return {
     id: `token-${nextTokenId++}`,
     type,
@@ -37,7 +37,7 @@ export function createToken(type, rank = 'ordinary') {
 export function createPod(tokenDefs, cost = 0) {
   return {
     id: `pod-${nextPodId++}`,
-    tokens: tokenDefs.map(def => createToken(def.type, def.rank || 'ordinary')),
+    tokens: tokenDefs.map(def => createToken(def.type, def.rank || 'bronze')),
     cost,
   };
 }
@@ -52,12 +52,12 @@ export function clonePodTemplate(template) {
 // ======================
 
 // Preset mix: 2 insight-focused, 2 resolve-focused, 2 balanced
-// Each pod has 1 ordinary token and 2 iron tokens
+// Each pod has 1 bronze token and 2 iron tokens
 export const STARTING_POD_TEMPLATES = [
   // Insight-focused pods
   {
     tokenDefs: [
-      { type: 'insight', rank: 'bronze' },
+      { type: 'insight', rank: 'silver' },
       { type: 'insight', rank: 'iron' },
       { type: 'xp', rank: 'iron' },
     ],
@@ -74,7 +74,7 @@ export const STARTING_POD_TEMPLATES = [
   // Resolve-focused pods
   {
     tokenDefs: [
-      { type: 'resolve', rank: 'bronze' },
+      { type: 'resolve', rank: 'silver' },
       { type: 'resolve', rank: 'iron' },
       { type: 'xp', rank: 'iron' },
     ],
@@ -126,11 +126,11 @@ function getShopTier(encounterNumber) {
 // - upgradeChance: chance for each token to upgrade one tier
 // - maxUpgrades: maximum number of tier upgrades per token
 const TIER_CONFIG = {
-  1: { minRank: 'bronze', baseRank: 'ordinary', upgradeChance: 0.30, maxUpgrades: 2 },
-  2: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 2 },
-  3: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.30, maxUpgrades: 2 },
-  4: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.30, maxUpgrades: 2 },
-  5: { minRank: 'diamond', baseRank: 'platinum', upgradeChance: 0.30, maxUpgrades: 1 },
+  1: { minRank: 'silver', baseRank: 'bronze', upgradeChance: 0.30, maxUpgrades: 2 },
+  2: { minRank: 'gold', baseRank: 'silver', upgradeChance: 0.30, maxUpgrades: 2 },
+  3: { minRank: 'platinum', baseRank: 'gold', upgradeChance: 0.30, maxUpgrades: 2 },
+  4: { minRank: 'diamond', baseRank: 'platinum', upgradeChance: 0.30, maxUpgrades: 2 },
+  5: { minRank: 'mythical', baseRank: 'diamond', upgradeChance: 0.30, maxUpgrades: 1 },
 };
 
 // Get the next rank up (or same if at max)

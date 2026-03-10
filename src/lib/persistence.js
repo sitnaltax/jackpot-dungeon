@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 8;
+const SAVE_VERSION = 9;
 
 // Preferences are stored separately and survive game resets / version bumps.
 // They are only cleared by explicit user reset (crash recovery or ?reset param).

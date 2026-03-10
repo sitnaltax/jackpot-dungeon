@@ -14,7 +14,7 @@
   $: typeData = TOKEN_TYPES[token.type];
   $: rankData = RANKS[token.rank];
   $: baseValue = getTokenValue(token);
-  $: isUpgraded = token.rank !== 'ordinary';
+  $: isUpgraded = token.rank !== 'bronze';
   $: borderEffect = typeData.borderEffect || null;
   $: hasSynergyIndicator = (typeData.getValue && !typeData.noSynergy) || !!typeData.onDiscard;
 
