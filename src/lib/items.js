@@ -261,7 +261,7 @@ export const ITEMS = {
   reedFlute: {
     id: 'reedFlute',
     name: 'Reed Flute',
-    description: 'Made from the hollow stem of a reed plant. Despite seeming simple and primitive, it plays clear, haunting tunes.',
+    description: 'Made from a hollow reed, dried and lacquered. Despite seeming simple and primitive, it plays clear, haunting tunes.',
     icon: '🪈',
     category: 'instrument',
     cost: 6,
