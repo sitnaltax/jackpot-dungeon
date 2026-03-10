@@ -264,9 +264,9 @@ export const ITEMS = {
     description: 'Made from the hollow stem of a reed plant. Despite seeming simple and primitive, it plays clear, haunting tunes.',
     icon: '🪈',
     category: 'instrument',
-    cost: 8,
+    cost: 6,
     tags: ['Musical'],
-    bonuses: { insight: 2, resolve: 2 },
+    bonuses: { insight: 2 },
   },
   galeDrum: {
     id: 'galeDrum',
