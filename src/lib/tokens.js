@@ -429,7 +429,7 @@ export const TOKEN_TYPES = {
     noSynergy: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const value = Math.floor(4 * rankMultiplier);
+      const value = Math.floor(5 * rankMultiplier);
       return { insight: value, xp: value };
     },
   },
@@ -444,7 +444,7 @@ export const TOKEN_TYPES = {
     noSynergy: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
-      const value = Math.floor(4 * rankMultiplier);
+      const value = Math.floor(5 * rankMultiplier);
       return { resolve: value, xp: value };
     },
   },

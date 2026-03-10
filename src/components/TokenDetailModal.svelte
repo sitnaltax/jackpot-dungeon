@@ -146,9 +146,9 @@
       case 'starRuby':
         return 'Contributes 3 XP. Grants bonus XP when discarded, both scaled by rank.';
       case 'brainstorm':
-        return 'Contributes a base 4 Insight and 4 XP.';
+        return 'Contributes a base 5 Insight and 5 XP.';
       case 'meditation':
-        return 'Contributes a base 4 Resolve and 4 XP.';
+        return 'Contributes a base 5 Resolve and 5 XP.';
       case 'wild':
         return 'Contributes to all stats. With 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens, gains +3 Insight, Resolve, and XP per additional tag beyond the first.';
       default:
