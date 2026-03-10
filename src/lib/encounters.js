@@ -265,7 +265,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
-    flavorText: "A huge chamber of carved stone--elliptical, not rectanuglar. The walls are covered with orderly webs, silk gleaming in dazzling fractal patterns. An spider the size of a horse and her mate, the size of a dog, stand on a dais, regarding you with their sixteen eyes. Their arachnid faces are reflected in their sparkling jeweled coronets.",
+    flavorText: "A huge chamber of carved stone--elliptical, not rectangular. The walls are covered with orderly webs, silk gleaming in dazzling fractal patterns. An spider the size of a horse and her mate, the size of a dog, stand on a dais, regarding you with their sixteen eyes. Their arachnid faces are reflected in their sparkling jeweled coronets.",
   },
   {
     id: 'glacialChasm',
