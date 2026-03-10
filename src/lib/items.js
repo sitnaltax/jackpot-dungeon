@@ -175,7 +175,7 @@ export const ITEMS = {
     description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
     icon: '💎',
     category: 'lightSource',
-    cost: 25, // made up
+    cost: 20, // made up
     minDepth: 18,
     bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
   },
@@ -185,7 +185,7 @@ export const ITEMS = {
     description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
-    cost: 30, // made up
+    cost: 25, // made up
     minDepth: 18,
     bonuses: { bonusDraw: 3, selectiveRedraws: 1 },
   },  
