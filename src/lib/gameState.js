@@ -20,6 +20,7 @@ export const PHASES = {
   SHOP: 'shop',
   POD_REWARD: 'podReward',
   ITEM_SHOP: 'itemShop',
+  ORDEAL_INTERLUDE: 'ordealInterlude',
   GAME_OVER: 'gameOver',
 };
 
@@ -74,6 +75,12 @@ export const discardEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
 // IDs of encounters that have been played this run (prevents repeats)
 export const seenEncounterIds = writable(new Set());
+
+// Final Ordeal state
+export const ordealActive = writable(false);
+export const ordealMysteryPool = writable(0);
+export const ordealRound = writable(0);
+export const isVictory = writable(false);
 
 function applyOnDiscardEffects(tokens) {
   for (const token of tokens) {
@@ -242,6 +249,40 @@ function isChoiceEncounter(encNum) {
   return encNum >= 3 && encNum % 2 === 1;
 }
 
+function buildOrdealEncounter(pool, round, difficulty) {
+  const troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? CONFIG.ordealTroublePerRound.normal;
+  return {
+    id: 'finalOrdeal',
+    name: 'The Final Ordeal',
+    mystery: pool,
+    trouble: CONFIG.ordealTroubleBase + (round - 1) * troublePerRound,
+    level: CONFIG.ordealStartDepth,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    isOrdeal: true,
+    flavorText: "You have come to the end of the path. What stands before you is not a creature, not a place, not even a presence—it is the full weight of everything you have seen and not understood. The mystery will not yield easily.",
+  };
+}
+
+function startOrdeal() {
+  const difficulty = get(player).difficulty;
+  const scale = CONFIG.ordealMysteryScale[difficulty] ?? 1.0;
+  const pool = Math.round(CONFIG.ordealBaseMystery * scale);
+  ordealActive.set(true);
+  ordealRound.set(0);
+  ordealMysteryPool.set(pool);
+  beginOrdealRound();
+}
+
+export function beginOrdealRound() {
+  ordealRound.update(n => n + 1);
+  const round = get(ordealRound);
+  const pool = get(ordealMysteryPool);
+  const difficulty = get(player).difficulty;
+  const encounter = buildOrdealEncounter(pool, round, difficulty);
+  beginEncounter(encounter);
+}
+
 export function startNextEncounter() {
   encounterNumber.update(n => n + 1);
   const encNum = get(encounterNumber);
@@ -250,6 +291,12 @@ export function startNextEncounter() {
   chosenPath.set(null);
   rewardPod.set(null);
   encounterResult.set(null);
+
+  // Transition to Final Ordeal after the last normal encounter
+  if (encNum >= CONFIG.ordealStartDepth) {
+    startOrdeal();
+    return;
+  }
 
   const difficulty = get(player).difficulty;
   const $seen = get(seenEncounterIds);
@@ -424,6 +471,42 @@ export function executeEncounter() {
   const staminaRegen = totalBonuses.staminaRegen;
   result.staminaRegen = staminaRegen;
 
+  // --- Final Ordeal branch ---
+  if (get(ordealActive)) {
+    // Deplete pool by insight dealt this round (pool floored at 0)
+    ordealMysteryPool.update(p => Math.max(0, p - result.totals.insight));
+
+    const classXpMultiplier = $player.playerClass?.bonuses?.encounterXpMultiplier ?? 1.0;
+    result.baseXp = result.xpGained;
+    result.classXpMultiplier = classXpMultiplier;
+    result.xpGained = Math.floor(result.xpGained * classXpMultiplier);
+    result.treasureGained = 0;
+
+    encounterResult.set(result);
+
+    player.update(p => {
+      const effMax = getEffectiveMaxStamina(p);
+      const afterDamage = p.stamina + staminaRegen - result.staminaLost;
+      return {
+        ...p,
+        stamina: Math.min(effMax, Math.max(0, afterDamage)),
+        xp: p.xp + result.xpGained,
+        totalXpEarned: p.totalXpEarned + result.xpGained,
+      };
+    });
+
+    const $playerAfterOrdeal = get(player);
+    if (result.insightSuccess) {
+      isVictory.set(true);
+      gamePhase.set(PHASES.GAME_OVER);
+    } else if ($playerAfterOrdeal.stamina <= 0) {
+      gamePhase.set(PHASES.GAME_OVER);
+    }
+    // else: stay at ENCOUNTER — EncounterResult shows, player proceeds to ORDEAL_INTERLUDE
+    return;
+  }
+  // --- End ordeal branch ---
+
   encounterResult.set(result);
 
   // Apply results to player (including stamina regen)
@@ -449,6 +532,11 @@ export function executeEncounter() {
 }
 
 export function proceedFromEncounter() {
+  if (get(ordealActive)) {
+    gamePhase.set(PHASES.ORDEAL_INTERLUDE);
+    return;
+  }
+
   const $chosenPath = get(chosenPath);
 
   const encNum = get(encounterNumber);
@@ -582,6 +670,10 @@ export function purchaseItem(item, shopIndex) {
 }
 
 export function skipItemShop() {
+  if (get(ordealActive)) {
+    beginOrdealRound();
+    return;
+  }
   proceedToShop();
 }
 
@@ -657,6 +749,10 @@ export function refreshShop() {
 }
 
 export function skipShop() {
+  if (get(ordealActive)) {
+    beginOrdealRound();
+    return;
+  }
   startNextEncounter();
 }
 
@@ -708,4 +804,64 @@ export function takeRewardXp() {
 
 export function restartGame() {
   gamePhase.set(PHASES.START);
+}
+
+// --- Final Ordeal interlude actions ---
+
+// Spend XP to reduce the mystery pool (3 XP : 1 mystery, pool cannot go below 1)
+export function ordealSpendOnClue(xpToSpend) {
+  const $player = get(player);
+  if ($player.xp < xpToSpend || xpToSpend <= 0) return;
+  const reduction = Math.floor(xpToSpend / 3);
+  if (reduction <= 0) return;
+  player.update(p => ({ ...p, xp: p.xp - xpToSpend }));
+  ordealMysteryPool.update(p => Math.max(1, p - reduction));
+}
+
+// Spend XP to heal stamina (3 XP : 1 stamina)
+export function ordealSpendOnStamina(xpToSpend) {
+  const $player = get(player);
+  if ($player.xp < xpToSpend || xpToSpend <= 0) return;
+  const heal = Math.floor(xpToSpend / 3);
+  if (heal <= 0) return;
+  player.update(p => {
+    const effMax = getEffectiveMaxStamina(p);
+    return {
+      ...p,
+      xp: p.xp - xpToSpend,
+      stamina: Math.min(effMax, p.stamina + heal),
+    };
+  });
+}
+
+// Go to pod shop; after shop, beginOrdealRound() is called by skipShop()
+export function ordealOpenPodShop() {
+  const encNum = get(encounterNumber);
+  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  shopPods.set(generatedPods);
+  selectedPodToReplace.set(null);
+  purchasedShopPods.set(new Set());
+  shopRefreshCount.set(0);
+  gamePhase.set(PHASES.SHOP);
+}
+
+// Convert XP to treasure (10 XP : 1 treasure), then open item shop.
+// After the item shop, skipItemShop() routes back to beginOrdealRound().
+export function ordealOpenItemShop(xpToConvert) {
+  const $player = get(player);
+  if (xpToConvert > 0 && $player.xp >= xpToConvert) {
+    const treasureGain = Math.floor(xpToConvert / 10);
+    player.update(p => ({
+      ...p,
+      xp: p.xp - xpToConvert,
+      treasure: p.treasure + treasureGain,
+      totalTreasureEarned: p.totalTreasureEarned + treasureGain,
+    }));
+  }
+  const encNum = get(encounterNumber);
+  const items = generateItemShop(encNum, get(player));
+  shopItems.set(items);
+  purchasedShopItems.set(new Set());
+  selectedEquipmentSlot.set(null);
+  gamePhase.set(PHASES.ITEM_SHOP);
 }

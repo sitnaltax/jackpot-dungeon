@@ -18,6 +18,25 @@ export const CONFIG = {
 
   // Shop settings
   shopSize: 4,             // Number of pods offered in shop
+
+  // Final Ordeal settings
+  ordealStartDepth: 19,
+  ordealBaseMystery: 200,
+  ordealTroubleBase: 30,
+  ordealTroublePerRound: {   // flat trouble added per subsequent round
+    wizard:  0,
+    normal:  4,
+    hard:    6,
+    expert:  8,
+    insane:  12,
+  },
+  ordealMysteryScale: {      // multiplier on base mystery per difficulty
+    wizard:  0.5,
+    normal:  1.0,
+    hard:    1.25,
+    expert:  1.5,
+    insane:  2.0,
+  },
 };
 
 // Rank system - multipliers applied to base token values

@@ -1,5 +1,5 @@
 <script>
-  import { encounterNumber, player, restartGame, currentEncounter, encounterResult } from '../lib/gameState.js';
+  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { DIFFICULTIES } from '../lib/classes.js';
@@ -10,15 +10,15 @@
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
 </script>
 
-<div class="game-over">
+<div class="game-over" class:victory={$isVictory}>
   <div class="header">
-    <h1>Defeated!</h1>
-    <div class="depth">Depth {$encounterNumber}</div>
+    <h1>{$isVictory ? 'You Found Your Way Home' : 'Defeated!'}</h1>
+    <div class="depth">{$isVictory ? `After ${$ordealRound} Round${$ordealRound !== 1 ? 's' : ''}` : `Depth ${$encounterNumber}`}</div>
   </div>
 
   {#if encounter}
     <section class="section">
-      <h2 class="section-title">Last Stand</h2>
+      <h2 class="section-title">{$isVictory ? 'Final Round' : 'Last Stand'}</h2>
       <div class="encounter-block">
         <div class="encounter-name">{encounter.name}</div>
         {#if encounter.flavorText}
@@ -114,8 +114,8 @@
     </div>
   </section>
 
-  <button class="btn-primary" on:click={restartGame}>
-    Try Again
+  <button class="btn-primary" class:btn-victory={$isVictory} on:click={restartGame}>
+    {$isVictory ? 'Play Again' : 'Try Again'}
   </button>
 </div>
 
@@ -132,6 +132,11 @@
     margin: 0 auto;
   }
 
+  .game-over.victory {
+    background: linear-gradient(135deg, #1b2d1b 0%, #1a1a2e 100%);
+    border-color: #f1c40f;
+  }
+
   .header {
     text-align: center;
   }
@@ -140,6 +145,10 @@
     margin: 0 0 0.25rem 0;
     font-size: 2.5rem;
     color: #e74c3c;
+  }
+
+  .victory h1 {
+    color: #f1c40f;
   }
 
   .depth {
@@ -179,6 +188,10 @@
     font-size: 1.2rem;
     font-weight: bold;
     color: #e74c3c;
+  }
+
+  .victory .encounter-name {
+    color: #f1c40f;
   }
 
   .encounter-flavor {
@@ -341,5 +354,14 @@
   .btn-primary:hover {
     background: #27ae60;
     transform: translateY(-2px);
+  }
+
+  .btn-victory {
+    background: #f1c40f;
+    color: #000;
+  }
+
+  .btn-victory:hover {
+    background: #d4ac0d;
   }
 </style>

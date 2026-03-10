@@ -50,6 +50,7 @@
   import PodReward from './components/PodReward.svelte';
   import ItemShop from './components/ItemShop.svelte';
   import GameOver from './components/GameOver.svelte';
+  import OrdealInterlude from './components/OrdealInterlude.svelte';
   import TokenDetailModal from './components/TokenDetailModal.svelte';
   import EquipmentDetailModal from './components/EquipmentDetailModal.svelte';
   import ClassDetailModal from './components/ClassDetailModal.svelte';
@@ -105,6 +106,8 @@
         <ItemShop />
       {:else if $gamePhase === PHASES.SHOP}
         <PodShop />
+      {:else if $gamePhase === PHASES.ORDEAL_INTERLUDE}
+        <OrdealInterlude />
       {/if}
     </div>
   {/if}
