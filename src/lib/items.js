@@ -206,7 +206,7 @@ export const ITEMS = {
     description: 'It\'s not like you would have any chance to win a sword fight. Still, this beautiful weapon makes you feel heroic just holding it.',
     icon: '⚔️',
     category: 'weapon',
-    cost: 8, // 3 + 3 (4 resolve)
+    cost: 6, // made up
     bonuses: { resolve: 6 },
   },
   turnspellShield: {
@@ -235,7 +235,7 @@ export const ITEMS = {
     description: 'A hammered pewter ring set with a roughly carved sapphire. It vibrates silently to call your attention to something you\'ve missed. It\'s usually vibrating.',
     icon: '💍',
     category: 'jewelry',
-    cost: 8, // made up
+    cost: 6, // made up
     bonuses: { insight: 6 },
   },
   ivyCrown: {
