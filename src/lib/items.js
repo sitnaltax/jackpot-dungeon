@@ -257,6 +257,39 @@ export const ITEMS = {
     bonuses: { insight: 6, redraws: 1 },
   },
 
+  // === INSTRUMENTS (Musical synergy) ===
+  reedFlute: {
+    id: 'reedFlute',
+    name: 'Reed Flute',
+    description: 'Made from the hollow stem of a reed plant. Despite seeming simple and primitive, it plays clear, haunting tunes.',
+    icon: '🪈',
+    category: 'instrument',
+    cost: 8,
+    tags: ['Musical'],
+    bonuses: { insight: 2, resolve: 2 },
+  },
+  galeDrum: {
+    id: 'galeDrum',
+    name: 'Gale Drum',
+    description: 'A snare drum that vibrates and sounds under even the smallest force. You can play rhythms on it faster than the syllables of your thoughts.',
+    icon: '🥁',
+    category: 'instrument',
+    cost: 10,
+    tags: ['Musical'],
+    bonuses: { redraws: 1 },
+  },
+  spidersilkLute: {
+    id: 'spidersilkLute',
+    name: 'Spidersilk Lute',
+    description: 'A finely carved and polished wooden instrument, strung with spider silk and surprisingly easy to play--more of a ukelele than a lute, really.',
+    icon: '🎸',
+    category: 'instrument',
+    cost: 12,
+    minDepth: 12,
+    tags: ['Musical'],
+    bonuses: { selectiveRedraws: 1 },
+  },
+
   // === FOOD (Stamina) ===
   // On purchase: heal staminaHeal, gain maxStamina bonus (persistent), gain staminaRegen (persistent)
   trailMix: {
