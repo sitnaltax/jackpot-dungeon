@@ -16,6 +16,7 @@
   $: baseValue = getTokenValue(token);
   $: isUpgraded = token.rank !== 'ordinary';
   $: borderEffect = typeData.borderEffect || null;
+  $: hasSynergyIndicator = (typeData.getValue && !typeData.noSynergy) || !!typeData.onDiscard;
 
   // Calculate contextual contributions (with synergies if context provided)
   $: contributions = getContributions(token, context, equipment, typeData, baseValue);
@@ -63,7 +64,7 @@
   tabindex="0"
 >
   <div class="token-icon">{typeData.icon}</div>
-  <div class="token-value">{contributions[0].value}</div>
+  <div class="token-value">{contributions[0].value}{#if size === 'small' && hasSynergyIndicator}<span>{typeData.synergyPenalty ? '*' : '+'}</span>{/if}</div>
   <div
     class="token-rank"
     style="background: {rankData.color}"

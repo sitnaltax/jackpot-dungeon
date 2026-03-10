@@ -252,6 +252,7 @@ export const TOKEN_TYPES = {
     minDepth: 12,
     weight: 0.3,
     tags: ['Celestial'],
+    synergyPenalty: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherCelestials = allDrawnTokens.filter(t =>
@@ -365,6 +366,7 @@ export const TOKEN_TYPES = {
     minDepth: 12,
     weight: 0.3,
     tags: ['Botanical'],
+    synergyPenalty: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.ordinary).multiplier;
       const otherBotanicals = allDrawnTokens.filter(t =>
