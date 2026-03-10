@@ -106,7 +106,7 @@
       case 'chord':
         return 'Contributes 1 Insight, Resolve, and XP. Increases to 5 each with 2+ other unique Musical tokens or instruments.';
       case 'discord':
-        return 'Contributes 2 Insight and Resolve. Increases to 5 each with 3+ other unique Musical tokens or instruments.';
+        return 'Contributes 2 Insight and Resolve. Increases to 6 each with 3+ other unique Musical tokens or instruments.';
       case 'lyra':
         return 'Contributes to Insight. Carries both the Musical and Celestial tags, but gains no synergy bonus itself.';
       case 'bellflower':
@@ -136,19 +136,19 @@
       case 'fern':
         return 'Contributes to all stats. Gains +1 Insight, Resolve, and XP for each other Botanical token drawn, up to +5.';
       case 'pluto':
-        return 'Contributes 8 Insight. Drops to 0 if any other Celestial tokens are drawn.';
+        return 'Contributes greatly to Insight. Drops to 0 if any other Celestial tokens are drawn.';
       case 'hemlock':
-        return 'Contributes 8 Resolve. Drops to 0 if any other Botanical tokens are drawn.';
+        return 'Contributes greatly to Resolve. Drops to 0 if any other Botanical tokens are drawn.';
       case 'obsidian':
-        return 'Contributes 3 Insight. Grants bonus Insight when discarded, both scaled by rank.';
+        return 'Contributes to Insight. Also contributes to Insight when discarded.';
       case 'granite':
-        return 'Contributes 3 Resolve. Grants bonus Resolve when discarded, both scaled by rank.';
+        return 'Contributes to Resolve. Also contributes to Resolve when discarded.';
       case 'starRuby':
-        return 'Contributes 3 XP. Grants bonus XP when discarded, both scaled by rank.';
+        return 'Contributes to XP. Also contributes to XP when discarded.';
       case 'brainstorm':
-        return 'Contributes a base 5 Insight and 5 XP.';
+        return 'Contributes large flat amount to both Insight and XP.';
       case 'meditation':
-        return 'Contributes a base 5 Resolve and 5 XP.';
+        return 'Contributes large flat amount to both Resolve and XP.';
       case 'wild':
         return 'Contributes to all stats. With 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens, gains +3 Insight, Resolve, and XP per additional tag beyond the first.';
       default:

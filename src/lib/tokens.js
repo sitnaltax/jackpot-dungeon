@@ -106,7 +106,7 @@ export const TOKEN_TYPES = {
     color: '#9b59b6',
     baseValue: 2,
     minDepth: 11,
-    weight: 0.4,
+    weight: 0.3,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #e74c3c, #3498db)',
     getValue: (token, allDrawnTokens, equippedItems = []) => {
@@ -117,7 +117,7 @@ export const TOKEN_TYPES = {
           .filter(t => t.type !== token.type && TOKEN_TYPES[t.type].tags?.includes('Musical'))
           .map(t => t.type)
       ).size + musicalItemBonus;
-      const value = uniqueOtherMusical >= 3 ? 5 : 2;
+      const value = uniqueOtherMusical >= 3 ? 6 : 2;
       return {
         insight: Math.floor(value * rankMultiplier),
         resolve: Math.floor(value * rankMultiplier),
