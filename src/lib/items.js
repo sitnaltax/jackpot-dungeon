@@ -355,6 +355,12 @@ export function generateItemShop(encounterNumber, playerState) {
   );
   pool = pool.filter(item => !equippedIds.has(item.id));
 
+  // Exclude items with a worse bonusDraw than the best currently equipped
+  const equippedMaxDraw = Math.max(0, ...(playerState.equipment || []).map(e => e?.bonuses?.bonusDraw || 0));
+  if (equippedMaxDraw > 0) {
+    pool = pool.filter(item => (item.bonuses.bonusDraw || 0) === 0 || (item.bonuses.bonusDraw || 0) >= equippedMaxDraw);
+  }
+
   // Only offer items the player can afford
   const affordablePool = pool.filter(item => item.cost <= budget);
 
