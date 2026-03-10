@@ -14,7 +14,6 @@
   $: typeData = TOKEN_TYPES[token.type];
   $: rankData = RANKS[token.rank];
   $: baseValue = getTokenValue(token);
-  $: isUpgraded = token.rank !== 'bronze';
   $: borderEffect = typeData.borderEffect || null;
   $: hasSynergyIndicator = (typeData.getValue && !typeData.noSynergy) || !!typeData.onDiscard;
 
@@ -54,7 +53,6 @@
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
   class="token {size}"
-  class:upgraded={isUpgraded}
   class:selected
   class:has-border-effect={borderEffect}
   style="--type-color: {typeData.color}; --rank-color: {rankData.color}; --border-effect: {borderEffect || 'none'}"
