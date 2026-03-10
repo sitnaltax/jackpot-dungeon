@@ -175,7 +175,7 @@
   }
 
   .token.small .token-value {
-    font-size: 0.875em;
+    font-size: 1em;
   }
 
   .token.large .token-value {
