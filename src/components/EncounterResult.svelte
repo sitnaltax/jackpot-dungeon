@@ -1,5 +1,5 @@
 <script>
-  import { encounterResult, proceedFromEncounter } from '../lib/gameState.js';
+  import { encounterResult, proceedFromEncounter, ordealActive } from '../lib/gameState.js';
   import { getEncounterSummary } from '../lib/encounter.js';
 
   $: summary = $encounterResult ? getEncounterSummary($encounterResult) : [];
@@ -10,8 +10,13 @@
     <h2>Encounter Result</h2>
     <div class="result-details">
       {#each summary as line}
-        <p class:success={line.startsWith('✓')} class:failure={line.startsWith('✗')}>
-          {line}
+        {@const isOrdealInsightFail = $ordealActive && !$encounterResult.insightSuccess && line.includes('Insight')}
+        <p
+          class:success={line.startsWith('✓')}
+          class:failure={!isOrdealInsightFail && line.startsWith('✗')}
+          class:ordeal-continues={isOrdealInsightFail}
+        >
+          {isOrdealInsightFail ? line.replace('✗', '○').replace('No bonus', 'The ordeal continues') : line}
         </p>
       {/each}
     </div>
@@ -85,6 +90,10 @@
 
   .result-details .failure {
     color: #e74c3c;
+  }
+
+  .result-details .ordeal-continues {
+    color: #f1c40f;
   }
 
   .result-summary {
