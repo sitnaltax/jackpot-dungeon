@@ -31,7 +31,7 @@ export const CONFIG = {
     insane:  12,
   },
   ordealMysteryScale: {      // multiplier on base mystery per difficulty
-    wizard:  0.5,
+    wizard:  1.0,
     normal:  1.0,
     hard:    1.25,
     expert:  1.5,

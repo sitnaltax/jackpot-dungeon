@@ -241,6 +241,10 @@ export function selectClass(classId, difficultyId = 'normal') {
   encounterNumber.set(0);
   encounterResult.set(null);
   seenEncounterIds.set(new Set());
+  ordealActive.set(false);
+  ordealMysteryPool.set(0);
+  ordealRound.set(0);
+  isVictory.set(false);
   startNextEncounter();
 }
 
