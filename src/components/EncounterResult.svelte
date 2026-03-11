@@ -38,9 +38,11 @@
           <span class="multiplier">(x{$encounterResult.classXpMultiplier})</span>
         {/if}
       </div>
-      <div class="treasure-gained">
-        +${$encounterResult.treasureGained}
-      </div>
+      {#if !$ordealActive}
+        <div class="treasure-gained">
+          +${$encounterResult.treasureGained}
+        </div>
+      {/if}
     </div>
 
     <button class="btn btn-primary" on:click={proceedFromEncounter}>

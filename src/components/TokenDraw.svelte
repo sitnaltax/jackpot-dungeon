@@ -7,6 +7,7 @@
     selectedTokensForRedraw,
     currentEncounter,
     player,
+    ordealActive,
     redrawAll,
     toggleTokenSelection,
     redrawSelected,
@@ -99,7 +100,7 @@
         {#if $discardEffects.insight > 0}
           <span class="draw-bonus">(+{$discardEffects.insight})</span>
         {/if}
-        <span class="threshold-indicator" class:met={insightMet}>{insightMet ? '✓' : '✗'}</span>
+        <span class="threshold-indicator" class:met={insightMet} class:ordeal-continues={!insightMet && $ordealActive}>{insightMet ? '✓' : $ordealActive ? '○' : '✗'}</span>
       </span>
     </div>
     <div class="total resolve" class:met={resolveMet}>
@@ -227,6 +228,10 @@
 
   .threshold-indicator.met {
     color: #2ecc71;
+  }
+
+  .threshold-indicator.ordeal-continues {
+    color: #f1c40f;
   }
 
   .actions {
