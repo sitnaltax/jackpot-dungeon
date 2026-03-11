@@ -40,22 +40,22 @@
 
 <div class="interlude">
   <div class="header">
-    <h2>Between Rounds</h2>
+    <h2>A Brief Respite</h2>
     <div class="pool-bar">
       <div class="pool-fill" style="width: {poolPercent}%"></div>
-      <span class="pool-text">Mystery Pool: {$ordealMysteryPool} remaining</span>
+      <span class="pool-text">Mystery: {$ordealMysteryPool} remaining</span>
     </div>
-    <div class="round-info">Round {$ordealRound} complete · Next round Trouble: {nextTrouble}</div>
+    <div class="round-info">Next Trouble: {nextTrouble}</div>
   </div>
 
   <div class="resources">
     <div class="resource">
-      <span class="resource-label">XP</span>
-      <span class="resource-value xp">{$player.xp}</span>
-    </div>
-    <div class="resource">
       <span class="resource-label">Stamina</span>
       <span class="resource-value stamina">{$player.stamina} / {effectiveMax}</span>
+    </div>
+    <div class="resource">
+      <span class="resource-label">XP</span>
+      <span class="resource-value xp">{$player.xp}</span>
     </div>
     <div class="resource">
       <span class="resource-label">Treasure</span>
@@ -63,14 +63,12 @@
     </div>
   </div>
 
-  <p class="intro">Something stirs in the dark between attempts. You take a moment to gather yourself.</p>
-
   <div class="options">
 
     <div class="option-card">
       <div class="option-header clue">Remember a Clue</div>
-      <p class="option-desc">Spend all your XP to reduce the Mystery at a 3:1 ratio. Cannot reduce it below 1—the last point must be resolved in the encounter.</p>
-      <div class="spend-preview">Spend {xpSpentOnClue} XP → −{clueReduction} Mystery</div>
+      <p class="option-desc">Use your XP to penetrate the Mystery. This can't solve the last point of Mystery, though. (3 XP = 1 Insight)</p>
+      <div class="spend-preview">{xpSpentOnClue} XP → {clueReduction} Insight</div>
       <button class="btn btn-clue" on:click={spendAllOnClue}>
         Remember a Clue
       </button>
@@ -78,8 +76,8 @@
 
     <div class="option-card">
       <div class="option-header home">Remember your Home</div>
-      <p class="option-desc">Spend all your XP to restore Stamina at a 3:1 ratio.</p>
-      <div class="spend-preview">Spend {xpSpentOnHome} XP → +{homeHeal} Stamina</div>
+      <p class="option-desc">Use your XP to restore Stamina. (3 XP = 1 Stamina)</p>
+      <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
       <button class="btn btn-home" on:click={spendAllOnStamina}>
         Remember your Home
       </button>
@@ -87,7 +85,7 @@
 
     <div class="option-card">
       <div class="option-header technique">Remember a Technique</div>
-      <p class="option-desc">Visit the pod shop to upgrade your draws. You'll return directly to the next round.</p>
+      <p class="option-desc">Visit the pod shop.</p>
       <button class="btn btn-technique" on:click={ordealOpenPodShop}>
         Remember a Technique
       </button>
@@ -95,8 +93,8 @@
 
     <div class="option-card">
       <div class="option-header treasure">Remember a Treasure</div>
-      <p class="option-desc">Spend all your XP to gain Treasure at a 10:1 ratio, then visit the item shop. You'll return directly to the next round.</p>
-      <div class="spend-preview">Spend {xpSpentOnTreasure} XP → +${treasureGain} Treasure</div>
+      <p class="option-desc">Spend all your XP to gain Treasure, then visit the item shop. (10 XP = $1)</p>
+      <div class="spend-preview">{xpSpentOnTreasure} XP → ${treasureGain}</div>
       <button class="btn btn-treasure" on:click={openItemShop}>
         Remember a Treasure
       </button>
@@ -190,14 +188,6 @@
   .resource-value.stamina { color: #2ecc71; }
   .resource-value.treasure { color: #9b59b6; }
 
-  .intro {
-    color: #888;
-    font-style: italic;
-    text-align: center;
-    margin: 0;
-    font-size: 0.9rem;
-  }
-
   .options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -221,8 +211,9 @@
   }
 
   .option-header {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    text-align: center;
   }
 
   .option-header.clue      { color: #e74c3c; }
@@ -237,15 +228,16 @@
 
   .option-desc {
     font-size: 0.8rem;
-    color: #888;
+    color: #aaa;
     margin: 0;
     line-height: 1.4;
     flex: 1;
   }
 
   .spend-preview {
-    font-size: 0.85rem;
-    color: #aaa;
+    font-size: 1rem;
+    color: #ccc;
+    text-align: center;
   }
 
   .btn {

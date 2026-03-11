@@ -1,5 +1,5 @@
 <script>
-  import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina } from '../lib/gameState.js';
+  import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina, ordealActive, ordealRound } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { loadPrefs, savePrefs } from '../lib/persistence.js';
   import GameMenu from './GameMenu.svelte';
@@ -36,7 +36,7 @@
   {#if !collapsed}
     <div class="stat">
       <span class="label">Depth</span>
-      <span class="value">{$encounterNumber}</span>
+      <span class="value">{$ordealActive ? `F-${$ordealRound}` : $encounterNumber}</span>
     </div>
 
     {#if playerClass}

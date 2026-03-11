@@ -1,22 +1,9 @@
 <script>
-  import { currentEncounter, ordealActive, ordealMysteryPool, ordealRound } from '../lib/gameState.js';
-  import { CONFIG } from '../lib/constants.js';
-  import { player } from '../lib/gameState.js';
-
-  $: ordealStartPool = $ordealActive
-    ? Math.round(CONFIG.ordealBaseMystery * (CONFIG.ordealMysteryScale[$player.difficulty] ?? 1))
-    : 0;
-  $: poolPercent = ordealStartPool > 0 ? ($ordealMysteryPool / ordealStartPool) * 100 : 100;
+  import { currentEncounter, ordealActive } from '../lib/gameState.js';
 </script>
 
 {#if $currentEncounter}
   <div class="encounter" class:ordeal={$ordealActive}>
-    {#if $ordealActive}
-      <div class="ordeal-bar">
-        <div class="ordeal-bar-fill" style="width: {poolPercent}%"></div>
-        <span class="ordeal-bar-text">Mystery Pool: {$ordealMysteryPool} · Round {$ordealRound}</span>
-      </div>
-    {/if}
     <div class="encounter-left">
       <div class="encounter-name">{$currentEncounter.name}</div>
       <div class="encounter-stats">
@@ -64,32 +51,6 @@
     flex-direction: row;
     gap: 1.5rem;
     align-items: center;
-  }
-
-  .ordeal-bar {
-    position: relative;
-    height: 20px;
-    background: #1a2a35;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .ordeal-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #e74c3c, #f39c12);
-    transition: width 0.5s ease;
-  }
-
-  .ordeal-bar-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    white-space: nowrap;
   }
 
   .encounter-left {
