@@ -816,9 +816,11 @@ export function restartGame() {
 export function ordealSpendOnClue(xpToSpend) {
   const $player = get(player);
   if ($player.xp < xpToSpend || xpToSpend <= 0) return;
-  const reduction = Math.floor(xpToSpend / 3);
+  const maxReduction = Math.max(0, get(ordealMysteryPool) - 1);
+  const reduction = Math.min(Math.floor(xpToSpend / 3), maxReduction);
   if (reduction <= 0) return;
-  player.update(p => ({ ...p, xp: p.xp - xpToSpend }));
+  const xpSpent = reduction * 3;
+  player.update(p => ({ ...p, xp: p.xp - xpSpent }));
   ordealMysteryPool.update(p => Math.max(1, p - reduction));
 }
 
@@ -826,13 +828,15 @@ export function ordealSpendOnClue(xpToSpend) {
 export function ordealSpendOnStamina(xpToSpend) {
   const $player = get(player);
   if ($player.xp < xpToSpend || xpToSpend <= 0) return;
-  const heal = Math.floor(xpToSpend / 3);
+  const effMax = getEffectiveMaxStamina($player);
+  const maxHeal = effMax - $player.stamina;
+  const heal = Math.min(Math.floor(xpToSpend / 3), maxHeal);
   if (heal <= 0) return;
+  const xpSpent = heal * 3;
   player.update(p => {
-    const effMax = getEffectiveMaxStamina(p);
     return {
       ...p,
-      xp: p.xp - xpToSpend,
+      xp: p.xp - xpSpent,
       stamina: Math.min(effMax, p.stamina + heal),
     };
   });
@@ -855,9 +859,10 @@ export function ordealOpenItemShop(xpToConvert) {
   const $player = get(player);
   if (xpToConvert > 0 && $player.xp >= xpToConvert) {
     const treasureGain = Math.floor(xpToConvert / 10);
+    const xpSpent = treasureGain * 10; // only spend what's actually converted
     player.update(p => ({
       ...p,
-      xp: p.xp - xpToConvert,
+      xp: p.xp - xpSpent,
       treasure: p.treasure + treasureGain,
       totalTreasureEarned: p.totalTreasureEarned + treasureGain,
     }));

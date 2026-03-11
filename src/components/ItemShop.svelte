@@ -8,6 +8,7 @@
     selectEquipmentSlot,
     skipItemShop,
     getEffectiveMaxStamina,
+    ordealActive,
   } from '../lib/gameState.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
@@ -160,7 +161,7 @@
   </div>
 
   <button class="btn btn-continue" on:click={skipItemShop}>
-    Continue to Pod Shop
+    {$ordealActive ? 'Done Shopping' : 'Continue to Pod Shop'}
   </button>
 </div>
 

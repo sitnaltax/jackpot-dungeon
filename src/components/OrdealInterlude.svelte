@@ -17,8 +17,11 @@
 
   $: effectiveMax = getEffectiveMaxStamina($player);
   $: clueReduction = Math.min(Math.floor($player.xp / 3), Math.max(0, $ordealMysteryPool - 1));
+  $: xpSpentOnClue = clueReduction * 3;
   $: homeHeal = Math.min(Math.floor($player.xp / 3), effectiveMax - $player.stamina);
+  $: xpSpentOnHome = homeHeal * 3;
   $: treasureGain = Math.floor($player.xp / 10);
+  $: xpSpentOnTreasure = treasureGain * 10;
 
   function spendAllOnClue() {
     ordealSpendOnClue($player.xp);
@@ -67,7 +70,7 @@
     <div class="option-card">
       <div class="option-header clue">Remember a Clue</div>
       <p class="option-desc">Spend all your XP to reduce the Mystery at a 3:1 ratio. Cannot reduce it below 1—the last point must be resolved in the encounter.</p>
-      <div class="spend-preview">Spend {$player.xp} XP → −{clueReduction} Mystery</div>
+      <div class="spend-preview">Spend {xpSpentOnClue} XP → −{clueReduction} Mystery</div>
       <button class="btn btn-clue" on:click={spendAllOnClue}>
         Remember a Clue
       </button>
@@ -76,7 +79,7 @@
     <div class="option-card">
       <div class="option-header home">Remember your Home</div>
       <p class="option-desc">Spend all your XP to restore Stamina at a 3:1 ratio.</p>
-      <div class="spend-preview">Spend {$player.xp} XP → +{homeHeal} Stamina</div>
+      <div class="spend-preview">Spend {xpSpentOnHome} XP → +{homeHeal} Stamina</div>
       <button class="btn btn-home" on:click={spendAllOnStamina}>
         Remember your Home
       </button>
@@ -93,7 +96,7 @@
     <div class="option-card">
       <div class="option-header treasure">Remember a Treasure</div>
       <p class="option-desc">Spend all your XP to gain Treasure at a 10:1 ratio, then visit the item shop. You'll return directly to the next round.</p>
-      <div class="spend-preview">Spend {$player.xp} XP → +${treasureGain} Treasure</div>
+      <div class="spend-preview">Spend {xpSpentOnTreasure} XP → +${treasureGain} Treasure</div>
       <button class="btn btn-treasure" on:click={openItemShop}>
         Remember a Treasure
       </button>
