@@ -414,7 +414,7 @@ function selectEncounter(encounterNumber, excluded = new Set()) {
 // If encounterNumber exceeds the array, the last value is used.
 //            1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
 const BASE_STATS = 
-           [  7,   8,   9,  10,  12,  13,  14,  16,  17,  19,  20,  22,  24,  26,  28,  30,  32,  34,  36,  38];
+           [  7,   8,   9,  10,  12,  13,  14,  16,  17,  19,  20,  24,  28,  32,  36,  40,  45,  50,  50,  50];
 
 // Per-level adjustment to base stats per difficulty (index 0 = level 1).
 // If encounterNumber exceeds the array, the last value is used.
@@ -422,12 +422,12 @@ const BASE_STATS =
 const DIFFICULTY_ADJUSTMENTS = {
   wizard:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
   normal:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-  hard:    [  1,   2,   2,   2,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3],
-  expert:  [  1,   2,   3,   3,   3,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5],
-  insane:  [  2,   2,   3,   3,   4,   5,   5,   6,   7,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8,   8],
+  hard:    [  1,   2,   2,   2,   3,   3,   4,   4,   4,   4,   4,   5,   6,   6,   6,   7,   7,   8,   8,   8],
+  expert:  [  1,   2,   3,   3,   3,   5,   6,   6,   6,   6,   6,   6,   8,   8,   8,  10,  10,  10,  10,  10],
+  insane:  [  2,   3,   4,   4,   4,   6,   8,   8,   8,   8,  10,  10,  10,  10,  12,  12,  12,  16,  16,  16],
 };
 
-function calculateBaseStat(encounterNumber, difficulty = 'normal') {
+export function calculateBaseStat(encounterNumber, difficulty = 'normal') {
   const base = BASE_STATS[encounterNumber - 1] ?? BASE_STATS[BASE_STATS.length - 1];
   const adjustments = DIFFICULTY_ADJUSTMENTS[difficulty] ?? DIFFICULTY_ADJUSTMENTS.normal;
   const adjustment = adjustments[encounterNumber - 1] ?? adjustments[adjustments.length - 1];

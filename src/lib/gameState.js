@@ -4,7 +4,7 @@ import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
-import { generateEncounter } from './encounters.js';
+import { generateEncounter, calculateBaseStat } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop } from './items.js';
 import { CLASSES, DIFFICULTIES } from './classes.js';
@@ -259,7 +259,7 @@ function buildOrdealEncounter(pool, round, difficulty) {
     id: 'finalOrdeal',
     name: 'The Final Ordeal',
     mystery: pool,
-    trouble: CONFIG.ordealTroubleBase + (round - 1) * troublePerRound,
+    trouble: calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + (round - 1) * troublePerRound,
     level: CONFIG.ordealStartDepth,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,

@@ -8,10 +8,11 @@
     getEffectiveMaxStamina,
   } from '../lib/gameState.js';
   import { CONFIG } from '../lib/constants.js';
+  import { calculateBaseStat } from '../lib/encounters.js';
 
   $: difficulty = $player.difficulty;
   $: troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? CONFIG.ordealTroublePerRound.normal;
-  $: nextTrouble = CONFIG.ordealTroubleBase + $ordealRound * troublePerRound;
+  $: nextTrouble = calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + $ordealRound * troublePerRound;
   $: startPool = Math.round(CONFIG.ordealBaseMystery * (CONFIG.ordealMysteryScale[difficulty] ?? 1));
   $: poolPercent = ($ordealMysteryPool / startPool) * 100;
 

@@ -21,8 +21,7 @@ export const CONFIG = {
 
   // Final Ordeal settings
   ordealStartDepth: 3, //should be 19 after testing
-  ordealBaseMystery: 200,
-  ordealTroubleBase: 30,
+  ordealBaseMystery: 250,
   ordealTroublePerRound: {   // flat trouble added per subsequent round
     wizard:  5, //TODO if this is still good, remove it
     normal:  5,
