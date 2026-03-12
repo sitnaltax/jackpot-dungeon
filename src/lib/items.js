@@ -358,7 +358,7 @@ const WEAK_ITEMS = [
   {
     id: 'hardtack',
     name: 'Hardtack',
-    description: 'This used to be some kind of enchanted bread, but the magic has long since spoiled, leaving it barely edible',
+    description: 'This used to be some kind of enchanted bread, but the magic has long since spoiled, leaving it barely edible.',
     icon: '🥖',
     category: 'food',
     cost: 1,
