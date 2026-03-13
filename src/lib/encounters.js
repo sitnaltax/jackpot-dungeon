@@ -360,9 +360,9 @@ const ENCOUNTERS = [
     flavorText: "You look up and can't see what's above. The canopy of a forest? The open sky? A cavern roof? Grand pillars and tapestries soar into the air, illumination coming from gleaming white lanterns, chandeliers, and swirling fireflies. A light haze cloaks not only the sky above, but the far end of this room.",
   },
   {
-    id: 'the_green_man',
-    name: 'The Green Man',
-    minLevel: 17,
+    id: 'error',
+    name: 'Error!',
+    minLevel: 19,
     maxLevel: 999,
     weight: 1,
     mysteryMod: 12,
@@ -370,21 +370,9 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
-    flavorText: "Leaves grow from his face, or his face grows from the leaves. The distinction feels academic. He is the oldest thing you have ever stood next to. He gestures, patiently, for you to explain yourself.",
+    flavorText: "This encounter isn't supposed to happen.",
   },
-  {
-    id: 'oberons_shadow',
-    name: "Oberon's Shadow",
-    minLevel: 18,
-    maxLevel: 999,
-    weight: 1,
-    mysteryMod: 10,
-    troubleMod: 10,
-    redrawBonus: 1,
-    selectiveRedrawBonus: 1,
-    description: '+1 Redraw, +1 Selective Redraw',
-    flavorText: "Oberon is not here. His shadow is. It moves independently of any light source, and it has his bearing, his authority, and apparently his patience. It has been waiting for you specifically.",
-  },
+
 ];
 
 // Select an encounter based on encounter number (weighted random from available)
