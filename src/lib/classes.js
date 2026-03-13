@@ -153,9 +153,9 @@ export const CLASSES = {
 export const CLASS_LIST = Object.values(CLASSES);
 
 export const DIFFICULTIES = [
-  { id: 'wizard', name: 'Wizard', description: 'Limitless resources, for exploring the game or debugging.', staminaBonus: 0 },
-  { id: 'normal', name: 'Normal', description: 'For new and casual players. Allows room for experimentation and mistakes.', staminaBonus: 15 },
-  { id: 'hard', name: 'Hard', description: 'For experienced players or roguelike veterans. Most strategies should be viable, and win if executed well.', staminaBonus: 5 },
-  { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. Most strategies should still be viable if executed well, but victory is uncertain.', staminaBonus: 0 },
+  { id: 'wizard', name: 'Observer', description: 'Limitless resources, for exploring the game or debugging.', staminaBonus: 0 },
+  { id: 'normal', name: 'Normal', description: 'For new and progressing players. Provides some room for experimentation and mistakes.', staminaBonus: 15 },
+  { id: 'hard', name: 'Hard', description: 'Intended as a challenge for experienced players. You will need to make good use of your resources and opportunities.', staminaBonus: 5 },
+  { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. You will need to rely on both luck and skill; victory is uncertain.', staminaBonus: 0 },
   { id: 'insane', name: 'Insane', description: 'Overtuned difficulty; use only if you found something you think is brokenly good.', staminaBonus: 0 },
 ];
