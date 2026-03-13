@@ -333,8 +333,8 @@ const ENCOUNTERS = [
     flavorText: "A huge figure looms, humanoid, but cloaked in shadow. It peers into a basin of inky black water, and regards you with complete disinterest. The oracles here do not provide answers; they steal answers, and if they run out of answers, they steal the rest of you.",
   },
   {
-    id: 'tooCleverFoxCavern',
-    name: 'Too-Clever Fox',
+    id: 'beyondCleverFox',
+    name: 'Beyond-Clever Fox',
     minLevel: 13,
     maxLevel: 17,
     weight: 1,
