@@ -434,18 +434,21 @@ export function generateItemShop(encounterNumber, playerState) {
       }
     }
 
-    // Fill remaining slots from normal pool
-    // Pick 2x free slots randomly, then take the most expensive ones
+    // Fill remaining slots from normal pool, weighted by cost
     const freeSlots = 3 - shopItems.length;
     if (freeSlots > 0) {
       const remaining = affordablePool.filter(i => !usedIds.has(i.id));
-      const shuffled = [...remaining].sort(() => Math.random() - 0.5);
-      const candidates = shuffled.slice(0, freeSlots * 2);
-      candidates.sort((a, b) => b.cost - a.cost);
-      for (const item of candidates) {
-        if (shopItems.length >= 3) break;
-        shopItems.push(item);
-        usedIds.add(item.id);
+      for (let s = 0; s < freeSlots && remaining.length > 0; s++) {
+        const totalWeight = remaining.reduce((sum, i) => sum + i.cost, 0);
+        let roll = Math.random() * totalWeight;
+        let picked = remaining[remaining.length - 1];
+        for (const item of remaining) {
+          roll -= item.cost;
+          if (roll <= 0) { picked = item; break; }
+        }
+        shopItems.push(picked);
+        usedIds.add(picked.id);
+        remaining.splice(remaining.indexOf(picked), 1);
       }
     }
   }

@@ -360,17 +360,17 @@ const ENCOUNTERS = [
     flavorText: "You look up and can't see what's above. The canopy of a forest? The open sky? A cavern roof? Grand pillars and tapestries soar into the air, illumination coming from gleaming white lanterns, chandeliers, and swirling fireflies. A light haze cloaks not only the sky above, but the far end of this room.",
   },
   {
-    id: 'error',
-    name: 'Error!',
+    id: 'visionOfRagnarok',
+    name: 'Vision of Ragnarok',
     minLevel: 19,
     maxLevel: 999,
     weight: 1,
-    mysteryMod: 12,
-    troubleMod: 0,
+    mysteryMod: 2,
+    troubleMod: 2,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
-    flavorText: "This encounter isn't supposed to happen.",
+    flavorText: "Just when you thought you were almost finished, terrible visions flood your mind. An awful, losing battle between your beloved home and the mindless, all-consuming forces of destruction, leaving only darkness and ruin in their wake. In the face of such a hopeless end, how can you continue?",
   },
 
 ];
@@ -410,9 +410,9 @@ const BASE_STATS =
 const DIFFICULTY_ADJUSTMENTS = {
   wizard:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
   normal:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-  hard:    [  1,   1,   2,   2,   2,   2,   2,   2,   3,   3,   3,   4,   4,   4,   5,   5,   6,   6,   6,   6],
-  expert:  [  1,   2,   2,   2,   3,   3,   4,   4,   4,   4,   4,   5,   6,   6,   6,   7,   7,   8,   8,   8],
-  insane:  [  2,   3,   4,   4,   4,   6,   8,   8,   8,   8,  10,  10,  10,  12,  12,  14,  16,  18,  20,  20],
+  hard:    [  1,   1,   1,   2,   2,   2,   2,   2,   2,   2,   3,   3,   3,   4,   4,   4,   5,   5,   5,   5],
+  expert:  [  1,   2,   2,   2,   2,   3,   3,   3,   3,   3,   3,   4,   4,   5,   5,   6,   7,   8,   8,   8],
+  insane:  [  2,   3,   4,   4,   4,   5,   5,   5,   6,   6,   7,   8,   8,   8,   8,  10,  10,  10,  10,  10],
 };
 
 export function calculateBaseStat(encounterNumber, difficulty = 'normal') {
