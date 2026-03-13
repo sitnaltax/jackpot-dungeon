@@ -402,7 +402,7 @@ function selectEncounter(encounterNumber, excluded = new Set()) {
 // If encounterNumber exceeds the array, the last value is used.
 //            1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
 const BASE_STATS = 
-           [  7,   8,   9,  10,  12,  13,  14,  16,  17,  19,  20,  24,  28,  32,  36,  40,  45,  50,  50,  50];
+           [  7,   8,   9,  10,  12,  13,  14,  16,  17,  18,  20,  22,  26,  30,  35,  40,  45,  50,  50,  50];
 
 // Per-level adjustment to base stats per difficulty (index 0 = level 1).
 // If encounterNumber exceeds the array, the last value is used.
