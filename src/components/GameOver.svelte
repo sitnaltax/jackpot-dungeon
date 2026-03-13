@@ -12,7 +12,7 @@
 
 <div class="game-over" class:victory={$isVictory}>
   <div class="header">
-    <h1>{$isVictory ? 'You Found Your Way Home' : 'Defeated!'}</h1>
+    <h1>{$isVictory ? 'Victory!' : 'Defeated'}</h1>
     <div class="depth">{$isVictory ? `After ${$ordealRound} Round${$ordealRound !== 1 ? 's' : ''}` : `Depth ${$encounterNumber}`}</div>
   </div>
 
