@@ -115,7 +115,7 @@ export const ITEMS = {
     description: 'A crystal jar filled with silvery glowing fireflies.',
     icon: '🏮',
     category: 'lightSource',
-    cost: 7, // 5 (1 draw) + 2 (redraw all)
+    cost: 8, // 5 (1 draw) + 2 (redraw all)
     minDepth: 6,
     bonuses: { bonusDraw: 1, redraws: 1 },
   },
@@ -125,7 +125,7 @@ export const ITEMS = {
     description: 'An enchanted drink that lets you see clearly in even the faintest starlight.',
     icon: '🧪',
     category: 'lightSource',
-    cost: 8, // 5 (1 draw) + 3 (insight)
+    cost: 7, // 5 (1 draw) + 3 (insight)
     minDepth: 6,
     bonuses: { bonusDraw: 1, insight: 2 },
   },

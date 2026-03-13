@@ -27,7 +27,6 @@ export const PHASES = {
 // Core game state stores
 export const gamePhase = writable(PHASES.START);
 export const encounterNumber = writable(0);
-export const isDebugMode = writable(false);
 export const player = writable({
   pods: [],
   playerClass: null,
@@ -185,12 +184,6 @@ export function getEffectiveMaxStamina(playerState) {
 
 // Game actions — start screen transitions to class select
 export function startNewGame() {
-  isDebugMode.set(false);
-  gamePhase.set(PHASES.CLASS_SELECT);
-}
-
-export function startDebugGame() {
-  isDebugMode.set(true);
   gamePhase.set(PHASES.CLASS_SELECT);
 }
 
@@ -201,8 +194,6 @@ export function selectClass(classId, difficultyId = 'normal') {
   if (!chosenClass) return;
 
   const startingPods = generateStartingPods();
-  const debug = get(isDebugMode);
-
   const wizard = difficultyId === 'wizard';
 
   const difficultyData = DIFFICULTIES.find(d => d.id === difficultyId);
@@ -221,8 +212,8 @@ export function selectClass(classId, difficultyId = 'normal') {
     difficulty: difficultyId,
     stamina: baseStamina,
     maxStamina: baseStamina,
-    xp: debug || wizard ? baseXp + 99999 : baseXp,
-    treasure: debug || wizard ? baseTreasure + 99999 : baseTreasure,
+    xp: wizard ? baseXp + 99999 : baseXp,
+    treasure: wizard ? baseTreasure + 99999 : baseTreasure,
     totalXpEarned: baseXp,
     totalTreasureEarned: baseTreasure,
     equipment: [...chosenClass.startingEquipment],
@@ -231,8 +222,8 @@ export function selectClass(classId, difficultyId = 'normal') {
   // Set stamina to effective max (accounts for class + equipment bonuses)
   const effMax = getEffectiveMaxStamina(playerState);
   const staminaOffset = chosenClass.startingStaminaOffset || 0;
-  playerState.stamina = debug || wizard ? effMax + 99999 : effMax + staminaOffset;
-  if (debug || wizard) {
+  playerState.stamina = wizard ? effMax + 99999 : effMax + staminaOffset;
+  if (wizard) {
     playerState.maxStamina = baseStamina + 99999;
   }
 
