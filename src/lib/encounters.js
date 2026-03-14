@@ -6,28 +6,28 @@
 // troublePerRound: flat trouble increase per subsequent round (replaces CONFIG.ordealTroublePerRound)
 export const FINAL_ORDEALS = [
   {
-    id: 'theWeightOfAll',
-    name: 'The Weight of All Things',
-    flavorText: "You have come to the end of the path. What stands before you is not a creature, not a place, not even a presence—it is the full weight of everything you have seen and not understood. The mystery will not yield easily.",
+    id: 'trueSelfMirror',
+    name: 'True-Self Mirror',
+    flavorText: "Half of those who look into it fall into endless despair, overcome by a true understanding of their own faults. The other half never look away, glad to eternally gaze upon the thing that they love most. Somehow, you must obtain the understanding you need here and leave with your mind intact.",
     mysteryBase: 250,
     troubleMod: 0,
     troublePerRound: 5,
   },
   {
-    id: 'thePaleTribunal',
-    name: 'The Pale Tribunal',
-    flavorText: "Three lights appear in the dark, cold and still, regarding you without interest. They have judged a thousand wanderers before you and will judge a thousand after. Their mystery is vast and patient. They are in no hurry.",
-    mysteryBase: 350,
-    troubleMod: -3,
-    troublePerRound: 3,
+    id: 'comprehendInfinity',
+    name: 'Comprehend Infinity',
+    flavorText: "From a small window, you can look out and see the entirely of Creation. More than that; Creation itself is only the tiniest fraction of that which might be created. From the entirety of that which is and that which might be, you must pluck out the smallest detail, and take it home, while forgetting the staggering horrors which lurk beyond imagination.",
+    mysteryBase: 250,
+    troubleMod: 0,
+    troublePerRound: 5,
   },
   {
-    id: 'theGnawingDark',
-    name: 'The Gnawing Dark',
-    flavorText: "Something beneath the ground has noticed you. It does not think, not exactly—it only wants. Each moment you linger, it grows more certain of you. The mystery here is shallow, but the danger is not.",
-    mysteryBase: 175,
-    troubleMod: 4,
-    troublePerRound: 8,
+    id: 'implacableAdvocate',
+    name: 'The Implacable Advocate',
+    flavorText: "You find yourself in an neat, luxurious lawyer's office. The Advocate patiently explains to you that, due to certain compromises and choices you have made, your soul and essence now belong to this eldritch realm. You need to find a way out--some loophole, some bargaining chip, some limit to your debt.",
+    mysteryBase: 250,
+    troubleMod: 0,
+    troublePerRound: 5,
   },
 ];
 
@@ -203,7 +203,7 @@ const ENCOUNTERS = [
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
-    flavorText: "On the trees, on the cliffs, and circling through the sky, hundreds of large crows surround you. They watch you with keen interest and caw--only one at a time, having a discussion amongst themselves that concerns you.",
+    flavorText: "On the trees, on the cliffs, and circling through the sky, hundreds of large crows surround you. They watch you with keen interest and caw--only one at a time, having a discussion amongst themselves--a discussion that concerns you.",
   },
   {
     id: 'malevolentFalseStars',

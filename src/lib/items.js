@@ -70,7 +70,7 @@ export const ITEMS = {
   filigreedSextant: {
     id: 'filigreedSextant',
     name: 'Filigreed Sextant',
-    description: 'The stars here are completely unfamiliar, but the designs etched into the metal show the traces of somehow-familiar lands.',
+    description: 'The stars here are completely foreign, but the designs etched into the metal show the traces of somehow-familiar lands.',
     icon: '🔭',
     category: 'navigation',
     cost: 6, // made up
