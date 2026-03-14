@@ -1,6 +1,6 @@
 <script>
   import { RANKS } from '../lib/constants.js';
-  import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
+  import { TOKEN_TYPES, getTokenValue, getTokenImage } from '../lib/tokens.js';
   import { inspectToken } from '../lib/gameState.js';
 
   export let token;
@@ -16,6 +16,7 @@
   $: baseValue = getTokenValue(token);
   $: borderEffect = typeData.borderEffect || null;
   $: hasSynergyIndicator = (typeData.getValue && !typeData.noSynergy) || !!typeData.onDiscard;
+  $: tokenImage = getTokenImage(typeData);
 
   // Calculate contextual contributions (with synergies if context provided)
   $: contributions = getContributions(token, context, equipment, typeData, baseValue);
@@ -55,7 +56,7 @@
   class="token {size}"
   class:selected
   class:has-border-effect={borderEffect}
-  style="--type-color: {typeData.color}; --rank-color: {rankData.color}; --border-effect: {borderEffect || 'none'}"
+  style="--type-color: {typeData.color}; --rank-color: {rankData.color}; --border-effect: {borderEffect || 'none'}; --bg-img: url('{tokenImage}')"
   on:click={handleClick}
   on:keydown={(e) => e.key === 'Enter' && handleClick()}
   role="button"
@@ -88,7 +89,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #2a2a4a 0%, #1a1a2e 100%);
+    background:
+      linear-gradient(135deg, rgba(42,42,74,0.78) 0%, rgba(26,26,46,0.78) 100%),
+      var(--bg-img) center / cover no-repeat,
+      #1a1a2e;
     border: 2px solid var(--type-color);
     border-radius: 8px;
     position: relative;
@@ -105,7 +109,10 @@
     content: '';
     position: absolute;
     inset: 3px;
-    background: linear-gradient(135deg, #2a2a4a 0%, #1a1a2e 100%);
+    background:
+      linear-gradient(135deg, rgba(42,42,74,0.78) 0%, rgba(26,26,46,0.78) 100%),
+      var(--bg-img) center / cover no-repeat,
+      #1a1a2e;
     border-radius: 5px;
     z-index: 0;
   }
