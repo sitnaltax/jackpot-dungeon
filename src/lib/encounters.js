@@ -396,14 +396,26 @@ const ENCOUNTERS = [
     minLevel: 19,
     maxLevel: 999,
     weight: 1,
-    mysteryMod: 2,
+    mysteryMod: -2,
     troubleMod: 2,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     description: null,
     flavorText: "Just when you thought you were almost finished, terrible visions flood your mind. An awful, losing battle between your beloved home and the mindless, all-consuming forces of destruction, leaving only darkness and ruin in their wake. In the face of such a hopeless end, how can you continue?",
   },
-
+  {
+    id: 'visionOfTheVoid',
+    name: 'Vision of the Void',
+    minLevel: 19,
+    maxLevel: 999,
+    weight: 1,
+    mysteryMod: 2,
+    troubleMod: -2,
+    redrawBonus: 0,
+    selectiveRedrawBonus: 0,
+    description: null,
+    flavorText: "Your senses go blank. Before your eyes, endless darkness. Not the darkness of a dark room--there is no floor under your feet. No sound arrives, no feeling of air on your skin. Even the touch of your hand to your own face is deadened. What can you use to escape when there is nothing?",
+  },
 ];
 
 // Select an encounter based on encounter number (weighted random from available)
