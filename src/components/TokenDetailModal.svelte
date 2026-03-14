@@ -150,7 +150,7 @@
       case 'meditation':
         return 'Contributes large flat amount to both Resolve and XP.';
       case 'wild':
-        return 'Contributes to all stats. With 2+ unique tags (Musical, Celestial, Botanical, Chthonic) among other drawn tokens, gains +3 Insight, Resolve, and XP per additional tag beyond the first.';
+        return 'Contributes to all stats, and provides tags to all other tokens.';
       default:
         return '';
     }

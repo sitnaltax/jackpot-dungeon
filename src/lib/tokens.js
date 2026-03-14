@@ -456,22 +456,14 @@ export const TOKEN_TYPES = {
     name: 'Wild',
     icon: '🃏',
     color: '#9b59b6',
-    baseValue: 0,
-    minDepth: 16,
-    weight: 0.2,
+    baseValue: 4,
+    minDepth: 6,
+    weight: 0.1,
     tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
-    getValue: (token, allDrawnTokens) => {
+    getValue: (token) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
-      const tags = ['Musical', 'Celestial', 'Botanical', 'Chthonic'];
-      let tagCount = 0;
-      for (const tag of tags) {
-        if (allDrawnTokens.some(t => t.type !== 'wild' && TOKEN_TYPES[t.type].tags?.includes(tag))) {
-          tagCount++;
-        }
-      }
-      const bonus = Math.max(0, tagCount - 1);
-      const value = Math.floor(3 * bonus * rankMultiplier);
+      const value = Math.floor(4 * rankMultiplier);
       return { insight: value, resolve: value, xp: value };
     },
   },
