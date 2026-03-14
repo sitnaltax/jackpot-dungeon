@@ -1,5 +1,36 @@
 // Encounter generation and scaling
 
+// Final Ordeal variants — each defines its own mystery pool and trouble curve.
+// mysteryBase: base pool before difficulty scale (CONFIG.ordealMysteryScale still applies)
+// troubleMod:  flat modifier added to calculateBaseStat(ordealStartDepth, difficulty)
+// troublePerRound: flat trouble increase per subsequent round (replaces CONFIG.ordealTroublePerRound)
+export const FINAL_ORDEALS = [
+  {
+    id: 'theWeightOfAll',
+    name: 'The Weight of All Things',
+    flavorText: "You have come to the end of the path. What stands before you is not a creature, not a place, not even a presence—it is the full weight of everything you have seen and not understood. The mystery will not yield easily.",
+    mysteryBase: 250,
+    troubleMod: 0,
+    troublePerRound: 5,
+  },
+  {
+    id: 'thePaleTribunal',
+    name: 'The Pale Tribunal',
+    flavorText: "Three lights appear in the dark, cold and still, regarding you without interest. They have judged a thousand wanderers before you and will judge a thousand after. Their mystery is vast and patient. They are in no hurry.",
+    mysteryBase: 350,
+    troubleMod: -3,
+    troublePerRound: 3,
+  },
+  {
+    id: 'theGnawingDark',
+    name: 'The Gnawing Dark',
+    flavorText: "Something beneath the ground has noticed you. It does not think, not exactly—it only wants. Each moment you linger, it grows more certain of you. The mystery here is shallow, but the danger is not.",
+    mysteryBase: 175,
+    troubleMod: 4,
+    troublePerRound: 8,
+  },
+];
+
 // Encounter definitions with modifiers
 const ENCOUNTERS = [
   //1-5: Woods

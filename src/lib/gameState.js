@@ -4,7 +4,7 @@ import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
-import { generateEncounter, calculateBaseStat } from './encounters.js';
+import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop } from './items.js';
 import { CLASSES, DIFFICULTIES } from './classes.js';
@@ -79,6 +79,7 @@ export const seenEncounterIds = writable(new Set());
 export const ordealActive = writable(false);
 export const ordealMysteryPool = writable(0);
 export const ordealRound = writable(0);
+export const ordealId = writable(null);
 export const isVictory = writable(false);
 
 function applyOnDiscardEffects(tokens) {
@@ -235,6 +236,7 @@ export function selectClass(classId, difficultyId = 'normal') {
   ordealActive.set(false);
   ordealMysteryPool.set(0);
   ordealRound.set(0);
+  ordealId.set(null);
   isVictory.set(false);
   startNextEncounter();
 }
@@ -245,24 +247,28 @@ function isChoiceEncounter(encNum) {
 }
 
 function buildOrdealEncounter(pool, round, difficulty) {
-  const troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? CONFIG.ordealTroublePerRound.normal;
+  const chosenId = get(ordealId);
+  const ordeal = FINAL_ORDEALS.find(o => o.id === chosenId) ?? FINAL_ORDEALS[0];
+  const troublePerRound = ordeal.troublePerRound;
   return {
-    id: 'finalOrdeal',
-    name: 'The Final Ordeal',
+    id: ordeal.id,
+    name: ordeal.name,
     mystery: pool,
-    trouble: calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + (round - 1) * troublePerRound,
+    trouble: calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + ordeal.troubleMod + (round - 1) * troublePerRound,
     level: CONFIG.ordealStartDepth,
     redrawBonus: 0,
     selectiveRedrawBonus: 0,
     isOrdeal: true,
-    flavorText: "You have come to the end of the path. What stands before you is not a creature, not a place, not even a presence—it is the full weight of everything you have seen and not understood. The mystery will not yield easily.",
+    flavorText: ordeal.flavorText,
   };
 }
 
 function startOrdeal() {
   const difficulty = get(player).difficulty;
+  const ordeal = FINAL_ORDEALS[Math.floor(Math.random() * FINAL_ORDEALS.length)];
   const scale = CONFIG.ordealMysteryScale[difficulty] ?? 1.0;
-  const pool = Math.round(CONFIG.ordealBaseMystery * scale);
+  const pool = Math.round(ordeal.mysteryBase * scale);
+  ordealId.set(ordeal.id);
   ordealActive.set(true);
   ordealRound.set(0);
   ordealMysteryPool.set(pool);

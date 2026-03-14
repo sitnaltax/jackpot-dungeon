@@ -1,19 +1,20 @@
 <script>
   import {
     player,
-    ordealMysteryPool, ordealRound,
+    ordealMysteryPool, ordealRound, ordealId,
     beginOrdealRound,
     ordealSpendOnClue, ordealSpendOnStamina,
     ordealOpenPodShop, ordealOpenItemShop,
     getEffectiveMaxStamina,
   } from '../lib/gameState.js';
   import { CONFIG } from '../lib/constants.js';
-  import { calculateBaseStat } from '../lib/encounters.js';
+  import { calculateBaseStat, FINAL_ORDEALS } from '../lib/encounters.js';
 
   $: difficulty = $player.difficulty;
-  $: troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? CONFIG.ordealTroublePerRound.normal;
-  $: nextTrouble = calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + $ordealRound * troublePerRound;
-  $: startPool = Math.round(CONFIG.ordealBaseMystery * (CONFIG.ordealMysteryScale[difficulty] ?? 1));
+  $: currentOrdeal = FINAL_ORDEALS.find(o => o.id === $ordealId) ?? FINAL_ORDEALS[0];
+  $: troublePerRound = currentOrdeal.troublePerRound;
+  $: nextTrouble = calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + currentOrdeal.troubleMod + $ordealRound * troublePerRound;
+  $: startPool = Math.round(currentOrdeal.mysteryBase * (CONFIG.ordealMysteryScale[difficulty] ?? 1));
   $: poolPercent = ($ordealMysteryPool / startPool) * 100;
 
   $: effectiveMax = getEffectiveMaxStamina($player);
@@ -42,6 +43,7 @@
 <div class="interlude">
   <div class="header">
     <h2>A Brief Respite</h2>
+    <div class="ordeal-name">{currentOrdeal.name}</div>
     <div class="pool-bar">
       <div class="pool-fill" style="width: {poolPercent}%"></div>
       <span class="pool-text">Mystery: {$ordealMysteryPool} remaining</span>
@@ -124,6 +126,12 @@
     margin: 0;
     font-size: 1.75rem;
     color: #83e8ff;
+  }
+
+  .ordeal-name {
+    font-size: 0.9rem;
+    color: #c9a0f5;
+    font-style: italic;
   }
 
   .pool-bar {
