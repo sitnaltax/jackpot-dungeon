@@ -120,8 +120,8 @@ export const CLASSES = {
     name: 'Polymath',
     description: 'Learns quickly; gets bonus XP, and can also refresh more cheaply.',
     benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina.',
-    bonuses: { encounterXpMultiplier: 1.5 },
-    refreshCostFn: (n) => Math.min(2, n),
+    bonuses: { encounterXpMultiplier: 1.3 },
+    refreshCostFn: (n) => Math.min(3, n),
     startingEquipment: [
       STARTING_ITEMS.elegantWatch,
       STARTING_ITEMS.ruinedJournal,
