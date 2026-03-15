@@ -48,9 +48,18 @@
   }
 
   .encounter.ordeal .encounter-left {
-    flex-direction: row;
-    gap: 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
     align-items: center;
+  }
+
+  .encounter.ordeal .encounter-name {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .encounter.ordeal .encounter-stats {
+    justify-content: center;
   }
 
   .encounter-left {
