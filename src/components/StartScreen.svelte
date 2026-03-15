@@ -16,12 +16,14 @@
       <li>Match the encounter's <strong>trouble</strong> with <strong>resolve</strong> to avoid losing stamina</li>
       <li>Spend XP in the pod shop to upgrade your pods</li>
       <li>Spend treasure in the item shop to upgrade your equipment</li>
+      <li>For more details see <a class="docs-link" href="https://github.com/sitnaltax/jackpot-dungeon/blob/master/instructions.md" target="_blank" rel="noopener noreferrer">the instructions</a>
     </ul>
   </div>
 
   <button class="btn btn-start" on:click={startNewGame}>
     Start Game
   </button>
+
 </div>
 
 <style>
@@ -95,6 +97,16 @@
   .btn-start:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+  }
+
+  .docs-link {
+    color: #00add8;
+    text-decoration: none;
+  }
+
+  .docs-link:hover {
+    color: #32cfff;
+    text-decoration: underline;
   }
 
 </style>

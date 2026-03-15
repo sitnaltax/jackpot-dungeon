@@ -1,6 +1,6 @@
 # Jacq's Quest
 
-Welcome to **Jacq's Quest**, a quick-playing roguelike deckbuilder...ish game.
+Welcome to **Jacq's Quest**, a quick-playing roguelike deckbuilderish game.
 
 # Story
 
@@ -41,7 +41,7 @@ In addition to finding higher ranks, you'll also encounter more exotic types of 
 
 **Botanical** tokens (Lotus, Oak, Clover) work the same way. Botanical tokens have a slight bias toward Resolve (those are more common, and provide a little bigger bonus) while Celestial tokens have an Insight bias, but they are otherwise symmetric.
 
-**Chthonic** tokens (Obsidian, Granite, Geode) work differently. These have a low value, but grant a bonus when **discarded** in an encounter. Thus, they are at their most powerful when they can be drawn and discarded several times.
+**Chthonic** tokens (Obsidian, Granite, Star Ruby) work differently. These have a low value, but grant a bonus when **discarded** in an encounter. Thus, they are at their most powerful when they can be drawn and discarded several times.
 
 ### Shopping
 
@@ -76,7 +76,7 @@ Light Sources do have a small catch: whenever you increase your token draws, you
 
 ## The Final Ordeal
 
-Beyond depth 18, you'll face one more ordeal, your Final Ordeal. This is like an ordinary Encounter with a coouple differences:
+Beyond depth 18, you'll face one more challenge, your Final Ordeal. This is like an ordinary Encounter with a coouple differences:
 * It has huge pool of Mystery that you will need to deplete over several rounds, rather than all at once. The size of the pool depends on the Difficulty
 * It gains in Trouble every turn
 * You don't gain Treasure (all of your Insight goes to reducing its Mystery)

@@ -9,6 +9,7 @@
   } from '../lib/gameState.js';
   import { CONFIG } from '../lib/constants.js';
   import { calculateBaseStat, FINAL_ORDEALS } from '../lib/encounters.js';
+  import PodDisplay from './PodDisplay.svelte';
 
   $: difficulty = $player.difficulty;
   $: currentOrdeal = FINAL_ORDEALS.find(o => o.id === $ordealId) ?? FINAL_ORDEALS[0];
@@ -69,15 +70,6 @@
   <div class="options">
 
     <div class="option-card">
-      <div class="option-header home">Remember your Home</div>
-      <p class="option-desc">Use your XP to restore Stamina. (3 XP = 1 Stamina)</p>
-      <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
-      <button class="btn btn-home" on:click={spendAllOnStamina}>
-        Remember your Home
-      </button>
-    </div>
-
-    <div class="option-card">
       <div class="option-header technique">Remember a Technique</div>
       <p class="option-desc">Visit the pod shop.</p>
       <button class="btn btn-technique" on:click={ordealOpenPodShop}>
@@ -95,6 +87,15 @@
     </div>
 
     <div class="option-card">
+      <div class="option-header home">Remember your Home</div>
+      <p class="option-desc">Use your XP to restore Stamina. (3 XP = 1 Stamina)</p>
+      <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
+      <button class="btn btn-home" on:click={spendAllOnStamina}>
+        Remember your Home
+      </button>
+    </div>
+
+    <div class="option-card">
       <div class="option-header clue">Remember a Clue</div>
       <p class="option-desc">Use your XP to penetrate the Mystery. This can't solve the last point of Mystery, though. (3 XP = 1 Insight)</p>
       <div class="spend-preview">{xpSpentOnClue} XP → {clueReduction} Insight</div>
@@ -102,6 +103,8 @@
         Remember a Clue
       </button>
     </div>
+
+    <PodDisplay selectable={false} />
 
   </div>
 </div>
