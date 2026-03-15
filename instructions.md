@@ -130,7 +130,7 @@ Your class is your background and the way you approach challenges.
 
 ## Designer Notes
 
-My most direct inspirations were **Luck Be a Landlord** and **CloverPit**; also **Slay the Spire**. Less directly, I have long been a fan of **Desktop Dungeons**.
+My most direct inspirations were **Luck Be a Landlord** and **CloverPit**; also **Slay the Spire**. Less directly, I have long been a fan of **Desktop Dungeons**. **Fallen London** was an inspiration for the writing, both in its eerie, otherworldly setting and its attempt to be brief, evocative, and humorous.
 
 I enjoyed those slot-machine games, but I thought: like many roguelike games, these are about finding something unfair and abusing it. I wanted to make a game that was about scraping by, doing the best you can. Sometimes in Jacq's Quest you get offered perfect pods, but that should be pretty rare.
 
