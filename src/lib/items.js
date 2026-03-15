@@ -253,7 +253,7 @@ export const ITEMS = {
     description: 'An enchanted brooch that opens others\' minds--but the communication runs both ways. Advantageous, because they are used to bewildered mortals, but their thoughts are usefully new to you.',
     icon: '📿',
     category: 'jewelry',
-    cost: 12, // made up
+    cost: 10, // made up
     bonuses: { insight: 6, redraws: 1 },
   },
 

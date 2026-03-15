@@ -10,6 +10,14 @@
 //          If omitted, getTokenImage() picks one based on the token's first tag.
 
 import { RANKS } from './constants.js';
+import musicalImage from '../assets/musical.jpg';
+import botanicalImage from '../assets/botanical.jpg';
+import celestialImage from '../assets/celestial.jpg';
+import chthonicImage from '../assets/chthonic.jpg';
+import botanicalMusicalImage from '../assets/botanical-musical.jpg';
+import celestialMusicalImage from '../assets/celestial-musical.jpg';
+import genericImage from '../assets/generic.jpg';
+
 
 // Helper to count tokens with a specific tag in a draw
 export function countTokensWithTag(tag, allDrawnTokens) {
@@ -137,6 +145,7 @@ export const TOKEN_TYPES = {
     weight: 0.2,
     tags: ['Musical', 'Celestial'],
     noSynergy: true,
+    image: celestialMusicalImage,
     getValue: (token) => ({ insight: Math.floor(5 * (RANKS[token.rank] || RANKS.bronze).multiplier) }),
   },
   bellflower: {
@@ -148,6 +157,7 @@ export const TOKEN_TYPES = {
     weight: 0.2,
     tags: ['Musical', 'Botanical'],
     noSynergy: true,
+    image: botanicalMusicalImage,
     getValue: (token) => ({ resolve: Math.floor(5 * (RANKS[token.rank] || RANKS.bronze).multiplier) }),
   },
 
@@ -459,10 +469,11 @@ export const TOKEN_TYPES = {
     icon: '🃏',
     color: '#9b59b6',
     baseValue: 4,
-    minDepth: 6,
+    minDepth: 16,
     weight: 0.1,
     tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
+    image: genericImage,
     getValue: (token) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
       const value = Math.floor(4 * rankMultiplier);
@@ -472,18 +483,9 @@ export const TOKEN_TYPES = {
 };
 
 // --- Token card art ---
-// Simple placeholder SVGs, one per tag group. Replace with real art URLs later.
 // Each token type can also set `image` directly to override.
 
-function svgUri(svg) {
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
 
-import musicalImage from '../assets/musical.jpg';
-import botanicalImage from '../assets/botanical.jpg';
-import celestialImage from '../assets/celestial.jpg';
-import chthonicImage from '../assets/chthonic.jpg';
-import genericImage from '../assets/generic.jpg';
 
 
 const TAG_IMAGES = {
