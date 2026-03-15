@@ -55,7 +55,16 @@
 
       <hr class="divider" />
 
-      <span class="menu-item disabled" title="Coming soon">🦋 Bluesky</span>
+      <a
+        class="menu-item"
+        href="https://bsky.app/profile/sitnaltax.bsky.social"
+        target="_blank"
+        rel="noopener noreferrer"
+        on:click={close}
+      >
+        🦋 Bluesky
+      </a>
+
       <span class="menu-item disabled" title="Coming soon">💬 Discord</span>
     </div>
   {/if}
