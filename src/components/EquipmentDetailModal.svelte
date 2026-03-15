@@ -6,14 +6,16 @@
   $: categoryName = equipment?.category ? (ITEM_CATEGORIES[equipment.category]?.name || 'Equipment') : 'Equipment';
   $: categoryColor = equipment?.category ? (ITEM_CATEGORIES[equipment.category]?.color || '#4a6785') : '#4a6785';
 
-  function getBonusDescription(bonuses) {
+  function getBonusDescription(item) {
+    const bonuses = item.bonuses || {};
     const descriptions = [];
     if (bonuses.selectiveRedraws) descriptions.push(`+${bonuses.selectiveRedraws} Redraw Selected`);
     if (bonuses.redraws) descriptions.push(`+${bonuses.redraws} Redraw All`);
     if (bonuses.bonusDraw) descriptions.push(`+${bonuses.bonusDraw} Token Draw`);
     if (bonuses.insight) descriptions.push(`+${bonuses.insight} Insight`);
     if (bonuses.resolve) descriptions.push(`+${bonuses.resolve} Resolve`);
-    if (bonuses.maxStamina) descriptions.push(`+${bonuses.maxStamina} Max Stamina`);
+    if (bonuses.maxStamina && item.staminaHeal) descriptions.push(`+${bonuses.maxStamina} Stamina`);
+    else if (bonuses.maxStamina) descriptions.push(`+${bonuses.maxStamina} Max Stamina`);
     if (bonuses.staminaRegen) descriptions.push(`+${bonuses.staminaRegen} Regen/encounter`);
     return descriptions;
   }
@@ -59,12 +61,12 @@
 
       <div class="bonuses-section">
         <h3>Bonuses</h3>
-        {#each getBonusDescription(equipment.bonuses) as bonus}
+        {#each getBonusDescription(equipment) as bonus}
           <div class="bonus-row">
             <span class="bonus-value">{bonus}</span>
           </div>
         {/each}
-        {#if getBonusDescription(equipment.bonuses).length === 0}
+        {#if getBonusDescription(equipment).length === 0}
           <p class="no-bonuses">
             {#if equipment.tags?.length}
               No bonuses, but provides the {equipment.tags.join(', ')} {equipment.tags.length === 1 ? 'tag' : 'tags'}.

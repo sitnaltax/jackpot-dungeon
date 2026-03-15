@@ -30,7 +30,8 @@
     if (bonuses.bonusDraw) list.push(`+${bonuses.bonusDraw} Token Draw`);
     if (bonuses.insight) list.push(`+${bonuses.insight} Insight`);
     if (bonuses.resolve) list.push(`+${bonuses.resolve} Resolve`);
-    if (bonuses.maxStamina) list.push(`+${bonuses.maxStamina} Max Stamina`);
+    if (bonuses.maxStamina && item.staminaHeal) list.push(`+${bonuses.maxStamina} Stamina`);
+    else if (bonuses.maxStamina) list.push(`+${bonuses.maxStamina} Max Stamina`);
     if (bonuses.staminaRegen) list.push(`+${bonuses.staminaRegen} Regen/encounter`);
     if (item.tags?.length) item.tags.forEach(tag => list.push(tag));
     return list;
@@ -106,7 +107,7 @@
           {#each getBonusList(item) as bonus}
             <span class="bonus-tag" class:tag-tag={item.tags?.includes(bonus)}>{bonus}</span>
           {/each}
-          {#if item.staminaHeal}
+          {#if item.staminaHeal && !item.bonuses?.maxStamina}
             <span class="bonus-tag heal-tag">+{item.staminaHeal} Stamina on pickup</span>
           {/if}
         </div>
