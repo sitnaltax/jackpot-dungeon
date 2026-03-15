@@ -90,7 +90,6 @@
     align-items: center;
     justify-content: center;
     background:
-      linear-gradient(135deg, rgba(42,42,74,0.01) 0%, rgba(26,26,46,0.01) 100%),
       var(--bg-img) center / cover no-repeat,
       #1a1a2e;
     border: 2px solid var(--type-color);
@@ -110,7 +109,6 @@
     position: absolute;
     inset: 3px;
     background:
-      linear-gradient(135deg, rgba(42,42,74,0.01) 0%, rgba(26,26,46,0.01) 100%),
       var(--bg-img) center / cover no-repeat,
       #1a1a2e;
     border-radius: 5px;
