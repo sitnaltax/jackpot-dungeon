@@ -69,15 +69,6 @@
   <div class="options">
 
     <div class="option-card">
-      <div class="option-header clue">Remember a Clue</div>
-      <p class="option-desc">Use your XP to penetrate the Mystery. This can't solve the last point of Mystery, though. (3 XP = 1 Insight)</p>
-      <div class="spend-preview">{xpSpentOnClue} XP → {clueReduction} Insight</div>
-      <button class="btn btn-clue" on:click={spendAllOnClue}>
-        Remember a Clue
-      </button>
-    </div>
-
-    <div class="option-card">
       <div class="option-header home">Remember your Home</div>
       <p class="option-desc">Use your XP to restore Stamina. (3 XP = 1 Stamina)</p>
       <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
@@ -100,6 +91,15 @@
       <div class="spend-preview">{xpSpentOnTreasure} XP → ${treasureGain}</div>
       <button class="btn btn-treasure" on:click={openItemShop}>
         Remember a Treasure
+      </button>
+    </div>
+
+    <div class="option-card">
+      <div class="option-header clue">Remember a Clue</div>
+      <p class="option-desc">Use your XP to penetrate the Mystery. This can't solve the last point of Mystery, though. (3 XP = 1 Insight)</p>
+      <div class="spend-preview">{xpSpentOnClue} XP → {clueReduction} Insight</div>
+      <button class="btn btn-clue" on:click={spendAllOnClue}>
+        Remember a Clue
       </button>
     </div>
 

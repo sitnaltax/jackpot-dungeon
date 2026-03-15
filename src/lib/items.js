@@ -215,7 +215,7 @@ export const ITEMS = {
     description: 'The planks are oak and rowan, bound with steel and decorated with silver. Weapons and magic alike simply glide off.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 9, 
+    cost: 8, 
     bonuses: { resolve: 6, insight: 2 },
   },
 
@@ -244,7 +244,7 @@ export const ITEMS = {
     description: 'This circlet is made of still-living ivy, with no seams in the vines and no signs of them ever having been cut. ',
     icon: '👑',
     category: 'jewelry',
-    cost: 9, 
+    cost: 8, 
     bonuses: { insight: 6, resolve: 2 },
   },
   opalBrooch: {
@@ -253,7 +253,7 @@ export const ITEMS = {
     description: 'An enchanted brooch that opens others\' minds--but the communication runs both ways. Advantageous, because they are used to bewildered mortals, but their thoughts are usefully new to you.',
     icon: '📿',
     category: 'jewelry',
-    cost: 14, // made up
+    cost: 12, // made up
     bonuses: { insight: 6, redraws: 1 },
   },
 
