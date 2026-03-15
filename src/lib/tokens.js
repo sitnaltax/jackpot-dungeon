@@ -479,65 +479,22 @@ function svgUri(svg) {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+import musicalImage from '../assets/musical.jpg';
+import botanicalImage from '../assets/botanical.jpg';
+import celestialImage from '../assets/celestial.jpg';
+import chthonicImage from '../assets/chthonic.jpg';
+import genericImage from '../assets/generic.jpg';
+
+
 const TAG_IMAGES = {
-  Musical: svgUri(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75">` +
-    `<rect width="60" height="75" fill="rgb(20,5,35)"/>` +
-    `<ellipse cx="18" cy="62" rx="8" ry="5" fill="rgb(140,60,180)" opacity="0.8"/>` +
-    `<line x1="26" y1="62" x2="26" y2="30" stroke="rgb(160,80,200)" stroke-width="2" opacity="0.8"/>` +
-    `<line x1="26" y1="30" x2="44" y2="24" stroke="rgb(160,80,200)" stroke-width="2" opacity="0.8"/>` +
-    `<ellipse cx="36" cy="57" rx="7" ry="4" fill="rgb(170,90,210)" opacity="0.7"/>` +
-    `<line x1="43" y1="57" x2="43" y2="24" stroke="rgb(180,100,220)" stroke-width="2" opacity="0.7"/>` +
-    `<path d="M4 22 Q18 13 32 22 Q46 31 56 20" stroke="rgb(110,40,150)" stroke-width="1.5" fill="none" opacity="0.5"/>` +
-    `<path d="M4 16 Q18 7 32 16 Q46 25 56 14" stroke="rgb(90,25,130)" stroke-width="1" fill="none" opacity="0.35"/>` +
-    `</svg>`
-  ),
-  Celestial: svgUri(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75">` +
-    `<rect width="60" height="75" fill="rgb(3,3,20)"/>` +
-    `<circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>` +
-    `<circle cx="28" cy="6" r="1" fill="white" opacity="0.7"/>` +
-    `<circle cx="50" cy="15" r="2" fill="white" opacity="0.85"/>` +
-    `<circle cx="55" cy="7" r="1" fill="white" opacity="0.55"/>` +
-    `<circle cx="7" cy="40" r="1" fill="white" opacity="0.5"/>` +
-    `<circle cx="48" cy="46" r="1.5" fill="white" opacity="0.7"/>` +
-    `<circle cx="34" cy="60" r="1" fill="white" opacity="0.5"/>` +
-    `<circle cx="6" cy="66" r="1" fill="white" opacity="0.4"/>` +
-    `<circle cx="44" cy="68" r="1" fill="white" opacity="0.45"/>` +
-    `<circle cx="21" cy="28" r="1" fill="white" opacity="0.5"/>` +
-    `<path d="M38 34 A14 14 0 1 1 38 62 A10 10 0 1 0 38 34" fill="rgb(220,210,120)" opacity="0.5"/>` +
-    `</svg>`
-  ),
-  Botanical: svgUri(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75">` +
-    `<rect width="60" height="75" fill="rgb(4,18,4)"/>` +
-    `<line x1="30" y1="72" x2="30" y2="16" stroke="rgb(50,110,50)" stroke-width="2.5" opacity="0.8"/>` +
-    `<path d="M30 45 Q50 30 58 20 Q44 28 30 45" fill="rgb(40,105,40)" opacity="0.8"/>` +
-    `<path d="M30 32 Q10 20 2 11 Q18 20 30 32" fill="rgb(55,125,55)" opacity="0.7"/>` +
-    `<path d="M30 58 Q52 50 60 42 Q44 50 30 58" fill="rgb(30,88,30)" opacity="0.65"/>` +
-    `<path d="M30 22 Q14 13 7 7 Q20 14 30 22" fill="rgb(60,135,60)" opacity="0.55"/>` +
-    `</svg>`
-  ),
-  Chthonic: svgUri(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75">` +
-    `<rect width="60" height="75" fill="rgb(12,6,3)"/>` +
-    `<polygon points="30,8 42,30 30,26 18,30" fill="rgb(115,68,26)" opacity="0.75"/>` +
-    `<polygon points="16,38 30,26 26,56 9,60" fill="rgb(88,52,20)" opacity="0.65"/>` +
-    `<polygon points="44,38 30,26 34,56 51,60" fill="rgb(98,57,23)" opacity="0.65"/>` +
-    `<polygon points="26,56 34,56 30,72" fill="rgb(78,46,18)" opacity="0.8"/>` +
-    `<line x1="30" y1="8" x2="30" y2="72" stroke="rgb(165,105,45)" stroke-width="1" opacity="0.28"/>` +
-    `</svg>`
-  ),
+  Musical: musicalImage,
+  Celestial: celestialImage,
+  Botanical: botanicalImage,
+  Chthonic: chthonicImage,
 };
 
-const DEFAULT_IMAGE = svgUri(
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 75">` +
-  `<rect width="60" height="75" fill="rgb(12,12,25)"/>` +
-  `<polygon points="30,8 52,37 30,67 8,37" stroke="rgb(72,72,115)" stroke-width="1.5" fill="none" opacity="0.6"/>` +
-  `<polygon points="30,18 46,37 30,57 14,37" stroke="rgb(62,62,100)" stroke-width="1" fill="none" opacity="0.45"/>` +
-  `<polygon points="30,28 40,37 30,47 20,37" stroke="rgb(72,72,115)" stroke-width="1" fill="none" opacity="0.3"/>` +
-  `</svg>`
-);
+const DEFAULT_IMAGE = genericImage
+
 
 // Returns an image URL for the token's card art background.
 // Checks typeData.image first, then picks by first matching tag, then returns a default.
