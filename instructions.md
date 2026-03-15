@@ -1,7 +1,5 @@
 # Jacq's Quest
 
-# Introduction
-
 Welcome to **Jacq's Quest**, a quick-playing roguelike deckbuilder...ish game.
 
 # Story
@@ -127,3 +125,13 @@ Your class is your background and the way you approach challenges.
 * For odd encounters, you'll be given a choice: a normal encounter for that depth, or a more difficult encounter (as if you were 2 encounters deeper). If you choose and survive the more perilous path, you'll be offered a free pod; you can take it, or half of its value in XP.
 * Some encounters grant bonus redraws, but have higher Mystery and Trouble thresholds to compensate.
 * The "Lyra" and "Bellflower" tokens count as both Musical/Celestial or Musical/Botanical, respectively. They help power up other tokens of both of their types.
+
+# Other Stuff
+
+## Designer Notes
+
+My most direct inspirations were **Luck Be a Landlord** and **CloverPit**; also **Slay the Spire**. Less directly, I have long been a fan of **Desktop Dungeons**.
+
+I enjoyed those slot-machine games, but I thought: like many roguelike games, these are about finding something unfair and abusing it. I wanted to make a game that was about scraping by, doing the best you can. Sometimes in Jacq's Quest you get offered perfect pods, but that should be pretty rare.
+
+The other big difference here is that tokens come in pods. You don't add and remove them individually--you have to take them in these little packets. This means that tokens don't have to be perfectly balanced; sometimes you get a lousy token in an otherwise-good pod and you take it. Unlike Slay the Spire, you don't need to trim your deck to the perfect cards; you work with what you have.

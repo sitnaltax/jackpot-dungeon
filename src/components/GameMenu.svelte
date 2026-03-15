@@ -36,7 +36,7 @@
 
       <a
         class="menu-item"
-        href="https://github.com/TODO/jackpot-dungeon"
+        href="https://github.com/sitnaltax/jackpot-dungeon/"
         target="_blank"
         rel="noopener noreferrer"
         on:click={close}
@@ -45,7 +45,7 @@
       </a>
       <a
         class="menu-item"
-        href="https://TODO"
+        href="https://github.com/sitnaltax/jackpot-dungeon/blob/master/instructions.md"
         target="_blank"
         rel="noopener noreferrer"
         on:click={close}
