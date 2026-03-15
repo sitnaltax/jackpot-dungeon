@@ -16,6 +16,11 @@
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
   $: hasEmptySlot = equipmentSlots.some(e => e === null);
   $: hasLightSource = equipmentSlots.some(e => e?.category === 'lightSource');
+  $: equippedLightDraw = equipmentSlots.find(e => e?.category === 'lightSource')?.bonuses?.bonusDraw ?? 0;
+
+  function isLightUpgrade(item) {
+    return item.category === 'lightSource' && (item.bonuses?.bonusDraw ?? 0) > equippedLightDraw;
+  }
   $: effectiveMaxStamina = getEffectiveMaxStamina($player);
   $: playerTreasure = $player.treasure;
   $: selectedSlot = $selectedEquipmentSlot;
@@ -89,7 +94,7 @@
 
   <div class="items-section">
     {#each $shopItems as item, index}
-      <div class="item-card" class:sold={isPurchased(index, purchasedSet)} class:cant-afford={!canAfford(item.cost, playerTreasure) && !isPurchased(index, purchasedSet)}>
+      <div class="item-card" class:sold={isPurchased(index, purchasedSet)} class:cant-afford={!canAfford(item.cost, playerTreasure) && !isPurchased(index, purchasedSet)} class:light-upgrade={isLightUpgrade(item) && !isPurchased(index, purchasedSet)}>
         <div class="item-header">
           <span class="item-icon">{item.icon}</span>
           <div class="item-title">
@@ -225,6 +230,11 @@
 
   .item-card.sold {
     opacity: 0.4;
+  }
+
+  .item-card.light-upgrade {
+    border-color: #f5e618;
+    box-shadow: 0 0 10px rgba(255, 213, 47, 0.5), 0 0 20px rgba(241, 196, 15, 0.2);
   }
 
   .item-card.cant-afford {
