@@ -139,8 +139,9 @@
   }
 
   .game-over.victory {
-    background: linear-gradient(135deg, #1b2d1b 0%, #1a1a2e 100%);
-    border-color: #f1c40f;
+    background: linear-gradient(135deg, #1a1040 0%, #0d0818 100%);
+    border-color: #c9a227;
+    box-shadow: 0 0 40px rgba(201, 162, 39, 0.15);
   }
 
   .header {
@@ -154,7 +155,7 @@
   }
 
   .victory h1 {
-    color: #f1c40f;
+    color: #ffd700;
   }
 
   .depth {
@@ -197,7 +198,7 @@
   }
 
   .victory .encounter-name {
-    color: #f1c40f;
+    color: #ffd700;
   }
 
   .encounter-flavor {
