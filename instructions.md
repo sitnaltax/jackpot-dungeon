@@ -21,7 +21,7 @@ Tokens grant **Insight**, **Resolve**, or **XP**:
 * **Resolve** is measured against the encounter's **Trouble**. If you don't have enough Resolve, you lose Stamina. Unlike Insight, this isn't all or nothing. If you're only short by 1 Resolve, you lose just a little Stamina (5). If you don't have any, you can lose twice the encounter's Trouble! Values in between scale.
 * **XP** (Experience) adds directly to your XP. After every encounter, you will visit a shop where you can spend your XP to buy new tokens.
 
-When you are satisfied with your draws, or can't redraw and more, choose Onwards.
+When you are satisfied with your draws, or can't redraw any more, choose Onwards.
 
 ## Pods and the Pod Shop
 
@@ -78,7 +78,7 @@ Light Sources do have a small catch: whenever you increase your token draws, you
 
 Beyond depth 18, you'll face one more challenge, your Final Ordeal. This is like an ordinary Encounter with a coouple differences:
 * It has huge pool of Mystery that you will need to deplete over several rounds, rather than all at once. The size of the pool depends on the Difficulty
-* It gains in Trouble every turn
+* It gains in Trouble every round
 * You don't gain Treasure (all of your Insight goes to reducing its Mystery)
 
 If you reduce its Mystery to 0 without running out of Stamina, you win the game!
@@ -87,7 +87,7 @@ In between rounds, you'll be given the opportunity to spend your XP on one of fo
 
 * **Remember a Technique** to visit the Pod Shop.
 * **Remember a Treasure** will convert your XP to Treasure at a 10:1 ratio. Then you'll visit the Item Shop.
-* **Rememmber a Clue** to convert your XP to Insight at a 3:1 ratio. This can't reduce the Mystery below 1, though; you'll still need to face the encounter at least once more. 
+* **Rememmber a Clue** to convert your XP to Insight at a 3:1 ratio. This can't reduce the Mystery below 1, though; you'll still need to face the ordeal at least once more. 
 * **Remember your Home** to convert your XP to Stamina at a 3:1 ratio.
 
 After that choice, you'll face another round of the Ordeal, until either you unravel its Mystery, or run out of Stamina.
@@ -102,7 +102,7 @@ Your class is your background and the way you approach challenges.
 
 **Agonists** tackle their problems head-on. They get bonus Stamina and bonus Stamina regeneration after every encounter, and start with a little extra Treasure. Their only downside is mediocre starting items.
 
-**Polymaths** learn quickly and can quickly find the best solution to their problems. They get bonus XP, and also are able to refresh the shop more cheaply to find the best pods. They start with reduced Stamina, so they will need to be careful at first.
+**Polymaths** learn quickly and can explore many avenues to find the best solution to their problems. They get bonus XP, and also are able to refresh the shop more cheaply to find the best pods. They start with reduced Stamina, so they will need to be careful at first.
 
 **Mavericks** solve problems in unorthodox ways. They can never buy items that grant Redraw Selected! However, they get +2 Redraw All innately, and start with three items including a Musical Instrument. They also gain more Treasure than others as a consolation when they don't have enough Insight.
 
@@ -122,7 +122,7 @@ Your class is your background and the way you approach challenges.
 
 ## Other Notes
 
-* For odd encounters, you'll be given a choice: a normal encounter for that depth, or a more difficult encounter (as if you were 2 encounters deeper). If you choose and survive the more perilous path, you'll be offered a free pod; you can take it, or half of its value in XP.
+* For odd encounters, you'll be given a choice: a normal encounter for that depth, or a more difficult encounter. If you choose and survive the more perilous path, you'll be offered a free pod; you can take it, or half of its value in XP.
 * Some encounters grant bonus redraws, but have higher Mystery and Trouble thresholds to compensate.
 * The "Lyra" and "Bellflower" tokens count as both Musical/Celestial or Musical/Botanical, respectively. They help power up other tokens of both of their types.
 

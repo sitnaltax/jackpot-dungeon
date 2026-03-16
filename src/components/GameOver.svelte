@@ -1,5 +1,5 @@
 <script>
-  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound } from '../lib/gameState.js';
+  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound, ordealActive } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { DIFFICULTIES } from '../lib/classes.js';
@@ -13,7 +13,13 @@
 <div class="game-over" class:victory={$isVictory}>
   <div class="header">
     <h1>{$isVictory ? 'Victory!' : 'Defeated'}</h1>
-    <div class="depth">{$isVictory ? `After ${$ordealRound} Round${$ordealRound !== 1 ? 's' : ''}` : `Depth ${$encounterNumber}`}</div>
+    <div class="depth">
+      {#if $ordealActive || $isVictory}
+        {$isVictory ? 'After' : 'On'} Round {$ordealRound} of the Final Ordeal
+      {:else}
+        Depth {$encounterNumber}
+      {/if}
+    </div>
   </div>
 
   {#if encounter}
