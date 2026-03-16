@@ -12,7 +12,8 @@
   $: isPurchased = (index) => $purchasedShopPods.has(index);
   $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);
   $: canAffordAnyPod = $shopPods.some((pod, i) => !$purchasedShopPods.has(i) && $player.xp >= pod.cost);
-  $: canRefresh = $player.xp >= refreshCost && canAffordAnyPod;
+  $: allPodsBought = $shopPods.every((_, i) => $purchasedShopPods.has(i));
+  $: canRefresh = $player.xp >= refreshCost && (canAffordAnyPod || allPodsBought || refreshCost === 0);
 </script>
 
 <div class="shop">
