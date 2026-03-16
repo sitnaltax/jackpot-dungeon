@@ -103,10 +103,9 @@
         Remember a Clue
       </button>
     </div>
-
-    <PodDisplay selectable={false} />
-
   </div>
+  <PodDisplay selectable={false} />
+
 </div>
 
 <style>
