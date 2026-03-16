@@ -175,7 +175,7 @@ export const ITEMS = {
     description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
     icon: '💎',
     category: 'lightSource',
-    cost: 20, // made up
+    cost: 18, // made up
     minDepth: 18,
     bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
   },
@@ -185,9 +185,9 @@ export const ITEMS = {
     description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
-    cost: 25, // made up
+    cost: 20, // made up
     minDepth: 18,
-    bonuses: { bonusDraw: 3, selectiveRedraws: 1 },
+    bonuses: { bonusDraw: 3, redraws: 1 },
   },  
 
   // === WEAPONS (Resolve) ===
@@ -206,7 +206,7 @@ export const ITEMS = {
     description: 'It\'s not like you would have any chance to win a sword fight. Still, this beautiful weapon makes you feel heroic just holding it.',
     icon: '⚔️',
     category: 'weapon',
-    cost: 6, // made up
+    cost: 4, // made up
     bonuses: { resolve: 6 },
   },
   turnspellShield: {
@@ -215,7 +215,7 @@ export const ITEMS = {
     description: 'The planks are oak and rowan, bound with steel and decorated with silver. Weapons and magic alike simply glide off.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 8, 
+    cost: 6, 
     bonuses: { resolve: 6, insight: 2 },
   },
 
@@ -235,7 +235,7 @@ export const ITEMS = {
     description: 'A hammered pewter ring set with a roughly carved sapphire. It vibrates silently to call your attention to something you\'ve missed. It\'s usually vibrating.',
     icon: '💍',
     category: 'jewelry',
-    cost: 6, // made up
+    cost: 4, // made up
     bonuses: { insight: 6 },
   },
   ivyCrown: {
@@ -244,7 +244,7 @@ export const ITEMS = {
     description: 'This circlet is made of still-living ivy, with no seams in the vines and no signs of them ever having been cut. ',
     icon: '👑',
     category: 'jewelry',
-    cost: 8, 
+    cost: 6, 
     bonuses: { insight: 6, resolve: 2 },
   },
   opalBrooch: {
@@ -253,7 +253,7 @@ export const ITEMS = {
     description: 'An enchanted brooch that opens others\' minds--but the communication runs both ways. Advantageous, because they are used to bewildered mortals, but their thoughts are usefully new to you.',
     icon: '📿',
     category: 'jewelry',
-    cost: 10, // made up
+    cost: 8, // made up
     bonuses: { insight: 6, redraws: 1 },
   },
 
