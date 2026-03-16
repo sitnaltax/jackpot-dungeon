@@ -1,5 +1,5 @@
 <script>
-  import { encounterResult, proceedFromEncounter, ordealActive } from '../lib/gameState.js';
+  import { encounterResult, proceedFromEncounter, ordealActive, ordealMysteryPool } from '../lib/gameState.js';
   import { getEncounterSummary } from '../lib/encounter.js';
 
   $: summary = $encounterResult ? getEncounterSummary($encounterResult) : [];
@@ -38,7 +38,11 @@
           <span class="multiplier">(x{$encounterResult.classXpMultiplier})</span>
         {/if}
       </div>
-      {#if !$ordealActive}
+      {#if $ordealActive}
+        <div class="mystery-remaining">
+          {$ordealMysteryPool} Mystery remaining
+        </div>
+      {:else}
         <div class="treasure-gained">
           +${$encounterResult.treasureGained}
         </div>
@@ -119,6 +123,10 @@
 
   .treasure-gained {
     color: #9b59b6;
+  }
+
+  .mystery-remaining {
+    color: #e74c3c;
   }
 
   .multiplier {
