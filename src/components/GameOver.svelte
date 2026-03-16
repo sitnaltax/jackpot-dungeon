@@ -8,6 +8,29 @@
   $: encounter = $currentEncounter;
   $: result = $encounterResult;
   $: equipmentSlots = Array.from({ length: EQUIPMENT_SLOTS }, (_, i) => $player.equipment?.[i] || null);
+
+  let copyLabel = 'Share';
+
+  function buildSynopsis() {
+    const className = $player.playerClass?.name ?? 'Unknown';
+    const diffName = DIFFICULTIES.find(d => d.id === $player.difficulty)?.name ?? $player.difficulty;
+    const location = ($ordealActive || $isVictory)
+      ? `Round ${$ordealRound} of the Final Ordeal`
+      : `Depth ${$encounterNumber}`;
+    const outcome = $isVictory ? `conquered` : `fell at`;
+    return `I ${outcome} Jacq's Quest as a ${className} on ${diffName} difficulty, at ${location}. https://rule0.com/jacq/`;
+  }
+
+  async function handleShare() {
+    try {
+      await navigator.clipboard.writeText(buildSynopsis());
+      copyLabel = 'Copied!';
+      setTimeout(() => copyLabel = 'Share', 2000);
+    } catch {
+      copyLabel = 'Failed';
+      setTimeout(() => copyLabel = 'Share', 2000);
+    }
+  }
 </script>
 
 <div class="game-over" class:victory={$isVictory}>
@@ -120,9 +143,14 @@
     </div>
   </section>
 
-  <button class="btn-primary" class:btn-victory={$isVictory} on:click={restartGame}>
-    {$isVictory ? 'Play Again' : 'Try Again'}
-  </button>
+  <div class="button-row">
+    <button class="btn-primary" class:btn-victory={$isVictory} on:click={restartGame}>
+      {$isVictory ? 'Play Again' : 'Try Again'}
+    </button>
+    <button class="btn-share" on:click={handleShare}>
+      {copyLabel}
+    </button>
+  </div>
 </div>
 
 <style>
@@ -370,5 +398,30 @@
 
   .btn-victory:hover {
     background: #d4ac0d;
+  }
+
+  .button-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-share {
+    padding: 0.875rem 1.5rem;
+    background: #2c3e50;
+    color: #aaa;
+    border: 1px solid #4a5568;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-share:hover {
+    background: #34495e;
+    color: #fff;
+    transform: translateY(-2px);
   }
 </style>
