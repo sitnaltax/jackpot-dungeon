@@ -36,24 +36,16 @@
 
       <a
         class="menu-item"
-        href="https://github.com/sitnaltax/jackpot-dungeon/"
-        target="_blank"
-        rel="noopener noreferrer"
-        on:click={close}
-      >
-        ⌥ Repository
-      </a>
-      <a
-        class="menu-item"
         href="https://github.com/sitnaltax/jackpot-dungeon/blob/master/instructions.md"
         target="_blank"
         rel="noopener noreferrer"
         on:click={close}
       >
-        📖 Documentation
+        📖 Instructions
       </a>
 
       <hr class="divider" />
+
       <a
         class="menu-item"
         href="https://bsky.app/profile/sitnaltax.bsky.social"
@@ -73,6 +65,19 @@
       >
         💬 Discord
       </a>
+
+      <hr class="divider" />
+
+      <a
+        class="menu-item"
+        href="https://github.com/sitnaltax/jackpot-dungeon/"
+        target="_blank"
+        rel="noopener noreferrer"
+        on:click={close}
+      >
+        ⌥ Repository
+      </a>
+
     </div>
   {/if}
 </div>
@@ -148,11 +153,6 @@
   .menu-item.action:hover {
     background: rgba(231, 76, 60, 0.15);
     color: #e74c3c;
-  }
-
-  .menu-item.disabled {
-    color: #555;
-    cursor: default;
   }
 
   .divider {
