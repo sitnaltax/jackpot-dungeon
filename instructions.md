@@ -86,7 +86,7 @@ If you reduce its Mystery to 0 without running out of Stamina, you win the game!
 In between rounds, you'll be given the opportunity to spend your XP on one of four choices:
 
 * **Remember a Technique** to visit the Pod Shop.
-* **Remember a Treasure** will convert your XP to Treasure at a 10:1 ratio. Then you'll visit the Item Shop.
+* **Remember a Treasure** will convert your XP to Treasure at an 8:1 ratio. Then you'll visit the Item Shop.
 * **Rememmber a Clue** to convert your XP to Insight at a 3:1 ratio. This can't reduce the Mystery below 1, though; you'll still need to face the ordeal at least once more. 
 * **Remember your Home** to convert your XP to Stamina at a 3:1 ratio.
 

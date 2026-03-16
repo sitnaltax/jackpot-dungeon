@@ -23,8 +23,8 @@
   $: xpSpentOnClue = clueReduction * 3;
   $: homeHeal = Math.min(Math.floor($player.xp / 3), effectiveMax - $player.stamina);
   $: xpSpentOnHome = homeHeal * 3;
-  $: treasureGain = Math.floor($player.xp / 10);
-  $: xpSpentOnTreasure = treasureGain * 10;
+  $: treasureGain = Math.floor($player.xp / 8);
+  $: xpSpentOnTreasure = treasureGain * 8;
 
   function spendAllOnClue() {
     ordealSpendOnClue($player.xp);
@@ -79,7 +79,7 @@
 
     <div class="option-card">
       <div class="option-header treasure">Remember a Treasure</div>
-      <p class="option-desc">Spend all your XP to gain Treasure, then visit the item shop. (10 XP = $1)</p>
+      <p class="option-desc">Spend all your XP to gain Treasure, then visit the item shop. (8 XP = $1)</p>
       <div class="spend-preview">{xpSpentOnTreasure} XP → ${treasureGain}</div>
       <button class="btn btn-treasure" on:click={openItemShop}>
         Remember a Treasure
