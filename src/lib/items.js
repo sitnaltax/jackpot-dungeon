@@ -298,7 +298,7 @@ export const ITEMS = {
   waybread: {
     id: 'waybread',
     name: 'Waybread',
-    description: 'The local word for this is an insult, or perhaps a swear. The taste is is like thinly-spiced dust. But it\'s nourishing and surprisingly energizing once you choke it down.',
+    description: 'The local word for this is an insult, or perhaps a swear. It tastes like thinly-spiced dust. But it\'s nourishing and surprisingly energizing once you choke it down.',
     icon: '🥐',
     category: 'food',
     cost: 6,
