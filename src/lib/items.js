@@ -12,12 +12,6 @@ export const ITEM_CATEGORIES = {
 };
 
 // All items in the game
-// Flat additive pricing:
-//   Selective Redraw $4, Redraw All $2, Bonus Draw $5,
-//   Resolve $3 (for 2), Insight $3 (for 2),
-//   Stamina $3 (for 10 max, 10 heal, +2 regen)
-// Multi-bonus items: just sum the base costs.
-
 export const ITEMS = {
   // === BOOKS (Redraw Selected) ===
   bookOfTales: {
@@ -26,7 +20,7 @@ export const ITEMS = {
     description: 'A leatherbound book containing fifty useful stories about the nature of this land. Exactly ten of them are true; unfortunately, those aren\'t marked.',
     icon: '📖',
     category: 'book',
-    cost: 4, // 4 (1 selective)
+    cost: 4,
     bonuses: { selectiveRedraws: 1 },
   },
   librettoOfLies: {
@@ -35,7 +29,7 @@ export const ITEMS = {
     description: 'A thin volume written in watery gray ink. If you turn your mind inside-out, you can get useful information from it.',
     icon: '📜',
     category: 'book',
-    cost: 10, // made up
+    cost: 10,
     bonuses: { selectiveRedraws: 2 },
   },
   jacqsDiary: {
@@ -44,7 +38,7 @@ export const ITEMS = {
     description: 'An diary with modern binding, made in a factory. You have no memory of writing in it, and yet the handwriting is unmistakably yours.',
     icon: '📕',
     category: 'book',
-    cost: 14, // made up
+    cost: 14,
     bonuses: { selectiveRedraws: 2, insight: 4 },
   },
   vitreousBible: {
@@ -53,7 +47,7 @@ export const ITEMS = {
     description: 'It\'s the Old Testament, describing a bizarre alternate world where everything was made of glass. The back cover is cracked.',
     icon: '📗',
     category: 'book',
-    cost: 14, // made up
+    cost: 14,
     bonuses: { selectiveRedraws: 2, resolve: 4 },
   },
 
@@ -64,7 +58,7 @@ export const ITEMS = {
     description: 'A toy for faerie children. When they first touch it, it forevermore points toward an object they will never reach.',
     icon: '🧭',
     category: 'navigation',
-    cost: 2, // 2 (1 redraw all)
+    cost: 2,
     bonuses: { redraws: 1 },
   },
   filigreedSextant: {
@@ -73,7 +67,7 @@ export const ITEMS = {
     description: 'The stars here are completely foreign, but the designs etched into the metal show the traces of somehow-familiar lands.',
     icon: '🔭',
     category: 'navigation',
-    cost: 6, // made up
+    cost: 6,
     bonuses: { redraws: 2 },
   },
   goldenAtlas: {
@@ -82,7 +76,7 @@ export const ITEMS = {
     description: 'A sheaf of gold-foiled pewter plates. A map is embossed in each, with features labeled in a mysterious spidery alphabet.',
     icon: '🗺️',
     category: 'navigation',
-    cost: 10, // made up
+    cost: 10,
     bonuses: { redraws: 2, insight: 4 },
   },
   diviningRod: {
@@ -91,21 +85,20 @@ export const ITEMS = {
     description: 'A thin willow bough that tugs inexorably to your greatest desire. Less useful if you need to find your second greatest desire.',
     icon: '🪄',
     category: 'navigation',
-    cost: 16, // made up
+    cost: 16,
     minDepth: 12,
     bonuses: { redraws: 2, selectiveRedraws: 1 },
   },
 
   // === LIGHT SOURCES (Bonus Draw) ===
   // Only one light source can be equipped at a time.
-  // +1 draw at depth 6+, +2 draw at depth 12+, +3 draw at depth 18+.
   weatherproofCandle: {
     id: 'weatherproofCandle',
     name: 'Weatherproof Candle',
     description: 'This candle burns steadily and brightly in any wind or rain.',
     icon: '🕯️',
     category: 'lightSource',
-    cost: 5, // 5 (1 draw)
+    cost: 5,
     minDepth: 6,
     bonuses: { bonusDraw: 1 },
   },
@@ -115,7 +108,7 @@ export const ITEMS = {
     description: 'A crystal jar filled with silvery glowing fireflies.',
     icon: '🏮',
     category: 'lightSource',
-    cost: 8, // 5 (1 draw) + 2 (redraw all)
+    cost: 8,
     minDepth: 6,
     bonuses: { bonusDraw: 1, redraws: 1 },
   },
@@ -125,7 +118,7 @@ export const ITEMS = {
     description: 'An enchanted drink that lets you see clearly in even the faintest starlight.',
     icon: '🧪',
     category: 'lightSource',
-    cost: 7, // 5 (1 draw) + 3 (insight)
+    cost: 7,
     minDepth: 6,
     bonuses: { bonusDraw: 1, insight: 2 },
   },
@@ -135,7 +128,7 @@ export const ITEMS = {
     description: 'A luminescent shard of fallen star, lashed to a carved oaken handle.',
     icon: '🌠',
     category: 'lightSource',
-    cost: 10, //made up
+    cost: 10,
     minDepth: 12,
     bonuses: { bonusDraw: 2 },
   },
@@ -145,7 +138,7 @@ export const ITEMS = {
     description: 'A miniature thunderbolt, somehow frozen. It feels dangerous to touch, frostbitingly cold and full of ominous potential.',
     icon: '⚡',
     category: 'lightSource',
-    cost: 14, //made up
+    cost: 14,
     minDepth: 12,
     bonuses: { bonusDraw: 2, insight: 4 },
   },
@@ -155,17 +148,17 @@ export const ITEMS = {
     description: 'An eldritch blessing from the moon\'s mercurial love. Light or dark, see the world as if bathed in cool, pale moonlight.',
     icon: '🌙',
     category: 'lightSource',
-    cost: 15, // made up
+    cost: 15,
     minDepth: 12,
     bonuses: { bonusDraw: 2, redraws: 1 },
-  },  
+  },
   ancientSunshard: {
     id: 'ancientSunshard',
     name: 'Ancient Sunshard',
     description: 'A fragment of the dawn from before memory, lost for a thousand years and shining bright in your grasp.',
     icon: '☀️',
     category: 'lightSource',
-    cost: 15, // 5 + 5 + 5 (3 draw)
+    cost: 15,
     minDepth: 18,
     bonuses: { bonusDraw: 3 },
   },
@@ -175,7 +168,7 @@ export const ITEMS = {
     description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
     icon: '💎',
     category: 'lightSource',
-    cost: 18, // made up
+    cost: 18,
     minDepth: 18,
     bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
   },
@@ -185,10 +178,10 @@ export const ITEMS = {
     description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
-    cost: 20, // made up
+    cost: 20,
     minDepth: 18,
     bonuses: { bonusDraw: 3, redraws: 1 },
-  },  
+  },
 
   // === WEAPONS (Resolve) ===
   ironDagger: {
@@ -197,7 +190,7 @@ export const ITEMS = {
     description: 'A weapon made of iron marks you as a pariah or rebel. Still, it can absorb dangerous magic in a pinch.',
     icon: '🗡️',
     category: 'weapon',
-    cost: 2, // 3 (2 resolve)
+    cost: 2,
     bonuses: { resolve: 2 },
   },
   silverSword: {
@@ -206,7 +199,7 @@ export const ITEMS = {
     description: 'It\'s not like you would have any chance to win a sword fight. Still, this beautiful weapon makes you feel heroic just holding it.',
     icon: '⚔️',
     category: 'weapon',
-    cost: 4, // made up
+    cost: 4,
     bonuses: { resolve: 6 },
   },
   turnspellShield: {
@@ -215,7 +208,7 @@ export const ITEMS = {
     description: 'The planks are oak and rowan, bound with steel and decorated with silver. Weapons and magic alike simply glide off.',
     icon: '🛡️',
     category: 'weapon',
-    cost: 6, 
+    cost: 6,
     bonuses: { resolve: 6, insight: 2 },
   },
 
@@ -226,7 +219,7 @@ export const ITEMS = {
     description: "Looking through it is like looking through a broken kaleidoscope. It's a dizzying but effective way to get a new perspective.",
     icon: '💎',
     category: 'jewelry',
-    cost: 2, // made up
+    cost: 2,
     bonuses: { insight: 2 },
   },
   hammeredPewterRing: {
@@ -235,7 +228,7 @@ export const ITEMS = {
     description: 'A hammered pewter ring set with a roughly carved sapphire. It vibrates silently to call your attention to something you\'ve missed. It\'s usually vibrating.',
     icon: '💍',
     category: 'jewelry',
-    cost: 4, // made up
+    cost: 4,
     bonuses: { insight: 6 },
   },
   ivyCrown: {
@@ -244,7 +237,7 @@ export const ITEMS = {
     description: 'This circlet is made of still-living ivy, with no seams in the vines and no signs of them ever having been cut. ',
     icon: '👑',
     category: 'jewelry',
-    cost: 6, 
+    cost: 6,
     bonuses: { insight: 6, resolve: 2 },
   },
   opalBrooch: {
@@ -253,7 +246,7 @@ export const ITEMS = {
     description: 'An enchanted brooch that opens others\' minds--but the communication runs both ways. Advantageous, because they are used to bewildered mortals, but their thoughts are usefully new to you.',
     icon: '📿',
     category: 'jewelry',
-    cost: 8, // made up
+    cost: 8,
     bonuses: { insight: 6, redraws: 1 },
   },
 
@@ -298,7 +291,7 @@ export const ITEMS = {
     description: 'Contains nuts like your familiar trail mix, with the chocolate replaced with incredibly sweet dried berries. Delicious!',
     icon: '🍞',
     category: 'food',
-    cost: 3, // 3 (stamina base)
+    cost: 3,
     bonuses: { maxStamina: 10, staminaRegen: 2 },
     staminaHeal: 10,
   },
@@ -308,7 +301,7 @@ export const ITEMS = {
     description: 'The local word for this is an insult, or perhaps a swear. The taste is is like thinly-spiced dust. But it\'s nourishing and surprisingly energizing once you choke it down.',
     icon: '🥐',
     category: 'food',
-    cost: 6, // 3 + 3 (double stamina)
+    cost: 6,
     bonuses: { maxStamina: 20, staminaRegen: 4 },
     staminaHeal: 20,
   },
@@ -318,7 +311,7 @@ export const ITEMS = {
     description: "Wolfsbane, bearsbane, lionsbane, and sharksbane. The bane works retroactively.",
     icon: '🌿',
     category: 'food',
-    cost: 12, // made up
+    cost: 12,
     bonuses: { maxStamina: 20, staminaRegen: 4, redraws: 1 },
     staminaHeal: 20,
   },
@@ -328,7 +321,7 @@ export const ITEMS = {
     description: 'They say if you drink it, you\'ll never be able to return home. That\'s because it helps you see all the advantages of where you are.',
     icon: '🍷',
     category: 'food',
-    cost: 16, // 3 (stamina) + 3 (insight)
+    cost: 16,
     bonuses: { maxStamina: 20, staminaRegen: 4, selectiveRedraws: 1 },
     staminaHeal: 20,
   },
