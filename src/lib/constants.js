@@ -20,14 +20,14 @@ export const CONFIG = {
   shopSize: 4,             // Number of pods offered in shop
 
   // Final Ordeal settings
-  ordealStartDepth: 19, //should be 19 after testing
+  ordealStartDepth: 19,
   ordealBaseMystery: 250,
   ordealTroublePerRound: {   // flat trouble added per subsequent round
-    wizard:  5, //TODO if this is still good, remove it
-    normal:  5,
+    wizard:  4,
+    normal:  4,
     hard:    5,
-    expert:  5,
-    insane:  5,
+    expert:  6,
+    insane:  6,
   },
   ordealMysteryScale: {      // multiplier on base mystery per difficulty
     wizard:  1.0,
