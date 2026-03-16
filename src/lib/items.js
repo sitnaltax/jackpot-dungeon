@@ -288,7 +288,7 @@ export const ITEMS = {
   trailMix: {
     id: 'trailMix',
     name: 'Trail Mix',
-    description: 'Contains nuts like your familiar trail mix, with the chocolate replaced with incredibly sweet dried berries. Delicious!',
+    description: 'Contains roasted nuts, dried fruit, and incredibly sweet crystallized berries. You\ll have to restrain yourself not to eat it all at once.',
     icon: '🍞',
     category: 'food',
     cost: 3,
