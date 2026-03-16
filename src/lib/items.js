@@ -308,7 +308,7 @@ export const ITEMS = {
   medicinalHerbs: {
     id: 'medicinalHerbs',
     name: 'Medicinal Herbs',
-    description: "Wolfsbane, bearsbane, lionsbane, and sharksbane. The bane works retroactively.",
+    description: "Wolfsbane, bearsbane, lionsbane, and sharksbane. If you don't see any sharks, it's because the bane is working.",
     icon: '🌿',
     category: 'food',
     cost: 12,
