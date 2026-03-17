@@ -18,6 +18,9 @@
           <span class="stat-value trouble">{$currentEncounter.trouble}</span>
         </div>
       </div>
+      {#if $currentEncounter.description}
+        <div class="encounter-desc">{$currentEncounter.description}</div>
+      {/if}
     </div>
 
     <div class="encounter-flavor">
@@ -109,6 +112,12 @@
 
   .stat-value.trouble {
     color: #3498db;
+  }
+
+  .encounter-desc {
+    font-size: 0.8rem;
+    color: #f1c40f;
+    font-style: italic;
   }
 
   .encounter-flavor {
