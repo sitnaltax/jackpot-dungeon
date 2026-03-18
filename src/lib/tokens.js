@@ -472,6 +472,7 @@ export const TOKEN_TYPES = {
     minDepth: 16,
     weight: 0.1,
     tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
+    noSynergy: true,
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     image: genericImage,
     getValue: (token) => {
