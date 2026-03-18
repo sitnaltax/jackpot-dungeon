@@ -5,7 +5,7 @@
 ### UI
 
 * Improved the look of badges on tokens
-
+* Adjust item colors to make the badges look a little nicer
 
 ## 1.1.0 - 3/17/2026
 
