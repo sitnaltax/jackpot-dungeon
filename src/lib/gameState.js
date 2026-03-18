@@ -497,10 +497,10 @@ export function executeEncounter() {
     });
 
     const $playerAfterOrdeal = get(player);
-    if (result.insightSuccess) {
-      isVictory.set(true);
+    if ($playerAfterOrdeal.stamina <= 0) {
       gamePhase.set(PHASES.GAME_OVER);
-    } else if ($playerAfterOrdeal.stamina <= 0) {
+    } else if (result.insightSuccess) {
+      isVictory.set(true);
       gamePhase.set(PHASES.GAME_OVER);
     }
     // else: stay at ENCOUNTER — EncounterResult shows, player proceeds to ORDEAL_INTERLUDE
