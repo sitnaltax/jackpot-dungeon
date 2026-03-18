@@ -1,5 +1,12 @@
 # Changelog
 
+## ??
+
+### UI
+
+* Improved the look of badges on tokens
+
+
 ## 1.1.0 - 3/17/2026
 
 ### Gameplay

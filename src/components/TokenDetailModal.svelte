@@ -187,7 +187,7 @@
             </span>
             {#if typeData.tags}
               {#each typeData.tags as tag}
-                <span class="tag-badge">{tag}</span>
+                <span class="tag-badge tag-badge--{tag.toLowerCase()}">{tag}</span>
               {/each}
             {/if}
           </div>
@@ -311,21 +311,46 @@
   .rank-badge {
     display: inline-block;
     background: var(--rank-color);
+    border-color: var(--rank-color);
     color: #000;
-    padding: 0.125rem 0.5rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: bold;
+    border: 1px solid;
   }
 
   .tag-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    padding: 0.125rem 0.5rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: bold;
+    border: 1px solid;
+  }
+
+  .tag-badge--musical {
+    background: rgba(241, 196, 15, 0.15);
+    border-color: rgba(241, 196, 15, 0.4);
+    color: #f1c40f;
+  }
+
+  .tag-badge--celestial {
+    background: rgba(52, 152, 219, 0.15);
+    border-color: rgba(52, 152, 219, 0.4);
+    color: #a8d8f0;
+  }
+
+  .tag-badge--botanical {
+    background: rgba(46, 204, 113, 0.15);
+    border-color: rgba(46, 204, 113, 0.4);
+    color: #a8f0c8;
+  }
+
+  .tag-badge--chthonic {
+    background: rgba(155, 89, 182, 0.15);
+    border-color: rgba(155, 89, 182, 0.4);
+    color: #d4a8f0;
   }
 
   .description {
