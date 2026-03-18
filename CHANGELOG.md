@@ -1,6 +1,10 @@
 # Changelog
 
-## ??? - ???
+## 1.1.0 - 3/17/2026
+
+### Gameplay
+
+* If you run out of Stamina on the same turn as you deplete the Final Ordeal's Mystery, this is now a loss
 
 ### UI
 
