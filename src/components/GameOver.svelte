@@ -1,5 +1,5 @@
 <script>
-  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound, ordealActive, isDailyRun, dailyDate, dailyWasReAttempt } from '../lib/gameState.js';
+  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealRound, ordealActive, isDailyRun, dailyDate, dailyWasReAttempt } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { DIFFICULTIES } from '../lib/classes.js';
@@ -20,7 +20,7 @@
     const outcome = $isVictory ? `conquered` : `fell at`;
     if ($isDailyRun && $dailyDate) {
       const reAttemptSuffix = $dailyWasReAttempt ? ' (re-attempt)' : '';
-      return `I ${outcome} Jacq's Daily Challenge (${$dailyDate}) as a ${className} on ${diffName} difficulty, at ${location}.${reAttemptSuffix} https://rule0.com/jacq/`;
+      return `I ${outcome} Jacq's Quest Daily (${$dailyDate}) as a ${className} on ${diffName} difficulty, at ${location}.${reAttemptSuffix} https://rule0.com/jacq/`;
     }
     return `I ${outcome} Jacq's Quest as a ${className} on ${diffName} difficulty, at ${location}. https://rule0.com/jacq/`;
   }
