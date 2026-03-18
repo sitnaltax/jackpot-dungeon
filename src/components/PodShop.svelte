@@ -1,5 +1,5 @@
 <script>
-  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop, shopRefreshCount, getRefreshCost } from '../lib/gameState.js';
+  import { player, shopPods, selectedPodToReplace, purchasePod, skipShop, purchasedShopPods, refreshShop, shopRefreshCount, getRefreshCost, isDailyRun, podShopRefreshCount } from '../lib/gameState.js';
   import Pod from './Pod.svelte';
   import PodDisplay from './PodDisplay.svelte';
 
@@ -13,7 +13,8 @@
   $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);
   $: canAffordAnyPod = $shopPods.some((pod, i) => !$purchasedShopPods.has(i) && $player.xp >= pod.cost);
   $: allPodsBought = $shopPods.every((_, i) => $purchasedShopPods.has(i));
-  $: canRefresh = $player.xp >= refreshCost && (canAffordAnyPod || allPodsBought || refreshCost === 0);
+  $: dailyRefreshCapped = $isDailyRun && $podShopRefreshCount >= 15;
+  $: canRefresh = !dailyRefreshCapped && $player.xp >= refreshCost && (canAffordAnyPod || allPodsBought || refreshCost === 0);
 </script>
 
 <div class="shop">
@@ -37,7 +38,11 @@
         disabled={!canRefresh}
         on:click={refreshShop}
       >
-        Refresh ({refreshCost} XP)
+        {#if dailyRefreshCapped}
+          Refresh (limit reached)
+        {:else}
+          Refresh ({refreshCost} XP)
+        {/if}
       </button>
     </div>
     <div class="shop-pods">

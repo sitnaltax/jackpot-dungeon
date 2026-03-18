@@ -1,21 +1,45 @@
 <script>
-  import { selectClass } from '../lib/gameState.js';
+  import { selectClass, startDailyChallenge, dailyPending, dailyClassId } from '../lib/gameState.js';
   import { CLASS_LIST, DIFFICULTIES } from '../lib/classes.js';
   import { loadPrefs, savePrefs } from '../lib/persistence.js';
+  import { todayUTC } from '../lib/rng.js';
 
   const prefs = loadPrefs();
-  let selectedClass = CLASS_LIST.find(c => c.id === prefs.lastClass) ?? CLASS_LIST[0];
+  const isDaily = $dailyPending;
+  const lockedClassId = $dailyClassId;
+
+  // In daily mode, pre-select the locked class; otherwise restore last used
+  let selectedClass = isDaily
+    ? CLASS_LIST.find(c => c.id === lockedClassId) ?? CLASS_LIST[0]
+    : (CLASS_LIST.find(c => c.id === prefs.lastClass) ?? CLASS_LIST[0]);
   let selectedDifficulty = prefs.lastDifficulty ?? 'normal';
 
-  $: selectedDiffData = DIFFICULTIES.find(d => d.id === selectedDifficulty);
+  // In daily mode, exclude Observer (wizard) difficulty
+  $: availableDifficulties = isDaily ? DIFFICULTIES.filter(d => d.id !== 'wizard') : DIFFICULTIES;
+  // Ensure selected difficulty is valid in daily mode
+  $: if (isDaily && selectedDifficulty === 'wizard') { selectedDifficulty = 'normal'; }
+
+  $: selectedDiffData = availableDifficulties.find(d => d.id === selectedDifficulty) ?? availableDifficulties[0];
+
+  const today = todayUTC();
 
   function handleStart() {
-    if (selectedClass) {
-      savePrefs({ lastClass: selectedClass.id, lastDifficulty: selectedDifficulty });
+    if (!selectedClass) return;
+    savePrefs({ lastClass: selectedClass.id, lastDifficulty: selectedDifficulty });
+    if (isDaily) {
+      dailyPending.set(false);
+      startDailyChallenge(selectedDifficulty);
+    } else {
       selectClass(selectedClass.id, selectedDifficulty);
     }
   }
 </script>
+
+{#if isDaily}
+  <div class="daily-banner">
+    Daily Challenge — {today}
+  </div>
+{/if}
 
 <div class="class-select">
   <div class="section">
@@ -25,9 +49,14 @@
         <button
           class="pick-btn"
           class:active={selectedClass?.id === cls.id}
-          on:click={() => selectedClass = cls}
+          class:dimmed={isDaily && cls.id !== lockedClassId}
+          disabled={isDaily && cls.id !== lockedClassId}
+          on:click={() => { if (!isDaily || cls.id === lockedClassId) selectedClass = cls; }}
         >
           {cls.name}
+          {#if isDaily && cls.id === lockedClassId}
+            <span class="daily-class-label">Today's Class</span>
+          {/if}
         </button>
       {/each}
     </div>
@@ -43,7 +72,7 @@
   <div class="section">
     <h3>Difficulty</h3>
     <div class="button-stack">
-      {#each DIFFICULTIES as diff}
+      {#each availableDifficulties as diff}
         <button
           class="pick-btn"
           class:active={selectedDifficulty === diff.id}
@@ -54,7 +83,9 @@
       {/each}
     </div>
     <div class="desc-box">
-      <p>{selectedDiffData.description}</p>
+      {#if selectedDiffData}
+        <p>{selectedDiffData.description}</p>
+      {/if}
     </div>
   </div>
 
@@ -68,6 +99,21 @@
 </div>
 
 <style>
+  .daily-banner {
+    text-align: center;
+    color: #b39ddb;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    margin: 0 auto 0.5rem auto;
+    background: rgba(126, 87, 194, 0.15);
+    border: 1px solid #7e57c2;
+    border-radius: 6px;
+    max-width: 400px;
+  }
+
   .class-select {
     display: flex;
     flex-direction: column;
@@ -111,9 +157,13 @@
     font-weight: bold;
     cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
   }
 
-  .pick-btn:hover {
+  .pick-btn:hover:not(:disabled) {
     border-color: #4a6785;
   }
 
@@ -121,6 +171,25 @@
     border-color: #f1c40f;
     background: rgba(241, 196, 15, 0.1);
     color: #fff;
+  }
+
+  .pick-btn.dimmed {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .pick-btn:disabled {
+    cursor: not-allowed;
+  }
+
+  .daily-class-label {
+    font-size: 0.65rem;
+    font-weight: normal;
+    background: rgba(126, 87, 194, 0.35);
+    border: 1px solid #7e57c2;
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    color: #ce93d8;
   }
 
   .desc-box {

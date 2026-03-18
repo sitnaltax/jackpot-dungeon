@@ -1,5 +1,5 @@
 <script>
-  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound, ordealActive } from '../lib/gameState.js';
+  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealMysteryPool, ordealRound, ordealActive, isDailyRun, dailyDate, dailyWasReAttempt } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { DIFFICULTIES } from '../lib/classes.js';
@@ -18,6 +18,10 @@
       ? `Round ${$ordealRound} of the Final Ordeal`
       : `Depth ${$encounterNumber}`;
     const outcome = $isVictory ? `conquered` : `fell at`;
+    if ($isDailyRun && $dailyDate) {
+      const reAttemptSuffix = $dailyWasReAttempt ? ' (re-attempt)' : '';
+      return `I ${outcome} Jacq's Daily Challenge (${$dailyDate}) as a ${className} on ${diffName} difficulty, at ${location}.${reAttemptSuffix} https://rule0.com/jacq/`;
+    }
     return `I ${outcome} Jacq's Quest as a ${className} on ${diffName} difficulty, at ${location}. https://rule0.com/jacq/`;
   }
 
@@ -34,6 +38,9 @@
 </script>
 
 <div class="game-over" class:victory={$isVictory}>
+  {#if $isDailyRun && $dailyDate}
+    <div class="daily-header">Daily Challenge — {$dailyDate}</div>
+  {/if}
   <div class="header">
     <h1>{$isVictory ? 'Victory!' : 'Defeated'}</h1>
     <div class="depth">
@@ -170,6 +177,19 @@
     background: linear-gradient(135deg, #1a1040 0%, #0d0818 100%);
     border-color: #c9a227;
     box-shadow: 0 0 40px rgba(201, 162, 39, 0.15);
+  }
+
+  .daily-header {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #b39ddb;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 1rem;
+    background: rgba(126, 87, 194, 0.15);
+    border: 1px solid #7e57c2;
+    border-radius: 6px;
   }
 
   .header {

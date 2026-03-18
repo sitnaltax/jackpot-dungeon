@@ -81,14 +81,18 @@
   function handlePurchase(item, index) {
     purchaseItem(item, index);
   }
+
+
 </script>
 
 <div class="item-shop">
   <div class="shop-header">
     <h2>Item Shop</h2>
-    <div class="treasure-display">
-      <span class="treasure-label">Treasure:</span>
-      <span class="treasure-value">${$player.treasure}</span>
+    <div class="shop-header-right">
+      <div class="treasure-display">
+        <span class="treasure-label">Treasure:</span>
+        <span class="treasure-value">${$player.treasure}</span>
+      </div>
     </div>
   </div>
 
@@ -188,6 +192,12 @@
     margin: 0;
     color: #9b59b6;
     font-size: 1.75rem;
+  }
+
+  .shop-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .treasure-display {

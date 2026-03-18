@@ -1,5 +1,21 @@
 <script>
-  import { startNewGame } from '../lib/gameState.js';
+  import { startNewGame, gamePhase, PHASES, dailyPending, dailyClassId } from '../lib/gameState.js';
+  import { getDailySeed, todayUTC } from '../lib/rng.js';
+  import { generateDailyScript } from '../lib/dailyScript.js';
+  import { loadPrefs } from '../lib/persistence.js';
+
+  const today = todayUTC();
+  const seed = getDailySeed(today);
+  const script = generateDailyScript(seed);
+
+  const prefs = loadPrefs();
+  const alreadyPlayed = prefs.dailyAttempted === true && prefs.dailyAttemptedDate === today;
+
+  function handleDailyChallenge() {
+    dailyPending.set(true);
+    dailyClassId.set(script.dailyClass);
+    gamePhase.set(PHASES.CLASS_SELECT);
+  }
 </script>
 
 <div class="start-screen">
@@ -20,9 +36,15 @@
     </ul>
   </div>
 
-  <button class="btn btn-start" on:click={startNewGame}>
-    Start Game
-  </button>
+  <div class="button-group">
+    <button class="btn btn-start" on:click={startNewGame}>
+      Start Game
+    </button>
+    <button class="btn btn-daily" on:click={handleDailyChallenge}>
+      Daily Challenge
+      {#if alreadyPlayed}<span class="played-badge">Played today</span>{/if}
+    </button>
+  </div>
 
 </div>
 
@@ -82,6 +104,13 @@
     color: #ccc;
   }
 
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
   .btn-start {
     padding: 1rem 3rem;
     border: none;
@@ -97,6 +126,37 @@
   .btn-start:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+  }
+
+  .btn-daily {
+    padding: 0.75rem 2rem;
+    border: 2px solid #7e57c2;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(126, 87, 194, 0.15);
+    color: #b39ddb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .btn-daily:hover {
+    transform: translateY(-2px);
+    background: rgba(126, 87, 194, 0.25);
+    box-shadow: 0 6px 16px rgba(126, 87, 194, 0.3);
+  }
+
+  .played-badge {
+    font-size: 0.7rem;
+    font-weight: normal;
+    background: rgba(126, 87, 194, 0.3);
+    border: 1px solid #7e57c2;
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    color: #ce93d8;
   }
 
   .docs-link {

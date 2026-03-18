@@ -362,6 +362,27 @@ const WEAK_ITEMS = [
 // Get all items available for shops
 const SHOP_ITEM_POOL = Object.values(ITEMS);
 
+// Generate an ordered sequence of items for script pre-generation.
+// Items are picked by weighted random (weight = cost), with replacement allowed.
+// rng: optional random function (defaults to Math.random for normal play)
+export function generateItemSequence(encounterNumber, count, rng = Math.random) {
+  // Filter by depth
+  const pool = SHOP_ITEM_POOL.filter(item => (item.minDepth || 0) <= encounterNumber);
+  const sequence = [];
+  for (let i = 0; i < count; i++) {
+    if (pool.length === 0) break;
+    const totalWeight = pool.reduce((sum, item) => sum + item.cost, 0);
+    let roll = rng() * totalWeight;
+    let picked = pool[pool.length - 1];
+    for (const item of pool) {
+      roll -= item.cost;
+      if (roll <= 0) { picked = item; break; }
+    }
+    sequence.push(picked);
+  }
+  return sequence;
+}
+
 // Generate item shop offerings
 export function generateItemShop(encounterNumber, playerState) {
   const budget = playerState.treasure || 0;

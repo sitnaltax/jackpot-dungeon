@@ -420,7 +420,7 @@ const ENCOUNTERS = [
 
 // Select an encounter based on encounter number (weighted random from available)
 // excluded: Set of encounter IDs already seen this run (will not be selected)
-function selectEncounter(encounterNumber, excluded = new Set()) {
+function selectEncounter(encounterNumber, excluded = new Set(), rng = Math.random) {
   const valid = ENCOUNTERS.filter(e => encounterNumber >= e.minLevel && encounterNumber <= e.maxLevel);
 
   if (valid.length === 0) return ENCOUNTERS[0];
@@ -431,7 +431,7 @@ function selectEncounter(encounterNumber, excluded = new Set()) {
 
   // Weighted random selection
   const totalWeight = candidates.reduce((sum, e) => sum + e.weight, 0);
-  let roll = Math.random() * totalWeight;
+  let roll = rng() * totalWeight;
 
   for (const enc of candidates) {
     roll -= enc.weight;
@@ -467,8 +467,9 @@ export function calculateBaseStat(encounterNumber, difficulty = 'normal') {
 
 // Generate an encounter for the given encounter number
 // excluded: Set of encounter IDs to avoid (already seen this run)
-export function generateEncounter(encounterNumber, difficulty = 'normal', excluded = new Set()) {
-  const template = selectEncounter(encounterNumber, excluded);
+// rng: optional random function (defaults to Math.random for normal play)
+export function generateEncounter(encounterNumber, difficulty = 'normal', excluded = new Set(), rng = Math.random) {
+  const template = selectEncounter(encounterNumber, excluded, rng);
   const base = calculateBaseStat(encounterNumber, difficulty);
 
   return {

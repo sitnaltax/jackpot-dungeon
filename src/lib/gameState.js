@@ -8,7 +8,9 @@ import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounter
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop } from './items.js';
 import { CLASSES, DIFFICULTIES } from './classes.js';
-import { clearSave } from './persistence.js';
+import { clearSave, loadPrefs, savePrefs } from './persistence.js';
+import { getDailySeed, todayUTC } from './rng.js';
+import { generateDailyScript } from './dailyScript.js';
 
 // Game phases
 export const PHASES = {
@@ -81,6 +83,30 @@ export const ordealMysteryPool = writable(0);
 export const ordealRound = writable(0);
 export const ordealId = writable(null);
 export const isVictory = writable(false);
+
+// Daily challenge state
+export const isDailyRun              = writable(false);
+export const dailyDate               = writable(null);
+export const dailyScript             = writable(null);
+export const podShopRefreshCount     = writable(0);
+export const itemShopIndex           = writable(0);
+export const itemShopRefreshCount    = writable(0);
+export const itemShopSequenceCursor  = writable(0);
+export const dailyWasReAttempt       = writable(false);
+// Set when user clicks "Daily Challenge" on start screen; cleared once the run begins
+export const dailyPending            = writable(false);
+// The pre-computed daily class id, set when user clicks "Daily Challenge"
+export const dailyClassId            = writable(null);
+
+// Apply difficulty-scaled mystery/trouble to a pre-selected encounter template from the daily script.
+function applyDifficultyToTemplate(template, encounterNumber, difficulty) {
+  const base = calculateBaseStat(encounterNumber, difficulty);
+  return {
+    ...template,
+    mystery: base + (template.mysteryMod || 0),
+    trouble: base + (template.troubleMod || 0),
+  };
+}
 
 function applyOnDiscardEffects(tokens) {
   for (const token of tokens) {
@@ -185,7 +211,39 @@ export function getEffectiveMaxStamina(playerState) {
 
 // Game actions — start screen transitions to class select
 export function startNewGame() {
+  isDailyRun.set(false);
+  dailyDate.set(null);
+  dailyScript.set(null);
+  podShopRefreshCount.set(0);
+  itemShopIndex.set(0);
+  dailyWasReAttempt.set(false);
+  dailyPending.set(false);
+  dailyClassId.set(null);
   gamePhase.set(PHASES.CLASS_SELECT);
+}
+
+// Start a daily challenge run
+export function startDailyChallenge(difficulty) {
+  const date = todayUTC();
+  const seed = getDailySeed(date);
+  const script = generateDailyScript(seed);
+
+  // Check if player already attempted today (before clearSave wipes state)
+  const prefs = loadPrefs();
+  const wasReAttempt = prefs.dailyAttempted === true && prefs.dailyAttemptedDate === date;
+
+  clearSave();
+  isDailyRun.set(true);
+  dailyDate.set(date);
+  dailyScript.set(script);
+  podShopRefreshCount.set(0);
+  itemShopIndex.set(0);
+  dailyWasReAttempt.set(wasReAttempt);
+
+  // Mark attempted in prefs (survives clearSave)
+  savePrefs({ ...prefs, dailyAttempted: true, dailyAttemptedDate: date });
+
+  selectClass(script.dailyClass, difficulty);
 }
 
 // Player selects a class and the game begins
@@ -265,7 +323,16 @@ function buildOrdealEncounter(pool, round, difficulty) {
 
 function startOrdeal() {
   const difficulty = get(player).difficulty;
-  const ordeal = FINAL_ORDEALS[Math.floor(Math.random() * FINAL_ORDEALS.length)];
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+
+  let ordeal;
+  if ($isDailyRun && $dailyScript) {
+    ordeal = FINAL_ORDEALS.find(o => o.id === $dailyScript.ordealVariant) ?? FINAL_ORDEALS[0];
+  } else {
+    ordeal = FINAL_ORDEALS[Math.floor(Math.random() * FINAL_ORDEALS.length)];
+  }
+
   const scale = CONFIG.ordealMysteryScale[difficulty] ?? 1.0;
   const pool = Math.round(ordeal.mysteryBase * scale);
   ordealId.set(ordeal.id);
@@ -299,21 +366,38 @@ export function startNextEncounter() {
     return;
   }
 
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+
   const difficulty = get(player).difficulty;
-  const $seen = get(seenEncounterIds);
 
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
-    const hardEncounter = generateEncounter(encNum + 2, difficulty, $seen);
-    // Also exclude the hard encounter's ID so the two options are always distinct
-    const nextEncounter = generateEncounter(encNum, difficulty, new Set([...$seen, hardEncounter.id]));
+    let hardEncounter, nextEncounter;
+    if ($isDailyRun && $dailyScript) {
+      const scriptEntry = $dailyScript.encounters[encNum - 1];
+      // Apply difficulty scaling to the stored template
+      hardEncounter = applyDifficultyToTemplate(scriptEntry.hard, encNum + 2, difficulty);
+      nextEncounter = applyDifficultyToTemplate(scriptEntry.basic, encNum, difficulty);
+    } else {
+      const $seen = get(seenEncounterIds);
+      hardEncounter = generateEncounter(encNum + 2, difficulty, $seen);
+      // Also exclude the hard encounter's ID so the two options are always distinct
+      nextEncounter = generateEncounter(encNum, difficulty, new Set([...$seen, hardEncounter.id]));
+    }
     choiceEncounters.set({ hard: hardEncounter, next: nextEncounter });
     gamePhase.set(PHASES.CHOICE);
     return;
   }
 
   // Even floors: normal encounter
-  const encounter = generateEncounter(encNum, difficulty, $seen);
+  let encounter;
+  if ($isDailyRun && $dailyScript) {
+    encounter = applyDifficultyToTemplate($dailyScript.encounters[encNum - 1].basic, encNum, difficulty);
+  } else {
+    const $seen = get(seenEncounterIds);
+    encounter = generateEncounter(encNum, difficulty, $seen);
+  }
   beginEncounter(encounter);
 }
 
@@ -544,7 +628,14 @@ export function proceedFromEncounter() {
 
   if ($chosenPath === 'hard') {
     // Hard path (odd floor): offer pod reward, then pod shop
-    const [pod] = generateShopPods(encNum, 1);
+    const $isDailyRun = get(isDailyRun);
+    const $dailyScript = get(dailyScript);
+    let pod;
+    if ($isDailyRun && $dailyScript) {
+      pod = $dailyScript.encounters[encNum - 1].podReward;
+    } else {
+      [pod] = generateShopPods(encNum, 1);
+    }
     rewardPod.set(pod);
     gamePhase.set(PHASES.POD_REWARD);
   } else if (encNum % 2 === 0) {
@@ -560,11 +651,127 @@ export function proceedFromEncounter() {
 export function openItemShop() {
   const $player = get(player);
   const encNum = get(encounterNumber);
-  const items = generateItemShop(encNum, $player);
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+  const $itemShopIndex = get(itemShopIndex);
+
+  let items;
+  if ($isDailyRun && $dailyScript) {
+    const slotIndex = Math.min($itemShopIndex, $dailyScript.itemShops.length - 1);
+    const scriptShop = $dailyScript.itemShops[slotIndex];
+    itemShopSequenceCursor.set(0);
+    itemShopRefreshCount.set(0);
+    items = pickItemsFromScript(scriptShop, encNum, $player, 0);
+    itemShopIndex.update(n => n + 1);
+  } else {
+    items = generateItemShop(encNum, $player);
+  }
+
   shopItems.set(items);
   purchasedShopItems.set(new Set());
   selectedEquipmentSlot.set(null);
   gamePhase.set(PHASES.ITEM_SHOP);
+}
+
+// Pick items from a daily script item shop slot, consuming from sequence at cursor position.
+// Returns up to 3 items applying guarantee rules.
+function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorStart) {
+  const budget = playerState.treasure || 0;
+  const classFilter = playerState.playerClass?.shopItemFilter;
+  const equippedIds = new Set(
+    (playerState.equipment || []).filter(e => e).map(e => e.id)
+  );
+  const equippedMaxDraw = Math.max(0, ...(playerState.equipment || []).map(e => e?.bonuses?.bonusDraw || 0));
+
+  function isEligible(item) {
+    if ((item.minDepth || 0) > encounterNumber) return false;
+    if (classFilter && !classFilter(item)) return false;
+    if (equippedIds.has(item.id)) return false;
+    if (equippedMaxDraw > 0 && (item.bonuses?.bonusDraw || 0) > 0 && (item.bonuses?.bonusDraw || 0) < equippedMaxDraw) return false;
+    return true;
+  }
+
+  // Consume from sequence, skipping ineligible items, until we have 3 or run out
+  const shopItems = [];
+  const usedIds = new Set();
+  let cursor = cursorStart;
+
+  // Apply guarantees first using pre-picked candidate lists
+  const hpPercent = playerState.stamina / playerState.maxStamina;
+
+  // depth 6+ light source guarantee
+  if (encounterNumber >= 6 && shopItems.length < 3) {
+    const equippedLight = (playerState.equipment || []).find(e => e?.category === 'lightSource');
+    const equippedDraw = equippedLight?.bonuses?.bonusDraw || 0;
+    for (const item of (scriptShop.guaranteeLight || [])) {
+      if (usedIds.has(item.id)) continue;
+      if (!isEligible(item)) continue;
+      if (item.cost > budget) continue;
+      const itemDraw = item.bonuses?.bonusDraw || 0;
+      if (itemDraw > equippedDraw) {
+        shopItems.push(item);
+        usedIds.add(item.id);
+        break;
+      }
+    }
+  }
+
+  // low HP food guarantee
+  if (hpPercent < 0.75 && shopItems.length < 3) {
+    for (const item of (scriptShop.guaranteeFood || [])) {
+      if (usedIds.has(item.id)) continue;
+      if (!isEligible(item)) continue;
+      if (item.cost > budget) continue;
+      shopItems.push(item);
+      usedIds.add(item.id);
+      break;
+    }
+  }
+
+  // Fill remaining slots from sequence
+  while (shopItems.length < 3 && cursor < scriptShop.sequence.length) {
+    const item = scriptShop.sequence[cursor++];
+    if (usedIds.has(item.id)) continue;
+    if (!isEligible(item)) continue;
+    if (item.cost > budget) continue;
+    shopItems.push(item);
+    usedIds.add(item.id);
+  }
+
+  // Update cursor store
+  itemShopSequenceCursor.set(cursor);
+
+  return shopItems;
+}
+
+// Refresh the item shop (daily mode: advance cursor; normal mode: regenerate)
+export function refreshItemShop() {
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+  const $itemShopRefreshCount = get(itemShopRefreshCount);
+
+  // Cap at 15 refreshes in daily mode
+  if ($isDailyRun && $itemShopRefreshCount >= 15) return;
+
+  const $player = get(player);
+  const encNum = get(encounterNumber);
+
+  let items;
+  if ($isDailyRun && $dailyScript) {
+    // Use itemShopIndex - 1 because we already incremented it when opening
+    const $itemShopIndex = get(itemShopIndex);
+    const slotIndex = Math.min($itemShopIndex - 1, $dailyScript.itemShops.length - 1);
+    const scriptShop = $dailyScript.itemShops[slotIndex];
+    const cursor = get(itemShopSequenceCursor);
+    items = pickItemsFromScript(scriptShop, encNum, $player, cursor);
+    itemShopRefreshCount.update(n => n + 1);
+  } else {
+    items = generateItemShop(encNum, $player);
+  }
+
+  shopItems.set(items);
+  purchasedShopItems.set(new Set());
+  selectedEquipmentSlot.set(null);
 }
 
 export function selectEquipmentSlot(slotIndex) {
@@ -680,14 +887,23 @@ export function skipItemShop() {
 
 export function proceedToShop() {
   const encNum = get(encounterNumber);
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
 
-  // Generate fresh shop pods based on current encounter
-  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  let generatedPods;
+  if ($isDailyRun && $dailyScript) {
+    // Daily mode: use first set (index 0) from pre-generated shop sets
+    const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
+    generatedPods = $dailyScript.podShops[depthIndex][0];
+  } else {
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  }
 
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
   shopRefreshCount.set(0);
+  podShopRefreshCount.set(0);
   gamePhase.set(PHASES.SHOP);
 }
 
@@ -739,11 +955,27 @@ export function refreshShop() {
 
   if ($player.xp < refreshCost) return;
 
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+
+  // Daily mode: cap refreshes at 15
+  const $podShopRefreshCount = get(podShopRefreshCount);
+  if ($isDailyRun && $podShopRefreshCount >= 15) return;
+
   const encNum = get(encounterNumber);
-  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  let generatedPods;
+
+  if ($isDailyRun && $dailyScript) {
+    const newRefreshCount = $podShopRefreshCount + 1;
+    const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
+    generatedPods = $dailyScript.podShops[depthIndex][newRefreshCount];
+  } else {
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  }
 
   player.update(p => ({ ...p, xp: p.xp - refreshCost }));
   shopRefreshCount.update(n => n + 1);
+  podShopRefreshCount.update(n => n + 1);
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
@@ -842,11 +1074,22 @@ export function ordealSpendOnStamina(xpToSpend) {
 // Go to pod shop; after shop, beginOrdealRound() is called by skipShop()
 export function ordealOpenPodShop() {
   const encNum = get(encounterNumber);
-  const generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+
+  let generatedPods;
+  if ($isDailyRun && $dailyScript) {
+    const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
+    generatedPods = $dailyScript.podShops[depthIndex][0];
+  } else {
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+  }
+
   shopPods.set(generatedPods);
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
   shopRefreshCount.set(0);
+  podShopRefreshCount.set(0);
   gamePhase.set(PHASES.SHOP);
 }
 
@@ -865,7 +1108,22 @@ export function ordealOpenItemShop(xpToConvert) {
     }));
   }
   const encNum = get(encounterNumber);
-  const items = generateItemShop(encNum, get(player));
+  const $isDailyRun = get(isDailyRun);
+  const $dailyScript = get(dailyScript);
+  const $itemShopIndex = get(itemShopIndex);
+
+  let items;
+  if ($isDailyRun && $dailyScript) {
+    const slotIndex = Math.min($itemShopIndex, $dailyScript.itemShops.length - 1);
+    const scriptShop = $dailyScript.itemShops[slotIndex];
+    itemShopSequenceCursor.set(0);
+    itemShopRefreshCount.set(0);
+    items = pickItemsFromScript(scriptShop, encNum, get(player), 0);
+    itemShopIndex.update(n => n + 1);
+  } else {
+    items = generateItemShop(encNum, get(player));
+  }
+
   shopItems.set(items);
   purchasedShopItems.set(new Set());
   selectedEquipmentSlot.set(null);

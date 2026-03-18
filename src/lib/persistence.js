@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 15;
+const SAVE_VERSION = 16;
 
 // Preferences are stored separately and survive game resets / version bumps.
 // They are only cleared by explicit user reset (crash recovery or ?reset param).
@@ -81,6 +81,14 @@ export function saveGame(stores) {
       ordealRound: get(stores.ordealRound),
       ordealId: get(stores.ordealId),
       isVictory: get(stores.isVictory),
+      isDailyRun:             get(stores.isDailyRun),
+      dailyDate:              get(stores.dailyDate),
+      dailyScript:            get(stores.dailyScript),
+      podShopRefreshCount:    get(stores.podShopRefreshCount),
+      itemShopIndex:          get(stores.itemShopIndex),
+      itemShopRefreshCount:   get(stores.itemShopRefreshCount),
+      itemShopSequenceCursor: get(stores.itemShopSequenceCursor),
+      dailyWasReAttempt:      get(stores.dailyWasReAttempt),
     };
 
     localStorage.setItem(SAVE_KEY, JSON.stringify(data));
@@ -130,6 +138,14 @@ export function loadSavedGame(stores) {
     stores.ordealRound.set(data.ordealRound ?? 0);
     stores.ordealId.set(data.ordealId ?? null);
     stores.isVictory.set(data.isVictory ?? false);
+    stores.isDailyRun.set(data.isDailyRun ?? false);
+    stores.dailyDate.set(data.dailyDate ?? null);
+    stores.dailyScript.set(data.dailyScript ?? null);
+    stores.podShopRefreshCount.set(data.podShopRefreshCount ?? 0);
+    stores.itemShopIndex.set(data.itemShopIndex ?? 0);
+    stores.itemShopRefreshCount.set(data.itemShopRefreshCount ?? 0);
+    stores.itemShopSequenceCursor.set(data.itemShopSequenceCursor ?? 0);
+    stores.dailyWasReAttempt.set(data.dailyWasReAttempt ?? false);
 
     // Advance ID counters so newly-created pods/tokens don't collide with restored ones.
     reseedIds(
@@ -183,6 +199,14 @@ export function initAutoSave(stores) {
     stores.ordealRound,
     stores.ordealId,
     stores.isVictory,
+    stores.isDailyRun,
+    stores.dailyDate,
+    stores.dailyScript,
+    stores.podShopRefreshCount,
+    stores.itemShopIndex,
+    stores.itemShopRefreshCount,
+    stores.itemShopSequenceCursor,
+    stores.dailyWasReAttempt,
   ].map(store => store.subscribe(scheduleSave));
 
   return () => {

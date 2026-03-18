@@ -143,7 +143,7 @@ function upgradeRank(rank) {
 }
 
 // Roll a rank for a token based on tier config
-function rollTokenRank(config, isGuaranteed = false) {
+function rollTokenRank(config, isGuaranteed = false, rng = Math.random) {
   // If this is the guaranteed slot, use minRank
   if (isGuaranteed) {
     return config.minRank;
@@ -152,7 +152,7 @@ function rollTokenRank(config, isGuaranteed = false) {
   // Start at base rank and potentially upgrade
   let rank = config.baseRank;
   for (let i = 0; i < config.maxUpgrades; i++) {
-    if (Math.random() < config.upgradeChance) {
+    if (rng() < config.upgradeChance) {
       rank = upgradeRank(rank);
     } else {
       break; // Stop upgrading once we fail a roll
@@ -162,7 +162,7 @@ function rollTokenRank(config, isGuaranteed = false) {
 }
 
 // Pick a random token type, filtered by depth and weighted by probability
-function randomTokenType(encounterNumber) {
+function randomTokenType(encounterNumber, rng = Math.random) {
   // Filter to tokens available at this depth
   const available = Object.entries(TOKEN_TYPE_DATA)
     .filter(([_, data]) => (data.minDepth ?? 0) <= encounterNumber)
@@ -170,7 +170,7 @@ function randomTokenType(encounterNumber) {
 
   // Weighted random selection
   const totalWeight = available.reduce((sum, t) => sum + t.weight, 0);
-  let roll = Math.random() * totalWeight;
+  let roll = rng() * totalWeight;
 
   for (const { type, weight } of available) {
     roll -= weight;
@@ -182,7 +182,7 @@ function randomTokenType(encounterNumber) {
 }
 
 // Generate a single shop pod for a given tier and encounter depth
-function generateShopPod(tier, encounterNumber) {
+function generateShopPod(tier, encounterNumber, rng = Math.random) {
   const config = TIER_CONFIG[tier];
 
   const tokenDefs = [];
@@ -190,8 +190,8 @@ function generateShopPod(tier, encounterNumber) {
   for (let i = 0; i < 3; i++) {
     // First token gets guaranteed minimum rank
     const isGuaranteed = i === 0;
-    const rank = rollTokenRank(config, isGuaranteed);
-    const type = randomTokenType(encounterNumber);
+    const rank = rollTokenRank(config, isGuaranteed, rng);
+    const type = randomTokenType(encounterNumber, rng);
     tokenDefs.push({ type, rank });
   }
 
@@ -205,19 +205,20 @@ function generateShopPod(tier, encounterNumber) {
   }, 0);
 
   // Add random factor: -10% to +20% of base cost
-  const randomFactor = 0.9 + (Math.random() * 0.3);
+  const randomFactor = 0.9 + (rng() * 0.3);
   const cost = Math.floor(tokenValueSum * randomFactor);
 
   return { tokenDefs, cost };
 }
 
 // Generate shop pods for a given encounter number
-export function generateShopPods(encounterNumber, count = 4) {
+// rng: optional random function (defaults to Math.random for normal play)
+export function generateShopPods(encounterNumber, count = 4, rng = Math.random) {
   const tier = getShopTier(encounterNumber);
   const pods = [];
 
   for (let i = 0; i < count; i++) {
-    pods.push(generateShopPod(tier, encounterNumber));
+    pods.push(generateShopPod(tier, encounterNumber, rng));
   }
 
   return pods;
