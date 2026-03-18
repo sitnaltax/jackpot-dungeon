@@ -2,6 +2,10 @@
 
 ## ??
 
+### Daily Challenges
+
+* Added daily challenges!
+
 ### UI
 
 * Improved the look of badges on tokens
