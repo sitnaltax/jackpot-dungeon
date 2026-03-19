@@ -11,6 +11,7 @@
 * Improved the look of badges on tokens
 * Adjust item colors to make the badges look a little nicer
 * Fixed a problem where the Wild token improperly listed synergy
+* Typo fixes
 
 ## 1.1.0 - 3/17/2026
 
