@@ -313,7 +313,7 @@ const ENCOUNTERS = [
   },
   {
     id: 'lavaRiver',
-    name: 'Lava Rver',
+    name: 'Lava River',
     minLevel: 13,
     maxLevel: 17,
     weight: 1,
