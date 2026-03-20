@@ -69,7 +69,7 @@
   // Predict stamina loss
   $: predictedStaminaLost = (!$currentEncounter || resolveMet)
     ? 0
-    : calculateStaminaLost($currentEncounter.trouble - totals.resolve, $currentEncounter, !$ordealActive && insightMet);
+    : calculateStaminaLost($currentEncounter.trouble - totals.resolve, $currentEncounter);
 </script>
 
 <div class="token-draw">

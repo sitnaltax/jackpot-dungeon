@@ -527,7 +527,7 @@ export function executeEncounter() {
   };
 
   const $discardEffects = get(discardEffects);
-  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || [], get(ordealActive));
+  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || []);
 
   // Award Treasure: on insight success, scaled by Mystery (3 for 6-15, 4 for 16-25, 5 for 26-35, etc.)
   // On failure: 1.
