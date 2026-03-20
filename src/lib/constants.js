@@ -23,11 +23,11 @@ export const CONFIG = {
   ordealStartDepth: 19,
   ordealBaseMystery: 250,
   ordealTroublePerRound: {   // flat trouble added per subsequent round
-    wizard:  4,
-    normal:  4,
-    hard:    5,
-    expert:  6,
-    insane:  6,
+    wizard:  5,
+    normal:  5,
+    hard:    6,
+    expert:  7,
+    insane:  8,
   },
   ordealMysteryScale: {      // multiplier on base mystery per difficulty
     wizard:  1.0,

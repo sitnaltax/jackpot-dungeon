@@ -37,7 +37,7 @@ export function calculateStaminaLost(deficiency, encounter, insightMet = false) 
   const depth = encounter.level || 1;
   const trouble = encounter.trouble;
   if (trouble <= 1) return 7;
-  const scalingFactor = (deficiency - 1) / (trouble - 1);
+  let scalingFactor = (deficiency - 1) / (trouble - 1);
   if (insightMet) scalingFactor *= (2/3)
   return Math.round(7 + scalingFactor * (15 + depth));
 }
@@ -117,8 +117,7 @@ export function getEncounterSummary(result) {
 
   // Insight summary
   if (result.insightSuccess) {
-    const depthBonus = result.insightDepthBonus > 0 ? ` (+${result.insightDepthBonus} depth)` : '';
-    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!${depthBonus}`);
+    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!`);
   } else {
     const failureBonus = result.insightFailureBonus ?? {};
     const bonusParts = [];
