@@ -32,18 +32,21 @@ export function calculateDrawTotals(drawnTokens, equippedItems = []) {
 
 // Calculate stamina lost given a resolve deficiency and encounter.
 // deficiency = encounter.trouble - resolve (must be > 0).
-export function calculateStaminaLost(deficiency, encounter) {
+// insightMet: whether the player met the Insight requirement (not applicable during the Final Ordeal).
+export function calculateStaminaLost(deficiency, encounter, insightMet = false) {
   const depth = encounter.level || 1;
   const trouble = encounter.trouble;
-  if (trouble <= 1) return 5;
-  const t = (deficiency - 1) / (trouble - 1);
-  return Math.round(5 + t * (15 + depth));
+  if (trouble <= 1) return 7;
+  const scalingFactor = (deficiency - 1) / (trouble - 1);
+  if (insightMet) scalingFactor *= (2/3)
+  return Math.round(7 + scalingFactor * (15 + depth));
 }
 
 // Resolve encounter and return results
 // bonuses: optional { insight, resolve } flat bonuses from equipment
 // discardEffects: optional { insight, resolve, xp } accumulated from token onDiscard callbacks
-export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEffects = {}, equippedItems = []) {
+// isOrdeal: suppresses insightMet from reducing stamina loss (Final Ordeal rounds)
+export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEffects = {}, equippedItems = [], isOrdeal = false) {
   const totals = calculateDrawTotals(drawnTokens, equippedItems);
 
   // Apply flat bonuses from equipment
@@ -83,7 +86,7 @@ export function resolveEncounter(drawnTokens, encounter, bonuses = {}, discardEf
     result.resolveSuccess = true;
   } else {
     result.resolveDeficiency = encounter.trouble - totals.resolve;
-    result.staminaLost = calculateStaminaLost(result.resolveDeficiency, encounter);
+    result.staminaLost = calculateStaminaLost(result.resolveDeficiency, encounter, !isOrdeal && result.insightSuccess);
   }
 
   return result;

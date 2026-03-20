@@ -527,7 +527,7 @@ export function executeEncounter() {
   };
 
   const $discardEffects = get(discardEffects);
-  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || []);
+  const result = resolveEncounter($drawnTokens, $encounter, encounterBonuses, $discardEffects, $player.equipment || [], get(ordealActive));
 
   // Award Treasure: 3 if insight success, 1 otherwise.
   // Depth thresholds add bonus treasure on insight success: +1 at depth 6, +2 at depth 12.
