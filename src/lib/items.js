@@ -138,7 +138,7 @@ export const ITEMS = {
     description: 'A miniature thunderbolt, somehow frozen. It feels dangerous to touch, frostbitingly cold and full of ominous potential.',
     icon: '⚡',
     category: 'lightSource',
-    cost: 14,
+    cost: 12,
     minDepth: 12,
     bonuses: { bonusDraw: 2, insight: 4 },
   },
@@ -148,7 +148,7 @@ export const ITEMS = {
     description: 'An eldritch blessing from the moon\'s mercurial love. Light or dark, see the world as if bathed in cool, pale moonlight.',
     icon: '🌙',
     category: 'lightSource',
-    cost: 15,
+    cost: 14,
     minDepth: 12,
     bonuses: { bonusDraw: 2, redraws: 1 },
   },
@@ -158,7 +158,7 @@ export const ITEMS = {
     description: 'A fragment of the dawn from before memory, lost for a thousand years and shining bright in your grasp.',
     icon: '☀️',
     category: 'lightSource',
-    cost: 15,
+    cost: 12,
     minDepth: 18,
     bonuses: { bonusDraw: 3 },
   },
@@ -168,7 +168,7 @@ export const ITEMS = {
     description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
     icon: '💎',
     category: 'lightSource',
-    cost: 18,
+    cost: 15,
     minDepth: 18,
     bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
   },
@@ -178,7 +178,7 @@ export const ITEMS = {
     description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
-    cost: 20,
+    cost: 18,
     minDepth: 18,
     bonuses: { bonusDraw: 3, redraws: 1 },
   },
@@ -329,7 +329,7 @@ export const ITEMS = {
 };
 
 // Weak fallback items for when the player can't afford anything normal
-const WEAK_ITEMS = [
+export const WEAK_ITEMS = [
   {
     id: 'magifyingGlass',
     name: 'Magnifying Glass',

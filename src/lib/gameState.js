@@ -6,7 +6,7 @@ import { TOKEN_TYPES } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
 import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
-import { generateItemShop } from './items.js';
+import { generateItemShop, WEAK_ITEMS } from './items.js';
 import { CLASSES, DIFFICULTIES } from './classes.js';
 import { clearSave, loadPrefs, savePrefs } from './persistence.js';
 import { getDailySeed, todayUTC } from './rng.js';
@@ -740,6 +740,16 @@ function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorSta
 
   // Update cursor store
   itemShopSequenceCursor.set(cursor);
+
+  // Pad with weak items if fewer than 3 slots were filled
+  if (shopItems.length < 3) {
+    const weakAvailable = WEAK_ITEMS.filter(i => i.cost <= budget && !usedIds.has(i.id));
+    for (const item of weakAvailable) {
+      if (shopItems.length >= 3) break;
+      shopItems.push(item);
+      usedIds.add(item.id);
+    }
+  }
 
   return shopItems;
 }

@@ -26,9 +26,12 @@ export function generateDailyScript(seed) {
   // To do this, generate with 'normal' then strip the scaled values — we only need the
   // template properties (id, name, modifiers, etc).
   const encounters = [];
+  const usedBasicIds = new Set();
   for (let depth = 1; depth <= DEPTHS; depth++) {
-    const basicFull = generateEncounter(depth, 'normal', new Set(), rng);
-    const hardFull = generateEncounter(depth + 2, 'normal', new Set(), rng);
+    const basicFull = generateEncounter(depth, 'normal', usedBasicIds, rng);
+    usedBasicIds.add(basicFull.id);
+    // Hard encounter must not match the basic encounter at this depth
+    const hardFull = generateEncounter(depth + 2, 'normal', new Set([basicFull.id]), rng);
     // Strip out the difficulty-scaled mystery/trouble so they're computed fresh at consumption time
     // eslint-disable-next-line no-unused-vars
     const { mystery: _bm, trouble: _bt, ...basicTemplate } = basicFull;
