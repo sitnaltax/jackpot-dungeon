@@ -13,7 +13,7 @@
 
   $: difficulty = $player.difficulty;
   $: currentOrdeal = FINAL_ORDEALS.find(o => o.id === $ordealId) ?? FINAL_ORDEALS[0];
-  $: troublePerRound = currentOrdeal.troublePerRound;
+  $: troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? currentOrdeal.troublePerRound;
   $: nextTrouble = calculateBaseStat(CONFIG.ordealStartDepth, difficulty) + currentOrdeal.troubleMod + $ordealRound * troublePerRound;
   $: startPool = Math.round(currentOrdeal.mysteryBase * (CONFIG.ordealMysteryScale[difficulty] ?? 1));
   $: poolPercent = ($ordealMysteryPool / startPool) * 100;

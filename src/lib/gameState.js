@@ -307,7 +307,7 @@ function isChoiceEncounter(encNum) {
 function buildOrdealEncounter(pool, round, difficulty) {
   const chosenId = get(ordealId);
   const ordeal = FINAL_ORDEALS.find(o => o.id === chosenId) ?? FINAL_ORDEALS[0];
-  const troublePerRound = ordeal.troublePerRound;
+  const troublePerRound = CONFIG.ordealTroublePerRound[difficulty] ?? ordeal.troublePerRound;
   return {
     id: ordeal.id,
     name: ordeal.name,
