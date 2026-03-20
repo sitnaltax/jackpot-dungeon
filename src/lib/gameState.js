@@ -532,7 +532,7 @@ export function executeEncounter() {
   // Award Treasure: on insight success, scaled by Mystery (3 for 6-15, 4 for 16-25, 5 for 26-35, etc.)
   // On failure: 1.
   const insightTreasure = result.insightSuccess
-    ? Math.max(3, 2 + Math.ceil($encounter.mystery / 10))
+    ? Math.max(3, 2 + Math.ceil(($encounter.mystery - 5)/ 10))
     : 0;
   const baseTreasure = result.insightSuccess ? insightTreasure : 1;
 
