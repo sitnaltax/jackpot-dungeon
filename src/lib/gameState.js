@@ -714,7 +714,9 @@ function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorSta
     }
   }
 
-  // low HP food guarantee
+  console.log(scriptShop.guaranteeFood)
+  // low HP food guarantee — only requires affordability, not full eligibility,
+  // so equipped food items don't exhaust the candidate list
   if (hpPercent < 0.75 && shopItems.length < 3) {
     for (const item of (scriptShop.guaranteeFood || [])) {
       if (usedIds.has(item.id)) continue;
@@ -750,36 +752,6 @@ function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorSta
   }
 
   return shopItems;
-}
-
-// Refresh the item shop (daily mode: advance cursor; normal mode: regenerate)
-export function refreshItemShop() {
-  const $isDailyRun = get(isDailyRun);
-  const $dailyScript = get(dailyScript);
-  const $itemShopRefreshCount = get(itemShopRefreshCount);
-
-  // Cap at 15 refreshes in daily mode
-  if ($isDailyRun && $itemShopRefreshCount >= 15) return;
-
-  const $player = get(player);
-  const encNum = get(encounterNumber);
-
-  let items;
-  if ($isDailyRun && $dailyScript) {
-    // Use itemShopIndex - 1 because we already incremented it when opening
-    const $itemShopIndex = get(itemShopIndex);
-    const slotIndex = Math.min($itemShopIndex - 1, $dailyScript.itemShops.length - 1);
-    const scriptShop = $dailyScript.itemShops[slotIndex];
-    const cursor = get(itemShopSequenceCursor);
-    items = pickItemsFromScript(scriptShop, encNum, $player, cursor);
-    itemShopRefreshCount.update(n => n + 1);
-  } else {
-    items = generateItemShop(encNum, $player);
-  }
-
-  shopItems.set(items);
-  purchasedShopItems.set(new Set());
-  selectedEquipmentSlot.set(null);
 }
 
 export function selectEquipmentSlot(slotIndex) {

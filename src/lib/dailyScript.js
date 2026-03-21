@@ -2,7 +2,7 @@ import { mulberry32 } from './rng.js';
 import { CLASSES } from './classes.js';
 import { generateEncounter, FINAL_ORDEALS } from './encounters.js';
 import { generateShopPods } from './pods.js';
-import { generateItemSequence } from './items.js';
+import { ITEMS, generateItemSequence } from './items.js';
 import { CONFIG } from './constants.js';
 
 const DEPTHS = 25;
@@ -58,11 +58,12 @@ export function generateDailyScript(seed) {
   const itemShops = [];
   for (let slot = 0; slot < ITEM_SHOP_COUNT; slot++) {
     // Use increasing depth estimates for scaling (depths 4, 8, 12, ...)
-    const depth = (slot + 1) * 4;
+    const depth = (slot + 1) * 2;
     const sequence = generateItemSequence(depth, ITEM_SEQUENCE_LENGTH, rng);
 
-    // Pre-pick guarantee candidate lists (shuffled using rng)
-    const allItems = generateItemSequence(depth, 60, rng);
+    // Build guarantee candidate lists from the full depth-eligible pool (not a random sample),
+    // then shuffle them with the seeded rng so order is deterministic but varied.
+    const eligiblePool = Object.values(ITEMS).filter(it => (it.minDepth || 0) <= depth);
     const shuffle = arr => {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
@@ -74,10 +75,10 @@ export function generateDailyScript(seed) {
 
     itemShops.push({
       sequence,
-      guaranteeFood:  shuffle(allItems.filter(it => it.category === 'food')),
-      guaranteeLight: shuffle(allItems.filter(it => it.category === 'lightSource')),
-      guaranteeDraw2: shuffle(allItems.filter(it => (it.bonuses?.bonusDraw ?? 0) >= 2)),
-      guaranteeDraw3: shuffle(allItems.filter(it => (it.bonuses?.bonusDraw ?? 0) >= 3)),
+      guaranteeFood:  shuffle(eligiblePool.filter(it => it.category === 'food')),
+      guaranteeLight: shuffle(eligiblePool.filter(it => it.category === 'lightSource')),
+      guaranteeDraw2: shuffle(eligiblePool.filter(it => (it.bonuses?.bonusDraw ?? 0) >= 2)),
+      guaranteeDraw3: shuffle(eligiblePool.filter(it => (it.bonuses?.bonusDraw ?? 0) >= 3)),
     });
   }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## ?? - 3/21/2026
+
+### Daily Challenges
+
+* Fixed a problem that could cause the game to stop offering guaranteed food in shops
+
 ## 1.3.0 - 3/20/2026
 
 ### Gameplay
