@@ -1,6 +1,6 @@
 # Changelog
 
-## ?? - 3/21/2026
+## 1.3.1 - 3/21/2026
 
 ### Daily Challenges
 
