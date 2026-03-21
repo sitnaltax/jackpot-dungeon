@@ -35,9 +35,9 @@ export function calculateDrawTotals(drawnTokens, equippedItems = []) {
 export function calculateStaminaLost(deficiency, encounter) {
   const depth = encounter.level || 1;
   const trouble = encounter.trouble;
-  if (trouble <= 1) return 5;
+  if (trouble <= 1) return 7;
   const t = (deficiency - 1) / (trouble - 1);
-  return Math.round(5 + t * (15 + depth));
+  return Math.round(7 + t * (15 + depth / 2));
 }
 
 // Resolve encounter and return results
@@ -114,8 +114,7 @@ export function getEncounterSummary(result) {
 
   // Insight summary
   if (result.insightSuccess) {
-    const depthBonus = result.insightDepthBonus > 0 ? ` (+${result.insightDepthBonus} depth)` : '';
-    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!${depthBonus}`);
+    lines.push(`✓ Insight: ${result.totals.insight}${insightSuffix} vs ${result.encounter.mystery} Mystery - Bonus Treasure found!`);
   } else {
     const failureBonus = result.insightFailureBonus ?? {};
     const bonusParts = [];

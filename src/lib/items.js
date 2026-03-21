@@ -50,6 +50,16 @@ export const ITEMS = {
     cost: 14,
     bonuses: { selectiveRedraws: 2, resolve: 4 },
   },
+  revelatoryBrand: {
+    id: 'revelatoryBrand',
+    name: 'Revelatory Brand',
+    description: 'A porcelain jar that holds an everburning flame. Put your hand in and hold it. Bring it out, and answers are scarred into your skin.',
+    icon: '🔥',
+    category: 'book',
+    cost: 18,
+    minDepth: 16,
+    bonuses: { selectiveRedraws: 3, resolve: 4 },
+  },
 
   // === NAVIGATION TOOLS (Redraw All) ===
   brassCompass: {
@@ -86,7 +96,7 @@ export const ITEMS = {
     icon: '🪄',
     category: 'navigation',
     cost: 16,
-    minDepth: 12,
+    minDepth: 16,
     bonuses: { redraws: 2, selectiveRedraws: 1 },
   },
 
@@ -158,7 +168,7 @@ export const ITEMS = {
     description: 'A fragment of the dawn from before memory, lost for a thousand years and shining bright in your grasp.',
     icon: '☀️',
     category: 'lightSource',
-    cost: 12,
+    cost: 15,
     minDepth: 18,
     bonuses: { bonusDraw: 3 },
   },
@@ -168,9 +178,9 @@ export const ITEMS = {
     description: 'Illuminated from within, this enormous diamond casts glimmering rainbow fire in every direction.',
     icon: '💎',
     category: 'lightSource',
-    cost: 15,
+    cost: 18,
     minDepth: 18,
-    bonuses: { bonusDraw: 3, resolve: 4, insight: 4 },
+    bonuses: { bonusDraw: 3, resolve: 6, insight: 2 },
   },
   perfectCrystalSphere: {
     id: 'perfectCrystalSphere',
@@ -178,7 +188,7 @@ export const ITEMS = {
     description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
-    cost: 18,
+    cost: 20,
     minDepth: 18,
     bonuses: { bonusDraw: 3, redraws: 1 },
   },
@@ -210,6 +220,16 @@ export const ITEMS = {
     category: 'weapon',
     cost: 6,
     bonuses: { resolve: 6, insight: 2 },
+  },
+  adamantDrill: {
+    id: 'adamantDrill',
+    name: 'Adamant Drill',
+    description: "A mechanical hand drill. Not just the bit, but the entire device, is made of a brilliant crystal. With enough time it can penetrate any obstacle or mystery.",
+    icon: '💎',
+    category: 'weapon',
+    cost: 18,
+    minDepth: 16,
+    bonuses: { resolve: 12, redraws: 2 },
   },
 
   // === JEWELRY (Insight) ===
@@ -277,10 +297,10 @@ export const ITEMS = {
     description: 'A finely carved and polished wooden instrument, strung with spider silk and surprisingly easy to play--more of a ukelele than a lute, really.',
     icon: '🎸',
     category: 'instrument',
-    cost: 12,
+    cost: 16,
     minDepth: 12,
     tags: ['Musical'],
-    bonuses: { selectiveRedraws: 1 },
+    bonuses: { selectiveRedraws: 2 },
   },
 
   // === FOOD (Stamina) ===

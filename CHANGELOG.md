@@ -1,10 +1,13 @@
 # Changelog
 
-## 1.3.0 - ??
+## 1.3.0 - 3/20/2026
 
 ### Gameplay
 
-* Reduced the cost of several tier 2 and 3 lights
+* Reworked the formula for Stamina loss. Base loss is now higher, but it scales less aggressively with depth. This should reduce the times that one bad round 16-18 pull ends the run on the spot.
+* On higher difficulties, Final Ordeal trouble now increases more quickly
+* Reworked Treasure gains. They are now based on Mystery; this should be the same up to depth 12 but increase the Treasure somewhat on higher depths
+* Added some new high-end Treasures 
 
 ### Daily Challenges
 
