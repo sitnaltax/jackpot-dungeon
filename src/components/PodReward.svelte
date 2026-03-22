@@ -9,7 +9,7 @@
 
 <div class="pod-reward">
   <h2>Challenge Complete!</h2>
-  <p class="intro">Choose your reward for conquering the hard path:</p>
+  <p class="intro">Choose your reward for facing greater peril:</p>
 
   <div class="choices">
     <div class="choice-card pod-option">
