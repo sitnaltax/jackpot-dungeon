@@ -1,5 +1,15 @@
 # Changelog
 
+## ? - 3/23/2026
+
+### Gameplay
+
+* Past depth 13, "Hard" encounters in the encounter choice now only use +1 depth, which should make them less suicidal
+
+### UI
+
+* Typo and text cleanup
+
 ## 1.3.1 - 3/21/2026
 
 ### Daily Challenges
