@@ -225,7 +225,7 @@ export const ITEMS = {
     id: 'adamantDrill',
     name: 'Adamant Drill',
     description: "A mechanical hand drill. Not just the bit, but the entire device, is made of a brilliant crystal. With enough time it can penetrate any obstacle or mystery.",
-    icon: '💎',
+    icon: '⛏️',
     category: 'weapon',
     cost: 18,
     minDepth: 16,

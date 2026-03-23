@@ -5,6 +5,7 @@
 ### Gameplay
 
 * Fixed a bug where Remember a Treasure was not giving you all the Treasure it was supposed to
+* Replaced the Adamant Drill ("diamond" -> "pick") emoji to make it unique
 
 ## 1.4.0 - 3/23/2026
 
