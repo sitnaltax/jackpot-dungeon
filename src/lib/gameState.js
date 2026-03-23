@@ -1074,13 +1074,13 @@ export function ordealOpenPodShop() {
   gamePhase.set(PHASES.SHOP);
 }
 
-// Convert XP to treasure (10 XP : 1 treasure), then open item shop.
+// Convert XP to treasure (8 XP : 1 treasure), then open item shop.
 // After the item shop, skipItemShop() routes back to beginOrdealRound().
 export function ordealOpenItemShop(xpToConvert) {
   const $player = get(player);
   if (xpToConvert > 0 && $player.xp >= xpToConvert) {
-    const treasureGain = Math.floor(xpToConvert / 10);
-    const xpSpent = treasureGain * 10; // only spend what's actually converted
+    const treasureGain = Math.floor(xpToConvert / 8);
+    const xpSpent = treasureGain * 8; // only spend what's actually converted
     player.update(p => ({
       ...p,
       xp: p.xp - xpSpent,
