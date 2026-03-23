@@ -374,14 +374,15 @@ export function startNextEncounter() {
   // Odd floors: choice between hard challenge or skip
   if (isChoiceEncounter(encNum)) {
     let hardEncounter, nextEncounter;
+    const hardFloor = encNum >= 13 ? encNum + 1 : encNum + 2;
     if ($isDailyRun && $dailyScript) {
       const scriptEntry = $dailyScript.encounters[encNum - 1];
       // Apply difficulty scaling to the stored template
-      hardEncounter = applyDifficultyToTemplate(scriptEntry.hard, encNum + 2, difficulty);
+      hardEncounter = applyDifficultyToTemplate(scriptEntry.hard, hardFloor, difficulty);
       nextEncounter = applyDifficultyToTemplate(scriptEntry.basic, encNum, difficulty);
     } else {
       const $seen = get(seenEncounterIds);
-      hardEncounter = generateEncounter(encNum + 2, difficulty, $seen);
+      hardEncounter = generateEncounter(hardFloor, difficulty, $seen);
       // Also exclude the hard encounter's ID so the two options are always distinct
       nextEncounter = generateEncounter(encNum, difficulty, new Set([...$seen, hardEncounter.id]));
     }

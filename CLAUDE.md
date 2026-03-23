@@ -127,6 +127,12 @@ A seeded daily run mode where the class, encounters, and shops are pre-determine
 - Daily runs use `itemShopSequenceCursor` and `podShopRefreshCount` to replay the pre-determined shop sequence rather than random generation
 - `dailyWasReAttempt` — true if the player is retrying after a previous failed daily attempt
 
+**When changing encounter generation logic, update both:**
+1. `gameState.js` `startNextEncounter()` — runtime path (handles both normal and daily via `isDailyRun` branch)
+2. `dailyScript.js` `generateDailyScript()` — pre-generation path (builds templates at seed time)
+
+The daily script pre-generates encounter templates once at seed time, so any rule that affects which encounter floor is selected (e.g. hard path floor offset) must be applied in both places to stay consistent.
+
 ### Persistence (`src/lib/persistence.js`)
 
 Game state is saved to `localStorage` automatically so mobile browsers don't lose progress when a tab is evicted from memory.

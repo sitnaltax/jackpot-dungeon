@@ -30,8 +30,10 @@ export function generateDailyScript(seed) {
   for (let depth = 1; depth <= DEPTHS; depth++) {
     const basicFull = generateEncounter(depth, 'normal', usedBasicIds, rng);
     usedBasicIds.add(basicFull.id);
-    // Hard encounter must not match the basic encounter at this depth
-    const hardFull = generateEncounter(depth + 2, 'normal', new Set([basicFull.id]), rng);
+    // Hard encounter must not match the basic encounter at this depth.
+    // At depth 13+, hard is only +1 floor ahead (less punishing in the late game).
+    const hardFloor = depth >= 13 ? depth + 1 : depth + 2;
+    const hardFull = generateEncounter(hardFloor, 'normal', new Set([basicFull.id]), rng);
     // Strip out the difficulty-scaled mystery/trouble so they're computed fresh at consumption time
     // eslint-disable-next-line no-unused-vars
     const { mystery: _bm, trouble: _bt, ...basicTemplate } = basicFull;

@@ -393,7 +393,7 @@ const ENCOUNTERS = [
   {
     id: 'visionOfRagnarok',
     name: 'Vision of Ragnarok',
-    minLevel: 19,
+    minLevel: 18,
     maxLevel: 999,
     weight: 1,
     mysteryMod: -2,
@@ -406,7 +406,7 @@ const ENCOUNTERS = [
   {
     id: 'visionOfTheVoid',
     name: 'Vision of the Void',
-    minLevel: 19,
+    minLevel: 18,
     maxLevel: 999,
     weight: 1,
     mysteryMod: 2,
