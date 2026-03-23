@@ -17,7 +17,7 @@ Jacq's Quest is a Svelte 4 roguelike deck-builder where players draw tokens from
 ### Core Game Loop
 
 1. **CLASS_SELECT phase** - Player picks a class and difficulty
-2. **CHOICE phase** - On odd encounters (≥3), player picks hard path (pod reward) or basic path (easier encounter)
+2. **CHOICE phase** - On even encounters (≥4), player picks hard path (pod reward) or basic path (easier encounter)
 3. **DRAW phase** - Player draws tokens from shuffled pool, can redraw
 4. **ENCOUNTER phase** - Tokens resolve against encounter (insight vs mystery, resolve vs trouble)
 5. **SHOP phase** - Spend XP to replace pods with better ones
@@ -27,20 +27,32 @@ Jacq's Quest is a Svelte 4 roguelike deck-builder where players draw tokens from
 
 All game state uses Svelte writable stores. Key stores:
 - `gamePhase` - Current phase (START, CLASS_SELECT, CHOICE, DRAW, ENCOUNTER, POD_REWARD, ITEM_SHOP, SHOP, ORDEAL_INTERLUDE, GAME_OVER)
-- `player` - Contains pods array, playerClass, stamina, maxStamina, treasure, xp, equipment
+- `player` - Contains pods array, playerClass, stamina, maxStamina, treasure, xp, totalXpEarned, totalTreasureEarned, equipment
 - `drawnTokens` - Currently drawn tokens for the encounter
 - `currentEncounter` - Active encounter with mystery/trouble values
+- `seenEncounterIds` - Set of encounter IDs played this run (prevents repeats)
+- `discardEffects` - Accumulated `{ insight, resolve, xp }` from `onDiscard` token callbacks during current encounter
+- `choiceEncounters` - `{ hard, next }` encounter pair shown at CHOICE phase
+- `chosenPath` - `'hard'` or `'basic'`
+- `rewardPod` - Pod offered after completing the hard path
 - `ordealActive` - Whether the Final Ordeal is in progress
 - `ordealMysteryPool` - Remaining mystery in the ordeal
 - `ordealRound` - Current ordeal round number
 - `ordealId` - Which ordeal variant was randomly chosen
+- `isVictory` - Whether the player has won
+- Daily challenge stores: `isDailyRun`, `dailyDate`, `dailyScript`, `podShopRefreshCount`, `itemShopIndex`, `itemShopRefreshCount`, `itemShopSequenceCursor`, `dailyWasReAttempt`, `dailyPending`, `dailyClassId`
+- Modal inspection stores: `inspectedToken`, `inspectionContext`, `inspectionEquipment`, `inspectionSelectable`, `inspectedEquipment`, `inspectedClass`
 
 Key functions:
 - `selectClass(classId)` - Initializes game with chosen class, starting items, and bonuses
 - `getTotalBonuses(playerState)` - Combines equipment + class bonuses
 - `getEquipmentBonuses(equipment)` - Equipment bonuses only
 - `getEffectiveMaxStamina(playerState)` - Base max + total bonuses
+- `getRefreshCost(playerClass, n)` - XP cost of the nth pod shop refresh (delegates to class `refreshCostFn` or defaults to n+1)
 - `beginOrdealRound()` - Advances to the next ordeal round
+- `inspectToken(token, context, selectable, equipment)` / `closeInspection()` - Token inspection modal
+- `inspectEquipment(equipment)` / `closeEquipmentInspection()` - Equipment inspection modal
+- `inspectClass(playerClass)` / `closeClassInspection()` - Class detail modal
 
 ### Class System (`src/lib/classes.js`)
 
@@ -80,12 +92,14 @@ Pods contain 3 tokens. Starting pods mostly use iron/ordinary ranks, with a coup
 
 ### Encounter Resolution (`src/lib/encounter.js`)
 
-`resolveEncounter(drawnTokens, encounter, bonuses, drawEffects)` calculates totals and returns result:
-- Insight ≥ mystery → reveal bonus XP (half of mystery value)
+`resolveEncounter(drawnTokens, encounter, bonuses, discardEffects, equippedItems)` calculates totals and returns result:
+- Insight ≥ mystery → `insightSuccess: true`, adds `floor(mystery / 2)` to `xpGained`
 - Resolve < trouble → stamina loss (flat + scaled by deficiency)
-- `bonuses` includes equipment + class insight/resolve
-- `discardEffects` includes accumulated onDiscard token effects
+- `bonuses` includes equipment + class insight/resolve flat bonuses
+- `discardEffects` includes accumulated `{ insight, resolve, xp }` from `onDiscard` token callbacks
+- `equippedItems` passed through for token synergy evaluation
 - `calculateStaminaLost(deficiency, encounter)` is exported separately for live UI prediction
+- `getEncounterSummary(result)` returns an array of summary lines for the encounter result UI
 
 ### Encounter Scaling (`src/lib/encounters.js`)
 
@@ -103,6 +117,16 @@ Pods contain 3 tokens. Starting pods mostly use iron/ordinary ranks, with a coup
 
 Bonus draws expand the pod pool: each bonus draw adds `CONFIG.podsPerBonusDraw` (default 2) weak pods.
 
+### Daily Challenge (`src/lib/dailyScript.js`, `src/lib/rng.js`)
+
+A seeded daily run mode where the class, encounters, and shops are pre-determined by the day's seed.
+
+- `getDailySeed()` / `todayUTC()` in `rng.js` — derive a deterministic seed from today's UTC date
+- `generateDailyScript(seed)` in `dailyScript.js` — produces the full sequence of encounter templates, shop inventories, and the forced class for the day
+- `isDailyRun` store gates daily-specific behavior (scripted encounters/shops, tracking re-attempts)
+- Daily runs use `itemShopSequenceCursor` and `podShopRefreshCount` to replay the pre-determined shop sequence rather than random generation
+- `dailyWasReAttempt` — true if the player is retrying after a previous failed daily attempt
+
 ### Persistence (`src/lib/persistence.js`)
 
 Game state is saved to `localStorage` automatically so mobile browsers don't lose progress when a tab is evicted from memory.
@@ -110,7 +134,7 @@ Game state is saved to `localStorage` automatically so mobile browsers don't los
 - `initAutoSave(stores)` — subscribes to all meaningful stores and debounces saves (500ms). Called once in `App.svelte` `onMount`.
 - `loadSavedGame(stores)` — reads and restores state on page load. Called before `initAutoSave`.
 - `clearSave()` — wipes the save. Called at the start of `selectClass` so each new run starts clean.
-- `SAVE_VERSION` constant — bump this whenever the saved data shape changes incompatibly. Mismatched saves are discarded and the player starts fresh. Currently **15**.
+- `SAVE_VERSION` constant — bump this whenever the saved data shape changes incompatibly. Mismatched saves are discarded and the player starts fresh. Currently **16**.
 
 **When adding new persistent state:**
 1. Add the store to the `saveGame` serialization block in `persistence.js`
