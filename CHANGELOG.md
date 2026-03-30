@@ -26,6 +26,20 @@ The last change is a rework to Food items. Food ended up being both a way to rec
 * One token in every pod (shop or bonus) gets an additional rank upgrade.
 * Can now only buy one pod per pod shop
 
+#### Food Items Rework
+
+* Waybread is cheaper and provides less benefit
+* Feywine is cheaper, provides more rerolls but less health
+* Medicinal Herbs is cheaper, provides more rerolls but less health
+
+#### Tokens Rework
+
+* Added new tokens: Revelation, Astromancy, Xylomancy
+* These tokens, along with Brainstorm and Revelation, have the Mindstorm tag, which gives a penalty if multiple are drawn
+* Spread out the frequencies of these depth-13 Mindstorm tokens
+* Buffed Pluto/Hemlock
+* Chord and Discord can now be found earlier
+
 ## 1.4.1 - 3/23/2026
 
 ### Gameplay
