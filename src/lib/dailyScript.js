@@ -16,6 +16,10 @@ export function generateDailyScript(seed) {
   // Pick class — all CLASSES are valid (wizard is a difficulty, not a class)
   const eligibleClasses = Object.values(CLASSES);
   const dailyClass = eligibleClasses[Math.floor(rng() * eligibleClasses.length)].id;
+  const dailyClassObj = CLASSES[dailyClass];
+  const classOptions = {
+    upgradesTokens: dailyClassObj.upgradesTokens ?? false,
+  };
 
   // Pick ordeal variant
   const ordealVariant = FINAL_ORDEALS[Math.floor(rng() * FINAL_ORDEALS.length)].id;
@@ -42,7 +46,7 @@ export function generateDailyScript(seed) {
     encounters.push({
       basic: basicTemplate,
       hard: hardTemplate,
-      podReward: generateShopPods(depth, 1, rng)[0] ?? null,
+      podReward: generateShopPods(depth, 1, rng, classOptions)[0] ?? null,
     });
   }
 
@@ -51,7 +55,7 @@ export function generateDailyScript(seed) {
   for (let depth = 1; depth <= DEPTHS; depth++) {
     const sets = [];
     for (let i = 0; i < POD_SHOP_SETS; i++) {
-      sets.push(generateShopPods(depth, CONFIG.shopSize, rng));
+      sets.push(generateShopPods(depth, CONFIG.shopSize, rng, classOptions));
     }
     podShops.push(sets);
   }
