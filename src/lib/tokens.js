@@ -16,6 +16,7 @@ import celestialImage from '../assets/celestial.jpg';
 import chthonicImage from '../assets/chthonic.jpg';
 import botanicalMusicalImage from '../assets/botanical-musical.jpg';
 import celestialMusicalImage from '../assets/celestial-musical.jpg';
+import mindstormImage from '../assets/mindstorm.jpg';
 import genericImage from '../assets/generic.jpg';
 
 
@@ -491,6 +492,7 @@ export const TOKEN_TYPES = {
     weight: 0.5,
     tags: ['Celestial', 'Mindstorm'],
     synergyPenalty: true,
+    image: mindstormImage,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
       const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
@@ -507,6 +509,7 @@ export const TOKEN_TYPES = {
     weight: 0.5,
     tags: ['Botanical', 'Mindstorm'],
     synergyPenalty: true,
+    image: mindstormImage,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
       const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
@@ -546,6 +549,7 @@ const TAG_IMAGES = {
   Celestial: celestialImage,
   Botanical: botanicalImage,
   Chthonic: chthonicImage,
+  Mindstorm: mindstormImage,
 };
 
 const DEFAULT_IMAGE = genericImage
