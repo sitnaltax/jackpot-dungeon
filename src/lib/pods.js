@@ -221,7 +221,7 @@ export function generateShopPods(encounterNumber, count = 4, rng = Math.random, 
   for (let i = 0; i < count; i++) {
     const pod = generateShopPod(tier, encounterNumber, rng);
     if (upgradesTokens) {
-      for (let u = 0; u < 2; u++) {
+      for (let u = 0; u < 1; u++) {
         const idx = Math.floor(rng() * pod.tokenDefs.length);
         pod.tokenDefs[idx] = { ...pod.tokenDefs[idx], rank: upgradeRank(pod.tokenDefs[idx].rank) };
       }
