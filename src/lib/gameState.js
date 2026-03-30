@@ -3,7 +3,7 @@
 import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES } from './tokens.js';
-import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod } from './pods.js';
+import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod, upgradeRandomToken } from './pods.js';
 import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop, WEAK_ITEMS } from './items.js';
@@ -537,18 +537,14 @@ export function executeEncounter() {
     : 0;
   const baseTreasure = result.insightSuccess ? insightTreasure : 1;
 
-  const classXpMultiplier = $player.playerClass?.bonuses?.encounterXpMultiplier ?? 1.0;
-
   // Class callbacks for encounter outcomes
   const insightFailureBonus = !result.insightSuccess
     ? ($player.playerClass?.onInsightFailure?.(result) ?? {})
     : {};
 
-  result.baseXp = result.xpGained;
   result.baseTreasure = baseTreasure;
   result.insightFailureBonus = insightFailureBonus;
-  result.classXpMultiplier = classXpMultiplier;
-  result.xpGained = Math.floor(result.xpGained * classXpMultiplier) + (insightFailureBonus.xp ?? 0);
+  result.xpGained = result.xpGained + (insightFailureBonus.xp ?? 0);
   result.treasureGained = baseTreasure + (insightFailureBonus.treasure ?? 0);
 
   // Calculate stamina regen from equipment + class
@@ -560,10 +556,6 @@ export function executeEncounter() {
     // Deplete pool by insight dealt this round (pool floored at 0)
     ordealMysteryPool.update(p => Math.max(0, p - result.totals.insight));
 
-    const classXpMultiplier = $player.playerClass?.bonuses?.encounterXpMultiplier ?? 1.0;
-    result.baseXp = result.xpGained;
-    result.classXpMultiplier = classXpMultiplier;
-    result.xpGained = Math.floor(result.xpGained * classXpMultiplier);
     result.treasureGained = 0;
 
     encounterResult.set(result);
@@ -633,7 +625,10 @@ export function proceedFromEncounter() {
     if ($isDailyRun && $dailyScript) {
       pod = $dailyScript.encounters[encNum - 1].podReward;
     } else {
-      [pod] = generateShopPods(encNum, 1);
+      const $pc = get(player).playerClass;
+      [pod] = generateShopPods(encNum, 1, Math.random, {
+        upgradesTokens: $pc?.upgradesTokens ?? false,
+      });
     }
     rewardPod.set(pod);
     gamePhase.set(PHASES.POD_REWARD);
@@ -877,7 +872,11 @@ export function proceedToShop() {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][0];
   } else {
-    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+    const $pc = get(player).playerClass;
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
+      upgradesTokens: $pc?.upgradesTokens ?? false,
+      costMultiplier: $pc?.bonuses?.podCostMultiplier ?? 1.0,
+    });
   }
 
   shopPods.set(generatedPods);
@@ -906,6 +905,8 @@ export function purchasePod(podTemplate, shopIndex) {
   if ($player.xp < podTemplate.cost) return;
   if (!$selectedPod) return;
   if ($purchasedShopPods.has(shopIndex)) return;
+  const maxPerShop = $player.playerClass?.maxPodsPerShop;
+  if (maxPerShop && $purchasedShopPods.size >= maxPerShop) return;
 
   // Create new pod from template
   const newPod = clonePodTemplate(podTemplate);
@@ -951,7 +952,11 @@ export function refreshShop() {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][newRefreshCount];
   } else {
-    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+    const $pc = get(player).playerClass;
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
+      upgradesTokens: $pc?.upgradesTokens ?? false,
+      costMultiplier: $pc?.bonuses?.podCostMultiplier ?? 1.0,
+    });
   }
 
   player.update(p => ({ ...p, xp: p.xp - refreshCost }));
@@ -1063,7 +1068,11 @@ export function ordealOpenPodShop() {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][0];
   } else {
-    generatedPods = generateShopPods(encNum, CONFIG.shopSize);
+    const $pc = get(player).playerClass;
+    generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
+      upgradesTokens: $pc?.upgradesTokens ?? false,
+      costMultiplier: $pc?.bonuses?.podCostMultiplier ?? 1.0,
+    });
   }
 
   shopPods.set(generatedPods);

@@ -62,7 +62,8 @@ Four classes: Bricoleur, Polymath, Agonist, Maverick. Each defines:
 - `startingTreasureBonus` / `startingXpBonus` - Extra starting resources
 - `shopItemFilter` - Optional callback to exclude items from shops (e.g., Maverick excludes selectiveRedraws items)
 - `onInsightFailure(result)` - Optional callback returning `{ treasure?, xp? }` on insight failure
-- `encounterXpMultiplier` - Stacked with encounter xpMultiplier (Polymath)
+- `upgradesTokens` - If true, two random token upgrades (each independent, can hit same token) are applied per pod at generation time — shop pods and reward pods only (Polymath). Starting pods and weak bonus-draw pods are excluded. Uses `rng` for seeded generation paths.
+
 - `startingStaminaOffset` - Applied after effMax calculated (Polymath: -10)
 - `refreshCostFn(n)` - Cost of the nth pod shop refresh
 

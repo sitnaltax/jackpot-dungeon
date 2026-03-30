@@ -10,11 +10,12 @@
   $: refreshCost = getRefreshCost($player.playerClass, $shopRefreshCount);
   $: canAfford = (cost) => $player.xp >= cost;
   $: isPurchased = (index) => $purchasedShopPods.has(index);
-  $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index);
+  $: shopLimitReached = (() => { const max = $player.playerClass?.maxPodsPerShop; return max != null && $purchasedShopPods.size >= max; })();
+  $: canPurchase = (cost, index) => canAfford(cost) && $selectedPodToReplace !== null && !isPurchased(index) && !shopLimitReached;
   $: canAffordAnyPod = $shopPods.some((pod, i) => !$purchasedShopPods.has(i) && $player.xp >= pod.cost);
   $: allPodsBought = $shopPods.every((_, i) => $purchasedShopPods.has(i));
   $: dailyRefreshCapped = $isDailyRun && $podShopRefreshCount >= 15;
-  $: canRefresh = !dailyRefreshCapped && $player.xp >= refreshCost && (canAffordAnyPod || allPodsBought || refreshCost === 0);
+  $: canRefresh = !dailyRefreshCapped && !shopLimitReached && $player.xp >= refreshCost && (canAffordAnyPod || allPodsBought || refreshCost === 0);
 </script>
 
 <div class="shop">
@@ -56,6 +57,8 @@
           >
             {#if isPurchased(index)}
               Sold
+            {:else if shopLimitReached}
+              Limit Reached
             {:else if !canAfford(podTemplate.cost)}
               Can't Afford
             {:else if !$selectedPodToReplace}

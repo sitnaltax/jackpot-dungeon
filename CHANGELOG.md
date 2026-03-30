@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.5.0 - 3/30/2026
+
+### The Polymath Update!
+
+This update contains several larger gameplay and balance changes.
+
+The first is to the Polymath class. The intent for this class was to have improved pod choices, balanced by starting weakness in items and stamina. However, what this means was after the initial speedbump, the Polymath could quickly snowball, using its bonus XP to pick up incredibly potent pods and cruise to an overwhelming victory.
+
+This update changes the Polymath by replacing "bonus XP" with "better pods". The new counterbalance is that you can only buy one per shop, so the Polymath can no longer pick up 4-5 dynamite new pods at once, and will struggle a little bit more after upgrading token draw. 
+
+### Gameplay
+
+#### Polymath Rework
+
+* No longer starts with reduced Stamina
+* No longer gets bonus XP
+* One token in every pod (shop or bonus) gets an additional rank upgrade.
+* Can now only buy one pod per pod shop
+
 ## 1.4.1 - 3/23/2026
 
 ### Gameplay

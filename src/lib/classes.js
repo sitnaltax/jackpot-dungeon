@@ -118,9 +118,11 @@ export const CLASSES = {
   polymath: {
     id: 'polymath',
     name: 'Polymath',
-    description: 'Learns quickly; gets bonus XP, and can also refresh more cheaply.',
-    benefitDescription: 'More XP, and less expensive shop refreshes. Starts with reduced stamina.',
-    bonuses: { encounterXpMultiplier: 1.3 },
+    description: 'Able to make the best use out of everything: pods are better, and shop refreshes are cheap.',
+    benefitDescription: 'One random token in every pod is upgraded; less expensive shop refreshes. One pod purchase per shop.',
+    bonuses: {},
+    upgradesTokens: true,
+    maxPodsPerShop: 1,
     refreshCostFn: (n) => Math.min(3, n),
     startingEquipment: [
       STARTING_ITEMS.elegantWatch,
@@ -129,7 +131,6 @@ export const CLASSES = {
     ],
     startingXpBonus: 10,
     startingTreasureBonus: 0,
-    startingStaminaOffset: -10,
   },
   bricoleur: {
     id: 'bricoleur',

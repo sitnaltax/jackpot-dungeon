@@ -213,12 +213,20 @@ function generateShopPod(tier, encounterNumber, rng = Math.random) {
 
 // Generate shop pods for a given encounter number
 // rng: optional random function (defaults to Math.random for normal play)
-export function generateShopPods(encounterNumber, count = 4, rng = Math.random) {
+// classOptions: { upgradesTokens } for class-specific generation behavior
+export function generateShopPods(encounterNumber, count = 4, rng = Math.random, { upgradesTokens = false } = {}) {
   const tier = getShopTier(encounterNumber);
   const pods = [];
 
   for (let i = 0; i < count; i++) {
-    pods.push(generateShopPod(tier, encounterNumber, rng));
+    const pod = generateShopPod(tier, encounterNumber, rng);
+    if (upgradesTokens) {
+      for (let u = 0; u < 1; u++) {
+        const idx = Math.floor(rng() * pod.tokenDefs.length);
+        pod.tokenDefs[idx] = { ...pod.tokenDefs[idx], rank: upgradeRank(pod.tokenDefs[idx].rank) };
+      }
+    }
+    pods.push(pod);
   }
 
   return pods;
@@ -237,6 +245,16 @@ export function generateWeakPod() {
     { type: 'xp', rank: 'iron' },
   ];
   return createPod(tokenDefs, 0);
+}
+
+// Upgrade randomly chosen tokens in a pod by one rank each (does not change cost).
+// count: how many upgrades to apply; each pick is independent so the same token can be chosen twice.
+export function upgradeRandomToken(pod, count = 1) {
+  for (let i = 0; i < count; i++) {
+    const idx = Math.floor(Math.random() * pod.tokens.length);
+    pod.tokens[idx] = { ...pod.tokens[idx], rank: upgradeRank(pod.tokens[idx].rank) };
+  }
+  return pod;
 }
 
 // Shuffle array utility

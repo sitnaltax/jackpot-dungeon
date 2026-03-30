@@ -34,9 +34,6 @@
       {/if}
       <div class="xp-gained">
         +{$encounterResult.xpGained} XP
-        {#if $encounterResult.classXpMultiplier && $encounterResult.classXpMultiplier !== 1.0}
-          <span class="multiplier">(x{$encounterResult.classXpMultiplier})</span>
-        {/if}
       </div>
       {#if $ordealActive}
         <div class="mystery-remaining">
