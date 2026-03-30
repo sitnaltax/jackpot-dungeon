@@ -91,7 +91,7 @@ export const TOKEN_TYPES = {
     icon: '🎹',
     color: '#9b59b6',
     baseValue: 1,
-    minDepth: 5,
+    minDepth: 6,
     weight: 0.4,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
