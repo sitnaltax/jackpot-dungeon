@@ -321,9 +321,9 @@ export const ITEMS = {
     description: 'The local word for this is an insult, or perhaps a swear. It tastes like thinly-spiced dust. But it\'s nourishing and surprisingly energizing once you choke it down.',
     icon: '🥐',
     category: 'food',
-    cost: 6,
-    bonuses: { maxStamina: 20, staminaRegen: 4 },
-    staminaHeal: 20,
+    cost: 5,
+    bonuses: { maxStamina: 15, staminaRegen: 3 },
+    staminaHeal: 15,
   },
   medicinalHerbs: {
     id: 'medicinalHerbs',
@@ -332,8 +332,8 @@ export const ITEMS = {
     icon: '🌿',
     category: 'food',
     cost: 12,
-    bonuses: { maxStamina: 20, staminaRegen: 4, redraws: 1 },
-    staminaHeal: 20,
+    bonuses: { maxStamina: 15, staminaRegen: 3, redraws: 2 },
+    staminaHeal: 15,
   },
   feywine: {
     id: 'feywine',
@@ -341,9 +341,9 @@ export const ITEMS = {
     description: 'They say if you drink it, you\'ll never be able to return home. That\'s because it helps you see all the advantages of where you are.',
     icon: '🍷',
     category: 'food',
-    cost: 16,
-    bonuses: { maxStamina: 20, staminaRegen: 4, selectiveRedraws: 1 },
-    staminaHeal: 20,
+    cost: 12,
+    bonuses: { maxStamina: 10, staminaRegen: 2, selectiveRedraws: 2 },
+    staminaHeal: 10,
   },
 
 };
