@@ -90,7 +90,7 @@ export const TOKEN_TYPES = {
     icon: '🎹',
     color: '#9b59b6',
     baseValue: 1,
-    minDepth: 7,
+    minDepth: 5,
     weight: 0.4,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
@@ -115,7 +115,7 @@ export const TOKEN_TYPES = {
     icon: '🎸',
     color: '#9b59b6',
     baseValue: 2,
-    minDepth: 11,
+    minDepth: 10,
     weight: 0.3,
     tags: ['Musical'],
     borderEffect: 'linear-gradient(135deg, #e74c3c, #3498db)',
@@ -270,7 +270,7 @@ export const TOKEN_TYPES = {
       const otherCelestials = allDrawnTokens.filter(t =>
         t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Celestial')
       ).length;
-      const value = otherCelestials > 0 ? 0 : 8;
+      const value = otherCelestials > 0 ? 0 : 9;
       return { insight: Math.floor(value * rankMultiplier) };
     },
   },
@@ -384,7 +384,7 @@ export const TOKEN_TYPES = {
       const otherBotanicals = allDrawnTokens.filter(t =>
         t.id !== token.id && TOKEN_TYPES[t.type].tags?.includes('Botanical')
       ).length;
-      const value = otherBotanicals > 0 ? 0 : 8;
+      const value = otherBotanicals > 0 ? 0 : 9;
       return { resolve: Math.floor(value * rankMultiplier) };
     },
   },
@@ -429,9 +429,9 @@ export const TOKEN_TYPES = {
     getValue: (token) => ({ xp: Math.floor(3 * (RANKS[token.rank] || RANKS.bronze).multiplier) }),
   },
 
-  // --- "Mind" pair. ---
-  // Untagged dual-stat tokens: each contributes to one encounter stat + xp
-  // Efficient but not synergistic, to take up a little space
+  // --- Mindstorm group ---
+  // High-value tokens with the Mindstorm tag.
+  // Each Mindstorm token beyond the first reduces the effective base of all Mindstorm tokens by 1.
   brainstorm: {
     name: 'Brainstorm',
     icon: '🧠',
@@ -439,12 +439,14 @@ export const TOKEN_TYPES = {
     borderEffect: 'linear-gradient(135deg, #e74c3c, #f1c40f)',
     baseValue: 5,
     minDepth: 13,
-    weight: 1,
-    noSynergy: true,
+    weight: 0.5,
+    tags: ['Mindstorm'],
+    synergyPenalty: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
-      const value = Math.floor(5 * rankMultiplier);
-      return { insight: value, xp: value };
+      const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
+      const effectiveBase = Math.max(0, 5 - penalty);
+      return { insight: Math.floor(effectiveBase * rankMultiplier), xp: Math.floor(effectiveBase * rankMultiplier) };
     },
   },
   meditation: {
@@ -454,12 +456,62 @@ export const TOKEN_TYPES = {
     borderEffect: 'linear-gradient(135deg, #3498db, #f1c40f)',
     baseValue: 5,
     minDepth: 13,
-    weight: 1,
-    noSynergy: true,
+    weight: 0.5,
+    tags: ['Mindstorm'],
+    synergyPenalty: true,
     getValue: (token, allDrawnTokens) => {
       const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
-      const value = Math.floor(5 * rankMultiplier);
-      return { resolve: value, xp: value };
+      const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
+      const effectiveBase = Math.max(0, 5 - penalty);
+      return { resolve: Math.floor(effectiveBase * rankMultiplier), xp: Math.floor(effectiveBase * rankMultiplier) };
+    },
+  },
+  revelation: {
+    name: 'Revelation',
+    icon: '💫',
+    color: '#f1c40f',
+    baseValue: 9,
+    minDepth: 13,
+    weight: 0.5,
+    tags: ['Mindstorm'],
+    synergyPenalty: true,
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
+      const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
+      const effectiveBase = Math.max(0, 9 - penalty);
+      return { xp: Math.floor(effectiveBase * rankMultiplier) };
+    },
+  },
+  astromancy: {
+    name: 'Astromancy',
+    icon: '🤩',
+    color: '#e74c3c',
+    baseValue: 6,
+    minDepth: 13,
+    weight: 0.5,
+    tags: ['Celestial', 'Mindstorm'],
+    synergyPenalty: true,
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
+      const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
+      const effectiveBase = Math.max(0, 6 - penalty);
+      return { insight: Math.floor(effectiveBase * rankMultiplier) };
+    },
+  },
+  xylomancy: {
+    name: 'Xylomancy',
+    icon: '🌲',
+    color: '#3498db',
+    baseValue: 6,
+    minDepth: 13,
+    weight: 0.5,
+    tags: ['Botanical', 'Mindstorm'],
+    synergyPenalty: true,
+    getValue: (token, allDrawnTokens) => {
+      const rankMultiplier = (RANKS[token.rank] || RANKS.bronze).multiplier;
+      const penalty = Math.max(0, countTokensWithTag('Mindstorm', allDrawnTokens) - 1);
+      const effectiveBase = Math.max(0, 6 - penalty);
+      return { resolve: Math.floor(effectiveBase * rankMultiplier) };
     },
   },
 
@@ -471,7 +523,7 @@ export const TOKEN_TYPES = {
     baseValue: 4,
     minDepth: 16,
     weight: 0.1,
-    tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic'],
+    tags: ['Musical', 'Celestial', 'Botanical', 'Chthonic', 'Mindstorm'],
     noSynergy: true,
     borderEffect: 'linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
     image: genericImage,

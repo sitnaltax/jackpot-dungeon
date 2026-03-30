@@ -8,7 +8,14 @@ This update contains several larger gameplay and balance changes.
 
 The first is to the Polymath class. The intent for this class was to have improved pod choices, balanced by starting weakness in items and stamina. However, what this means was after the initial speedbump, the Polymath could quickly snowball, using its bonus XP to pick up incredibly potent pods and cruise to an overwhelming victory.
 
-This update changes the Polymath by replacing "bonus XP" with "better pods". The new counterbalance is that you can only buy one per shop, so the Polymath can no longer pick up 4-5 dynamite new pods at once, and will struggle a little bit more after upgrading token draw. 
+This update changes the Polymath by replacing "bonus XP" with "better pods". The new counterbalance is that you can only buy one per shop, so the Polymath can no longer pick up 4-5 dynamite new pods at once, and will struggle a little bit more after upgrading token draw. The hope is that this is not a buff or nerf overall, but moves some of the difficulty out of a dicey start and makes the rest of the game more interesting.
+
+The next change is a change to tokens. Brainstorm and Meditation are joined by three new tokens at that level: Revelation, Astromancy, and Xylomancy. These individually-powerful tokens all have the "Mindstorm" tag which _reduces_ the power of these tokens as you draw more of them. The aim of this is to encourage a bigger variety of builds rather than the dominant strategy being loading up on Meditation.
+
+Smaller changes to tokens: Chord and Discord can now both be found earlier, which should make a Music-focused strategy somewhat stronger; Hemlock and Pluto have had their power increased.
+
+The last change is a rework to Food items. Food ended up being both a way to recover from failed rolls and a very efficient way to let you safely fail more in the future. This change reduces the cost of Waybread, Feywine, and Medicinal Herbs as well as reducing the healing they provide. Additionally, Feywine and Herbs get better reroll stats (2 instead of 1) making them more viable as tools to actually improve your rolls.
+
 
 ### Gameplay
 

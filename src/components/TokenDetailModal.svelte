@@ -146,9 +146,15 @@
       case 'starRuby':
         return 'Contributes to XP. Also contributes to XP when discarded.';
       case 'brainstorm':
-        return 'Contributes large flat amount to both Insight and XP.';
+        return 'Contributes to both Insight and XP. Mindstorm: loses 1 base power for each other Mindstorm token drawn.';
       case 'meditation':
-        return 'Contributes large flat amount to both Resolve and XP.';
+        return 'Contributes to both Resolve and XP. Mindstorm: loses 1 base power for each other Mindstorm token drawn.';
+      case 'revelation':
+        return 'Contributes greatly to XP. Mindstorm: loses 1 base power for each other Mindstorm token drawn.';
+      case 'astromancy':
+        return 'Contributes to Insight. Carries the Celestial tag. Mindstorm: loses 1 base power for each other Mindstorm token drawn.';
+      case 'xylomancy':
+        return 'Contributes to Resolve. Carries the Botanical tag. Mindstorm: loses 1 base power for each other Mindstorm token drawn.';
       case 'wild':
         return 'Contributes to all stats, and provides tags to all other tokens.';
       default:
@@ -201,7 +207,7 @@
 
         {#if contextualInfo}
           {#each contextualInfo.stats as { stat, value, baseValue, synergyBonus, rankMultiplier, hasBonus }}
-            <div class="stat-block" class:bonus={hasBonus}>
+            <div class="stat-block" class:bonus={hasBonus} class:penalty={synergyBonus < 0}>
               <div class="stat-header">
                 <span class="stat-icon">{TOKEN_TYPES[stat]?.icon || '?'}</span>
                 <span class="stat-name">{stat === 'xp' ? 'XP' : stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
@@ -212,6 +218,9 @@
                 {#if synergyBonus > 0}
                   <span class="calc-op">+</span>
                   <span class="calc-synergy">{synergyBonus} synergy</span>
+                {:else if synergyBonus < 0}
+                  <span class="calc-op">−</span>
+                  <span class="calc-penalty">{Math.abs(synergyBonus)} mindstorm</span>
                 {/if}
                 {#if rankMultiplier !== 1}
                   <span class="calc-op">&times;</span>
@@ -353,6 +362,12 @@
     color: #d4a8f0;
   }
 
+  .tag-badge--mindstorm {
+    background: rgba(231, 76, 60, 0.15);
+    border-color: rgba(231, 76, 60, 0.4);
+    color: #f0a8a8;
+  }
+
   .description {
     color: #aaa;
     font-size: 0.9rem;
@@ -429,6 +444,19 @@
   .calc-synergy {
     color: #2ecc71;
     font-weight: bold;
+  }
+
+  .calc-penalty {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+
+  .stat-block.penalty .stat-total {
+    color: #e74c3c;
+  }
+
+  .stat-block.penalty .calc-result {
+    color: #e74c3c;
   }
 
   .calc-rank {

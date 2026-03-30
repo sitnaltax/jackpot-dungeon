@@ -129,7 +129,7 @@ export const CLASSES = {
       STARTING_ITEMS.ruinedJournal,
       null,
     ],
-    startingXpBonus: 10,
+    startingXpBonus: 5,
     startingTreasureBonus: 0,
   },
   bricoleur: {
