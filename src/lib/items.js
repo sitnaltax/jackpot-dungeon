@@ -69,7 +69,7 @@ export const ITEMS = {
     icon: '🧭',
     category: 'navigation',
     cost: 2,
-    bonuses: { redraws: 1 },
+    bonuses: { redraws: 1, insight: 2 },
   },
   filigreedSextant: {
     id: 'filigreedSextant',
@@ -185,7 +185,7 @@ export const ITEMS = {
   perfectCrystalSphere: {
     id: 'perfectCrystalSphere',
     name: 'Perfect Crystal Sphere',
-    description: 'A flawless sphere of some unknown crystal. Gaze into it and you can see everything. Everything.',
+    description: 'A flawless sphere: crystal mined in total darkness, never exposed to light until the carving and polishing was complete. Gaze into it and you can see everything. Everything.',
     icon: '🔮',
     category: 'lightSource',
     cost: 20,
@@ -201,7 +201,7 @@ export const ITEMS = {
     icon: '🗡️',
     category: 'weapon',
     cost: 2,
-    bonuses: { resolve: 2 },
+    bonuses: { resolve: 4 },
   },
   silverSword: {
     id: 'silverSword',
@@ -240,7 +240,7 @@ export const ITEMS = {
     icon: '💎',
     category: 'jewelry',
     cost: 2,
-    bonuses: { insight: 2 },
+    bonuses: { insight: 4 },
   },
   hammeredPewterRing: {
     id: 'hammeredPewterRing',
@@ -357,7 +357,7 @@ export const WEAK_ITEMS = [
     icon: '🔍',
     category: 'jewelry',
     cost: 1,
-    bonuses: { insight: 1 },
+    bonuses: { insight: 2 },
   },
   {
     id: 'viciousBranch',
@@ -366,7 +366,7 @@ export const WEAK_ITEMS = [
     icon: '🌿',
     category: 'weapon',
     cost: 1,
-    bonuses: { resolve: 1 },
+    bonuses: { resolve: 2 },
   },
   {
     id: 'hardtack',
