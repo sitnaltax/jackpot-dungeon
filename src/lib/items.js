@@ -459,9 +459,9 @@ export function generateItemShop(encounterNumber, playerState) {
       }
     }
 
-    // Guarantee: low HP → at least one affordable Food
+    // Guarantee: low HP → at least one affordable Food (only before player has ever bought food)
     const hpPercent = playerState.stamina / playerState.maxStamina;
-    if (hpPercent < 0.75) {
+    if (!playerState.hasEverBoughtFood && hpPercent < 0.75) {
       const foods = affordablePool.filter(i => i.category === 'food' && !usedIds.has(i.id));
       if (foods.length > 0) {
         pickFrom(foods);

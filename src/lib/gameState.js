@@ -276,6 +276,7 @@ export function selectClass(classId, difficultyId = 'normal') {
     totalXpEarned: baseXp,
     totalTreasureEarned: baseTreasure,
     equipment: [...chosenClass.startingEquipment],
+    hasEverBoughtFood: false,
   };
 
   // Set stamina to effective max (accounts for class + equipment bonuses)
@@ -710,10 +711,9 @@ function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorSta
     }
   }
 
-  console.log(scriptShop.guaranteeFood)
   // low HP food guarantee — only requires affordability, not full eligibility,
   // so equipped food items don't exhaust the candidate list
-  if (hpPercent < 0.75 && shopItems.length < 3) {
+  if (!playerState.hasEverBoughtFood && hpPercent < 0.75 && shopItems.length < 3) {
     for (const item of (scriptShop.guaranteeFood || [])) {
       if (usedIds.has(item.id)) continue;
       if (!isEligible(item)) continue;
@@ -849,6 +849,10 @@ export function purchaseItem(item, shopIndex) {
     newSet.add(shopIndex);
     return newSet;
   });
+
+  if (item.category === 'food') {
+    player.update(p => ({ ...p, hasEverBoughtFood: true }));
+  }
 
   selectedEquipmentSlot.set(null);
 }

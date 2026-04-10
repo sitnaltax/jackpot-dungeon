@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0 - ??
+
+### Gameplay
+
+* The shop guarantee to have food if you have reduced stamina now only works until you buy food once.
+
 ## 1.5.0 - 3/30/2026
 
 ### The Polymath Update!
