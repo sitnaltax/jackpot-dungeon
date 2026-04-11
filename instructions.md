@@ -88,7 +88,7 @@ In between rounds, you'll be given the opportunity to spend your XP on one of fo
 * **Remember a Technique** to visit the Pod Shop.
 * **Remember a Treasure** will convert your XP to Treasure at an 8:1 ratio. Then you'll visit the Item Shop.
 * **Rememmber a Clue** to convert your XP to Insight at a 3:1 ratio. This can't reduce the Mystery below 1, though; you'll still need to face the ordeal at least once more. 
-* **Remember your Home** to convert your XP to Stamina at a 3:1 ratio.
+* **Remember your Home** to convert your XP to Stamina. The first use converts 40% of your XP to Stamina; each subsequent use halves the efficiency.
 
 After that choice, you'll face another round of the Ordeal, until either you unravel its Mystery, or run out of Stamina.
 

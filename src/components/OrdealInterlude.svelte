@@ -1,7 +1,7 @@
 <script>
   import {
     player,
-    ordealMysteryPool, ordealRound, ordealId,
+    ordealMysteryPool, ordealRound, ordealId, ordealHomeUseCount,
     beginOrdealRound,
     ordealSpendOnClue, ordealSpendOnStamina,
     ordealOpenPodShop, ordealOpenItemShop,
@@ -21,8 +21,11 @@
   $: effectiveMax = getEffectiveMaxStamina($player);
   $: clueReduction = Math.min(Math.floor($player.xp / 3), Math.max(0, $ordealMysteryPool - 1));
   $: xpSpentOnClue = clueReduction * 3;
-  $: homeHeal = Math.min(Math.floor($player.xp / 3), effectiveMax - $player.stamina);
-  $: xpSpentOnHome = homeHeal * 3;
+  $: homeEfficiency = 0.4 / Math.pow(2, $ordealHomeUseCount);
+  $: homeEfficiencyPct = Math.round(homeEfficiency * 100);
+  $: homePotentialHeal = Math.floor($player.xp * homeEfficiency);
+  $: homeHeal = Math.min(homePotentialHeal, effectiveMax - $player.stamina);
+  $: xpSpentOnHome = homePotentialHeal <= (effectiveMax - $player.stamina) ? $player.xp : Math.ceil(homeHeal / homeEfficiency);
   $: treasureGain = Math.floor($player.xp / 8);
   $: xpSpentOnTreasure = treasureGain * 8;
 
@@ -88,7 +91,7 @@
 
     <div class="option-card">
       <div class="option-header home">Remember your Home</div>
-      <p class="option-desc">Use your XP to restore Stamina. (3 XP = 1 Stamina)</p>
+      <p class="option-desc">Convert your XP to Stamina. Currently {homeEfficiencyPct}% efficient — halves each use.</p>
       <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
       <button class="btn btn-home" on:click={spendAllOnStamina}>
         Remember your Home

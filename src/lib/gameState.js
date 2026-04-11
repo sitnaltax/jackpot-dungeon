@@ -83,6 +83,7 @@ export const ordealMysteryPool = writable(0);
 export const ordealRound = writable(0);
 export const ordealId = writable(null);
 export const isVictory = writable(false);
+export const ordealHomeUseCount = writable(0);
 
 // Daily challenge state
 export const isDailyRun              = writable(false);
@@ -297,6 +298,7 @@ export function selectClass(classId, difficultyId = 'normal') {
   ordealRound.set(0);
   ordealId.set(null);
   isVictory.set(false);
+  ordealHomeUseCount.set(0);
   startNextEncounter();
 }
 
@@ -340,6 +342,7 @@ function startOrdeal() {
   ordealActive.set(true);
   ordealRound.set(0);
   ordealMysteryPool.set(pool);
+  ordealHomeUseCount.set(0);
   beginOrdealRound();
 }
 
@@ -1043,15 +1046,20 @@ export function ordealSpendOnClue(xpToSpend) {
   ordealMysteryPool.update(p => Math.max(1, p - reduction));
 }
 
-// Spend XP to heal stamina (3 XP : 1 stamina)
+// Spend XP to heal stamina. Efficiency starts at 40% of XP spent, halves each use.
 export function ordealSpendOnStamina(xpToSpend) {
   const $player = get(player);
   if ($player.xp < xpToSpend || xpToSpend <= 0) return;
   const effMax = getEffectiveMaxStamina($player);
   const maxHeal = effMax - $player.stamina;
-  const heal = Math.min(Math.floor(xpToSpend / 3), maxHeal);
+  const useCount = get(ordealHomeUseCount);
+  const efficiency = 0.4 / Math.pow(2, useCount);
+  const potentialHeal = Math.floor(xpToSpend * efficiency);
+  const heal = Math.min(potentialHeal, maxHeal);
   if (heal <= 0) return;
-  const xpSpent = heal * 3;
+  // Spend all XP if not capped; spend only what's needed if capped by max stamina
+  const xpSpent = potentialHeal <= maxHeal ? xpToSpend : Math.ceil(maxHeal / efficiency);
+  ordealHomeUseCount.update(n => n + 1);
   player.update(p => {
     return {
       ...p,
