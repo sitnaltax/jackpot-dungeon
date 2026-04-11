@@ -91,7 +91,7 @@
 
     <div class="option-card">
       <div class="option-header home">Remember your Home</div>
-      <p class="option-desc">Convert your XP to Stamina. Currently {homeEfficiencyPct}% efficient — halves each use.</p>
+      <p class="option-desc">Convert your XP to Stamina. Less effective with repeated use! Current rate: {homeEfficiencyPct}%.</p>
       <div class="spend-preview">{xpSpentOnHome} XP → {homeHeal} Stamina</div>
       <button class="btn btn-home" on:click={spendAllOnStamina}>
         Remember your Home

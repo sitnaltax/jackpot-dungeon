@@ -6,6 +6,8 @@
 
 * The shop guarantee to have food if you have reduced stamina now only works until you buy food once.
 * Buffed the $2 items to make them more viable as a cheap replacable pickup.
+* Remember your Home starts slightly more efficient, but drops off sharply if you use it more than once.
+
 
 ## 1.5.0 - 3/30/2026
 
