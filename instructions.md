@@ -102,7 +102,7 @@ Your class is your background and the way you approach challenges.
 
 **Agonists** tackle their problems head-on. They get bonus Stamina and bonus Stamina regeneration after every encounter, and start with a little extra Treasure. Their only downside is mediocre starting items.
 
-**Polymaths** learn quickly and can explore many avenues to find the best solution to their problems. They get bonus XP, and also are able to refresh the shop more cheaply to find the best pods. They start with reduced Stamina, so they will need to be careful at first.
+**Polymaths** learn quickly and can explore many avenues to find the best solution to their problems. One token in every pod is upgraded, and they are able to refresh the shop more cheaply to find the best pods. However, they can only purchase one pod per shop, so they will need to buy one every chance they get. 
 
 **Mavericks** solve problems in unorthodox ways. They can never buy items that grant Redraw Selected! However, they get +2 Redraw All innately, and start with three items including a Musical Instrument. They also gain more Treasure than others as a consolation when they don't have enough Insight.
 
