@@ -17,7 +17,7 @@ Jacq's Quest is a Svelte 4 roguelike deck-builder where players draw tokens from
 ### Core Game Loop
 
 1. **CLASS_SELECT phase** - Player picks a class and difficulty
-2. **CHOICE phase** - On even encounters (≥4), player picks hard path (pod reward) or basic path (easier encounter)
+2. **CHOICE phase** - On odd encounters (≥3), player picks hard path (pod reward) or basic path (easier encounter)
 3. **DRAW phase** - Player draws tokens from shuffled pool, can redraw
 4. **ENCOUNTER phase** - Tokens resolve against encounter (insight vs mystery, resolve vs trouble)
 5. **SHOP phase** - Spend XP to replace pods with better ones
@@ -39,6 +39,7 @@ All game state uses Svelte writable stores. Key stores:
 - `ordealMysteryPool` - Remaining mystery in the ordeal
 - `ordealRound` - Current ordeal round number
 - `ordealId` - Which ordeal variant was randomly chosen
+- `ordealHomeUseCount` - How many times "Remember your Home" has been used this ordeal (affects efficiency)
 - `isVictory` - Whether the player has won
 - Daily challenge stores: `isDailyRun`, `dailyDate`, `dailyScript`, `podShopRefreshCount`, `itemShopIndex`, `itemShopRefreshCount`, `itemShopSequenceCursor`, `dailyWasReAttempt`, `dailyPending`, `dailyClassId`
 - Modal inspection stores: `inspectedToken`, `inspectionContext`, `inspectionEquipment`, `inspectionSelectable`, `inspectedEquipment`, `inspectedClass`
@@ -62,7 +63,7 @@ Four classes: Bricoleur, Polymath, Agonist, Maverick. Each defines:
 - `startingTreasureBonus` / `startingXpBonus` - Extra starting resources
 - `shopItemFilter` - Optional callback to exclude items from shops (e.g., Maverick excludes selectiveRedraws items)
 - `onInsightFailure(result)` - Optional callback returning `{ treasure?, xp? }` on insight failure
-- `upgradesTokens` - If true, two random token upgrades (each independent, can hit same token) are applied per pod at generation time — shop pods and reward pods only (Polymath). Starting pods and weak bonus-draw pods are excluded. Uses `rng` for seeded generation paths.
+- `upgradesTokens` - If true, one random token upgrade is applied per pod at generation time — shop pods and reward pods only (Polymath). Starting pods and weak bonus-draw pods are excluded. Uses `rng` for seeded generation paths.
 
 - `startingStaminaOffset` - Applied after effMax calculated (Polymath: -10)
 - `refreshCostFn(n)` - Cost of the nth pod shop refresh
@@ -75,7 +76,7 @@ Token series with synergies via `getValue(token, allDrawnTokens, equippedItems)`
 - **Musical** (harmony, melody, chord, discord) - Bonus when drawn with other unique Musical tokens, or when Musical-tagged items are equipped
 - **Celestial** (scorpio, capricorn, taurus, virgo, aries, libra, pluto) - Scale with Celestial count
 - **Botanical** (oak, lotus, clover, willow, orchid, fern, hemlock) - Scale with Botanical count
-- **Chthonic** (obsidian, granite, geode) - Scale with Chthonic count, have `onDiscard` effects
+- **Chthonic** (obsidian, granite, starRuby) - Scale with Chthonic count, have `onDiscard` effects
 - **Wild** - Flat 4 × rank multiplier to all three resources (insight, resolve, xp). Tagged as Musical, Celestial, Botanical, and Chthonic.
 
 `getTokenImage(typeData)` returns a card art URL for a token type. Checks `typeData.image` first, then picks by first matching tag (Musical, Celestial, Botanical, Chthonic), then returns a default. To override a specific token, set `image` on its entry in `TOKEN_TYPES`.
@@ -141,7 +142,7 @@ Game state is saved to `localStorage` automatically so mobile browsers don't los
 - `initAutoSave(stores)` — subscribes to all meaningful stores and debounces saves (500ms). Called once in `App.svelte` `onMount`.
 - `loadSavedGame(stores)` — reads and restores state on page load. Called before `initAutoSave`.
 - `clearSave()` — wipes the save. Called at the start of `selectClass` so each new run starts clean.
-- `SAVE_VERSION` constant — bump this whenever the saved data shape changes incompatibly. Mismatched saves are discarded and the player starts fresh. Currently **16**.
+- `SAVE_VERSION` constant — bump this whenever the saved data shape changes incompatibly. Mismatched saves are discarded and the player starts fresh. Currently **18**.
 
 **When adding new persistent state:**
 1. Add the store to the `saveGame` serialization block in `persistence.js`
