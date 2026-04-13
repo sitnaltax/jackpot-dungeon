@@ -1076,9 +1076,14 @@ export function ordealOpenPodShop() {
   const $dailyScript = get(dailyScript);
 
   let generatedPods;
+  let baseIndex = 0;
   if ($isDailyRun && $dailyScript) {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
-    generatedPods = $dailyScript.podShops[depthIndex][0];
+    // Use ordealRound - 1 as the base index so each interlude's pod shop shows a fresh set.
+    // ordealRound is already incremented by beginOrdealRound() before the encounter, so
+    // round 1 interlude → index 0, round 2 interlude → index 1, etc.
+    baseIndex = Math.min(get(ordealRound) - 1, $dailyScript.podShops[depthIndex].length - 1);
+    generatedPods = $dailyScript.podShops[depthIndex][baseIndex];
   } else {
     const $pc = get(player).playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
@@ -1091,7 +1096,7 @@ export function ordealOpenPodShop() {
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
   shopRefreshCount.set(0);
-  podShopRefreshCount.set(0);
+  podShopRefreshCount.set(baseIndex);
   gamePhase.set(PHASES.SHOP);
 }
 
