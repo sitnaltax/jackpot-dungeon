@@ -83,6 +83,7 @@ export const ordealMysteryPool = writable(0);
 export const ordealRound = writable(0);
 export const ordealId = writable(null);
 export const isVictory = writable(false);
+export const ordealHomeUseCount = writable(0);
 
 // Daily challenge state
 export const isDailyRun              = writable(false);
@@ -276,6 +277,7 @@ export function selectClass(classId, difficultyId = 'normal') {
     totalXpEarned: baseXp,
     totalTreasureEarned: baseTreasure,
     equipment: [...chosenClass.startingEquipment],
+    hasEverBoughtFood: false,
   };
 
   // Set stamina to effective max (accounts for class + equipment bonuses)
@@ -296,6 +298,7 @@ export function selectClass(classId, difficultyId = 'normal') {
   ordealRound.set(0);
   ordealId.set(null);
   isVictory.set(false);
+  ordealHomeUseCount.set(0);
   startNextEncounter();
 }
 
@@ -339,6 +342,7 @@ function startOrdeal() {
   ordealActive.set(true);
   ordealRound.set(0);
   ordealMysteryPool.set(pool);
+  ordealHomeUseCount.set(0);
   beginOrdealRound();
 }
 
@@ -710,10 +714,9 @@ function pickItemsFromScript(scriptShop, encounterNumber, playerState, cursorSta
     }
   }
 
-  console.log(scriptShop.guaranteeFood)
   // low HP food guarantee — only requires affordability, not full eligibility,
   // so equipped food items don't exhaust the candidate list
-  if (hpPercent < 0.75 && shopItems.length < 3) {
+  if (!playerState.hasEverBoughtFood && hpPercent < 0.75 && shopItems.length < 3) {
     for (const item of (scriptShop.guaranteeFood || [])) {
       if (usedIds.has(item.id)) continue;
       if (!isEligible(item)) continue;
@@ -849,6 +852,10 @@ export function purchaseItem(item, shopIndex) {
     newSet.add(shopIndex);
     return newSet;
   });
+
+  if (item.category === 'food') {
+    player.update(p => ({ ...p, hasEverBoughtFood: true }));
+  }
 
   selectedEquipmentSlot.set(null);
 }
@@ -1039,15 +1046,20 @@ export function ordealSpendOnClue(xpToSpend) {
   ordealMysteryPool.update(p => Math.max(1, p - reduction));
 }
 
-// Spend XP to heal stamina (3 XP : 1 stamina)
+// Spend XP to heal stamina. Efficiency starts at 40% of XP spent, halves each use.
 export function ordealSpendOnStamina(xpToSpend) {
   const $player = get(player);
   if ($player.xp < xpToSpend || xpToSpend <= 0) return;
   const effMax = getEffectiveMaxStamina($player);
   const maxHeal = effMax - $player.stamina;
-  const heal = Math.min(Math.floor(xpToSpend / 3), maxHeal);
+  const useCount = get(ordealHomeUseCount);
+  const efficiency = 0.4 / Math.pow(2, useCount);
+  const potentialHeal = Math.floor(xpToSpend * efficiency);
+  const heal = Math.min(potentialHeal, maxHeal);
   if (heal <= 0) return;
-  const xpSpent = heal * 3;
+  // Spend all XP if not capped; spend only what's needed if capped by max stamina
+  const xpSpent = potentialHeal <= maxHeal ? xpToSpend : Math.ceil(maxHeal / efficiency);
+  ordealHomeUseCount.update(n => n + 1);
   player.update(p => {
     return {
       ...p,
@@ -1064,9 +1076,14 @@ export function ordealOpenPodShop() {
   const $dailyScript = get(dailyScript);
 
   let generatedPods;
+  let baseIndex = 0;
   if ($isDailyRun && $dailyScript) {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
-    generatedPods = $dailyScript.podShops[depthIndex][0];
+    // Use ordealRound - 1 as the base index so each interlude's pod shop shows a fresh set.
+    // ordealRound is already incremented by beginOrdealRound() before the encounter, so
+    // round 1 interlude → index 0, round 2 interlude → index 1, etc.
+    baseIndex = Math.min(get(ordealRound) - 1, $dailyScript.podShops[depthIndex].length - 1);
+    generatedPods = $dailyScript.podShops[depthIndex][baseIndex];
   } else {
     const $pc = get(player).playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
@@ -1079,7 +1096,7 @@ export function ordealOpenPodShop() {
   selectedPodToReplace.set(null);
   purchasedShopPods.set(new Set());
   shopRefreshCount.set(0);
-  podShopRefreshCount.set(0);
+  podShopRefreshCount.set(baseIndex);
   gamePhase.set(PHASES.SHOP);
 }
 

@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 16;
+const SAVE_VERSION = 18;
 
 // Preferences are stored separately and survive game resets / version bumps.
 // They are only cleared by explicit user reset (crash recovery or ?reset param).
@@ -80,6 +80,7 @@ export function saveGame(stores) {
       ordealMysteryPool: get(stores.ordealMysteryPool),
       ordealRound: get(stores.ordealRound),
       ordealId: get(stores.ordealId),
+      ordealHomeUseCount: get(stores.ordealHomeUseCount),
       isVictory: get(stores.isVictory),
       isDailyRun:             get(stores.isDailyRun),
       dailyDate:              get(stores.dailyDate),
@@ -114,7 +115,7 @@ export function loadSavedGame(stores) {
 
     stores.gamePhase.set(data.gamePhase);
     stores.encounterNumber.set(data.encounterNumber);
-    stores.player.set({ ...playerRest, playerClass });
+    stores.player.set({ hasEverBoughtFood: false, ...playerRest, playerClass });
     stores.currentEncounter.set(data.currentEncounter);
     stores.drawnTokens.set(data.drawnTokens ?? []);
     stores.tokenPool.set(data.tokenPool ?? []);
@@ -137,6 +138,7 @@ export function loadSavedGame(stores) {
     stores.ordealMysteryPool.set(data.ordealMysteryPool ?? 0);
     stores.ordealRound.set(data.ordealRound ?? 0);
     stores.ordealId.set(data.ordealId ?? null);
+    stores.ordealHomeUseCount.set(data.ordealHomeUseCount ?? 0);
     stores.isVictory.set(data.isVictory ?? false);
     stores.isDailyRun.set(data.isDailyRun ?? false);
     stores.dailyDate.set(data.dailyDate ?? null);
@@ -198,6 +200,7 @@ export function initAutoSave(stores) {
     stores.ordealMysteryPool,
     stores.ordealRound,
     stores.ordealId,
+    stores.ordealHomeUseCount,
     stores.isVictory,
     stores.isDailyRun,
     stores.dailyDate,

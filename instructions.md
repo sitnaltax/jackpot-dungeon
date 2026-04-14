@@ -88,7 +88,7 @@ In between rounds, you'll be given the opportunity to spend your XP on one of fo
 * **Remember a Technique** to visit the Pod Shop.
 * **Remember a Treasure** will convert your XP to Treasure at an 8:1 ratio. Then you'll visit the Item Shop.
 * **Rememmber a Clue** to convert your XP to Insight at a 3:1 ratio. This can't reduce the Mystery below 1, though; you'll still need to face the ordeal at least once more. 
-* **Remember your Home** to convert your XP to Stamina at a 3:1 ratio.
+* **Remember your Home** to convert your XP to Stamina. The first use converts 40% of your XP to Stamina; each subsequent use halves the efficiency.
 
 After that choice, you'll face another round of the Ordeal, until either you unravel its Mystery, or run out of Stamina.
 
@@ -102,7 +102,7 @@ Your class is your background and the way you approach challenges.
 
 **Agonists** tackle their problems head-on. They get bonus Stamina and bonus Stamina regeneration after every encounter, and start with a little extra Treasure. Their only downside is mediocre starting items.
 
-**Polymaths** learn quickly and can explore many avenues to find the best solution to their problems. They get bonus XP, and also are able to refresh the shop more cheaply to find the best pods. They start with reduced Stamina, so they will need to be careful at first.
+**Polymaths** learn quickly and can explore many avenues to find the best solution to their problems. One token in every pod is upgraded, and they are able to refresh the shop more cheaply to find the best pods. However, they can only purchase one pod per shop, so they will need to buy one every chance they get. 
 
 **Mavericks** solve problems in unorthodox ways. They can never buy items that grant Redraw Selected! However, they get +2 Redraw All innately, and start with three items including a Musical Instrument. They also gain more Treasure than others as a consolation when they don't have enough Insight.
 
