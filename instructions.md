@@ -18,7 +18,7 @@ You start with a bag of **tokens**. Each encounter, you will draw 6 tokens from 
 Tokens grant **Insight**, **Resolve**, or **XP**:
 
 * **Insight** is measured against the encounter's **Mystery**. If you have enough Insight, you get bonus Treasure, and also XP (half of the encounter's Mystery). If not, you get only a minimal amount of Treasure, and no XP.
-* **Resolve** is measured against the encounter's **Trouble**. If you don't have enough Resolve, you lose Stamina. Unlike Insight, this isn't all or nothing. If you're only short by 1 Resolve, you lose just a little Stamina (5). If you don't have any, you can lose twice the encounter's Trouble! Values in between scale.
+* **Resolve** is measured against the encounter's **Trouble**. If you don't have enough Resolve, you lose Stamina. Unlike Insight, this isn't all or nothing. If you're only short by 1 Resolve, you lose just a little Stamina (7). If you don't have any, you can lose twice the encounter's Trouble! Values in between scale.
 * **XP** (Experience) adds directly to your XP. After every encounter, you will visit a shop where you can spend your XP to buy new tokens.
 
 When you are satisfied with your draws, or can't redraw any more, choose Onwards.
@@ -64,7 +64,7 @@ You can hold three items at a time. Items can provide the following bonuses:
 
 If you have three items and want to buy another one, you'll need to choose one to discard.
 
-Items have a category which generally describes their effect, but that's just Flavor. For example, Books grant Redraw Selected, and Weapons grant Resolve.
+Items have a category which generally describes their effect, but that's just flavor. For example, Books grant Redraw Selected, and Weapons grant Resolve.
 
 ### Light Sources
 
