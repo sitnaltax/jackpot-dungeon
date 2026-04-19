@@ -18,7 +18,7 @@
   import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
-  const STAT_PRIORITY = { insight: 0, resolve: 1, xp: 2 };
+  const STAT_PRIORITY = { insight: 0, resolve: 1, xp: 2, glory: 3 };
 
   // Get the primary stat and value a token contributes in context
   function getTokenContribution(token, allTokens) {
@@ -26,7 +26,6 @@
 
     if (typeData.getValue) {
       const contributions = typeData.getValue(token, allTokens, equipment);
-      // Get the first (primary) stat contribution
       const [stat, value] = Object.entries(contributions)[0];
       return { stat, value };
     }

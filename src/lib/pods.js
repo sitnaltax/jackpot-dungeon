@@ -213,8 +213,9 @@ function generateShopPod(tier, encounterNumber, rng = Math.random) {
 
 // Generate shop pods for a given encounter number
 // rng: optional random function (defaults to Math.random for normal play)
-// classOptions: { upgradesTokens } for class-specific generation behavior
-export function generateShopPods(encounterNumber, count = 4, rng = Math.random, { upgradesTokens = false } = {}) {
+// classOptions: { upgradesTokens, includeGlory } for class-specific generation behavior
+// includeGlory: if true, the last token of the 4th pod is replaced with a Glory token
+export function generateShopPods(encounterNumber, count = 4, rng = Math.random, { upgradesTokens = false, includeGlory = false } = {}) {
   const tier = getShopTier(encounterNumber);
   const pods = [];
 
@@ -225,6 +226,11 @@ export function generateShopPods(encounterNumber, count = 4, rng = Math.random, 
         const idx = Math.floor(rng() * pod.tokenDefs.length);
         pod.tokenDefs[idx] = { ...pod.tokenDefs[idx], rank: upgradeRank(pod.tokenDefs[idx].rank) };
       }
+    }
+    // In Glory mode, replace the last token of the 4th pod with a Glory token
+    if (includeGlory && i === 3 && pod.tokenDefs.length > 0) {
+      const gloryRank = rollTokenRank(TIER_CONFIG[tier], false, rng);
+      pod.tokenDefs[pod.tokenDefs.length - 1] = { type: 'glory', rank: gloryRank };
     }
     pods.push(pod);
   }

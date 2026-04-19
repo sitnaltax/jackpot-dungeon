@@ -2,7 +2,7 @@
 
 import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
-import { TOKEN_TYPES } from './tokens.js';
+import { TOKEN_TYPES, getTokenValue } from './tokens.js';
 import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod, upgradeRandomToken } from './pods.js';
 import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
@@ -76,6 +76,9 @@ export const discardEffects = writable({ insight: 0, resolve: 0, xp: 0 });
 
 // IDs of encounters that have been played this run (prevents repeats)
 export const seenEncounterIds = writable(new Set());
+
+// Glory score (Glory difficulty only)
+export const gloryScore = writable(0);
 
 // Final Ordeal state
 export const ordealActive = writable(false);
@@ -210,6 +213,19 @@ export function getEffectiveMaxStamina(playerState) {
   return playerState.maxStamina + bonuses.maxStamina;
 }
 
+// Sum the value of all Glory tokens in a player's pods (used for glory score accumulation).
+function calculateGloryFromPods(pods) {
+  let total = 0;
+  for (const pod of pods) {
+    for (const token of pod.tokens) {
+      if (token.type === 'glory') {
+        total += getTokenValue(token);
+      }
+    }
+  }
+  return total;
+}
+
 // Game actions — start screen transitions to class select
 export function startNewGame() {
   isDailyRun.set(false);
@@ -299,6 +315,7 @@ export function selectClass(classId, difficultyId = 'normal') {
   ordealId.set(null);
   isVictory.set(false);
   ordealHomeUseCount.set(0);
+  gloryScore.set(0);
   startNextEncounter();
 }
 
@@ -579,6 +596,11 @@ export function executeEncounter() {
     if ($playerAfterOrdeal.stamina <= 0) {
       gamePhase.set(PHASES.GAME_OVER);
     } else if (result.insightSuccess) {
+      // Glory difficulty: award 7x glory token value on victory
+      if ($player.difficulty === 'glory') {
+        const victoryGlory = calculateGloryFromPods($playerAfterOrdeal.pods) * 7;
+        gloryScore.update(g => g + victoryGlory);
+      }
       isVictory.set(true);
       gamePhase.set(PHASES.GAME_OVER);
     }
@@ -603,6 +625,12 @@ export function executeEncounter() {
       totalTreasureEarned: p.totalTreasureEarned + result.treasureGained,
     };
   });
+
+  // Glory difficulty: accumulate glory from all owned Glory tokens after each normal encounter
+  if ($player.difficulty === 'glory') {
+    const gloryGained = calculateGloryFromPods(get(player).pods);
+    gloryScore.update(g => g + gloryGained);
+  }
 
   // Check for game over after regen is applied
   const $playerAfter = get(player);
@@ -872,6 +900,8 @@ export function proceedToShop() {
   const encNum = get(encounterNumber);
   const $isDailyRun = get(isDailyRun);
   const $dailyScript = get(dailyScript);
+  const $player = get(player);
+  const isGloryMode = $player.difficulty === 'glory' && !get(ordealActive);
 
   let generatedPods;
   if ($isDailyRun && $dailyScript) {
@@ -879,10 +909,11 @@ export function proceedToShop() {
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][0];
   } else {
-    const $pc = get(player).playerClass;
+    const $pc = $player.playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
       upgradesTokens: $pc?.upgradesTokens ?? false,
       costMultiplier: $pc?.bonuses?.podCostMultiplier ?? 1.0,
+      includeGlory: isGloryMode,
     });
   }
 
@@ -954,15 +985,18 @@ export function refreshShop() {
   const encNum = get(encounterNumber);
   let generatedPods;
 
+  const isGloryMode = $player.difficulty === 'glory' && !get(ordealActive);
+
   if ($isDailyRun && $dailyScript) {
     const newRefreshCount = $podShopRefreshCount + 1;
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][newRefreshCount];
   } else {
-    const $pc = get(player).playerClass;
+    const $pc = $player.playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
       upgradesTokens: $pc?.upgradesTokens ?? false,
       costMultiplier: $pc?.bonuses?.podCostMultiplier ?? 1.0,
+      includeGlory: isGloryMode,
     });
   }
 
