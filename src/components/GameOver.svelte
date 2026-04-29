@@ -61,33 +61,35 @@
         {#if encounter.flavorText}
           <div class="encounter-flavor">{encounter.flavorText}</div>
         {/if}
-        <div class="encounter-stats">
-          <div class="enc-row">
-            <span class="enc-label">Mystery</span>
-            <span class="enc-val">{encounter.mystery}</span>
-            {#if result}
-              <span class="enc-result" class:success={result.insightSuccess} class:fail={!result.insightSuccess}>
-                {result.totals.insight} Insight {result.insightSuccess ? '✓' : '✗'}
-              </span>
-            {/if}
+        {#if !$isVictory}
+          <div class="encounter-stats">
+            <div class="enc-row">
+              <span class="enc-label">Mystery</span>
+              <span class="enc-val">{encounter.mystery}</span>
+              {#if result}
+                <span class="enc-result" class:success={result.insightSuccess} class:fail={!result.insightSuccess}>
+                  {result.totals.insight} Insight {result.insightSuccess ? '✓' : '✗'}
+                </span>
+              {/if}
+            </div>
+            <div class="enc-row">
+              <span class="enc-label">Trouble</span>
+              <span class="enc-val">{encounter.trouble}</span>
+              {#if result}
+                <span class="enc-result" class:success={result.resolveSuccess} class:fail={!result.resolveSuccess}>
+                  {result.totals.resolve} Resolve {result.resolveSuccess ? '✓' : '✗'}
+                </span>
+              {/if}
+            </div>
           </div>
-          <div class="enc-row">
-            <span class="enc-label">Trouble</span>
-            <span class="enc-val">{encounter.trouble}</span>
-            {#if result}
-              <span class="enc-result" class:success={result.resolveSuccess} class:fail={!result.resolveSuccess}>
-                {result.totals.resolve} Resolve {result.resolveSuccess ? '✓' : '✗'}
-              </span>
-            {/if}
-          </div>
-        </div>
-        {#if result?.staminaLost > 0}
-          <div class="stamina-lost">
-            −{result.staminaLost} Stamina
-            {#if result.resolveDeficiency > 0}
-              <span class="stamina-detail">({result.resolveDeficiency} short of {encounter.trouble} Trouble)</span>
-            {/if}
-          </div>
+          {#if result?.staminaLost > 0}
+            <div class="stamina-lost">
+              −{result.staminaLost} Stamina
+              {#if result.resolveDeficiency > 0}
+                <span class="stamina-detail">({result.resolveDeficiency} short of {encounter.trouble} Trouble)</span>
+              {/if}
+            </div>
+          {/if}
         {/if}
       </div>
     </section>

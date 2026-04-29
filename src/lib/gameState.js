@@ -3,7 +3,7 @@
 import { writable, get } from 'svelte/store';
 import { CONFIG } from './constants.js';
 import { TOKEN_TYPES, getTokenValue } from './tokens.js';
-import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod, upgradeRandomToken } from './pods.js';
+import { generateStartingPods, getTokenPool, shuffle, clonePodTemplate, generateShopPods, generateWeakPod, upgradeRandomToken, injectGloryIntoShop } from './pods.js';
 import { generateEncounter, calculateBaseStat, FINAL_ORDEALS } from './encounters.js';
 import { resolveEncounter } from './encounter.js';
 import { generateItemShop, WEAK_ITEMS } from './items.js';
@@ -908,6 +908,7 @@ export function proceedToShop() {
     // Daily mode: use first set (index 0) from pre-generated shop sets
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][0];
+    if (isGloryMode) generatedPods = injectGloryIntoShop(generatedPods, encNum);
   } else {
     const $pc = $player.playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {
@@ -991,6 +992,7 @@ export function refreshShop() {
     const newRefreshCount = $podShopRefreshCount + 1;
     const depthIndex = Math.min(encNum - 1, $dailyScript.podShops.length - 1);
     generatedPods = $dailyScript.podShops[depthIndex][newRefreshCount];
+    if (isGloryMode) generatedPods = injectGloryIntoShop(generatedPods, encNum);
   } else {
     const $pc = $player.playerClass;
     generatedPods = generateShopPods(encNum, CONFIG.shopSize, Math.random, {

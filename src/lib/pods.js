@@ -211,6 +211,22 @@ function generateShopPod(tier, encounterNumber, rng = Math.random) {
   return { tokenDefs, cost };
 }
 
+// Inject a Glory token into the last slot of the 4th pod template in a shop array.
+// Returns a new array (does not mutate the input) so cached daily script data is safe.
+export function injectGloryIntoShop(pods, encounterNumber, rng = Math.random) {
+  if (pods.length < 4) return pods;
+  const tier = getShopTier(encounterNumber);
+  const gloryRank = rollTokenRank(TIER_CONFIG[tier], false, rng);
+  const fourthPod = {
+    ...pods[3],
+    tokenDefs: [
+      ...pods[3].tokenDefs.slice(0, -1),
+      { type: 'glory', rank: gloryRank },
+    ],
+  };
+  return [...pods.slice(0, 3), fourthPod, ...pods.slice(4)];
+}
+
 // Generate shop pods for a given encounter number
 // rng: optional random function (defaults to Math.random for normal play)
 // classOptions: { upgradesTokens, includeGlory } for class-specific generation behavior
