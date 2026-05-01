@@ -76,7 +76,7 @@
     redrawAll();
     await tick();
 
-    displayTokens = get(drawnTokens).map(t => ({ ...t, entering: true }));
+    displayTokens = sortTokens(get(drawnTokens)).map(t => ({ ...t, entering: true }));
     await sleep(ANIM_MS);
     displayTokens = displayTokens.map(({ entering: _, ...t }) => t);
     animating = false;
