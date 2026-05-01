@@ -126,12 +126,6 @@
     color: #e74c3c;
   }
 
-  .multiplier {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    margin-left: 0.25rem;
-  }
-
   .btn {
     padding: 0.75rem 1.5rem;
     border: none;
