@@ -158,5 +158,5 @@ export const DIFFICULTIES = [
   { id: 'normal', name: 'Normal', description: 'For new and progressing players. Provides some room for experimentation and mistakes.', staminaBonus: 15 },
   { id: 'hard', name: 'Hard', description: 'Intended as a challenge for experienced players. You will need to make good use of your resources and opportunities.', staminaBonus: 5 },
   { id: 'expert', name: 'Expert', description: 'The premier challenge for experienced players. You will need to rely on both luck and skill; victory is uncertain.', staminaBonus: 0 },
-  { id: 'glory', name: 'Glory', description: 'Same challenge as Expert, but Glory tokens appear in the pod shop and your score is tracked. How much Glory can you earn?', staminaBonus: 0 },
+  { id: 'glory', name: 'Glory', description: 'Same challenge as Expert, but Glory tokens appear in the pod shop and your score is tracked.', staminaBonus: 0 },
 ];
