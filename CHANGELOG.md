@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.7.0 - 5/1/2026
+
+### Fame & Glory Update
+
+This update contains two interesting changes.
+
+First, Insane difficulty is replaced by Glory difficulty. In Glory difficulty, the encounter scaling is the same as on Expert; however, one token in every pod shop is replaced by a Glory token. This token does not provide any benefit in resources or encounters. However, having it boosts your Glory score after every encounter, _even if it's not drawn_. If you win, your Glory score is displayed on the Victory screen and the sharing message, so if you really want to show off you can compare scores with your friends.
+
+Glory tokens aren't available after the Final Ordeal starts, but if you keep them to the end and win, they're worth 5x what they are after a normal encounter. (You don't get a bonus for stretching out the final ordeal--just the one big bonus at the end.)
+
+Additionally, there is now a small animation when tokens are discarded and redrawn that will hopefully make it easier to understand what changes. As a result, tokens won't necessarily be sorted after a Redraw Selected.
+
+### Gameplay
+
+* Replaced Insane difficulty with Glory difficulty.
+
+### UI
+
+* Added an animation for discarding and redrawing tokens. Tokens no longer sort after a Redraw Selected.
+
 ## 1.6.0 - 4/14/2026
 
 ### Gameplay
