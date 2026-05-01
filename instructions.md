@@ -43,6 +43,8 @@ In addition to finding higher ranks, you'll also encounter more exotic types of 
 
 **Chthonic** tokens (Obsidian, Granite, Star Ruby) work differently. These have a low value, but grant a bonus when **discarded** in an encounter. Thus, they are at their most powerful when they can be drawn and discarded several times.
 
+**Glory** tokens only appear when playing on Glory difficulty, in the pod shop. They contribute nothing to Insight, Resolve, or XP in an encounter. Instead, after every normal encounter, each Glory token you own adds to your **Glory score**. On victory, your Glory tokens provide a final 7× bonus to your score. Your goal is to accumulate as high a score as possible.
+
 ### Shopping
 
 Pods cost XP. Their costs are slightly randomized, but are mostly based on the rank of the tokens they contain. Whenever you buy a new pod, you'll need to choose the old one to replace. You'll usually want to replace your older pods with lower ranks!
@@ -117,6 +119,8 @@ Your class is your background and the way you approach challenges.
 **Expert** is intended to be the hardest "fair" challenge. The thresholds are even higher, and your starting Stamina is even lower. You'll need both skill and luck to win.
 
 **Insane** is deeply overtuned and not intended to be balanced, for people who enjoy that sort of thing. Or if you've found some strategy that handles Insane reliably (or even sometimes), it probably needs to be nerfed. 
+
+**Glory** is Expert difficulty with a scoring twist. The fourth pod in every pod shop always contains a Glory token. Glory tokens contribute nothing to Insight, Resolve, or XP—instead, after every encounter, each Glory token you own adds to your Glory score, with a 7× bonus on victory. Your score is shown during play and on the end screen. How much Glory can you earn?
 
 **Observer** is like Normal, but you'll start with huge reserves of Stamina, XP, and Treasure. This is for debugging or exploring the game.
 

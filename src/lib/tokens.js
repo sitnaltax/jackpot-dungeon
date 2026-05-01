@@ -518,6 +518,21 @@ export const TOKEN_TYPES = {
     },
   },
 
+  // --- Glory ---
+  // Never appears in random drop pool (minDepth: Infinity).
+  // Contributes nothing to encounter resources; instead, after each normal encounter
+  // each Glory token adds its value to the player's Glory score.
+  glory: {
+    name: 'Glory',
+    icon: '🎆',
+    color: '#ffffff',
+    baseValue: 5,
+    minDepth: Infinity,
+    weight: 0,
+    noSynergy: true,
+    getValue: (token) => ({ glory: Math.floor(5 * (RANKS[token.rank] || RANKS.bronze).multiplier) }),
+  },
+
   // --- Wild ---
   wild: {
     name: 'Wild',

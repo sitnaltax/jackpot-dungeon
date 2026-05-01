@@ -35,7 +35,7 @@ export const ITEMS = {
   jacqsDiary: {
     id: 'jacqsDiary',
     name: 'Jacq\'s Diary',
-    description: 'An diary with modern binding, made in a factory. You have no memory of writing in it, and yet the handwriting is unmistakably yours.',
+    description: 'A diary with modern binding, made in a factory. You have no memory of writing in it, and yet the handwriting is unmistakably yours.',
     icon: '📕',
     category: 'book',
     cost: 14,

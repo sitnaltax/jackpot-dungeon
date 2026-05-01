@@ -455,7 +455,7 @@ const DIFFICULTY_ADJUSTMENTS = {
   normal:  [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
   hard:    [  1,   1,   1,   2,   2,   2,   2,   2,   2,   2,   3,   3,   3,   4,   4,   4,   5,   5,   5,   5],
   expert:  [  1,   2,   2,   2,   2,   3,   3,   3,   3,   3,   3,   4,   4,   5,   5,   6,   7,   8,   8,   8],
-  insane:  [  2,   3,   4,   4,   4,   5,   5,   5,   6,   6,   7,   8,   8,   8,   8,  10,  10,  10,  10,  10],
+  glory:   [  1,   2,   2,   2,   2,   3,   3,   3,   3,   3,   3,   4,   4,   5,   5,   6,   7,   8,   8,   8],
 };
 
 export function calculateBaseStat(encounterNumber, difficulty = 'normal') {

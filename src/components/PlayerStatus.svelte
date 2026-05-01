@@ -1,5 +1,5 @@
 <script>
-  import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina, ordealActive, ordealRound } from '../lib/gameState.js';
+  import { player, encounterNumber, inspectEquipment, inspectClass, getEffectiveMaxStamina, ordealActive, ordealRound, gloryScore } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { loadPrefs, savePrefs } from '../lib/persistence.js';
   import GameMenu from './GameMenu.svelte';
@@ -70,6 +70,13 @@
       <span class="label">Treasure</span>
       <span class="value treasure">${$player.treasure}</span>
     </div>
+
+    {#if $player.difficulty === 'glory'}
+      <div class="stat">
+        <span class="label">Glory</span>
+        <span class="value glory">🎆 {$gloryScore}</span>
+      </div>
+    {/if}
 
     <div class="stat equipment-stat">
       <span class="label">Equipment</span>
@@ -164,6 +171,10 @@
 
   .treasure {
     color: #9b59b6;
+  }
+
+  .glory {
+    color: #ffffff;
   }
 
   .stamina-stat {

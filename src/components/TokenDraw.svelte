@@ -14,11 +14,16 @@
     confirmDraw,
     getTotalBonuses,
   } from '../lib/gameState.js';
+  import { get } from 'svelte/store';
+  import { tick } from 'svelte';
   import { calculateDrawTotals, calculateStaminaLost } from '../lib/encounter.js';
   import { TOKEN_TYPES, getTokenValue } from '../lib/tokens.js';
   import Token from './Token.svelte';
 
-  const STAT_PRIORITY = { insight: 0, resolve: 1, xp: 2 };
+  const STAT_PRIORITY = { insight: 0, resolve: 1, xp: 2, glory: 3 };
+  const ANIM_MS = 300;
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
   // Get the primary stat and value a token contributes in context
   function getTokenContribution(token, allTokens) {
@@ -26,7 +31,6 @@
 
     if (typeData.getValue) {
       const contributions = typeData.getValue(token, allTokens, equipment);
-      // Get the first (primary) stat contribution
       const [stat, value] = Object.entries(contributions)[0];
       return { stat, value };
     }
@@ -41,17 +45,74 @@
       const contribA = getTokenContribution(a, tokens);
       const contribB = getTokenContribution(b, tokens);
 
-      // First sort by stat priority
       const priorityDiff = STAT_PRIORITY[contribA.stat] - STAT_PRIORITY[contribB.stat];
       if (priorityDiff !== 0) return priorityDiff;
 
-      // Then by value descending
       return contribB.value - contribA.value;
     });
   }
 
+  // displayTokens: stable-ordered array of { ...token, leaving?, entering? }
+  // Sorted on initial draw, then positions held stable across redraws.
+  let displayTokens = [];
+  let animating = false;
+
+  $: {
+    if ($drawnTokens.length === 0) {
+      displayTokens = [];
+      animating = false;
+    } else if (displayTokens.length === 0 && !animating) {
+      displayTokens = sortTokens($drawnTokens);
+    }
+  }
+
+  async function handleRedrawAll() {
+    if (animating || $redrawsRemaining <= 0) return;
+    animating = true;
+
+    displayTokens = displayTokens.map(t => ({ ...t, leaving: true }));
+    await sleep(ANIM_MS);
+
+    redrawAll();
+    await tick();
+
+    displayTokens = sortTokens(get(drawnTokens)).map(t => ({ ...t, entering: true }));
+    await sleep(ANIM_MS);
+    displayTokens = displayTokens.map(({ entering: _, ...t }) => t);
+    animating = false;
+  }
+
+  async function handleRedrawSelected() {
+    if (animating || $selectiveRedrawsRemaining <= 0) return;
+    const $selected = get(selectedTokensForRedraw);
+    if ($selected.size === 0) return;
+    animating = true;
+
+    displayTokens = displayTokens.map(t =>
+      $selected.has(t.id) ? { ...t, leaving: true } : t
+    );
+    await sleep(ANIM_MS);
+
+    const keptIds = new Set(get(drawnTokens).filter(t => !$selected.has(t.id)).map(t => t.id));
+    redrawSelected();
+    await tick();
+
+    const newTokens = get(drawnTokens).filter(t => !keptIds.has(t.id));
+    let newIdx = 0;
+    displayTokens = displayTokens
+      .map(t => {
+        if (!t.leaving) return t;
+        const nt = newTokens[newIdx++];
+        return nt ? { ...nt, entering: true } : null;
+      })
+      .filter(Boolean);
+
+    await sleep(ANIM_MS);
+    displayTokens = displayTokens.map(({ entering: _, ...t }) => t);
+    animating = false;
+  }
+
   $: equipment = $player.equipment || [];
-  $: sortedTokens = sortTokens($drawnTokens);
   $: tokenTotals = calculateDrawTotals($drawnTokens, equipment);
   $: totalBonuses = getTotalBonuses($player);
   $: totals = {
@@ -76,16 +137,22 @@
   <h3>Drawn Tokens</h3>
 
   <div class="drawn-tokens">
-    {#each sortedTokens as token (token.id)}
-      <Token
-        {token}
-        size="large"
-        selectable={canSelectiveRedraw}
-        selected={$selectedTokensForRedraw.has(token.id)}
-        onSelect={toggleTokenSelection}
-        context={$drawnTokens}
-        {equipment}
-      />
+    {#each displayTokens as token (token.id)}
+      <div
+        class="token-wrapper"
+        class:leaving={token.leaving}
+        class:entering={token.entering}
+      >
+        <Token
+          {token}
+          size="large"
+          selectable={canSelectiveRedraw && !animating}
+          selected={$selectedTokensForRedraw.has(token.id)}
+          onSelect={toggleTokenSelection}
+          context={$drawnTokens}
+          {equipment}
+        />
+      </div>
     {/each}
   </div>
 
@@ -130,15 +197,15 @@
   <div class="actions">
     <button
       class="btn btn-secondary"
-      on:click={redrawAll}
-      disabled={$redrawsRemaining <= 0}
+      on:click={handleRedrawAll}
+      disabled={$redrawsRemaining <= 0 || animating}
     >
       Redraw All <span class="btn-aside">({$redrawsRemaining} left)</span>
     </button>
     <button
       class="btn btn-selective"
-      on:click={redrawSelected}
-      disabled={!canSelectiveRedraw || !hasSelection}
+      on:click={handleRedrawSelected}
+      disabled={!canSelectiveRedraw || !hasSelection || animating}
     >
       Redraw Selected <span class="btn-aside">({$selectiveRedrawsRemaining} left)</span>
     </button>
@@ -169,6 +236,25 @@
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .token-wrapper {
+    transition: transform 300ms ease, opacity 300ms ease;
+  }
+
+  .token-wrapper.leaving {
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes token-enter {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .token-wrapper.entering {
+    animation: token-enter 300ms ease forwards;
   }
 
   .totals {

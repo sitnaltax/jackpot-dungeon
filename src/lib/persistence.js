@@ -9,7 +9,7 @@ import { reseedIds } from './pods.js';
 
 const SAVE_KEY = 'jackpot-dungeon-save';
 // Bump this when the save data shape changes incompatibly so old saves are discarded.
-const SAVE_VERSION = 18;
+const SAVE_VERSION = 19;
 
 // Preferences are stored separately and survive game resets / version bumps.
 // They are only cleared by explicit user reset (crash recovery or ?reset param).
@@ -82,6 +82,7 @@ export function saveGame(stores) {
       ordealId: get(stores.ordealId),
       ordealHomeUseCount: get(stores.ordealHomeUseCount),
       isVictory: get(stores.isVictory),
+      gloryScore: get(stores.gloryScore),
       isDailyRun:             get(stores.isDailyRun),
       dailyDate:              get(stores.dailyDate),
       dailyScript:            get(stores.dailyScript),
@@ -140,6 +141,7 @@ export function loadSavedGame(stores) {
     stores.ordealId.set(data.ordealId ?? null);
     stores.ordealHomeUseCount.set(data.ordealHomeUseCount ?? 0);
     stores.isVictory.set(data.isVictory ?? false);
+    stores.gloryScore.set(data.gloryScore ?? 0);
     stores.isDailyRun.set(data.isDailyRun ?? false);
     stores.dailyDate.set(data.dailyDate ?? null);
     stores.dailyScript.set(data.dailyScript ?? null);
@@ -202,6 +204,7 @@ export function initAutoSave(stores) {
     stores.ordealId,
     stores.ordealHomeUseCount,
     stores.isVictory,
+    stores.gloryScore,
     stores.isDailyRun,
     stores.dailyDate,
     stores.dailyScript,

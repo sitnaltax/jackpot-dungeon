@@ -1,5 +1,5 @@
 <script>
-  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealRound, ordealActive, isDailyRun, dailyDate, dailyWasReAttempt } from '../lib/gameState.js';
+  import { encounterNumber, player, restartGame, currentEncounter, encounterResult, isVictory, ordealRound, ordealActive, isDailyRun, dailyDate, dailyWasReAttempt, gloryScore } from '../lib/gameState.js';
   import { EQUIPMENT_SLOTS } from '../lib/constants.js';
   import { ITEM_CATEGORIES } from '../lib/items.js';
   import { DIFFICULTIES } from '../lib/classes.js';
@@ -18,11 +18,12 @@
       ? `Round ${$ordealRound} of the Final Ordeal`
       : `Depth ${$encounterNumber}`;
     const outcome = $isVictory ? `conquered` : `fell at`;
+    const glorySuffix = ($isVictory && $player.difficulty === 'glory') ? ` Glory: 🎆 ${$gloryScore}` : '';
     if ($isDailyRun && $dailyDate) {
       const reAttemptSuffix = $dailyWasReAttempt ? ' (re-attempt)' : '';
-      return `I ${outcome} Jacq's Quest Daily (${$dailyDate}) as a ${className} on ${diffName} difficulty, at ${location}.${reAttemptSuffix} https://rule0.com/jacq/`;
+      return `I ${outcome} Jacq's Quest Daily (${$dailyDate}) as a ${className} on ${diffName} difficulty, at ${location}.${glorySuffix}${reAttemptSuffix} https://rule0.com/jacq/`;
     }
-    return `I ${outcome} Jacq's Quest as a ${className} on ${diffName} difficulty, at ${location}. https://rule0.com/jacq/`;
+    return `I ${outcome} Jacq's Quest as a ${className} on ${diffName} difficulty, at ${location}.${glorySuffix} https://rule0.com/jacq/`;
   }
 
   async function handleShare() {
@@ -60,33 +61,35 @@
         {#if encounter.flavorText}
           <div class="encounter-flavor">{encounter.flavorText}</div>
         {/if}
-        <div class="encounter-stats">
-          <div class="enc-row">
-            <span class="enc-label">Mystery</span>
-            <span class="enc-val">{encounter.mystery}</span>
-            {#if result}
-              <span class="enc-result" class:success={result.insightSuccess} class:fail={!result.insightSuccess}>
-                {result.totals.insight} Insight {result.insightSuccess ? '✓' : '✗'}
-              </span>
-            {/if}
+        {#if !$isVictory}
+          <div class="encounter-stats">
+            <div class="enc-row">
+              <span class="enc-label">Mystery</span>
+              <span class="enc-val">{encounter.mystery}</span>
+              {#if result}
+                <span class="enc-result" class:success={result.insightSuccess} class:fail={!result.insightSuccess}>
+                  {result.totals.insight} Insight {result.insightSuccess ? '✓' : '✗'}
+                </span>
+              {/if}
+            </div>
+            <div class="enc-row">
+              <span class="enc-label">Trouble</span>
+              <span class="enc-val">{encounter.trouble}</span>
+              {#if result}
+                <span class="enc-result" class:success={result.resolveSuccess} class:fail={!result.resolveSuccess}>
+                  {result.totals.resolve} Resolve {result.resolveSuccess ? '✓' : '✗'}
+                </span>
+              {/if}
+            </div>
           </div>
-          <div class="enc-row">
-            <span class="enc-label">Trouble</span>
-            <span class="enc-val">{encounter.trouble}</span>
-            {#if result}
-              <span class="enc-result" class:success={result.resolveSuccess} class:fail={!result.resolveSuccess}>
-                {result.totals.resolve} Resolve {result.resolveSuccess ? '✓' : '✗'}
-              </span>
-            {/if}
-          </div>
-        </div>
-        {#if result?.staminaLost > 0}
-          <div class="stamina-lost">
-            −{result.staminaLost} Stamina
-            {#if result.resolveDeficiency > 0}
-              <span class="stamina-detail">({result.resolveDeficiency} short of {encounter.trouble} Trouble)</span>
-            {/if}
-          </div>
+          {#if result?.staminaLost > 0}
+            <div class="stamina-lost">
+              −{result.staminaLost} Stamina
+              {#if result.resolveDeficiency > 0}
+                <span class="stamina-detail">({result.resolveDeficiency} short of {encounter.trouble} Trouble)</span>
+              {/if}
+            </div>
+          {/if}
         {/if}
       </div>
     </section>
@@ -116,6 +119,12 @@
         <span class="label">Total Treasure</span>
         <span class="value treasure">${$player.totalTreasureEarned}</span>
       </div>
+      {#if $isVictory && $player.difficulty === 'glory'}
+        <div class="char-stat">
+          <span class="label">Glory</span>
+          <span class="value glory-val">{$gloryScore}</span>
+        </div>
+      {/if}
     </div>
   </section>
 
@@ -327,9 +336,10 @@
     font-weight: bold;
   }
 
-  .class-val { color: #f1c40f; }
-  .xp        { color: #f1c40f; }
-  .treasure  { color: #9b59b6; }
+  .class-val  { color: #f1c40f; }
+  .xp         { color: #f1c40f; }
+  .treasure   { color: #9b59b6; }
+  .glory-val  { color: #ffffff; }
 
   /* Equipment */
   .equipment-row {

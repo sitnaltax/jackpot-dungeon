@@ -211,10 +211,27 @@ function generateShopPod(tier, encounterNumber, rng = Math.random) {
   return { tokenDefs, cost };
 }
 
+// Inject a Glory token into the last slot of the 4th pod template in a shop array.
+// Returns a new array (does not mutate the input) so cached daily script data is safe.
+export function injectGloryIntoShop(pods, encounterNumber, rng = Math.random) {
+  if (pods.length < 4) return pods;
+  const tier = getShopTier(encounterNumber);
+  const gloryRank = rollTokenRank(TIER_CONFIG[tier], false, rng);
+  const fourthPod = {
+    ...pods[3],
+    tokenDefs: [
+      ...pods[3].tokenDefs.slice(0, -1),
+      { type: 'glory', rank: gloryRank },
+    ],
+  };
+  return [...pods.slice(0, 3), fourthPod, ...pods.slice(4)];
+}
+
 // Generate shop pods for a given encounter number
 // rng: optional random function (defaults to Math.random for normal play)
-// classOptions: { upgradesTokens } for class-specific generation behavior
-export function generateShopPods(encounterNumber, count = 4, rng = Math.random, { upgradesTokens = false } = {}) {
+// classOptions: { upgradesTokens, includeGlory } for class-specific generation behavior
+// includeGlory: if true, the last token of the 4th pod is replaced with a Glory token
+export function generateShopPods(encounterNumber, count = 4, rng = Math.random, { upgradesTokens = false, includeGlory = false } = {}) {
   const tier = getShopTier(encounterNumber);
   const pods = [];
 
@@ -225,6 +242,11 @@ export function generateShopPods(encounterNumber, count = 4, rng = Math.random, 
         const idx = Math.floor(rng() * pod.tokenDefs.length);
         pod.tokenDefs[idx] = { ...pod.tokenDefs[idx], rank: upgradeRank(pod.tokenDefs[idx].rank) };
       }
+    }
+    // In Glory mode, replace the last token of the 4th pod with a Glory token
+    if (includeGlory && i === 3 && pod.tokenDefs.length > 0) {
+      const gloryRank = rollTokenRank(TIER_CONFIG[tier], false, rng);
+      pod.tokenDefs[pod.tokenDefs.length - 1] = { type: 'glory', rank: gloryRank };
     }
     pods.push(pod);
   }
