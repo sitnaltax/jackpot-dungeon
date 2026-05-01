@@ -19,6 +19,7 @@ Additionally, there is now a small animation when tokens are discarded and redra
 ### UI
 
 * Added an animation for discarding and redrawing tokens. Tokens no longer sort after a Redraw Selected.
+* Minor text cleanup
 
 ## 1.6.0 - 4/14/2026
 
